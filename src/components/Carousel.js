@@ -1,31 +1,36 @@
 import React from "react";
-
+import OwlCarousel from "react-owl-carousel";
+import "owl.carousel/dist/assets/owl.carousel.css";
 export const Carousel = () => {
+  const options = {
+    items: 1,
+    // rewind: true,
+    autoplay: true,
+    // autoWidth: true,
+  };
+
   return (
     <>
-      <div class="carousel slide banner-slider">
-        <div class="owl-carousel owl-theme" id="banner-slider">
-          <div class="item  carousel-item">
-            <img src="images/banner1.png" />
-          </div>
-          <div class="item carousel-item">
-            <img src="images/banner1.png" />
-          </div>
-          <div class="item carousel-item">
-            <img src="images/banner1.png" />
-          </div>
-          <div class="item carousel-item">
-            <img src="images/banner1.png" />
-          </div>
-          <div class="item carousel-item">
-            <img src="images/banner1.png" />
-          </div>
-          <div class="item carousel-item">
-            <img src="images/banner1.png" />
-          </div>
+      <OwlCarousel options={options} className="owl-theme" items={1}>
+        <div className="item">
+          <img alt="banner" src="images/banner1.png" />
         </div>
-      </div>
-      
+        <div className="item ">
+          <img alt="banner" src="images/banner1.png" />
+        </div>
+        <div className="item ">
+          <img alt="banner" src="images/banner1.png" />
+        </div>
+        <div className="item ">
+          <img alt="banner" src="images/banner1.png" />
+        </div>
+        <div className="item ">
+          <img alt="banner" src="images/banner1.png" />
+        </div>
+        <div className="item carousel-item">
+          <img alt="banner" src="images/banner1.png" />
+        </div>
+      </OwlCarousel>
     </>
   );
 };
