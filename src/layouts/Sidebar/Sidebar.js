@@ -1,7 +1,8 @@
-import React from "react";
+import React, {useState} from "react";
 // import '../styles.css';
 
 const Sidebar = () => {
+  const [toggle, setToggle] = useState(true)
   return (
      <nav id="sidebar">
         <ul className="list-unstyled components">

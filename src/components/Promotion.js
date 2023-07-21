@@ -4,7 +4,7 @@ export const Promotion = () => {
   return (
     <div class="col-md-3 col-sm-12 col-12 last-sidebar">
                     <div class="pramotion-sec">
-                        <div class="pramotion-title">pramotion</div>
+                        <div class="pramotion-title">promotion</div>
                         <div class="carousel slide pramotion-slider">
                             <div class="owl-carousel owl-theme" id="pramotion-slider">
                                 <div class="item  carousel-item">

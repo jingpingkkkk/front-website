@@ -7,27 +7,26 @@ import { Carousel } from "../components/Carousel";
 import { FantasyGames } from "../components/FantasyGames";
 import { LiveCasino } from "../components/LiveCasino";
 import { Promotion } from "../components/Promotion";
-// import Header from "../layouts/Header/Header";
-export const Exchange = () => {
+import LiveCasinoSidebar from "../layouts/LiveCasinoSidebar/LiveCasinoSidebar";
+
+export const LiveCasinoPage = () => {
   return (
-    <>
     <main className="main">
       <div className="container-fluid">
         <div className="row mobile-griad-layout">
           <div className="col-md-3 col-sm-12 col-12 first-sidebar">
-            <Sidebar />
+            <LiveCasinoSidebar />
           </div>
           <div className="col-md-6 col-sm-12 col-12 middele-content">
-            <Carousel />
-            <TabSection />
+            {/* <Carousel /> */}
+            {/* <TabSection /> */}
             <FantasyGames />
-            <LiveCasino />
+            {/* <LiveCasino /> */}
           </div>
-          <Promotion />
+          {/* <Promotion /> */}
         </div>
         <Footer />
       </div>
     </main>
-    </>
   );
 };
