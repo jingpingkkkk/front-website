@@ -9,6 +9,7 @@ module.exports = {
     'airbnb/hooks',
     'eslint:recommended',
     'plugin:react/recommended',
+    'prettier',
   ],
   overrides: [
     {
@@ -37,8 +38,11 @@ module.exports = {
       experimentalObjectRestSpread: true,
     },
   },
-  plugins: ['react', 'jsx-a11y', 'import'],
+  plugins: ['react', 'jsx-a11y', 'import', 'prettier'],
   rules: {
+    'prettier/prettier': 'error',
+    'arrow-body-style': 'off',
+    'prefer-arrow-callback': 'off',
     'react/jsx-filename-extension': [1, { extensions: ['.js', '.jsx'] }],
     'no-unused-vars': [
       'error',
@@ -49,13 +53,12 @@ module.exports = {
         argsIgnorePattern: '^_',
       },
     ],
-    quotes: 0,
-    indent: 0,
-    'object-curly-newline': 0,
-    'react/prop-types': 0,
-    'react/jsx-wrap-multilines': 0,
-    'import/no-extraneous-dependencies': 0,
-    'react/function-component-definition': 0,
-    'no-console': 0,
+    quotes: 'off',
+    'object-curly-newline': 'off',
+    'react/prop-types': 'off',
+    'import/no-extraneous-dependencies': 'off',
+    'react/function-component-definition': 'off',
+    'no-console': 'off',
+    'no-param-reassign': 'off',
   },
 };

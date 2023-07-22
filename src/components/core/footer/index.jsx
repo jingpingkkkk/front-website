@@ -19,8 +19,9 @@ function Footer() {
               </div>
 
               <div className="footer-about-us">
-                This website is operated by Seven Investments America N.V., registered in Curaçao under the number
-                152581, with the address at Zuikertuintjeweg Z/N (Zuikertuin Tower), Curaçao.
+                This website is operated by Seven Investments America N.V.,
+                registered in Curaçao under the number 152581, with the address
+                at Zuikertuintjeweg Z/N (Zuikertuin Tower), Curaçao.
               </div>
 
               <div className="support-image">
@@ -118,11 +119,15 @@ function Footer() {
                   </div>
                   <div className="footer-bottom">
                     <span className="ws-pre-wrap">
-                      The transactions are processed by Seven Investments LTD registered with the number 12391820, with
-                      head office at Kemp House 160 City Road, London, United Kingdom. For the purpose of processing
-                      payments via Paysafe Group including but not limited to Neteller and Skrill, the transaction
-                      processing entity shall be Seven Investments America N.V., registered in Curaçao under the number
-                      152581, with the address at Zuikertuintjeweg Z/N (Zuikertuin Tower), Curaçao..
+                      The transactions are processed by Seven Investments LTD
+                      registered with the number 12391820, with head office at
+                      Kemp House 160 City Road, London, United Kingdom. For the
+                      purpose of processing payments via Paysafe Group including
+                      but not limited to Neteller and Skrill, the transaction
+                      processing entity shall be Seven Investments America N.V.,
+                      registered in Curaçao under the number 152581, with the
+                      address at Zuikertuintjeweg Z/N (Zuikertuin Tower),
+                      Curaçao..
                     </span>
                   </div>
                 </div>
@@ -131,7 +136,9 @@ function Footer() {
           </div>
         </footer>
 
-        <div className="copyright-text">© 2023 Cricadda.com All Rights Reserved</div>
+        <div className="copyright-text">
+          © 2023 Cricadda.com All Rights Reserved
+        </div>
       </div>
 
       <div className="col-md-3 col-sm-12 col-12" />

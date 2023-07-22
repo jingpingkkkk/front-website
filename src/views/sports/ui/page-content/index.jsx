@@ -45,7 +45,13 @@ function SportPageContent() {
           </a>
           <ul id="taj_home_sports_list" className="nav nav-tabs">
             <li className="nav-item item">
-              <a href="#inpay" className="nav-link active" role="tab" data-toggle="tab" aria-selected="false">
+              <a
+                href="#inpay"
+                className="nav-link active"
+                role="tab"
+                data-toggle="tab"
+                aria-selected="false"
+              >
                 <div className="tab-main">
                   <img src="images/in-play.png" />
                   <div className="title-area">InPlay</div>
@@ -57,7 +63,13 @@ function SportPageContent() {
               </a>
             </li>
             <li className="nav-item item">
-              <a href="#CricketTab" className="nav-link" role="tab" data-toggle="tab" aria-selected="false">
+              <a
+                href="#CricketTab"
+                className="nav-link"
+                role="tab"
+                data-toggle="tab"
+                aria-selected="false"
+              >
                 <div className="tab-main">
                   <img src="images/Cricketball.png" />
                   <div className="title-area">Cricket</div>
@@ -69,7 +81,13 @@ function SportPageContent() {
               </a>
             </li>
             <li className="nav-item item">
-              <a href="#TennisTab" className="nav-link" role="tab" data-toggle="tab" aria-selected="false">
+              <a
+                href="#TennisTab"
+                className="nav-link"
+                role="tab"
+                data-toggle="tab"
+                aria-selected="false"
+              >
                 <div className="tab-main">
                   <img src="images/Tennis.png" />
                   <div className="title-area">Tennis</div>
@@ -81,7 +99,13 @@ function SportPageContent() {
               </a>
             </li>
             <li className="nav-item item">
-              <a href="#SoccerTab" className="nav-link" role="tab" data-toggle="tab" aria-selected="false">
+              <a
+                href="#SoccerTab"
+                className="nav-link"
+                role="tab"
+                data-toggle="tab"
+                aria-selected="false"
+              >
                 <div className="tab-main">
                   <img src="images/Football.png" />
                   <div className="title-area">Soccer</div>
@@ -94,7 +118,13 @@ function SportPageContent() {
             </li>
 
             <li className="nav-item item">
-              <a href="#BasketballTab" className="nav-link" role="tab" data-toggle="tab" aria-selected="false">
+              <a
+                href="#BasketballTab"
+                className="nav-link"
+                role="tab"
+                data-toggle="tab"
+                aria-selected="false"
+              >
                 <div className="tab-main">
                   <img src="images/Basketball.png" />
                   <div className="title-area">Basketball</div>
@@ -106,7 +136,13 @@ function SportPageContent() {
               </a>
             </li>
             <li className="nav-item item">
-              <a href="#RugbyTab" className="nav-link" role="tab" data-toggle="tab" aria-selected="false">
+              <a
+                href="#RugbyTab"
+                className="nav-link"
+                role="tab"
+                data-toggle="tab"
+                aria-selected="false"
+              >
                 <div className="tab-main">
                   <img src="images/Rugbyball.png" />
                   <div className="title-area">Rugby</div>
@@ -118,7 +154,13 @@ function SportPageContent() {
               </a>
             </li>
             <li className="nav-item item">
-              <a href="#BaseballTab" className="nav-link" role="tab" data-toggle="tab" aria-selected="false">
+              <a
+                href="#BaseballTab"
+                className="nav-link"
+                role="tab"
+                data-toggle="tab"
+                aria-selected="false"
+              >
                 <div className="tab-main">
                   <img src="images/Baseball-01.png" />
                   <div className="title-area">Baseball</div>
@@ -130,7 +172,13 @@ function SportPageContent() {
               </a>
             </li>
             <li className="nav-item item">
-              <a href="#HorseRacingTab" className="nav-link" role="tab" data-toggle="tab" aria-selected="false">
+              <a
+                href="#HorseRacingTab"
+                className="nav-link"
+                role="tab"
+                data-toggle="tab"
+                aria-selected="false"
+              >
                 <div className="tab-main">
                   <img src="images/hource-racing.png" />
                   <div className="title-area">Horse Racing</div>
@@ -142,7 +190,13 @@ function SportPageContent() {
               </a>
             </li>
             <li className="nav-item item">
-              <a href="#GreyhoundRacingTab" className="nav-link" role="tab" data-toggle="tab" aria-selected="false">
+              <a
+                href="#GreyhoundRacingTab"
+                className="nav-link"
+                role="tab"
+                data-toggle="tab"
+                aria-selected="false"
+              >
                 <div className="tab-main">
                   <img src="images/greyhound-racing.png" />
                   <div className="title-area">Greyhound Racing</div>
@@ -154,7 +208,13 @@ function SportPageContent() {
               </a>
             </li>
             <li className="nav-item item">
-              <a href="#VolleyballTab" className="nav-link" role="tab" data-toggle="tab" aria-selected="false">
+              <a
+                href="#VolleyballTab"
+                className="nav-link"
+                role="tab"
+                data-toggle="tab"
+                aria-selected="false"
+              >
                 <div className="tab-main">
                   <img src="images/Valleyball-01 1.png" />
                   <div className="title-area">Volleyball</div>
@@ -166,7 +226,13 @@ function SportPageContent() {
               </a>
             </li>
             <li className="nav-item item">
-              <a href="#BoxingTab" className="nav-link" role="tab" data-toggle="tab" aria-selected="false">
+              <a
+                href="#BoxingTab"
+                className="nav-link"
+                role="tab"
+                data-toggle="tab"
+                aria-selected="false"
+              >
                 <div className="tab-main">
                   <img src="images/Boxing.png" />
                   <div className="title-area">Boxing</div>
@@ -178,7 +244,13 @@ function SportPageContent() {
               </a>
             </li>
             <li className="nav-item item">
-              <a href="#IceHockyTab" className="nav-link" role="tab" data-toggle="tab" aria-selected="false">
+              <a
+                href="#IceHockyTab"
+                className="nav-link"
+                role="tab"
+                data-toggle="tab"
+                aria-selected="false"
+              >
                 <div className="tab-main">
                   <img src="images/ice-hocky.png" />
                   <div className="title-area">Ice Hocky</div>
@@ -190,7 +262,13 @@ function SportPageContent() {
               </a>
             </li>
             <li className="nav-item item">
-              <a href="#SnookerTab" className="nav-link" role="tab" data-toggle="tab" aria-selected="false">
+              <a
+                href="#SnookerTab"
+                className="nav-link"
+                role="tab"
+                data-toggle="tab"
+                aria-selected="false"
+              >
                 <div className="tab-main">
                   <img src="images/Snooker.png" />
                   <div className="title-area">Snooker</div>
@@ -202,7 +280,13 @@ function SportPageContent() {
               </a>
             </li>
             <li className="nav-item item">
-              <a href="#RacingTab" className="nav-link" role="tab" data-toggle="tab" aria-selected="false">
+              <a
+                href="#RacingTab"
+                className="nav-link"
+                role="tab"
+                data-toggle="tab"
+                aria-selected="false"
+              >
                 <div className="tab-main">
                   <img src="images/Bike.png" />
                   <div className="title-area">Racing</div>
@@ -214,7 +298,13 @@ function SportPageContent() {
               </a>
             </li>
             <li className="nav-item item">
-              <a href="#ChessTab" className="nav-link" role="tab" data-toggle="tab" aria-selected="false">
+              <a
+                href="#ChessTab"
+                className="nav-link"
+                role="tab"
+                data-toggle="tab"
+                aria-selected="false"
+              >
                 <div className="tab-main">
                   <img src="images/chess.png" />
                   <div className="title-area">Chess</div>
@@ -226,7 +316,13 @@ function SportPageContent() {
               </a>
             </li>
             <li className="nav-item item">
-              <a href="#EGamingTab" className="nav-link" role="tab" data-toggle="tab" aria-selected="false">
+              <a
+                href="#EGamingTab"
+                className="nav-link"
+                role="tab"
+                data-toggle="tab"
+                aria-selected="false"
+              >
                 <div className="tab-main">
                   <img src="images/e-game.png" />
                   <div className="title-area">E Gaming</div>

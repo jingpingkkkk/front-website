@@ -54,7 +54,9 @@ function ProductPromotion() {
           </li>
           <li className="nav-item">
             <a
-              className={activeTab === 'virtual' ? 'nav-link active' : 'nav-link'}
+              className={
+                activeTab === 'virtual' ? 'nav-link active' : 'nav-link'
+              }
               href="#"
               role="tab"
               onClick={() => setActiveTab('virtual')}
@@ -170,7 +172,11 @@ function ProductPromotion() {
               </div>
             </div>
           ) : (
-            <div role="tabpanel" className="tab-pane fade in active" id="virtual">
+            <div
+              role="tabpanel"
+              className="tab-pane fade in active"
+              id="virtual"
+            >
               <div className="geiad-layout-two">
                 <div className="casino-banner-item login-hover">
                   <a href="#">
@@ -198,7 +204,10 @@ function ProductPromotion() {
                 </div>
                 <div className="casino-banner-item login-hover">
                   <a href="#">
-                    <img alt="casino" src="images/Magic-Dice-Pascal-Gaming.jpg" />
+                    <img
+                      alt="casino"
+                      src="images/Magic-Dice-Pascal-Gaming.jpg"
+                    />
                     <div role="button">Login</div>
                   </a>
                 </div>
@@ -246,7 +255,10 @@ function ProductPromotion() {
                 </div>
                 <div className="casino-banner-item login-hover">
                   <a href="#">
-                    <img alt="casino" src="images/Magic-Dice-Pascal-Gaming.jpg" />
+                    <img
+                      alt="casino"
+                      src="images/Magic-Dice-Pascal-Gaming.jpg"
+                    />
                     <div role="button">Login</div>
                   </a>
                 </div>

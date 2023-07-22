@@ -7,8 +7,8 @@ import {
 } from 'react-router-dom';
 import LoadingOverlay from './components/core/loading-overlay';
 
-const NotFound = React.lazy(() => import('./pages/404-not-found'));
-const Sports = React.lazy(() => import('./pages/sports'));
+const NotFound = React.lazy(() => import('./views/404-not-found'));
+const Sports = React.lazy(() => import('./views/sports'));
 
 function App() {
   return (

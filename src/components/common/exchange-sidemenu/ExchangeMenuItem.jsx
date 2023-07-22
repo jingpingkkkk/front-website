@@ -2,7 +2,12 @@
 import React from 'react';
 import './styles.css';
 
-function ExchangeMenuItem({ item, onClick = () => {}, activeMenu = false, activeSubMenu = false }) {
+function ExchangeMenuItem({
+  item,
+  onClick = () => {},
+  activeMenu = false,
+  activeSubMenu = false,
+}) {
   const { id, label, image, subMenu = [] } = item;
 
   return (
