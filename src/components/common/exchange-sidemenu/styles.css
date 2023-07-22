@@ -1,0 +1,15 @@
+.sub-menu {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.3s ease, padding 0.3s ease; 
+}
+
+.sub-menu.open {
+  max-height: 1000px; 
+  transition-delay: 0s;
+}
+
+.active .sub-menu {
+  max-height: 1000px;
+  transition-delay: 0s; 
+}
