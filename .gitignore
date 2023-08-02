@@ -17,6 +17,7 @@ dist-ssr
 !.vscode/extensions.json
 .idea
 .DS_Store
+.desktop.ini
 *.suo
 *.ntvs*
 *.njsproj
@@ -28,3 +29,6 @@ dist-ssr
 .env.development
 .env.staging
 .env.production
+
+# Shell
+.zshrc
