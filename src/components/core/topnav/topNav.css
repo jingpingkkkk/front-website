@@ -1,0 +1,12 @@
+.nav-items {
+  color: gainsboro;
+  font-family: 'Inter';
+  font-size: 15px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: normal;
+  text-decoration: none;
+}
+.nav-items:hover {
+  color: white;
+}
