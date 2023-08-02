@@ -8,12 +8,14 @@ import StickyHeader from './ui/StickyHeader';
 function Topnav() {
   return (
     <StickyHeader>
-      <MenuToggleButton />
+      {/* Mobile View */}
+      <div className="d-lg-none">
+        <MenuToggleButton />
 
-      {/* Logo - Mobile View */}
-      <NavLink to="/" className="ms-5 d-lg-none">
-        <img src="images/logo.png" width="125" alt="brand-logo" />
-      </NavLink>
+        <NavLink to="/" className="ms-5 ps-3">
+          <img src="images/logo.png" width="125" alt="brand-logo" />
+        </NavLink>
+      </div>
 
       {/* Logo - Desktop View */}
       <NavLink to="/" className="d-none d-lg-block">

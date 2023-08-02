@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Container } from 'reactstrap';
 
-function StickyHeader({ children }) {
+function StickyHeader({ children, className = '', style = {} }) {
   const [isSticky, setIsSticky] = useState(false);
 
   useEffect(() => {
@@ -23,7 +23,10 @@ function StickyHeader({ children }) {
   }, []);
 
   return (
-    <header className={isSticky ? 'stiky-header' : ''}>
+    <header
+      className={`${isSticky ? 'stiky-header' : ''} ${className}`}
+      style={style}
+    >
       <Container fluid>
         <div className="header-main">{children}</div>
       </Container>

@@ -17,8 +17,8 @@ a {
 }
 nav#sidebar {
   position: fixed;
-  width: 14%;
-  /*top: 120px;*/
+  width: 15.75%;
+  top: 115px;
   max-height: calc(100% - 130px);
   overflow-y: scroll;
 }

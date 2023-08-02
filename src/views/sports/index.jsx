@@ -12,7 +12,7 @@ function Sports() {
   return (
     <Suspense fallback={<LoadingOverlay />}>
       <AppLayout
-        sidebarLeft={<ExchangeSideMenu />}
+        sidebarLeft={<ExchangeSideMenu className="d-none d-lg-block" />}
         sidebarRight={<ProductPromotion />}
         pageContent={<SportPageContent />}
       />

@@ -11,7 +11,7 @@ import {
 import sideMenuItems from './exchange-menu-items';
 import './exchangeMenu.css';
 
-function ExchangeSideMenu() {
+function ExchangeSideMenu({ className = '', style = {} }) {
   const [open, setOpen] = useState('');
   const [subOpen, setSubOpen] = useState('');
 
@@ -23,7 +23,7 @@ function ExchangeSideMenu() {
   };
 
   return (
-    <nav id="sidebar">
+    <nav id="sidebar" className={className} style={style}>
       <div className="search-bar">
         <form className="search-container">
           <img
