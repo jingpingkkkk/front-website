@@ -1,6 +1,6 @@
 import { nanoid } from 'nanoid';
 
-const menuItems = [
+const sideMenuItems = [
   // Cricket
   {
     id: nanoid(10),
@@ -13,6 +13,13 @@ const menuItems = [
         id: nanoid(10),
         path: '/',
         label: 'Cricket Team 1',
+        subMenu: [
+          {
+            id: nanoid(10),
+            path: '/',
+            label: 'Match 1',
+          },
+        ],
       },
       {
         id: nanoid(10),
@@ -175,4 +182,4 @@ const menuItems = [
   },
 ];
 
-export default menuItems;
+export default sideMenuItems;

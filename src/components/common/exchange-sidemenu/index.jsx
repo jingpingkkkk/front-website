@@ -1,42 +1,123 @@
-/* eslint-disable jsx-a11y/alt-text */
-/* eslint-disable jsx-a11y/anchor-is-valid */
+import { faCaretDown, faCaretUp } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React, { useState } from 'react';
-import ExchangeMenuItem from './ExchangeMenuItem';
-import menuItems from './exchange-menu-items';
+import { Link } from 'react-router-dom';
+import {
+  Accordion,
+  AccordionBody,
+  AccordionHeader,
+  AccordionItem,
+} from 'reactstrap';
+import sideMenuItems from './exchange-menu-items';
+import './exchangeMenu.css';
 
 function ExchangeSideMenu() {
-  const [activeMenuId, setActiveMenuId] = useState(menuItems[0].id);
-  const [activeSubMenuId, setActiveSubMenuId] = useState(menuItems[0].id);
+  const [open, setOpen] = useState('');
+  const [subOpen, setSubOpen] = useState('');
 
-  const handleOptionSelect = (id) => {
-    setActiveMenuId(id);
-    setActiveSubMenuId((prevId) => (prevId === id ? null : id));
+  const toggle = (id) => {
+    setOpen(id === open ? '' : id);
+  };
+  const subToggle = (id) => {
+    setSubOpen(id === subOpen ? '' : id);
   };
 
   return (
     <nav id="sidebar">
+      <div className="search-bar">
+        <form className="search-container">
+          <img
+            className="search-icon"
+            src="images/search.png"
+            alt="search-icon"
+          />
+          <input type="text" id="search-bar" placeholder="Search" />
+        </form>
+      </div>
+
       <ul className="list-unstyled components">
-        <li className="all-sports">
-          <a href="#">
-            <span className="image-outer">
-              <img src="images/all-Sports.png" />
-            </span>
-            All Sports
-          </a>
-          <span className="calender-img">
-            <img src="images/calender.png" />
-          </span>
+        <li className="all-sports text-deco">
+          <Link to="/sports">All Sports</Link>
         </li>
 
-        {menuItems.map((item) => (
-          <ExchangeMenuItem
-            key={item.id}
-            item={item}
-            activeSubMenu={item.id === activeSubMenuId}
-            activeMenu={item.id === activeMenuId}
-            onClick={handleOptionSelect}
-          />
-        ))}
+        <Accordion open={open} toggle={toggle}>
+          {sideMenuItems.map((item) => (
+            <AccordionItem key={item.id}>
+              {item.subMenu?.length ? (
+                <>
+                  <AccordionHeader targetId={item.id}>
+                    <div>
+                      <span className="image-outer">
+                        <img src={item.image} width="20" alt={item.label} />
+                      </span>
+                      {item.label}
+                    </div>
+
+                    <div>
+                      <FontAwesomeIcon
+                        icon={open === item.id ? faCaretUp : faCaretDown}
+                      />
+                    </div>
+                  </AccordionHeader>
+
+                  <AccordionBody
+                    accordionId={item.id}
+                    className="bg-black rounded"
+                  >
+                    <Accordion open={subOpen} toggle={subToggle}>
+                      {item.subMenu.map((subItem) => (
+                        <AccordionItem key={item.id}>
+                          {subItem.subMenu?.length ? (
+                            <>
+                              <AccordionHeader targetId={subItem.id}>
+                                <div>{subItem.label}</div>
+                                <div>
+                                  <FontAwesomeIcon
+                                    icon={
+                                      subOpen === subItem.id
+                                        ? faCaretUp
+                                        : faCaretDown
+                                    }
+                                  />
+                                </div>
+                              </AccordionHeader>
+
+                              <AccordionBody
+                                accordionId={subItem.id}
+                                className="rounded mx-1"
+                                style={{ background: '#101215' }}
+                              >
+                                <Link
+                                  className="sidebar-link"
+                                  to={subItem.link}
+                                >
+                                  {subItem.label}
+                                </Link>
+                              </AccordionBody>
+                            </>
+                          ) : (
+                            <Link className="sidebar-link" to={subItem.link}>
+                              {subItem.label}
+                            </Link>
+                          )}
+                        </AccordionItem>
+                      ))}
+                    </Accordion>
+                  </AccordionBody>
+                </>
+              ) : (
+                <div className="d-flex align-items-center">
+                  <span className="image-outer">
+                    <img src={item.image} width="20" alt={item.label} />
+                  </span>
+                  <Link className="sidebar-link" to={item.link}>
+                    {item.label}
+                  </Link>
+                </div>
+              )}
+            </AccordionItem>
+          ))}
+        </Accordion>
       </ul>
     </nav>
   );

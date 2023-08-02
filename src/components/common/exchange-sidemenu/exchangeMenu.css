@@ -1,0 +1,44 @@
+.accordion {
+  --bs-accordion-color: white;
+  --bs-accordion-bg: transparent;
+  --bs-accordion-border-width: 0;
+  --bs-accordion-btn-focus-box-shadow: none;
+  --bs-accordion-inner-border-radius: 6px;
+  --bs-accordion-btn-icon: none;
+  --bs-accordion-btn-active-icon: none;
+  user-select: none;
+}
+.accordion-item {
+  padding: 2px 0;
+}
+.accordion-button {
+  font-size: 14px;
+  color: white;
+  padding: 5px 8px 5px 5px !important;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.accordion-button:not(.collapsed) {
+  color: black;
+  background-color: unset;
+  background: linear-gradient(180deg, #c39e32 0%, #e7dfb3 100%);
+  box-shadow: unset;
+  border-radius: 6px;
+}
+.accordion-button::after {
+  content: none;
+}
+.accordion-body {
+  padding: 1px;
+}
+.sidebar-link {
+  font-size: 14px;
+  text-decoration: none;
+  color: gainsboro;
+  display: block;
+  padding: 6px;
+}
+.sidebar-link:hover {
+  color: white;
+}
