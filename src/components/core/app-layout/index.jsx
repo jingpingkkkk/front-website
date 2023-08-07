@@ -1,31 +1,38 @@
+/* eslint-disable no-nested-ternary */
 import React from 'react';
+import { Col, Container, Row } from 'reactstrap';
 import Footer from '../footer';
 import Topnav from '../topnav';
 
 function AppLayout({ sidebarLeft, sidebarRight, pageContent }) {
+  const isSidebarLeft = sidebarLeft !== undefined;
+  const isSidebarRight = sidebarRight !== undefined;
+
+  const contentMdColWidth = isSidebarLeft
+    ? isSidebarRight
+      ? '8'
+      : '10'
+    : isSidebarRight
+    ? '10'
+    : '12';
+
   return (
     <>
       <Topnav />
 
-      <main className="main" id="main">
-        <div className="container-fluid">
-          <div className="row mobile-griad-layout">
-            <div className="col-md-3 col-sm-12 col-12 first-sidebar">
-              {sidebarLeft}
-            </div>
+      <Container fluid className="px-3">
+        <Row>
+          {sidebarLeft ? <Col lg="2">{sidebarLeft}</Col> : null}
 
-            <div className="col-md-6 col-sm-12 col-12 middele-content">
-              {pageContent}
-            </div>
+          <Col md="12" lg={contentMdColWidth}>
+            {pageContent}
 
-            <div className="col-md-3 col-sm-12 col-12 last-sidebar">
-              {sidebarRight}
-            </div>
-          </div>
-        </div>
+            <Footer />
+          </Col>
 
-        <Footer />
-      </main>
+          {sidebarRight ? <Col lg="2">{sidebarRight}</Col> : null}
+        </Row>
+      </Container>
     </>
   );
 }

@@ -86,4 +86,21 @@ const makeRequest = async ({
   }
 };
 
-export { handleFormData, makeRequest };
+const postRequest = async (url, data, useAuthToken = true) => {
+  return makeRequest({
+    method: 'POST',
+    url,
+    data,
+    useAuthToken,
+  });
+};
+
+const getRequest = async (url, useAuthToken = true) => {
+  return makeRequest({
+    method: 'GET',
+    url,
+    useAuthToken,
+  });
+};
+
+export { getRequest, handleFormData, makeRequest, postRequest };
