@@ -11,19 +11,20 @@ import {
 import sideMenuItems from './exchange-menu-items';
 import './exchangeMenu.css';
 
-function ExchangeSideMenu({ className = '', style = {} }) {
+function ExchangeSideMenu({ className = 'd-none d-lg-block' }) {
   const [open, setOpen] = useState('');
   const [subOpen, setSubOpen] = useState('');
 
   const toggle = (id) => {
     setOpen(id === open ? '' : id);
   };
+
   const subToggle = (id) => {
     setSubOpen(id === subOpen ? '' : id);
   };
 
   return (
-    <nav id="sidebar" className={className} style={style}>
+    <nav id="sidebar" className={className}>
       <div className="search-bar">
         <form className="search-container">
           <img
