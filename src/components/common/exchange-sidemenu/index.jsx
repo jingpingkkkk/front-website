@@ -17,6 +17,7 @@ function ExchangeSideMenu({ className = 'd-none d-lg-block' }) {
 
   const toggle = (id) => {
     setOpen(id === open ? '' : id);
+    setSubOpen('');
   };
 
   const subToggle = (id) => {
@@ -67,7 +68,7 @@ function ExchangeSideMenu({ className = 'd-none d-lg-block' }) {
                   >
                     <Accordion open={subOpen} toggle={subToggle}>
                       {item.subMenu.map((subItem) => (
-                        <AccordionItem key={item.id}>
+                        <AccordionItem key={subItem.id}>
                           {subItem.subMenu?.length ? (
                             <>
                               <AccordionHeader targetId={subItem.id}>
