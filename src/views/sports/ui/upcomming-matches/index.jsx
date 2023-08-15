@@ -32,8 +32,11 @@ function UpcommingMatches() {
               </div>
 
               {selectedSport.matches?.length
-                ? selectedSport.matches.map((match) => (
-                    <div className="cus-row table-block-row" key={match.name}>
+                ? selectedSport.matches.map((match, index) => (
+                    <div
+                      className="cus-row table-block-row"
+                      key={`${match.name} ${index}`}
+                    >
                       <div className="cus-col1 cus-w-10">
                         <div className="match-date">
                           <span className="day text-capitalize">
@@ -54,10 +57,10 @@ function UpcommingMatches() {
                       </div>
 
                       {match.odds?.length
-                        ? match.odds.map((odd, index) => (
+                        ? match.odds.map((odd, i) => (
                             <div
                               className="cus-col1 cus-w-10"
-                              key={odd.back + index}
+                              key={odd.back + i}
                             >
                               <div className="details">
                                 <span className="left">

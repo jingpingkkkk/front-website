@@ -1,32 +1,32 @@
+/* eslint-disable no-nested-ternary */
 /* eslint-disable react/no-array-index-key */
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import useScreenWidth from '../../../../hooks/use-screen-width';
 
 function SportsTabs({ availableSports, onClick }) {
-  const allSports = [
-    ...availableSports,
-    ...availableSports,
-    ...availableSports,
-  ];
+  const { width, isMobile, isTablet } = useScreenWidth();
 
-  const [step, setStep] = useState(availableSports.length);
-  const [sports, setSports] = useState(allSports);
+  const perView = isMobile ? 3 : isTablet ? 7 : 9;
+
+  const [step, setStep] = useState(0);
+  const [sports, setSports] = useState(availableSports.slice(0, perView));
+
+  useEffect(() => {
+    setSports(availableSports.slice(0, perView));
+  }, [availableSports, perView, width]);
 
   const onNext = () => {
     const newStep =
-      step === availableSports.length * 2 - 1
-        ? availableSports.length
-        : step + 1;
+      availableSports.length - step + 1 === perView ? 0 : step + 1;
     setStep(newStep);
-    setSports(allSports.slice(newStep, newStep + 8));
+    setSports(availableSports.slice(newStep, newStep + perView));
   };
 
   const onPrev = () => {
-    const newStep =
-      step - 1 < availableSports.length
-        ? step + availableSports.length - 1
-        : step - 1;
+    if (step === 0) return;
+    const newStep = step - 1;
     setStep(newStep);
-    setSports(allSports.slice(newStep, newStep + 8));
+    setSports(availableSports.slice(newStep, step + perView));
   };
 
   return (
