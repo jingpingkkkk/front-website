@@ -7,7 +7,7 @@ import {
 } from 'react-router-dom';
 import LoadingOverlay from './components/core/loading-overlay';
 
-const NotFound = React.lazy(() => import('./views/status-views'));
+const ErrorStatus404 = React.lazy(() => import('./views/error-views/404'));
 const Sports = React.lazy(() => import('./views/sports'));
 
 function App() {
@@ -15,7 +15,7 @@ function App() {
     <Suspense fallback={<LoadingOverlay />}>
       <Router>
         <Routes>
-          <Route path="*" element={<NotFound />} />
+          <Route path="*" element={<ErrorStatus404 />} />
           <Route path="/" element={<Navigate to="/sports" />} />
           <Route path="/sports" element={<Sports />} />
         </Routes>

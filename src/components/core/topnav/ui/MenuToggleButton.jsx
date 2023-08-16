@@ -19,8 +19,10 @@ function MenuToggleButton() {
         </button>
       </div>
 
-      <div className={menuOpen ? 'mobile-sidebar-active' : 'd-none'}>
-        <ExchangeSideMenu />
+      <div className={menuOpen ? 'mobile-sidebar-container' : 'd-none'}>
+        <div className="mobile-sidebar-active">
+          <ExchangeSideMenu className="d-block" />
+        </div>
       </div>
     </>
   );

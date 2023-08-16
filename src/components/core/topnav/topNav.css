@@ -10,11 +10,28 @@
 .nav-items:hover {
   color: white;
 }
-.mobile-sidebar-active {
-  display: block;
+.mobile-sidebar-container {
   position: absolute;
-  left: 10;
   top: 70px;
-  width: 40%;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  display: block;
   z-index: 9999;
+}
+.mobile-sidebar-active {
+  position: absolute;
+  margin-left: 10px;
+  top: 0;
+  width: 40%;
+}
+@media screen and (max-width: 768px) {
+  .mobile-sidebar-active {
+    width: 50%;
+  }
+}
+@media screen and (max-width: 400px) {
+  .mobile-sidebar-active {
+    width: 70%;
+  }
 }

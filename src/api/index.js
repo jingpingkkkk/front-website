@@ -6,15 +6,11 @@ const api = axios.create({
 
 const handleError = (error) => {
   if (error.response) {
-    // The request was made, but the server responded with a non-2xx status code
-    // You can handle specific error codes here
     console.log('Error status:', error.response.status);
     console.log('Error data:', error.response.data);
   } else if (error.request) {
-    // The request was made, but no response was received
     console.log('No response received');
   } else {
-    // Something happened in setting up the request that triggered an Error
     console.log('Error message:', error.message);
   }
 };
