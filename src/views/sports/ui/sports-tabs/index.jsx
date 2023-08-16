@@ -1,19 +1,19 @@
 /* eslint-disable no-nested-ternary */
 /* eslint-disable react/no-array-index-key */
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import useScreenWidth from '../../../../hooks/use-screen-width';
 
 function SportsTabs({ availableSports, onClick }) {
-  const { width, isMobile, isTablet } = useScreenWidth();
+  const { isMobile, isTablet } = useScreenWidth();
 
   const perView = isMobile ? 3 : isTablet ? 7 : 9;
 
   const [step, setStep] = useState(0);
-  const [sports, setSports] = useState(availableSports.slice(0, perView));
+  const [sports, setSports] = useState(availableSports);
 
-  useEffect(() => {
-    setSports(availableSports.slice(0, perView));
-  }, [availableSports, perView, width]);
+  // useEffect(() => {
+  //   setSports(availableSports.slice(0, perView));
+  // }, [availableSports, perView, width]);
 
   const onNext = () => {
     const newStep =

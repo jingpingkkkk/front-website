@@ -6,6 +6,7 @@ export default function useScreenWidth() {
     tablet: 768,
     desktop: 992,
     largeDesktop: 1200,
+    extraLargeDesktop: 1400,
   };
 
   const [width, setWidth] = useState(window.innerWidth);
@@ -28,5 +29,6 @@ export default function useScreenWidth() {
     isTablet: width <= breakpoints.tablet,
     isDesktop: width <= breakpoints.desktop,
     isLargeDesktop: width <= breakpoints.largeDesktop,
+    isExtraLargeDesktop: width >= breakpoints.extraLargeDesktop,
   };
 }
