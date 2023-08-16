@@ -31,6 +31,7 @@ function SportsTabs({ availableSports, onClick }) {
 
   return (
     <div className="sport-tabs">
+      {/* Prev */}
       <button type="button" className="arrow-tabs arrow-left" onClick={onPrev}>
         <img src="images/arrow-down.svg" alt="left-arrow" />
       </button>
@@ -58,6 +59,7 @@ function SportsTabs({ availableSports, onClick }) {
         ))}
       </ul>
 
+      {/* Next */}
       <button type="button" className="arrow-tabs arrow-right" onClick={onNext}>
         <img src="images/arrow-down.svg" alt="right-arrow" />
       </button>
