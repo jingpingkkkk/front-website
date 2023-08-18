@@ -2,19 +2,18 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 /* eslint-disable max-len */
 import React from 'react';
+import './footer.css';
 
 function Footer() {
   return (
     <div className="row footer-row">
-      <div className="col-md-3 col-sm-12 col-12" />
-
-      <div className="col-md-6 col-sm-12 col-12 footer-area">
+      <div className="col-md-12 col-sm-12 col-12 footer-area">
         <footer className="footer">
           <div className="row">
             <div className="col-md-4 col-sm-12 col-12">
               <div className="logo">
                 <a href="#">
-                  <img src="images/logo.png" />
+                  <img src="images/logo.png" className="footer-logo" />
                 </a>
               </div>
 
@@ -140,8 +139,6 @@ function Footer() {
           © 2023 Cricadda.com All Rights Reserved
         </div>
       </div>
-
-      <div className="col-md-3 col-sm-12 col-12" />
     </div>
   );
 }

@@ -1,0 +1,16 @@
+.footer-logo {
+  height: 100%;
+  width: 100%;
+}
+.footer-area {
+  padding-right: calc(1.5rem * 0.5);
+  padding-left: calc(1.5rem * 0.5);
+  margin-top: 0;
+}
+@media only screen and (max-width: 991px) {
+  .footer-area {
+    padding-right: calc(1.5rem * 0.5);
+    padding-left: calc(1.5rem * 0.5);
+    padding-top: 0;
+  }
+}
