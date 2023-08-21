@@ -1,0 +1,343 @@
+.register-modal {
+  font-weight: 400;
+}
+.register-modal .modal-content {
+  border-radius: 8px 8px 8px 8px;
+  background-color: #333;
+  border-color: transparent;
+  border-width: 1px;
+}
+.register-modal .modal-header {
+  justify-content: flex-end;
+  padding: 10px 16px;
+  background: #000;
+  border-radius: 8px;
+  color: #fff;
+  border: 0;
+}
+.register-modal .close-register-modal {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  z-index: 100;
+  cursor: pointer;
+  width: 100%;
+}
+.register-modal .close-btn {
+  padding: 0;
+  background: transparent;
+}
+.register-modal .close-btn img {
+  height: 30px;
+  width: 30px;
+  border-radius: 50%;
+  background: transparent;
+  padding: 5px;
+  border: 2px solid #f00;
+}
+.register-modal .modal-body {
+  padding: 16px;
+  max-height: 100vh;
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+.select-country-container {
+  -webkit-box-flex: 0;
+}
+.react-tel-input .form-control {
+  width: 100% !important;
+  height: 56px !important;
+  background-color: #444 !important;
+}
+.register-modal .modal-body .register-form {
+  background: #000;
+  color: #fff;
+  padding: 16px;
+  border-radius: 8px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
+.register-modal .whatsapp-box {
+  background: #3c444b;
+  padding: 8px;
+  border-radius: 8px;
+  max-width: 350px;
+  width: 100%;
+  margin: 0 auto 5px;
+}
+.whatsapp-box > div:first-child {
+  font-weight: bold;
+  text-align: center;
+  width: 100%;
+}
+.whatsapp-box > div:first-child span {
+  font-size: 14px;
+}
+.whatsapp-box > div:first-child h4 {
+  font-weight: bold;
+  font-size: 18px;
+  margin-top: 8px;
+}
+.create-whatsapp-link {
+  margin-top: 15px;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  cursor: pointer;
+  text-decoration: none;
+}
+.whatsapp-icon {
+  background-color: #3cc142;
+  color: #fff;
+  padding: 10px;
+  border-radius: 6px;
+  font-size: 24px;
+  width: 50px;
+  box-shadow: 0 0 3px #fff;
+  z-index: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.whatsapp-icon img {
+  height: 100%;
+  width: 100%;
+}
+.create-whatsapp-link .click-here {
+  background-color: #3cc142;
+  color: #fff;
+  padding: 8px;
+  width: calc(100% - 45px);
+  margin-left: -5px;
+  height: auto;
+  line-height: normal;
+  border-radius: 4px;
+  font-weight: bold;
+  text-transform: uppercase;
+  text-align: center;
+}
+.create-account-seperator {
+  margin-top: 0;
+  position: relative;
+  width: 100%;
+  font-weight: bold;
+  text-align: center;
+  margin-bottom: 5px;
+}
+.create-account-seperator::before {
+  position: absolute;
+  content: '';
+  background-color: #ddd;
+  width: 30px;
+  left: calc(50% - 41px);
+  height: 2px;
+  top: 50%;
+  transform: translateX(-50%);
+}
+.create-account-seperator::after {
+  position: absolute;
+  content: '';
+  background-color: #ddd;
+  width: 30px;
+  right: calc(50% - 64px);
+  height: 2px;
+  top: 50%;
+  transform: translateX(-50%);
+}
+.register-modal .modal-body .register-fields {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  width: 100%;
+  min-height: 280px;
+}
+.register-form .form-group {
+  margin-right: 0;
+  margin-bottom: 20px;
+  width: 100%;
+}
+.register-modal .form-group.regi-half {
+  width: 48%;
+}
+.react-tel-input .country-list {
+  background-color: #292929 !important;
+}
+.react-tel-input .country-list .country.highlight {
+  background-color: dodgerblue !important;
+}
+.react-tel-input .country-list .country:hover {
+  background-color: dodgerblue !important;
+}
+.register-modal .login-label {
+  color: #fff;
+  font-size: 16px;
+}
+.register-modal .form-control {
+  border: 1px solid #777;
+  color: #fff !important;
+  transition: 0.8s;
+  height: 56px;
+  background-color: #444;
+  border-radius: 4px;
+  opacity: 0.6;
+}
+.register-modal .form-select {
+  border: 1px solid #777;
+  color: #fff !important;
+  transition: 0.8s;
+  height: 56px;
+  background-color: #444;
+  border-radius: 4px;
+  opacity: 0.6;
+}
+.register-modal .forgot-password {
+  text-align: right;
+}
+.register-form .form-group .forgot-password a {
+  color: #03b37f;
+  text-decoration: underline;
+  background: transparent;
+  font-size: 16px;
+}
+.register-modal .custom-control {
+  position: relative;
+  display: block;
+  min-height: 1.5rem;
+  padding-left: 1.5rem;
+}
+.custom-control-checkbox {
+  position: absolute;
+  left: 0;
+  z-index: -1;
+  width: 1rem;
+  height: 1.25rem;
+  opacity: 0;
+}
+.register-modal .modal-body .custom-control label {
+  font-size: 13px;
+  color: #fff;
+}
+.register-form .custom-control-label {
+  line-height: 19px;
+  position: relative;
+  margin-bottom: 0;
+  vertical-align: top;
+}
+.custom-control-label::before {
+  position: absolute;
+  top: 0.25rem;
+  left: -1.5rem;
+  display: block;
+  width: 1rem;
+  height: 1rem;
+  pointer-events: none;
+  content: '';
+  background-color: #fff;
+  border: #adb5bd solid 1px;
+}
+.register-form .custom-control-label::before {
+  background-color: #23292e;
+  border: #aaafb5 solid 1px;
+  border-radius: 2px !important;
+  opacity: 0.6;
+}
+.custom-control-input:checked ~ .custom-control-label::before {
+  border-color: #16191c;
+  background-color: #16191c;
+  background-image: fill;
+}
+.custom-control-label::after {
+  position: absolute;
+  top: 0.25rem;
+  left: -1.5rem;
+  display: block;
+  width: 1rem;
+  height: 1rem;
+  content: '';
+}
+.custom-checkbox
+  .custom-control-checkbox:checked
+  ~ .custom-control-label::after {
+  content: '';
+  background-color: transparent;
+  left: -18px;
+  top: 6px;
+  width: 5px;
+  border-bottom: 2px solid #fff;
+  height: 8px;
+  border-right: 2px solid #fff;
+  transform: rotate(45deg);
+  -o-transform: rotate(45deg);
+  -ms-transform: rotate(45deg);
+  -webkit-transform: rotate(45deg);
+}
+.signup-buttton {
+  border-radius: 6px;
+  background: linear-gradient(180deg, #c39e32 0%, #e7dfb3 100%);
+  padding: 8px 5px;
+  color: #000 !important;
+  width: 100%;
+  font-size: 15px;
+  font-weight: 600;
+  text-transform: capitalize;
+}
+
+.recaptchaTerms a {
+  color: #03b37f;
+}
+.register-form .form-group a {
+  color: #03b37f;
+  text-decoration: underline;
+}
+@media only screen and (min-width: 320px) and (max-width: 767px) {
+  .register-modal .modal-content {
+    max-height: calc(100vh - 0px);
+  }
+  .register-form {
+    min-height: unset;
+  }
+  .register-modal .form-group {
+    margin-bottom: 15px;
+  }
+  .register-modal .modal-body label {
+    font-size: 12px;
+    margin-bottom: 0;
+  }
+  .forgot-password a {
+    font-size: 12px !important;
+  }
+  .register-modal .form-control {
+    height: 40px !important;
+  }
+  .register-modal .form-select {
+    height: 40px;
+  }
+  .recaptchaTerms {
+    font-size: 0.75em;
+  }
+  .register-modal .form-group.regi-half {
+    width: 100%;
+    margin-bottom: 15px;
+  }
+  .whatsapp-box {
+    padding: 4px 8px;
+    margin-bottom: 5px;
+  }
+  .whatsapp-box > div:first-child h4 {
+    margin-top: 0;
+    margin-bottom: 0;
+    font-size: 13px;
+  }
+  .create-whatsapp-link {
+    margin-top: 5px;
+  }
+  .whatsapp-icon img {
+    height: 70%;
+    width: 70%;
+  }
+  .create-whatsapp-link .click-here {
+    font-size: 12px;
+  }
+}

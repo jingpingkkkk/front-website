@@ -26,12 +26,11 @@ function AppLayout({ sidebarLeft, sidebarRight, pageContent }) {
 
           <Col md="12" lg={contentMdColWidth}>
             {pageContent}
-
-            <Footer />
           </Col>
 
           {sidebarRight ? <Col lg="2">{sidebarRight}</Col> : null}
         </Row>
+        <Footer />
       </Container>
     </>
   );

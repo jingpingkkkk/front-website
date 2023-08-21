@@ -93,7 +93,7 @@ const LoginPopup = ({ isOpen, toggle }) => {
           <div className="form-group mb-1">
             <button
               type="button"
-              className="btn btn-primary btn-block login-btn"
+              className="btn login-btn"
               disabled={isLoginDisabled}
               onClick={handleLogin}
             >

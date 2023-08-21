@@ -5,14 +5,18 @@ import './topNav.css';
 import MenuToggleButton from './ui/MenuToggleButton';
 import StickyHeader from './ui/StickyHeader';
 import LoginPopup from '../login-popup';
+import RegisterPopup from '../register-popup';
 
 function Topnav() {
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
+  const [isRegisterModalOpen, setIsRegisterModalOpen] = useState(false);
 
   const toggleLoginModal = () => {
     setIsLoginModalOpen(!isLoginModalOpen);
   };
-
+  const toggleRegisterModal = () => {
+    setIsRegisterModalOpen(!isRegisterModalOpen);
+  };
   return (
     <StickyHeader>
       {/* Mobile View */}
@@ -58,10 +62,17 @@ function Topnav() {
           SIGN IN
         </NavLink>
         <LoginPopup isOpen={isLoginModalOpen} toggle={toggleLoginModal} />
-        <NavLink to="/register" className="ms-2 custom-buttton nav-items">
+        <NavLink
+          to="#"
+          className="ms-2 custom-buttton nav-items"
+          onClick={toggleRegisterModal}
+        >
           REGISTER
         </NavLink>
-
+        <RegisterPopup
+          isOpen={isRegisterModalOpen}
+          toggle={toggleRegisterModal}
+        />
         <NavLink
           className="me-2 ms-3 setting d-none d-lg-block"
           onClick={() => console.log('toggle theme')}
