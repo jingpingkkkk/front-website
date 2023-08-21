@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { NavLink } from 'react-router-dom';
 import topNavItems from './api/top-nav-items';
 import './topNav.css';
@@ -10,6 +10,7 @@ import RegisterPopup from '../register-popup';
 function Topnav() {
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
   const [isRegisterModalOpen, setIsRegisterModalOpen] = useState(false);
+  const [user, setUser] = useState('');
 
   const toggleLoginModal = () => {
     setIsLoginModalOpen(!isLoginModalOpen);
@@ -17,6 +18,13 @@ function Topnav() {
   const toggleRegisterModal = () => {
     setIsRegisterModalOpen(!isRegisterModalOpen);
   };
+  useEffect(() => {
+    const item = JSON.parse(localStorage.getItem('user'));
+    if (item) {
+      setUser(item);
+    }
+  }, []);
+
   return (
     <StickyHeader>
       {/* Mobile View */}
@@ -54,13 +62,17 @@ function Topnav() {
 
       {/* Auth & Theme Buttons */}
       <div className="d-flex justify-content-end align-items-center">
-        <NavLink
-          to="#"
-          className="custom-buttton nav-items"
-          onClick={toggleLoginModal}
-        >
-          SIGN IN
-        </NavLink>
+        {user ? (
+          ''
+        ) : (
+          <NavLink
+            to="#"
+            className="custom-buttton nav-items"
+            onClick={toggleLoginModal}
+          >
+            SIGN IN
+          </NavLink>
+        )}
         <LoginPopup isOpen={isLoginModalOpen} toggle={toggleLoginModal} />
         <NavLink
           to="#"
