@@ -1,17 +1,44 @@
 import React, { useState } from 'react';
 import { Label, Modal, ModalBody } from 'reactstrap';
 import './login-popup.css';
+import { useForm } from 'react-hook-form';
+import { useNavigate } from 'react-router';
+import { postRequest } from '../../../api';
+import ipDetails from '../../../helper/ip-information';
 
 const LoginPopup = ({ isOpen, toggle }) => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const handleLogin = () => {
-    // Implement your login logic here
-    setEmail('');
-    setPassword('');
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
+
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
+  const navigate = useNavigate();
+
+  const onSubmit = async (data) => {
+    setLoading(true);
+    try {
+      const ipaddress = await ipDetails();
+      if (ipaddress?.ip) {
+        data.ipAddress = ipaddress?.ip;
+      }
+      const result = await postRequest('auth/userLogin', data, false);
+      if (result?.success) {
+        setLoading(false);
+        localStorage.setItem('user', JSON.stringify(result?.data?.user));
+        localStorage.setItem('userToken', result?.data?.token);
+        navigate('/', true);
+      } else {
+        setLoading(false);
+        setError(result?.message || '');
+      }
+    } catch (err) {
+      setLoading(false);
+    }
   };
 
-  const isLoginDisabled = !email || !password;
   return (
     <Modal isOpen={isOpen} toggle={toggle} className="login-modal">
       <div className="modal-header">
@@ -23,7 +50,8 @@ const LoginPopup = ({ isOpen, toggle }) => {
         </div>
       </div>
       <ModalBody>
-        <form className="login-form">
+        {error ? <div className="text-danger mb-1">{error}</div> : ''}
+        <form className="login-form" onSubmit={handleSubmit(onSubmit)}>
           <div className="form-group">
             <Label for="username" className="login-label">
               Username
@@ -34,9 +62,15 @@ const LoginPopup = ({ isOpen, toggle }) => {
               id="username"
               placeholder="Enter Username"
               className="form-control"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
+              {...register('username', {
+                required: 'Username is required',
+              })}
             />
+            {errors?.username ? (
+              <div className="text-danger">{errors?.username?.message}</div>
+            ) : (
+              ''
+            )}
           </div>
           <div className="form-group">
             <Label for="password" className="login-label">
@@ -48,9 +82,15 @@ const LoginPopup = ({ isOpen, toggle }) => {
               id="password"
               placeholder="Enter Password"
               className="form-control"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
+              {...register('password', {
+                required: 'Password is required',
+              })}
             />
+            {errors?.password ? (
+              <div className="text-danger">{errors?.password?.message}</div>
+            ) : (
+              ''
+            )}
             <div className="forgot-password">
               <a href="/">
                 <u>Forgot Password?</u>
@@ -91,12 +131,10 @@ const LoginPopup = ({ isOpen, toggle }) => {
             </div>
           </div>
           <div className="form-group mb-1">
-            <button
-              type="button"
-              className="btn login-btn"
-              disabled={isLoginDisabled}
-              onClick={handleLogin}
-            >
+            <button type="submit" className="btn login-btn" disabled={loading}>
+              {loading && (
+                <span className="spinner-border spinner-border-sm me-2" />
+              )}
               Login
             </button>
           </div>
