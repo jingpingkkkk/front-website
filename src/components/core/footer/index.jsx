@@ -7,7 +7,8 @@ import './footer.css';
 function Footer() {
   return (
     <div className="row footer-row">
-      <div className="col-md-12 col-sm-12 col-12 footer-area">
+      <div className="col-md-2 col-sm-12 col-12" />
+      <div className="col-md-8 col-sm-8 col-12 footer-area">
         <footer className="footer">
           <div className="row">
             <div className="col-md-4 col-sm-12 col-12">
@@ -139,6 +140,7 @@ function Footer() {
           © 2023 Cricadda.com All Rights Reserved
         </div>
       </div>
+      <div className="col-md-2 col-sm-12 col-12" />
     </div>
   );
 }
