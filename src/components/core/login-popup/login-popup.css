@@ -148,30 +148,15 @@
   -ms-transform: rotate(45deg);
   -webkit-transform: rotate(45deg);
 }
-.login-modal .login-btn {
-  height: 56px;
-  font-weight: 600;
-  text-align: center;
-  color: #fff;
+.login-btn {
+  border-radius: 6px;
+  background: linear-gradient(180deg, #c39e32 0%, #e7dfb3 100%);
+  padding: 8px 5px;
+  color: #000 !important;
   width: 100%;
-}
-.login-modal .login-btn {
-  background-color: #03b37f;
-  border-color: #03b37f;
-}
-.login-modal .login-btn:disabled {
-  background-color: #03b37f;
-  border-color: #03b37f;
-  cursor: not-allowed;
-}
-.login-btn:hover,
-.login-btn:focus,
-.login-btn:active,
-.login-btn:not(:disabled):not(.disabled):active {
-  box-shadow: none;
-  background-color: #03b37f;
-  border-color: #03b37f;
-  opacity: 0.8;
+  font-size: 15px;
+  font-weight: 600;
+  text-transform: capitalize;
 }
 .recaptchaTerms a {
   color: #03b37f;
