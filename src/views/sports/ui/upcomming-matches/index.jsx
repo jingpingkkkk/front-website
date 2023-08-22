@@ -1,24 +1,46 @@
 /* eslint-disable react/no-array-index-key */
 /* eslint-disable jsx-a11y/alt-text */
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { Spinner } from 'reactstrap';
 import SportsTabs from '../sports-tabs';
-import availableSports from './data';
+import { getRequest } from '../../../../api';
 
 function UpcommingMatches() {
+  const [availableSports, setAvailableSports] = useState([]);
+  const [loading, setLoading] = useState(false);
   const [selectedSport, setSelectedSport] = useState(availableSports[0]);
 
   const fetchSportDetails = (id) => {
     const sport = availableSports.find((item) => item.id === id);
     setSelectedSport(sport);
   };
+  const getAllSports = async () => {
+    try {
+      setLoading(true);
+      const result = await getRequest('exchangeHome/sportsList', false);
+      if (result?.success) {
+        setAvailableSports(result?.data || []);
+        setLoading(false);
+      }
+    } catch (error) {
+      setLoading(false);
+    }
+  };
 
+  useEffect(() => {
+    getAllSports();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
   return (
     <>
-      <SportsTabs
-        availableSports={availableSports}
-        onClick={(id) => fetchSportDetails(id)}
-      />
-
+      {!loading && availableSports?.length ? (
+        <SportsTabs
+          availableSports={availableSports}
+          onClick={(id) => fetchSportDetails(id)}
+        />
+      ) : (
+        <Spinner color="secondary" />
+      )}
       {selectedSport ? (
         <div className="tab-pane fade in active">
           <div className="bet-table">

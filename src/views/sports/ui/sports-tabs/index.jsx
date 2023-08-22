@@ -2,6 +2,7 @@
 /* eslint-disable react/no-array-index-key */
 import React, { useState } from 'react';
 import useScreenWidth from '../../../../hooks/use-screen-width';
+import menuImages from '../../../../components/common/exchange-sidemenu/menu-images';
 
 function SportsTabs({ availableSports, onClick }) {
   const { isMobile, isTablet } = useScreenWidth();
@@ -37,26 +38,29 @@ function SportsTabs({ availableSports, onClick }) {
       </button>
 
       <ul id="taj_home_sports_list" className="nav nav-tabs">
-        {sports.map((sport, index) => (
-          <li className="nav-item item" key={`${sport.name} ${index}`}>
-            <button
-              type="button"
-              style={{ all: 'unset', cursor: 'pointer' }}
-              onClick={() => onClick(sport.id)}
-            >
-              <div className="tab-main">
-                <img src={sport.image} alt={sport.name} />
+        {sports?.map((sport, index) => {
+          const imgPath = menuImages[sport?.name] || '';
+          return (
+            <li className="nav-item item" key={`${sport.name} ${index}`}>
+              <button
+                type="button"
+                style={{ all: 'unset', cursor: 'pointer' }}
+                onClick={() => onClick(sport?._id)}
+              >
+                <div className="tab-main">
+                  <img src={imgPath} alt={sport.name} />
 
-                <div className="title-area">{sport.name}</div>
+                  <div className="title-area">{sport?.name || ''}</div>
 
-                <div className="remark">
-                  <span className="totel me-0">{sport.total}</span>
-                  <span className="out-of">{sport.outOf}</span>
+                  <div className="remark">
+                    <span className="totel me-0">{sport?.total || 0}</span>
+                    <span className="out-of">{sport?.outOf || 0}</span>
+                  </div>
                 </div>
-              </div>
-            </button>
-          </li>
-        ))}
+              </button>
+            </li>
+          );
+        })}
       </ul>
 
       {/* Next */}
