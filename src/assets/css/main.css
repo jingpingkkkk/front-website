@@ -600,13 +600,10 @@ nav#sidebar li a.dropdown-toggle {
   font-style: normal;
   font-weight: 600;
   line-height: normal;
-  text-align: center;
   font-family: 'Inter';
   padding: 10px;
   color: #c49e40;
   text-transform: capitalize;
-  border-radius: 15px 15px 0px 0px;
-  background: #242424;
 }
 .pramotion-slider {
   padding: 10px;
@@ -725,7 +722,7 @@ nav#sidebar li a.dropdown-toggle {
   justify-content: center;
 }
 .footer-area {
-  padding: 0;
+  /* padding: 0; */
 }
 header {
   position: relative;
@@ -802,7 +799,6 @@ button:focus {
 .comman-bg {
   border-radius: 15px;
   background: #101215;
-  padding: 10px;
   margin-bottom: 15px;
 }
 .comman-bg .section-title {
@@ -953,11 +949,12 @@ button {
   display: flex;
   align-items: center;
   justify-content: center;
+  color: #fff;
 }
 
 .type-aminunt {
   border-radius: 10px;
-  background: #000;
+  background-color: #000 !important;
   padding: 10px;
   font-size: 12px;
   font-style: normal;
@@ -965,6 +962,9 @@ button {
   line-height: normal;
   text-align: left;
   margin-top: 15px;
+  border: 0;
+  color: #aaafb5 !important;
+  box-shadow: none !important;
 }
 .betting-user-disc {
   padding: 10px 0;
@@ -1010,6 +1010,7 @@ button {
   font-style: normal;
   font-weight: 500;
   line-height: normal;
+  text-align: left;
 }
 
 .bet-amount-disc .points p.qty {
@@ -1024,8 +1025,9 @@ button {
   outline: 0;
   box-shadow: none;
   color: #fff;
-  text-align: center;
+  text-align: left;
   border: none;
+  padding: 10px;
 }
 .bet-amount-disc {
   padding-bottom: 15px;

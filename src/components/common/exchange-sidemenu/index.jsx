@@ -117,9 +117,9 @@ function ExchangeSideMenu({ className = 'd-none d-lg-block' }) {
                                       <Link
                                         key={evnt?._id}
                                         className="sidebar-link"
-                                        to={evnt.link}
+                                        to="/matches"
                                       >
-                                        {evnt?.name || ''}THIS
+                                        {evnt?.name || ''}
                                       </Link>
                                     ))}
                                   </AccordionBody>
