@@ -1,6 +1,6 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import React, { useState } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import 'react-responsive-carousel/lib/styles/carousel.min.css';
 import {
   Accordion,
@@ -8,25 +8,55 @@ import {
   AccordionHeader,
   AccordionItem,
 } from 'reactstrap';
-import setData from '../../../../redux/action';
+import shortNumber from '../../../../helper/number';
+import {
+  betTypes,
+  resetEventBet,
+  setBetPrice,
+  setBetStake,
+} from '../../../../redux/reducers/event-bet';
+import { setMarketPlForecast } from '../../../../redux/reducers/event-market';
+
+const amountArray = [
+  1000, 2000, 5000, 10000, 20000, 25000, 50000, 75000, 90000, 95000,
+];
 
 function BatSlip() {
   const dispatch = useDispatch();
+  const eventBet = useSelector((state) => state.eventBet);
+  const eventMarket = useSelector((state) => state.eventMarket);
+
   const [open, setOpen] = useState('');
-  const [betAmount, setBetAmount] = useState('');
 
   const toggle = (id) => {
     setOpen(id === open ? '' : id);
   };
-  const toggleBetSlip = () => {
-    dispatch(setData());
+
+  const updateStake = ({ stake = null, price = null }) => {
+    const { betType, market } = eventBet;
+    const { priority } = eventBet.runner;
+
+    const quantity = stake || eventBet.stake;
+    const rate = price || eventBet.price;
+
+    const plForecast = [0, 0];
+
+    if (betType === betTypes.BACK) {
+      plForecast[priority] = rate * quantity - quantity;
+      plForecast[priority === 0 ? 1 : 0] = -quantity;
+    } else {
+      plForecast[priority] = -(rate * quantity - quantity);
+      plForecast[priority === 0 ? 1 : 0] = quantity;
+    }
+
+    dispatch(setBetStake(quantity));
+    dispatch(setBetPrice(rate));
+    dispatch(setMarketPlForecast({ marketId: market._id, plForecast }));
   };
 
-  const data = useSelector((state) => state.data.payload);
-  const ammountArray = [1, 2, 5, 10, 20, 25, 50, 75, 90, 95];
-
-  const onClickAmmount = (amount) => {
-    setBetAmount(`${amount}000`);
+  const placeBet = () => {
+    console.log(eventBet, eventMarket);
+    // dispatch(resetEventBet());
   };
 
   return (
@@ -47,7 +77,8 @@ function BatSlip() {
           </AccordionBody>
         </AccordionItem>
       </Accordion>
-      {data ? (
+
+      {eventBet?.market ? (
         <div className="betting-sec">
           <div className="pramotion-title">BET SLIP</div>
           <div className="betting-dashboard">
@@ -57,10 +88,13 @@ function BatSlip() {
                   <div className="bet-amount-disc">
                     <div className="betting-user-disc">
                       <div className="d-flex justify-content-between">
-                        <div className="name">MATCH_ODDS</div>
+                        <div className="name text-uppercase">
+                          {eventBet.market.name}
+                        </div>
+
                         <button
                           type="button"
-                          onClick={toggleBetSlip}
+                          onClick={() => dispatch(resetEventBet())}
                           className="close-bet float-right"
                         >
                           <img
@@ -70,10 +104,17 @@ function BatSlip() {
                           />
                         </button>
                       </div>
-                      <div className="disc">{data?.eventName || ''}</div>
+
+                      <div className="disc">
+                        {eventMarket?.event?.name || ''}
+                      </div>
                     </div>
+
                     <div className="points">
-                      <div className="category">{data?.runner || ''}</div>
+                      <div className="category">
+                        {eventBet?.runner?.name || ''}
+                      </div>
+
                       <div className="selection">
                         <form action="">
                           <p className="qty">
@@ -82,35 +123,44 @@ function BatSlip() {
                               name="qty"
                               id="qty"
                               step="1"
-                              defaultValue={data?.price || 0}
+                              value={eventBet?.price || 0}
+                              onChange={(e) =>
+                                updateStake({ price: e.target.value })
+                              }
                             />
                           </p>
                         </form>
                       </div>
                     </div>
                   </div>
+
                   <input
                     type="number"
                     placeholder="Amount"
                     className="type-aminunt form-control"
-                    defaultValue={betAmount}
+                    value={eventBet?.stake || 0}
+                    onChange={(e) => updateStake({ stake: e.target.value })}
                   />
+
                   <div className="amount-choose">
-                    {ammountArray?.map((amount) => (
+                    {amountArray?.map((amount) => (
                       <button
                         type="button"
                         className="amounts"
                         key={amount}
-                        onClick={() => {
-                          onClickAmmount(amount);
-                        }}
+                        onClick={() => updateStake({ stake: amount })}
                       >
-                        {amount}k
+                        {shortNumber(amount)}
                       </button>
                     ))}
                   </div>
                 </div>
-                <button className="custom-buttton" type="button">
+
+                <button
+                  className="custom-buttton"
+                  type="button"
+                  onClick={() => placeBet()}
+                >
                   Place bet
                 </button>
               </div>

@@ -1,122 +1,167 @@
-/* eslint-disable react/jsx-one-expression-per-line */
-/* eslint-disable jsx-a11y/alt-text */
-/* eslint-disable no-script-url */
-/* eslint-disable react/jsx-no-script-url */
-/* eslint-disable jsx-a11y/anchor-is-valid */
-import React, { useState } from 'react';
+import { nanoid } from 'nanoid';
+import React, { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import {
   AccordionBody,
   AccordionHeader,
   AccordionItem,
   UncontrolledAccordion,
 } from 'reactstrap';
-import './matches.css';
-import { useDispatch } from 'react-redux';
-import matchItems from './items';
-import setData from '../../../../redux/action';
-import useScreenWidth from '../../../../hooks/use-screen-width';
+import {
+  betTypes,
+  setBetOdds,
+  setBetStake,
+} from '../../../../redux/reducers/event-bet';
+import {
+  resetEventMarket,
+  setEvent,
+  setMarketPlForecast,
+  setMarkets,
+} from '../../../../redux/reducers/event-market';
 import BetSlipPopup from '../bet-slip-popup';
+import matchItems from './items';
+import './matches.css';
 
 function MatchPageContent() {
   const dispatch = useDispatch();
-  const { isMobile, isTablet } = useScreenWidth();
+  const { markets } = useSelector((state) => state.eventMarket);
+
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
+
+  useEffect(() => {
+    dispatch(
+      setEvent({
+        eventId: nanoid(),
+        name: 'Northern Superchargers Women v Welsh Fire Women',
+      }),
+    );
+    dispatch(
+      setMarkets(
+        matchItems.map((item) => ({
+          ...item,
+          plForecast: [0, 0],
+        })),
+      ),
+    );
+    return () => {
+      dispatch(resetEventMarket());
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   const toggleLoginModal = () => {
     setIsLoginModalOpen(!isLoginModalOpen);
   };
 
-  const sendDataToBetSlip = (eventName, runner, price) => {
-    const dataToSend = {
-      eventName: eventName || '',
-      runner: runner || '',
-      price: price || 0,
-    };
-    dispatch(setData(dataToSend));
-    setIsLoginModalOpen(isMobile || isTablet);
+  const handleOddClick = (market, runner, odd, type) => {
+    dispatch(
+      setBetOdds({
+        market: { _id: market._id, name: market.name },
+        runner: {
+          _id: runner._id,
+          name: runner.name,
+          priority: runner.priority,
+        },
+        price: odd.price,
+        betType: type,
+      }),
+    );
+    dispatch(setBetStake(0));
+    dispatch(setMarketPlForecast({ marketId: market._id, plForecast: [0, 0] }));
   };
 
   return (
     <div className="comman-bg">
       <UncontrolledAccordion stayOpen>
-        {matchItems.map((item) => {
+        {markets.map((market) => {
           return (
-            <AccordionItem key={item?.id}>
-              <AccordionHeader targetId={item?.id} className="bet-table-header">
-                <div>MATCH_ODDS</div>
+            <AccordionItem key={market?._id}>
+              <AccordionHeader
+                targetId={market?._id}
+                className="bet-table-header"
+              >
+                <div className="text-uppercase">{market.name}</div>
                 <div className="btn btn-success btn-sm disabled">Cashout</div>
                 <span className="max-bet d-none-desktop">
                   <span title="Max : 1">
-                    Max:
-                    <span>1</span>
+                    Max: <span>1</span>
                   </span>
                 </span>
               </AccordionHeader>
 
-              <AccordionBody accordionId={item?.id}>
+              <AccordionBody accordionId={market?._id}>
                 <div className="bet-table-row d-none-mobile">
                   <div className="nation-name">
                     <span className="max-bet">
                       <span title="Max : 1">
-                        Max:
-                        <span>1</span>
+                        Max: <span>1</span>
                       </span>
                     </span>
                   </div>
                   <div className="back bl-title back-title">Back</div>
                   <div className="lay bl-title lay-title">Lay</div>
                 </div>
-                {item?.matches?.map((match) => {
+
+                {market?.runners?.map((runner) => {
                   return (
-                    <div key={match?.runner}>
+                    <div key={runner?.name}>
                       <div className="bet-table-mobile-row d-none-desktop">
                         <div className="bet-table-mobile-team-name">
-                          <span>{match?.runner || ''}</span>
+                          <span>{runner?.name || ''}</span>
                         </div>
                       </div>
+
                       <div className="bet-table-row">
                         <div className="nation-name d-none-mobile">
-                          <p>
-                            <span>{match?.runner || ''}</span>
-                            <span className="float-right" />
-                          </p>
-                          <p className="mb-0" />
+                          <div className="w-100 d-flex justify-content-between align-items-center">
+                            <p>
+                              <span>{runner?.name || ''}</span>
+                              <span className="float-right" />
+                            </p>
+
+                            {market?.plForecast[runner?.priority] !== 0 ? (
+                              <div
+                                className={`small ${
+                                  market?.plForecast[runner?.priority] > 0
+                                    ? 'text-success'
+                                    : 'text-danger'
+                                }`}
+                              >
+                                {market?.plForecast[runner?.priority]}
+                              </div>
+                            ) : null}
+                          </div>
                         </div>
-                        {match?.back?.map((mback) => (
+
+                        {runner?.back?.map((odd) => (
                           <button
                             type="button"
-                            className={`bl-box back back${mback?.level}`}
-                            key={mback?.level}
-                            onClick={() => {
-                              sendDataToBetSlip(
-                                item?.eventName,
-                                match?.runner,
-                                mback?.price,
-                              );
-                            }}
+                            className={`bl-box back back${odd?.level}`}
+                            key={odd?.level}
+                            onClick={() =>
+                              handleOddClick(market, runner, odd, betTypes.BACK)
+                            }
                           >
                             <span className="d-block odds">
-                              {mback?.price || 0}
+                              {odd?.price || 0}
                             </span>
-                            <span className="d-block">{mback?.size || 0}</span>
+                            <span className="d-block">{odd?.size || 0}</span>
                           </button>
                         ))}
-                        {match?.lay?.map((mlay) => (
+
+                        {runner?.lay?.map((odd) => (
                           <button
                             type="button"
-                            className={`bl-box lay lay${mlay?.level}`}
-                            key={mlay?.level}
-                            onClick={() => {
-                              sendDataToBetSlip(
-                                item?.eventName,
-                                match?.runner,
-                                mlay?.price,
-                              );
-                            }}
+                            className={`bl-box lay lay${odd?.level}`}
+                            key={odd?.level}
+                            onClick={() =>
+                              handleOddClick(market, runner, odd, betTypes.LAY)
+                            }
                           >
                             <span className="d-block odds">
-                              {mlay?.price || 0}
+                              {odd?.price || 0}
                             </span>
-                            <span className="d-block">{mlay?.size || 0}</span>
+                            <span className="d-block">{odd?.size || 0}</span>
                           </button>
                         ))}
                       </div>
@@ -128,6 +173,7 @@ function MatchPageContent() {
           );
         })}
       </UncontrolledAccordion>
+
       <BetSlipPopup isOpen={isLoginModalOpen} toggle={toggleLoginModal} />
     </div>
   );

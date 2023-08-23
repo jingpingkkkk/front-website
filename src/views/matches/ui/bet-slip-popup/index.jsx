@@ -10,6 +10,7 @@ const BetSlipPopup = ({ isOpen, toggle }) => {
   const onClickAmmount = (amount) => {
     setBetAmount(`${amount}000`);
   };
+
   return (
     <Modal isOpen={isOpen} toggle={toggle} className="bet-table-popup">
       <div className="modal-header">
