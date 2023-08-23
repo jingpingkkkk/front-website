@@ -1010,6 +1010,7 @@ button {
   font-style: normal;
   font-weight: 500;
   line-height: normal;
+  text-align: left;
 }
 
 .bet-amount-disc .points p.qty {
@@ -1024,8 +1025,9 @@ button {
   outline: 0;
   box-shadow: none;
   color: #fff;
-  text-align: center;
+  text-align: left;
   border: none;
+  padding: 10px;
 }
 .bet-amount-disc {
   padding-bottom: 15px;

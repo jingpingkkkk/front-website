@@ -199,6 +199,10 @@
   overflow-x: hidden;
   position: relative;
 }
+.close-bet {
+  width: unset !important;
+  background: transparent;
+}
 @media only screen and (min-width: 1280px) {
   .d-none-desktop {
     display: none !important;
@@ -244,5 +248,37 @@
   }
   .bl-box span {
     font-size: 12px;
+  }
+  .bet-table-popup .modal-content {
+    background-color: #333;
+  }
+  .bet-table-popup .modal-body {
+    padding: 5px;
+  }
+  .bet-table-popup .modal-title {
+    font-size: 14px;
+  }
+  .dashboard-data {
+    margin-bottom: 0;
+    border-bottom-right-radius: 0;
+    border-bottom-left-radius: 0;
+  }
+  .betting-user-disc .name {
+    font-size: 14px;
+  }
+  .betting-user-disc .disc {
+    font-size: 12px;
+  }
+}
+@media only screen and (min-device-width: 1024px) and (max-device-width: 1024px) {
+  .amount-choose {
+    grid-template-columns: repeat(2, minmax(auto, 1fr));
+    margin: 10px 0;
+  }
+  .bet-amount-disc .points {
+    display: inline-block;
+  }
+  .bet-amount-disc .points p.qty input#qty {
+    width: 100%;
   }
 }

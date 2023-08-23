@@ -3,7 +3,7 @@
 /* eslint-disable no-script-url */
 /* eslint-disable react/jsx-no-script-url */
 /* eslint-disable jsx-a11y/anchor-is-valid */
-import React from 'react';
+import React, { useState } from 'react';
 import {
   AccordionBody,
   AccordionHeader,
@@ -14,9 +14,16 @@ import './matches.css';
 import { useDispatch } from 'react-redux';
 import matchItems from './items';
 import setData from '../../../../redux/action';
+import useScreenWidth from '../../../../hooks/use-screen-width';
+import BetSlipPopup from '../bet-slip-popup';
 
 function MatchPageContent() {
   const dispatch = useDispatch();
+  const { isMobile, isTablet } = useScreenWidth();
+  const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
+  const toggleLoginModal = () => {
+    setIsLoginModalOpen(!isLoginModalOpen);
+  };
 
   const sendDataToBetSlip = (eventName, runner, price) => {
     const dataToSend = {
@@ -25,6 +32,7 @@ function MatchPageContent() {
       price: price || 0,
     };
     dispatch(setData(dataToSend));
+    setIsLoginModalOpen(isMobile || isTablet);
   };
 
   return (
@@ -120,6 +128,7 @@ function MatchPageContent() {
           );
         })}
       </UncontrolledAccordion>
+      <BetSlipPopup isOpen={isLoginModalOpen} toggle={toggleLoginModal} />
     </div>
   );
 }
