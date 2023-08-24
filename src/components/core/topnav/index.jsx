@@ -6,11 +6,13 @@ import MenuToggleButton from './ui/MenuToggleButton';
 import StickyHeader from './ui/StickyHeader';
 import LoginPopup from '../login-popup';
 import RegisterPopup from '../register-popup';
+import WelcomePopup from '../welcome-popup';
 
 function Topnav() {
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
   const [isRegisterModalOpen, setIsRegisterModalOpen] = useState(false);
   const [user, setUser] = useState('');
+  const [isWelcome, setIsWelcome] = useState(false);
 
   const toggleLoginModal = () => {
     setIsLoginModalOpen(!isLoginModalOpen);
@@ -18,12 +20,16 @@ function Topnav() {
   const toggleRegisterModal = () => {
     setIsRegisterModalOpen(!isRegisterModalOpen);
   };
+
   useEffect(() => {
     const item = JSON.parse(localStorage.getItem('user'));
+    if (localStorage.getItem('isWelcome') === 'true') {
+      setIsWelcome(true);
+    }
     if (item) {
       setUser(item);
     }
-  }, []);
+  }, [isWelcome]);
 
   return (
     <StickyHeader>
@@ -91,6 +97,15 @@ function Topnav() {
         >
           <img src="images/srttings.png" alt="setting" />
         </NavLink>
+        {isWelcome && (
+          <WelcomePopup
+            isOpen={isWelcome}
+            onClose={() => {
+              localStorage.setItem('isWelcome', false);
+              setIsWelcome(false);
+            }}
+          />
+        )}
       </div>
     </StickyHeader>
   );

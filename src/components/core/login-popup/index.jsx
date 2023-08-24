@@ -29,6 +29,7 @@ const LoginPopup = ({ isOpen, toggle }) => {
         setLoading(false);
         localStorage.setItem('user', JSON.stringify(result?.data?.user));
         localStorage.setItem('userToken', result?.data?.token);
+        localStorage.setItem('isWelcome', true);
         navigate('/', true);
       } else {
         setLoading(false);
