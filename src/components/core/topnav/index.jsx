@@ -7,6 +7,7 @@ import StickyHeader from './ui/StickyHeader';
 import LoginPopup from '../login-popup';
 import RegisterPopup from '../register-popup';
 import WelcomePopup from '../welcome-popup';
+import UserInfo from './ui/UserInfo';
 
 function Topnav() {
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
@@ -69,34 +70,31 @@ function Topnav() {
       {/* Auth & Theme Buttons */}
       <div className="d-flex justify-content-end align-items-center">
         {user ? (
-          ''
+          <UserInfo user={user} />
         ) : (
-          <NavLink
-            to="#"
-            className="custom-buttton nav-items"
-            onClick={toggleLoginModal}
-          >
-            SIGN IN
-          </NavLink>
+          <>
+            <NavLink
+              to="#"
+              className="custom-buttton nav-items"
+              onClick={toggleLoginModal}
+            >
+              SIGN IN
+            </NavLink>
+
+            <LoginPopup isOpen={isLoginModalOpen} toggle={toggleLoginModal} />
+            <NavLink
+              to="#"
+              className="ms-2 custom-buttton nav-items"
+              onClick={toggleRegisterModal}
+            >
+              REGISTER
+            </NavLink>
+            <RegisterPopup
+              isOpen={isRegisterModalOpen}
+              toggle={toggleRegisterModal}
+            />
+          </>
         )}
-        <LoginPopup isOpen={isLoginModalOpen} toggle={toggleLoginModal} />
-        <NavLink
-          to="#"
-          className="ms-2 custom-buttton nav-items"
-          onClick={toggleRegisterModal}
-        >
-          REGISTER
-        </NavLink>
-        <RegisterPopup
-          isOpen={isRegisterModalOpen}
-          toggle={toggleRegisterModal}
-        />
-        <NavLink
-          className="me-2 ms-3 setting d-none d-lg-block"
-          onClick={() => console.log('toggle theme')}
-        >
-          <img src="images/srttings.png" alt="setting" />
-        </NavLink>
         {isWelcome && (
           <WelcomePopup
             isOpen={isWelcome}
