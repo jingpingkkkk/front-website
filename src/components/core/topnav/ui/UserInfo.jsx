@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import './userInfo.css';
 import {
   DropdownItem,
@@ -6,8 +6,10 @@ import {
   DropdownToggle,
   UncontrolledDropdown,
 } from 'reactstrap';
+import StateButtons from '../../stake-button-popup';
 
 const UserInfo = ({ user }) => {
+  const [showStakButton, setShowStakeButton] = useState(false);
   return (
     <div className="header-right">
       <div className="balance d-none-mobile">
@@ -34,11 +36,19 @@ const UserInfo = ({ user }) => {
           <DropdownItem>Account Statement</DropdownItem>
           <DropdownItem>Current Bets</DropdownItem>
           <DropdownItem>Casino Results</DropdownItem>
-          <DropdownItem>Set Button Value</DropdownItem>
+          <DropdownItem onClick={() => setShowStakeButton(true)}>
+            Set Button Value
+          </DropdownItem>
           <DropdownItem divider />
           <DropdownItem>Logout</DropdownItem>
         </DropdownMenu>
       </UncontrolledDropdown>
+      {showStakButton && (
+        <StateButtons
+          isOpen={showStakButton}
+          toggle={() => setShowStakeButton(!showStakButton)}
+        />
+      )}
     </div>
   );
 };
