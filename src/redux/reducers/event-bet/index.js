@@ -21,13 +21,30 @@ export const eventBetSlice = createSlice({
   name: 'eventBet',
 
   initialState: {
+    /**
+     * {
+     *    _id: String,
+     *    name: String,
+     *    betDelay: Number, // in seconds
+     *    minStake: Number,
+     *    maxStake: Number,
+     * }
+     */
     market: {},
+
+    /**
+     * {
+     *    _id: String,
+     *    name: String,
+     *    price: Number,
+     * }
+     */
     runner: {},
+
     price: 0,
     stake: 0,
     betType: '',
     orderType: orderTypes.LIMIT,
-    orderStatus: orderStatus.IDLE,
   },
 
   reducers: {
@@ -46,27 +63,18 @@ export const eventBetSlice = createSlice({
       state.price = action.payload;
     },
 
-    setOrderStatus: (state, action) => {
-      state.orderStatus = action.payload;
-    },
-
     resetEventBet: (state) => {
       state.market = {};
+      state.runner = {};
       state.price = 0;
       state.stake = 0;
       state.betType = '';
       state.orderType = orderTypes.LIMIT;
-      state.orderStatus = orderStatus.IDLE;
     },
   },
 });
 
-export const {
-  setBetOdds,
-  setBetStake,
-  setBetPrice,
-  setOrderStatus,
-  resetEventBet,
-} = eventBetSlice.actions;
+export const { setBetOdds, setBetStake, setBetPrice, resetEventBet } =
+  eventBetSlice.actions;
 
 export default eventBetSlice.reducer;

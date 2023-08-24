@@ -1,180 +1,120 @@
-import { nanoid } from 'nanoid';
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { useLocation, useNavigate } from 'react-router-dom';
 import {
   AccordionBody,
   AccordionHeader,
   AccordionItem,
   UncontrolledAccordion,
 } from 'reactstrap';
-import {
-  betTypes,
-  setBetOdds,
-  setBetStake,
-} from '../../../../redux/reducers/event-bet';
+import { postRequest } from '../../../../api';
+import LoadingOverlay from '../../../../components/common/loading-overlay';
+import { resetEventBet } from '../../../../redux/reducers/event-bet';
 import {
   resetEventMarket,
   setEvent,
-  setMarketPlForecast,
   setMarkets,
 } from '../../../../redux/reducers/event-market';
-import BetSlipPopup from '../bet-slip-popup';
-import matchItems from './items';
+import Market from '../market';
 import './matches.css';
 
 function MatchPageContent() {
+  const navigate = useNavigate();
+  const location = useLocation();
+  const { eventId = null } = location.state || {};
+
   const dispatch = useDispatch();
   const { markets } = useSelector((state) => state.eventMarket);
 
-  const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
+  const [loading, setLoading] = useState(false);
+  // const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
+
+  const fetchEventMarkets = async () => {
+    setLoading(true);
+    const result = await postRequest(
+      'event/getEventMatchDataFront',
+      { eventId },
+      false,
+    );
+
+    if (result?.success) {
+      const event = result.data.details;
+      dispatch(setEvent({ eventId: event._id, name: event?.name }));
+
+      const marketData = event.market.map((market) => {
+        return {
+          _id: market._id,
+          apiMarketId: market.marketId,
+          name: market.name,
+          eventName: event.name,
+          plForecast: [0, 0],
+          // minStake: market.minStake,
+          // maxStake: market.maxStake,
+          // betDelay: market.betDelay,
+          minStake: 100,
+          maxStake: 200000,
+          betDelay: 5,
+          runners: market.market_runner.map((runner, index) => {
+            return {
+              _id: runner._id,
+              name: runner.runnerName,
+              priority: index,
+            };
+          }),
+        };
+      });
+      dispatch(setMarkets(marketData));
+    }
+    setLoading(false);
+  };
 
   useEffect(() => {
-    dispatch(
-      setEvent({
-        eventId: nanoid(),
-        name: 'Northern Superchargers Women v Welsh Fire Women',
-      }),
-    );
-    dispatch(
-      setMarkets(
-        matchItems.map((item) => ({
-          ...item,
-          plForecast: [0, 0],
-        })),
-      ),
-    );
+    if (!eventId) {
+      navigate('/sports');
+    }
+    fetchEventMarkets();
     return () => {
+      dispatch(resetEventBet());
       dispatch(resetEventMarket());
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const toggleLoginModal = () => {
-    setIsLoginModalOpen(!isLoginModalOpen);
-  };
+  // const toggleLoginModal = () => {
+  //   setIsLoginModalOpen(!isLoginModalOpen);
+  // };
 
-  const handleOddClick = (market, runner, odd, type) => {
-    dispatch(
-      setBetOdds({
-        market: { _id: market._id, name: market.name },
-        runner: {
-          _id: runner._id,
-          name: runner.name,
-          priority: runner.priority,
-        },
-        price: odd.price,
-        betType: type,
-      }),
-    );
-    dispatch(setBetStake(0));
-    dispatch(setMarketPlForecast({ marketId: market._id, plForecast: [0, 0] }));
-  };
-
-  return (
+  return loading ? (
+    <LoadingOverlay />
+  ) : (
     <div className="comman-bg">
-      <UncontrolledAccordion stayOpen>
-        {markets.map((market) => {
-          return (
-            <AccordionItem key={market?._id}>
-              <AccordionHeader
-                targetId={market?._id}
-                className="bet-table-header"
-              >
-                <div className="text-uppercase">{market.name}</div>
-                <div className="btn btn-success btn-sm disabled">Cashout</div>
-                <span className="max-bet d-none-desktop">
-                  <span title="Max : 1">
-                    Max: <span>1</span>
-                  </span>
+      <UncontrolledAccordion
+        defaultOpen={markets.map((mkt) => mkt._id)}
+        stayOpen
+      >
+        {markets.map((market) => (
+          <AccordionItem key={market?._id}>
+            <AccordionHeader
+              targetId={market?._id}
+              className="bet-table-header"
+            >
+              <div className="text-uppercase">{market.name}</div>
+              <div className="btn btn-success btn-sm disabled">Cashout</div>
+              <span className="max-bet d-none-desktop">
+                <span title="Max : 1">
+                  Max: <span>1</span>
                 </span>
-              </AccordionHeader>
+              </span>
+            </AccordionHeader>
 
-              <AccordionBody accordionId={market?._id}>
-                <div className="bet-table-row d-none-mobile">
-                  <div className="nation-name">
-                    <span className="max-bet">
-                      <span title="Max : 1">
-                        Max: <span>1</span>
-                      </span>
-                    </span>
-                  </div>
-                  <div className="back bl-title back-title">Back</div>
-                  <div className="lay bl-title lay-title">Lay</div>
-                </div>
-
-                {market?.runners?.map((runner) => {
-                  return (
-                    <div key={runner?.name}>
-                      <div className="bet-table-mobile-row d-none-desktop">
-                        <div className="bet-table-mobile-team-name">
-                          <span>{runner?.name || ''}</span>
-                        </div>
-                      </div>
-
-                      <div className="bet-table-row">
-                        <div className="nation-name d-none-mobile">
-                          <div className="w-100 d-flex justify-content-between align-items-center">
-                            <p>
-                              <span>{runner?.name || ''}</span>
-                              <span className="float-right" />
-                            </p>
-
-                            {market?.plForecast[runner?.priority] !== 0 ? (
-                              <div
-                                className={`small ${
-                                  market?.plForecast[runner?.priority] > 0
-                                    ? 'text-success'
-                                    : 'text-danger'
-                                }`}
-                              >
-                                {market?.plForecast[runner?.priority]}
-                              </div>
-                            ) : null}
-                          </div>
-                        </div>
-
-                        {runner?.back?.map((odd) => (
-                          <button
-                            type="button"
-                            className={`bl-box back back${odd?.level}`}
-                            key={odd?.level}
-                            onClick={() =>
-                              handleOddClick(market, runner, odd, betTypes.BACK)
-                            }
-                          >
-                            <span className="d-block odds">
-                              {odd?.price || 0}
-                            </span>
-                            <span className="d-block">{odd?.size || 0}</span>
-                          </button>
-                        ))}
-
-                        {runner?.lay?.map((odd) => (
-                          <button
-                            type="button"
-                            className={`bl-box lay lay${odd?.level}`}
-                            key={odd?.level}
-                            onClick={() =>
-                              handleOddClick(market, runner, odd, betTypes.LAY)
-                            }
-                          >
-                            <span className="d-block odds">
-                              {odd?.price || 0}
-                            </span>
-                            <span className="d-block">{odd?.size || 0}</span>
-                          </button>
-                        ))}
-                      </div>
-                    </div>
-                  );
-                })}
-              </AccordionBody>
-            </AccordionItem>
-          );
-        })}
+            <AccordionBody accordionId={market?._id}>
+              <Market market={market} />
+            </AccordionBody>
+          </AccordionItem>
+        ))}
       </UncontrolledAccordion>
 
-      <BetSlipPopup isOpen={isLoginModalOpen} toggle={toggleLoginModal} />
+      {/* <BetSlipPopup isOpen={isLoginModalOpen} toggle={toggleLoginModal} /> */}
     </div>
   );
 }

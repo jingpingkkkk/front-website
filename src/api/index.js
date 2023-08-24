@@ -35,7 +35,7 @@ const createHeaders = (useAuthToken = true) => {
   };
 
   if (useAuthToken) {
-    const token = localStorage.getItem('authToken');
+    const token = localStorage.getItem('userToken');
     if (token) {
       headers = {
         ...headers,

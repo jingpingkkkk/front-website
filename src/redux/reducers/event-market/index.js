@@ -4,7 +4,37 @@ export const eventMarketSlice = createSlice({
   name: 'eventMarket',
 
   initialState: {
+    /**
+     * {
+     *    eventId: String,
+     *    name: String,
+     * }
+     */
     event: {},
+
+    /**
+     * [
+     *    {
+     *      _id: String,
+     *      apiMarketId: String,
+     *      name: String,
+     *      eventName: String,
+     *      plForecast: [Number, Number],
+     *      minStake: Number,
+     *      maxStake: Number,
+     *      betDelay: Number, // in seconds
+     *      runners: [
+     *        {
+     *          _id: String,
+     *          name: String,
+     *          back: [{ price: Number, size: Number, level: Number }],
+     *          lay: [{ price: Number, size: Number, level: Number }],
+     *        }
+     *      ]
+     *    },
+     *    ...
+     * ]
+     */
     markets: [],
   },
 

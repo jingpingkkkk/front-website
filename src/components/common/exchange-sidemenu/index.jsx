@@ -1,6 +1,6 @@
 import { faCaretDown, faCaretUp } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import {
   Accordion,
@@ -9,8 +9,8 @@ import {
   AccordionItem,
   Spinner,
 } from 'reactstrap';
-import './exchangeMenu.css';
 import { getRequest } from '../../../api';
+import './exchangeMenu.css';
 import menuImages from './menu-images';
 
 function ExchangeSideMenu({ className = 'd-none d-lg-block' }) {
@@ -118,6 +118,7 @@ function ExchangeSideMenu({ className = 'd-none d-lg-block' }) {
                                         key={evnt?._id}
                                         className="sidebar-link"
                                         to="/matches"
+                                        state={{ eventId: evnt?._id }}
                                       >
                                         {evnt?.name || ''}
                                       </Link>
