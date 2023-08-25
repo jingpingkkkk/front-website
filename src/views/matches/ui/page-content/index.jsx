@@ -62,6 +62,7 @@ function MatchPageContent() {
           runners: market.market_runner.map((runner, index) => {
             return {
               _id: runner._id,
+              selectionId: runner.selectionId,
               name: runner.runnerName,
               priority: index,
             };

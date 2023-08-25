@@ -27,6 +27,7 @@ export const eventMarketSlice = createSlice({
      *      runners: [
      *        {
      *          _id: String,
+     *          selectionId: Number,
      *          name: String,
      *          back: [{ price: Number, size: Number, level: Number }],
      *          lay: [{ price: Number, size: Number, level: Number }],

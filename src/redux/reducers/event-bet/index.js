@@ -24,6 +24,7 @@ export const eventBetSlice = createSlice({
     /**
      * {
      *    _id: String,
+     *    apiMarketId: String,
      *    name: String,
      *    betDelay: Number, // in seconds
      *    minStake: Number,
@@ -35,6 +36,7 @@ export const eventBetSlice = createSlice({
     /**
      * {
      *    _id: String,
+     *    selectionId: Number,
      *    name: String,
      *    price: Number,
      * }

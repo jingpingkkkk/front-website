@@ -1,3 +1,4 @@
+/* eslint-disable no-else-return */
 import axios from 'axios';
 import ToastAlert from '../helper/toast-alert';
 
@@ -9,6 +10,7 @@ const handleError = (error) => {
   if (error.response) {
     console.log('Error status:', error.response.status);
     console.log('Error data:', error.response.data);
+    ToastAlert.error(error.response.data.message);
     if (error.response.status === 401) {
       localStorage.clear();
       window.location.href = '/';
@@ -19,6 +21,7 @@ const handleError = (error) => {
   } else {
     console.log('Error message:', error.message);
   }
+  return error;
 };
 
 const handleFormData = async (url, formData) => {
@@ -79,8 +82,7 @@ const makeRequest = async ({
     const response = await api(config);
     return response.data;
   } catch (error) {
-    handleError(error);
-    throw error;
+    return handleError(error);
   } finally {
     if (useAbortController) {
       source.cancel('Request aborted');

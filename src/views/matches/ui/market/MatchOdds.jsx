@@ -90,13 +90,15 @@ function MatchOdds({ market }) {
     const selectedOdd = {
       market: {
         _id: market._id,
+        apiMarketId: market.apiMarketId,
         name: market.name,
-        betDelay: 6,
+        betDelay: 0,
         minStake: market.minStake,
         maxStake: market.maxStake,
       },
       runner: {
         _id: runner._id,
+        selectionId: runner.selectionId,
         name: runner.name,
         priority: runner.priority,
       },
@@ -162,17 +164,17 @@ function MatchOdds({ market }) {
               </div>
 
               {runnerOdds[runner?.priority]?.back
-                ?.map((odd) => (
+                ?.map((odd, i) => (
                   <button
                     type="button"
-                    className={`bl-box back back${odd?.level}`}
-                    key={odd?.level}
+                    className={`bl-box back back${odd?.level || i}`}
+                    key={`back-${odd?.level || i}`}
                     onClick={() => handleOddClick(runner, odd, betTypes.BACK)}
                   >
-                    {odd.price !== 0 ? (
+                    {odd?.price && odd.price !== 0 ? (
                       <>
                         <span className="d-block odds">
-                          {odd?.price ? odd.price.toFixed(2) : 0}
+                          {odd?.price ? parseFloat(odd.price.toFixed(2)) : '-'}
                         </span>
                         <span className="d-block">
                           {odd?.size ? shortNumber(odd.size, 2) : 0}
@@ -185,17 +187,17 @@ function MatchOdds({ market }) {
                 ))
                 .reverse()}
 
-              {runnerOdds[runner?.priority]?.lay?.map((odd) => (
+              {runnerOdds[runner?.priority]?.lay?.map((odd, i) => (
                 <button
                   type="button"
-                  className={`bl-box lay lay${odd?.level}`}
-                  key={odd?.level}
+                  className={`bl-box lay lay${odd?.level || i}`}
+                  key={`lay-${odd?.level || i}`}
                   onClick={() => handleOddClick(runner, odd, betTypes.LAY)}
                 >
-                  {odd.price !== 0 ? (
+                  {odd?.price && odd.price !== 0 ? (
                     <>
                       <span className="d-block odds">
-                        {odd?.price ? odd.price.toFixed(2) : 0}
+                        {odd?.price ? parseFloat(odd.price.toFixed(2)) : '-'}
                       </span>
                       <span className="d-block">
                         {odd?.size ? shortNumber(odd.size, 2) : 0}

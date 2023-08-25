@@ -55,7 +55,9 @@ function BetPanel() {
 
       const body = {
         marketId: eventBet.market._id,
+        apiMarketId: eventBet.market.apiMarketId,
         runnerId: eventBet.runner._id,
+        runnerSelectionId: eventBet.runner.selectionId,
         eventId: eventMarket.event.eventId,
         odds: eventBet.price,
         stake: eventBet.stake,
@@ -81,8 +83,9 @@ function BetPanel() {
         setBetLoading(false);
       }, eventBet.market.betDelay * 1000);
     } catch (e) {
-      ToastAlert.danger(e.message);
       setBetLoading(false);
+      console.log(e);
+      // ToastAlert.error(e.message);
     }
   };
 
