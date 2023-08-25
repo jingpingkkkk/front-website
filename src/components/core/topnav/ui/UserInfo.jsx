@@ -46,7 +46,7 @@ const UserInfo = ({ user }) => {
       {showStakButton && (
         <StateButtons
           isOpen={showStakButton}
-          toggle={() => setShowStakeButton(!showStakButton)}
+          closeModal={() => setShowStakeButton(!showStakButton)}
         />
       )}
     </div>
