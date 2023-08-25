@@ -1,13 +1,18 @@
 import React from 'react';
-import './userInfo.css';
 import {
   DropdownItem,
   DropdownMenu,
   DropdownToggle,
   UncontrolledDropdown,
 } from 'reactstrap';
+import './userInfo.css';
 
 const UserInfo = ({ user }) => {
+  const logout = () => {
+    localStorage.clear();
+    window.location.href = '/';
+  };
+
   return (
     <div className="header-right">
       <div className="balance d-none-mobile">
@@ -36,7 +41,7 @@ const UserInfo = ({ user }) => {
           <DropdownItem>Casino Results</DropdownItem>
           <DropdownItem>Set Button Value</DropdownItem>
           <DropdownItem divider />
-          <DropdownItem>Logout</DropdownItem>
+          <DropdownItem onClick={() => logout()}>Logout</DropdownItem>
         </DropdownMenu>
       </UncontrolledDropdown>
     </div>

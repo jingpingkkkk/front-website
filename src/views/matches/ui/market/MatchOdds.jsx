@@ -10,14 +10,42 @@ import {
 } from '../../../../redux/reducers/event-bet';
 import { setMarketPlForecast } from '../../../../redux/reducers/event-market';
 
+const emptyOdds = {
+  0: {
+    back: [
+      { price: 0, level: 0 },
+      { price: 0, level: 1 },
+      { price: 0, level: 2 },
+    ],
+    lay: [
+      { price: 0, level: 0 },
+      { price: 0, level: 1 },
+      { price: 0, level: 2 },
+    ],
+  },
+  1: {
+    back: [
+      { price: 0, level: 0 },
+      { price: 0, level: 1 },
+      { price: 0, level: 2 },
+    ],
+    lay: [
+      { price: 0, level: 0 },
+      { price: 0, level: 1 },
+      { price: 0, level: 2 },
+    ],
+  },
+};
+
 const socketUrl = import.meta.env.VITE_SOCKET_URL;
 const marketUrl = `${socketUrl}/market`;
 
 function MatchOdds({ market }) {
   const dispatch = useDispatch();
+
   const socket = useMemo(() => io(marketUrl, { autoConnect: false }), []);
 
-  const [runnerOdds, setRunnerOdds] = useState({});
+  const [runnerOdds, setRunnerOdds] = useState(emptyOdds);
 
   useEffect(() => {
     socket.on('connect', () => {
@@ -57,6 +85,8 @@ function MatchOdds({ market }) {
   }, [market]);
 
   const handleOddClick = (runner, odd, type) => {
+    if (odd.price === 0) return;
+
     const selectedOdd = {
       market: {
         _id: market._id,
@@ -125,7 +155,7 @@ function MatchOdds({ market }) {
                           : 'text-danger'
                       }`}
                     >
-                      {market?.plForecast[runner?.priority]}
+                      {market?.plForecast[runner?.priority].toFixed(0)}
                     </div>
                   ) : null}
                 </div>
@@ -139,12 +169,18 @@ function MatchOdds({ market }) {
                     key={odd?.level}
                     onClick={() => handleOddClick(runner, odd, betTypes.BACK)}
                   >
-                    <span className="d-block odds">
-                      {odd?.price ? odd.price.toFixed(2) : 0}
-                    </span>
-                    <span className="d-block">
-                      {odd?.size ? shortNumber(odd.size, 2) : 0}
-                    </span>
+                    {odd.price !== 0 ? (
+                      <>
+                        <span className="d-block odds">
+                          {odd?.price ? odd.price.toFixed(2) : 0}
+                        </span>
+                        <span className="d-block">
+                          {odd?.size ? shortNumber(odd.size, 2) : 0}
+                        </span>
+                      </>
+                    ) : (
+                      <span>-</span>
+                    )}
                   </button>
                 ))
                 .reverse()}
@@ -156,12 +192,18 @@ function MatchOdds({ market }) {
                   key={odd?.level}
                   onClick={() => handleOddClick(runner, odd, betTypes.LAY)}
                 >
-                  <span className="d-block odds">
-                    {odd?.price ? odd.price.toFixed(2) : 0}
-                  </span>
-                  <span className="d-block">
-                    {odd?.size ? shortNumber(odd.size, 2) : 0}
-                  </span>
+                  {odd.price !== 0 ? (
+                    <>
+                      <span className="d-block odds">
+                        {odd?.price ? odd.price.toFixed(2) : 0}
+                      </span>
+                      <span className="d-block">
+                        {odd?.size ? shortNumber(odd.size, 2) : 0}
+                      </span>
+                    </>
+                  ) : (
+                    <span>-</span>
+                  )}
                 </button>
               ))}
             </div>

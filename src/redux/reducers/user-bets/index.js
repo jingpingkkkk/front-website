@@ -1,4 +1,4 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice, current } from '@reduxjs/toolkit';
 
 export const userBetsSlice = createSlice({
   name: 'userBets',
@@ -9,16 +9,12 @@ export const userBetsSlice = createSlice({
      *    [eventId]: {
      *      [marketId]: [
      *        {
-     *          market: eventBet.market,
-     *          runner: eventBet.runner,
-     *          bet: {
-     *            _id: String,
-     *            result: String, // 'running' | 'won' | 'lost' | 'void' | 'cash_out'
-     *            odds: Number,
-     *            stake: Number,
-     *            isBack: Boolean,
-     *            createdAt: DateTime,
-     *          }
+     *          marketName: String,
+     *          runnerName: String,
+     *          odds: Number,
+     *          stake: Number,
+     *          isBack: Boolean,
+     *          createdAt: DateTime,
      *        },
      *      ],
      *    },
@@ -28,25 +24,58 @@ export const userBetsSlice = createSlice({
   },
 
   reducers: {
-    addUserBet: (state, action) => {
-      const { eventId, market, runner, bet } = action.payload;
-      const currentEventMarket = state.eventMarketBets[eventId] || [];
+    addEventMarketBets: (state, action) => {
+      const { eventId, marketBets } = action.payload;
 
-      if (currentEventMarket.length > 0) {
-        const currentMarketBets = currentEventMarket[market._id] || [];
-        state.eventMarketBets[eventId][market._id] = [
-          { market, runner, bet },
+      const betsByMarket = {};
+
+      marketBets.forEach(({ market, bets }) => {
+        betsByMarket[market._id] = bets.map((bet) => ({
+          _id: bet._id,
+          marketName: market.name,
+          runnerName: bet.runner,
+          odds: bet.odds,
+          stake: bet.stake,
+          isBack: bet.isBack,
+          createdAt: bet.createdAt,
+        }));
+      });
+
+      state.eventMarketBets[eventId] = betsByMarket;
+    },
+
+    addUserBet: (state, action) => {
+      const { betDetails, eventBet } = action.payload;
+      const { eventId, marketId } = betDetails;
+
+      const { eventMarketBets } = current(state);
+      const currentEventMarket = eventMarketBets[eventId] || {};
+
+      const betObj = {
+        _id: betDetails._id,
+        marketName: eventBet.market.name,
+        runnerName: eventBet.runner.name,
+        odds: betDetails.odds,
+        stake: betDetails.stake,
+        isBack: betDetails.isBack,
+        createdAt: betDetails.createdAt,
+      };
+
+      if (currentEventMarket) {
+        const currentMarketBets = currentEventMarket[marketId] || [];
+        state.eventMarketBets[eventId][marketId] = [
+          betObj,
           ...currentMarketBets,
         ];
       } else {
         state.eventMarketBets[eventId] = {
-          [market._id]: [{ market, runner, bet }],
+          [marketId]: [betObj],
         };
       }
     },
   },
 });
 
-export const { addUserBet } = userBetsSlice.actions;
+export const { addUserBet, addEventMarketBets } = userBetsSlice.actions;
 
 export default userBetsSlice.reducer;

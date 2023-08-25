@@ -66,27 +66,11 @@ function BetPanel() {
       };
 
       const result = await postRequest('bet/createBet', body);
-      console.log(result);
-
       if (!result.success) {
         throw new Error(result.message);
       }
 
-      const { details } = result.data;
-      const newBet = {
-        eventId: details.eventId,
-        market: eventBet.market,
-        runner: eventBet.runner,
-        bet: {
-          _id: details._id,
-          result: details.betResultStatus,
-          odds: details.odds,
-          stake: details.stake,
-          isBack: details.isBack,
-          createdAt: details.createdAt,
-        },
-      };
-
+      const newBet = { betDetails: result.data.details, eventBet };
       const forecast = { marketId: eventBet.market._id, plForecast: [0, 0] };
 
       setTimeout(() => {

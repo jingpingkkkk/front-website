@@ -8,6 +8,7 @@ export const eventMarketSlice = createSlice({
      * {
      *    eventId: String,
      *    name: String,
+     *    startsOn: DateTime,
      * }
      */
     event: {},

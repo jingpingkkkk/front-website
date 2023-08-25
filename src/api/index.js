@@ -1,4 +1,5 @@
 import axios from 'axios';
+import ToastAlert from '../helper/toast-alert';
 
 const api = axios.create({
   baseURL: import.meta.env.VITE_API_URL,
@@ -8,6 +9,11 @@ const handleError = (error) => {
   if (error.response) {
     console.log('Error status:', error.response.status);
     console.log('Error data:', error.response.data);
+    if (error.response.status === 401) {
+      localStorage.clear();
+      window.location.href = '/';
+      ToastAlert.warning('Session expired, please login again');
+    }
   } else if (error.request) {
     console.log('No response received');
   } else {

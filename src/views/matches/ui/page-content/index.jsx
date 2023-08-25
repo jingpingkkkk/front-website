@@ -9,12 +9,13 @@ import {
 } from 'reactstrap';
 import { postRequest } from '../../../../api';
 import LoadingOverlay from '../../../../components/common/loading-overlay';
-import { resetEventBet } from '../../../../redux/reducers/event-bet';
+import eventBet, { resetEventBet } from '../../../../redux/reducers/event-bet';
 import {
   resetEventMarket,
   setEvent,
   setMarkets,
 } from '../../../../redux/reducers/event-market';
+import { addEventMarketBets } from '../../../../redux/reducers/user-bets';
 import Market from '../market';
 import './matches.css';
 
@@ -31,15 +32,19 @@ function MatchPageContent() {
 
   const fetchEventMarkets = async () => {
     setLoading(true);
-    const result = await postRequest(
-      'event/getEventMatchDataFront',
-      { eventId },
-      false,
-    );
+    const result = await postRequest('event/getEventMatchDataFront', {
+      eventId,
+    });
 
     if (result?.success) {
       const event = result.data.details;
-      dispatch(setEvent({ eventId: event._id, name: event?.name }));
+      dispatch(
+        setEvent({
+          eventId: event._id,
+          name: event?.name,
+          startsOn: event.matchDate,
+        }),
+      );
 
       const marketData = event.market.map((market) => {
         return {
@@ -68,17 +73,33 @@ function MatchPageContent() {
     setLoading(false);
   };
 
+  const fetchUserEventBets = async () => {
+    const result = await postRequest('bet/getUserEventBets', { eventId });
+    if (result?.success) {
+      const marketBets = result.data.details;
+      dispatch(addEventMarketBets({ eventId, marketBets }));
+    }
+  };
+
   useEffect(() => {
     if (!eventId) {
       navigate('/sports');
     }
-    fetchEventMarkets();
+    Promise.all([fetchEventMarkets(), fetchUserEventBets()]);
     return () => {
       dispatch(resetEventBet());
       dispatch(resetEventMarket());
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [eventId]);
+
+  useEffect(() => {
+    if (!eventId) {
+      navigate('/sports');
+    }
+    fetchUserEventBets();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [eventBet.market]);
 
   // const toggleLoginModal = () => {
   //   setIsLoginModalOpen(!isLoginModalOpen);
