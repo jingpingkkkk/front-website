@@ -39,6 +39,7 @@ export const eventBetSlice = createSlice({
      *    selectionId: Number,
      *    name: String,
      *    price: Number,
+     *    pl: Number,
      * }
      */
     runner: {},

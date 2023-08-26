@@ -1,3 +1,4 @@
+import moment from 'moment';
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useLocation, useNavigate } from 'react-router-dom';
@@ -25,7 +26,7 @@ function MatchPageContent() {
   const { eventId = null } = location.state || {};
 
   const dispatch = useDispatch();
-  const { markets } = useSelector((state) => state.eventMarket);
+  const eventMarket = useSelector((state) => state.eventMarket);
 
   const [loading, setLoading] = useState(false);
   // const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
@@ -42,6 +43,7 @@ function MatchPageContent() {
         setEvent({
           eventId: event._id,
           name: event?.name,
+          competitionName: event?.competitionName,
           startsOn: event.matchDate,
         }),
       );
@@ -53,18 +55,19 @@ function MatchPageContent() {
           name: market.name,
           eventName: event.name,
           plForecast: [0, 0],
-          // minStake: market.minStake,
-          // maxStake: market.maxStake,
-          // betDelay: market.betDelay,
-          minStake: 100,
-          maxStake: 200000,
-          betDelay: 5,
+          minStake: market.minStake,
+          maxStake: market.maxStake,
+          betDelay: market.betDelay,
+          // minStake: 100,
+          // maxStake: 200000,
+          // betDelay: 5,
           runners: market.market_runner.map((runner, index) => {
             return {
               _id: runner._id,
               selectionId: runner.selectionId,
               name: runner.runnerName,
               priority: index,
+              pl: 0,
             };
           }),
         };
@@ -110,11 +113,22 @@ function MatchPageContent() {
     <LoadingOverlay />
   ) : (
     <div className="comman-bg">
+      <div className="d-flex justify-content-between align-items-center custom-buttton">
+        <div>
+          {eventMarket.event.competitionName} &gt; {eventMarket.event.name}
+        </div>
+        <div>
+          {moment(eventMarket.event.startsOn).format(
+            'DD/MM/YYYY HH:mm:ss (UTCZ)',
+          )}
+        </div>
+      </div>
       <UncontrolledAccordion
-        defaultOpen={markets.map((mkt) => mkt._id)}
+        className="mt-1"
+        defaultOpen={eventMarket.markets.map((mkt) => mkt._id)}
         stayOpen
       >
-        {markets.map((market) => (
+        {eventMarket.markets.map((market) => (
           <AccordionItem key={market?._id}>
             <AccordionHeader
               targetId={market?._id}
@@ -135,7 +149,6 @@ function MatchPageContent() {
           </AccordionItem>
         ))}
       </UncontrolledAccordion>
-
       {/* <BetSlipPopup isOpen={isLoginModalOpen} toggle={toggleLoginModal} /> */}
     </div>
   );

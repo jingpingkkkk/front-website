@@ -27,7 +27,11 @@ function BetPanel() {
 
   const updateStake = ({ stake = null, price = null }) => {
     const { betType, market } = eventBet;
-    const { priority } = eventBet.runner;
+    const { priority, pl, _id } = eventBet.runner;
+
+    const oppRunner = eventMarket.markets
+      .find((mkt) => mkt._id === market._id)
+      ?.runners.find((runner) => runner._id !== _id);
 
     const quantity = stake || eventBet.stake;
     const rate = price || eventBet.price;
@@ -35,11 +39,11 @@ function BetPanel() {
     const plForecast = [0, 0];
 
     if (betType === betTypes.BACK) {
-      plForecast[priority] = rate * quantity - quantity;
-      plForecast[priority === 0 ? 1 : 0] = -quantity;
+      plForecast[priority] = pl + rate * quantity - quantity;
+      plForecast[priority === 0 ? 1 : 0] = oppRunner.pl + -quantity;
     } else {
-      plForecast[priority] = -(rate * quantity - quantity);
-      plForecast[priority === 0 ? 1 : 0] = quantity;
+      plForecast[priority] = pl + -(rate * quantity - quantity);
+      plForecast[priority === 0 ? 1 : 0] = oppRunner.pl + quantity;
     }
 
     dispatch(setBetStake(quantity));
@@ -138,7 +142,7 @@ function BetPanel() {
                               step="1"
                               value={eventBet?.price || 0}
                               onChange={(e) =>
-                                updateStake({ price: e.target.value })
+                                updateStake({ price: Number(e.target.value) })
                               }
                             />
                           </p>
@@ -152,7 +156,9 @@ function BetPanel() {
                     placeholder="Amount"
                     className="type-aminunt form-control"
                     value={eventBet?.stake || 0}
-                    onChange={(e) => updateStake({ stake: e.target.value })}
+                    onChange={(e) =>
+                      updateStake({ stake: Number(e.target.value) })
+                    }
                   />
 
                   <div className="amount-choose">
@@ -180,9 +186,7 @@ function BetPanel() {
             </div>
           </div>
         </div>
-      ) : (
-        ''
-      )}
+      ) : null}
     </div>
   );
 }
