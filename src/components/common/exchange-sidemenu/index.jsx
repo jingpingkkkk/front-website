@@ -48,7 +48,7 @@ function ExchangeSideMenu({ className = 'd-none d-lg-block' }) {
 
   return (
     <nav id="sidebar" className={className}>
-      <div className="search-bar">
+      {/* <div className="search-bar">
         <form className="search-container">
           <img
             className="search-icon"
@@ -57,7 +57,7 @@ function ExchangeSideMenu({ className = 'd-none d-lg-block' }) {
           />
           <input type="text" id="search-bar" placeholder="Search" />
         </form>
-      </div>
+      </div> */}
 
       <ul className="list-unstyled components">
         <li className="all-sports text-deco">

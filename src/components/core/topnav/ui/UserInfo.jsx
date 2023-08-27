@@ -40,7 +40,7 @@ const UserInfo = ({ user }) => {
 
   return (
     <div className="header-right">
-      <div className="balance d-none-mobile">
+      <div className="balance d-none-mobile rounded">
         <div>
           <img src="./images/ico2.png" alt="wallet" />
         </div>
