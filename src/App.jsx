@@ -5,11 +5,11 @@ import {
   BrowserRouter as Router,
   Routes,
 } from 'react-router-dom';
-import LoadingOverlay from './components/core/loading-overlay';
-import Matches from './views/matches';
+import LoadingOverlay from './components/common/loading-overlay';
 
 const ErrorStatus404 = React.lazy(() => import('./views/error-views/404'));
 const Sports = React.lazy(() => import('./views/sports'));
+const Matches = React.lazy(() => import('./views/matches'));
 
 function App() {
   return (

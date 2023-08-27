@@ -1,6 +1,6 @@
 import React, { Suspense } from 'react';
+import LoadingOverlay from '../../components/common/loading-overlay';
 import AppLayout from '../../components/core/app-layout';
-import LoadingOverlay from '../../components/core/loading-overlay';
 
 const ExchangeSideMenu = React.lazy(() =>
   import('../../components/common/exchange-sidemenu'),

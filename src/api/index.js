@@ -1,4 +1,6 @@
+/* eslint-disable no-else-return */
 import axios from 'axios';
+import ToastAlert from '../helper/toast-alert';
 
 const api = axios.create({
   baseURL: import.meta.env.VITE_API_URL,
@@ -8,11 +10,18 @@ const handleError = (error) => {
   if (error.response) {
     console.log('Error status:', error.response.status);
     console.log('Error data:', error.response.data);
+    ToastAlert.error(error.response.data.message);
+    if (error.response.status === 401) {
+      localStorage.clear();
+      window.location.href = '/';
+      ToastAlert.warning('Session expired, please login again');
+    }
   } else if (error.request) {
     console.log('No response received');
   } else {
     console.log('Error message:', error.message);
   }
+  return error;
 };
 
 const handleFormData = async (url, formData) => {
@@ -35,7 +44,7 @@ const createHeaders = (useAuthToken = true) => {
   };
 
   if (useAuthToken) {
-    const token = localStorage.getItem('authToken');
+    const token = localStorage.getItem('userToken');
     if (token) {
       headers = {
         ...headers,
@@ -73,8 +82,7 @@ const makeRequest = async ({
     const response = await api(config);
     return response.data;
   } catch (error) {
-    handleError(error);
-    throw error;
+    return handleError(error);
   } finally {
     if (useAbortController) {
       source.cancel('Request aborted');
