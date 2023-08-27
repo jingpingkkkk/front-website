@@ -85,7 +85,8 @@ function BetPanel() {
         dispatch(resetEventBet());
         ToastAlert.success('Bet placed successfully.');
         setBetLoading(false);
-      }, eventBet.market.betDelay * 1000);
+        // }, eventBet.market.betDelay * 1000);
+      }, 5 * 1000);
     } catch (e) {
       setBetLoading(false);
       console.log(e);
@@ -111,7 +112,15 @@ function BetPanel() {
 
                         <button
                           type="button"
-                          onClick={() => dispatch(resetEventBet())}
+                          onClick={() => {
+                            dispatch(resetEventBet());
+                            dispatch(
+                              setMarketPlForecast({
+                                marketId: eventBet.market._id,
+                                plForecast: [0, 0],
+                              }),
+                            );
+                          }}
                           className="close-bet float-right"
                         >
                           <img
