@@ -45,7 +45,7 @@ function SportsTabs({ availableSports, onClick }) {
               <button
                 type="button"
                 style={{ all: 'unset', cursor: 'pointer' }}
-                onClick={() => onClick(sport?._id)}
+                onClick={() => onClick(sport?._id, sport.name)}
               >
                 <div className="tab-main">
                   <img src={imgPath} alt={sport.name} />
