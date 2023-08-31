@@ -363,15 +363,7 @@
   .bl-box span {
     font-size: 12px;
   }
-  .bet-table-popup .modal-content {
-    background-color: #333;
-  }
-  .bet-table-popup .modal-body {
-    padding: 5px;
-  }
-  .bet-table-popup .modal-title {
-    font-size: 14px;
-  }
+
   .dashboard-data {
     margin-bottom: 0;
     border-bottom-right-radius: 0;
@@ -445,4 +437,13 @@
   .bet-amount-disc .points p.qty input#qty {
     width: 100%;
   }
+}
+.bet-table-popup .modal-content {
+  background-color: #333;
+}
+.bet-table-popup .modal-body {
+  padding: 5px;
+}
+.bet-table-popup .modal-title {
+  font-size: 14px;
 }

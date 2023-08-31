@@ -6,7 +6,11 @@ import {
   UncontrolledDropdown,
 } from 'reactstrap';
 import { io } from 'socket.io-client';
+import StateButtons from '../../stake-button-popup';
 import './userInfo.css';
+
+// const UserInfo = ({ user }) => {
+//   const [showStakButton, setShowStakeButton] = useState(false);
 
 const socketUrl = import.meta.env.VITE_SOCKET_URL;
 const userUrl = `${socketUrl}/user`;
@@ -19,6 +23,7 @@ const socket = io(userUrl, {
 
 const UserInfo = ({ user }) => {
   const [userInfo, setUserInfo] = useState(user);
+  const [showStakButton, setShowStakeButton] = useState(false);
 
   useEffect(() => {
     socket.on(`user:${user._id}`, (data) => {
@@ -81,11 +86,19 @@ const UserInfo = ({ user }) => {
           <DropdownItem>Account Statement</DropdownItem>
           <DropdownItem>Current Bets</DropdownItem>
           <DropdownItem>Casino Results</DropdownItem>
-          <DropdownItem>Set Button Value</DropdownItem>
+          <DropdownItem onClick={() => setShowStakeButton(true)}>
+            Set Button Value
+          </DropdownItem>
           <DropdownItem divider />
           <DropdownItem onClick={() => logout()}>Logout</DropdownItem>
         </DropdownMenu>
       </UncontrolledDropdown>
+      {showStakButton && (
+        <StateButtons
+          isOpen={showStakButton}
+          closeModal={() => setShowStakeButton(!showStakButton)}
+        />
+      )}
     </div>
   );
 };
