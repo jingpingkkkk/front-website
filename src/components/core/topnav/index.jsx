@@ -2,7 +2,10 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { NavLink } from 'react-router-dom';
 import { postRequest } from '../../../api';
-import { setUserDetails } from '../../../redux/reducers/user-details';
+import {
+  setStakeButtons,
+  setUserDetails,
+} from '../../../redux/reducers/user-details';
 import LoginPopup from '../login-popup';
 import RegisterPopup from '../register-popup';
 import WelcomePopup from '../welcome-popup';
@@ -28,10 +31,24 @@ function Topnav() {
   };
 
   useEffect(() => {
+    const getUserStakeButtons = async () => {
+      const result = await postRequest('stake/getUserStakes');
+      if (result?.success) {
+        const gameButtons = result.data.details.find(
+          (el) => el.stakeType === 'games',
+        );
+        const casinoButtons = result.data.details.find(
+          (el) => el.stakeType === 'casino',
+        );
+        dispatch(setStakeButtons({ casinoButtons, gameButtons }));
+      }
+    };
+
     const rehydrateUser = async () => {
       const result = await postRequest('users/rehydrateUser');
       if (result.success) {
         dispatch(setUserDetails(result.data.user));
+        await getUserStakeButtons();
       }
     };
     rehydrateUser();
