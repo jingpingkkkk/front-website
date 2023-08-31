@@ -3,6 +3,7 @@
 import React from 'react';
 import '../../../matches/ui/page-content/matches.css';
 import moment from 'moment';
+import { Link } from 'react-router-dom';
 import menuImages from '../../../../components/common/exchange-sidemenu/menu-images';
 
 function EventList({ events, sportName }) {
@@ -44,14 +45,18 @@ function EventList({ events, sportName }) {
                     </p>
                   </div>
                   <div className="game-name d-inline-block">
-                    <a className="text-decoration-none" href="/">
+                    <Link
+                      className="text-decoration-none"
+                      to="/matches"
+                      state={{ eventId: event?._id }}
+                    >
                       <p className="team-name text-left">
                         {event?.eventName || ''}
                       </p>
                       <p className="team-name text-left team-event">
                         ({event?.competitionName || ''})
                       </p>
-                    </a>
+                    </Link>
                   </div>
                   <div className="game-icons">
                     <div className="game-icon">
@@ -64,10 +69,14 @@ function EventList({ events, sportName }) {
                 </div>
                 <div className="point-title">
                   <div className="back bl-box event-box">
-                    <span className="d-block odds">1.79</span>
+                    <span className="d-block odds">
+                      {event?.matchOdds[0]?.back[0]?.price || ''}
+                    </span>
                   </div>
                   <div className="lay bl-box event-box">
-                    <span className="d-block odds">1.82</span>
+                    <span className="d-block odds">
+                      {event?.matchOdds[0]?.lay[0]?.price || ''}
+                    </span>
                   </div>
                 </div>
                 <div className="point-title">
@@ -80,10 +89,14 @@ function EventList({ events, sportName }) {
                 </div>
                 <div className="point-title">
                   <div className="back bl-box event-box">
-                    <span className="d-block odds">2.22</span>
+                    <span className="d-block odds">
+                      {event?.matchOdds[1]?.back[0]?.price || ''}
+                    </span>
                   </div>
                   <div className="lay bl-box event-box">
-                    <span className="d-block odds">2.28</span>
+                    <span className="d-block odds">
+                      {event?.matchOdds[1]?.lay[0]?.price || ''}
+                    </span>
                   </div>
                 </div>
               </div>

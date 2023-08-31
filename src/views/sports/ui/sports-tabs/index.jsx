@@ -11,6 +11,7 @@ function SportsTabs({ availableSports, onClick }) {
 
   const [step, setStep] = useState(0);
   const [sports, setSports] = useState(availableSports);
+  const [sportId, setSportId] = useState(availableSports[0]?._id);
 
   // useEffect(() => {
   //   setSports(availableSports.slice(0, perView));
@@ -30,6 +31,11 @@ function SportsTabs({ availableSports, onClick }) {
     setSports(availableSports.slice(newStep, step + perView));
   };
 
+  const onClickSport = (id, name) => {
+    setSportId(id);
+    onClick(id, name);
+  };
+
   return (
     <div className="sport-tabs">
       {/* Prev */}
@@ -45,9 +51,13 @@ function SportsTabs({ availableSports, onClick }) {
               <button
                 type="button"
                 style={{ all: 'unset', cursor: 'pointer' }}
-                onClick={() => onClick(sport?._id, sport.name)}
+                onClick={() => onClickSport(sport?._id, sport.name)}
               >
-                <div className="tab-main">
+                <div
+                  className={`tab-main ${
+                    sport?._id === sportId ? 'active' : ''
+                  }`}
+                >
                   <img src={imgPath} alt={sport.name} />
 
                   <div className="title-area">{sport?.name || ''}</div>

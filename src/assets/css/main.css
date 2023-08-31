@@ -1811,3 +1811,6 @@ nav#sidebar li.all-sports.text-deco a {
   padding-left: 10px;
   padding-right: 10px;
 }
+.table-section .sport-tabs .tab-main.active {
+  background-color: #3c444b;
+}
