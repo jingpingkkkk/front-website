@@ -1,11 +1,15 @@
 import { configureStore } from '@reduxjs/toolkit';
+import eventBetReducer from './reducers/event-bet';
+import eventMarketReducer from './reducers/event-market';
+import userBetsReducer from './reducers/user-bets';
 import userReducer from './userSlice';
-import dataReducer from './reducers';
 
 const store = configureStore({
   reducer: {
     user: userReducer,
-    data: dataReducer,
+    userBets: userBetsReducer,
+    eventBet: eventBetReducer,
+    eventMarket: eventMarketReducer,
   },
 });
 

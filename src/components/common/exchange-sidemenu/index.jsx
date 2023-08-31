@@ -1,6 +1,6 @@
 import { faCaretDown, faCaretUp } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import {
   Accordion,
@@ -9,8 +9,8 @@ import {
   AccordionItem,
   Spinner,
 } from 'reactstrap';
-import './exchangeMenu.css';
 import { getRequest } from '../../../api';
+import './exchangeMenu.css';
 import menuImages from './menu-images';
 
 function ExchangeSideMenu({ className = 'd-none d-lg-block' }) {
@@ -48,7 +48,7 @@ function ExchangeSideMenu({ className = 'd-none d-lg-block' }) {
 
   return (
     <nav id="sidebar" className={className}>
-      <div className="search-bar">
+      {/* <div className="search-bar">
         <form className="search-container">
           <img
             className="search-icon"
@@ -57,7 +57,7 @@ function ExchangeSideMenu({ className = 'd-none d-lg-block' }) {
           />
           <input type="text" id="search-bar" placeholder="Search" />
         </form>
-      </div>
+      </div> */}
 
       <ul className="list-unstyled components">
         <li className="all-sports text-deco">
@@ -118,6 +118,7 @@ function ExchangeSideMenu({ className = 'd-none d-lg-block' }) {
                                         key={evnt?._id}
                                         className="sidebar-link"
                                         to="/matches"
+                                        state={{ eventId: evnt?._id }}
                                       >
                                         {evnt?.name || ''}
                                       </Link>

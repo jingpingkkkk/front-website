@@ -3,7 +3,6 @@ import { Modal, ModalBody } from 'reactstrap';
 import './welcome-popup.css';
 
 const WelcomePopup = ({ isOpen, onClose }) => {
-  console.log('Welcome', isOpen);
   return (
     <Modal
       isOpen={isOpen}
