@@ -1,12 +1,15 @@
 import React, { useState } from 'react';
-import { Label, Modal, ModalBody } from 'reactstrap';
-import './login-popup.css';
 import { useForm } from 'react-hook-form';
+import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router';
+import { Label, Modal, ModalBody } from 'reactstrap';
 import { postRequest } from '../../../api';
 import ipDetails from '../../../helper/ip-information';
+import { setUserDetails } from '../../../redux/reducers/user-details';
+import './login-popup.css';
 
 const LoginPopup = ({ isOpen, toggle }) => {
+  const dispatch = useDispatch();
   const {
     register,
     handleSubmit,
@@ -27,6 +30,7 @@ const LoginPopup = ({ isOpen, toggle }) => {
       const result = await postRequest('auth/userLogin', data, false);
       if (result?.success) {
         setLoading(false);
+        dispatch(setUserDetails(result?.data?.user));
         localStorage.setItem('user', JSON.stringify(result?.data?.user));
         localStorage.setItem('userToken', result?.data?.token);
         localStorage.setItem('isWelcome', true);

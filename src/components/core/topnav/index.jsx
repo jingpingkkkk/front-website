@@ -1,15 +1,20 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
+import { useDispatch } from 'react-redux';
 import { NavLink } from 'react-router-dom';
+import { postRequest } from '../../../api';
+import { setUserDetails } from '../../../redux/reducers/user-details';
+import LoginPopup from '../login-popup';
+import RegisterPopup from '../register-popup';
+import WelcomePopup from '../welcome-popup';
 import topNavItems from './api/top-nav-items';
 import './topNav.css';
 import MenuToggleButton from './ui/MenuToggleButton';
 import StickyHeader from './ui/StickyHeader';
-import LoginPopup from '../login-popup';
-import RegisterPopup from '../register-popup';
-import WelcomePopup from '../welcome-popup';
 import UserInfo from './ui/UserInfo';
 
 function Topnav() {
+  const dispatch = useDispatch();
+
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
   const [isRegisterModalOpen, setIsRegisterModalOpen] = useState(false);
   const [user, setUser] = useState('');
@@ -21,6 +26,17 @@ function Topnav() {
   const toggleRegisterModal = () => {
     setIsRegisterModalOpen(!isRegisterModalOpen);
   };
+
+  useEffect(() => {
+    const rehydrateUser = async () => {
+      const result = await postRequest('users/rehydrateUser');
+      if (result.success) {
+        dispatch(setUserDetails(result.data.user));
+      }
+    };
+    rehydrateUser();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   useEffect(() => {
     const item = JSON.parse(localStorage.getItem('user'));
