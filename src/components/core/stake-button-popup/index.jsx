@@ -12,6 +12,7 @@ const StateButtons = ({ isOpen, closeModal }) => {
     register,
     clearErrors,
     formState: { errors },
+    watch,
   } = useForm();
 
   const [activeTab, setActiveTab] = useState('games');
@@ -140,22 +141,34 @@ const StateButtons = ({ isOpen, closeModal }) => {
                     {!loading &&
                       inputValues?.map((stake, index) => (
                         <tr key={stake?.priceLabel}>
-                          <td>
+                          <td className="w-50">
                             <input
                               type="text"
                               className="form-control bg-transparent text-white"
                               {...register(
                                 `${activeTab}.inputValues.${index}.priceLabel`,
                                 {
-                                  required: `The Price Label ${
-                                    index + 1
-                                  } field is required`,
+                                  required:
+                                    index < 7
+                                      ? `The Price Label ${
+                                          index + 1
+                                        } field is required`
+                                      : false,
+                                  validate: (value) => {
+                                    const firstFieldValue = watch(
+                                      `${activeTab}.inputValues.${index}.priceValue`,
+                                    );
+                                    if (firstFieldValue && !value) {
+                                      return 'Price Label field is required when the Price Value field is filled.';
+                                    }
+                                    return true;
+                                  },
                                 },
                               )}
                             />
                             {errors[activeTab]?.inputValues?.[index]
                               ?.priceLabel ? (
-                              <div className="text-danger small mt-1">
+                              <div className="text-danger small mt-1 w-100">
                                 {
                                   errors?.[activeTab]?.inputValues?.[index]
                                     ?.priceLabel?.message
@@ -165,16 +178,28 @@ const StateButtons = ({ isOpen, closeModal }) => {
                               ''
                             )}
                           </td>
-                          <td>
+                          <td className="w-50">
                             <input
                               type="number"
                               className="form-control bg-transparent text-white"
                               {...register(
                                 `${activeTab}.inputValues.${index}.priceValue`,
                                 {
-                                  required: `The Price Value ${
-                                    index + 1
-                                  } field is required`,
+                                  required:
+                                    index < 7
+                                      ? `The Price Value ${
+                                          index + 1
+                                        } field is required`
+                                      : false,
+                                  validate: (value) => {
+                                    const firstFieldValue = watch(
+                                      `${activeTab}.inputValues.${index}.priceLabel`,
+                                    );
+                                    if (firstFieldValue && !value) {
+                                      return 'Price Value field is required when the Price Label field is filled.';
+                                    }
+                                    return true;
+                                  },
                                 },
                               )}
                             />

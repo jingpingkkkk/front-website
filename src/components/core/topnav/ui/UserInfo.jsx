@@ -12,27 +12,18 @@ import './userInfo.css';
 // const UserInfo = ({ user }) => {
 //   const [showStakButton, setShowStakeButton] = useState(false);
 
-// const socketUrl = import.meta.env.VITE_SOCKET_URL;
-// const userUrl = `${socketUrl}/user`;
-// const socket = io(userUrl, {
-//   auth: {
-//     token: localStorage.getItem('userToken'),
-//   },
-//   autoConnect: false,
-// });
+const socketUrl = import.meta.env.VITE_SOCKET_URL;
+const userUrl = `${socketUrl}/user`;
+const socket = io(userUrl, {
+  auth: {
+    token: localStorage.getItem('userToken'),
+  },
+  autoConnect: false,
+});
 
 const UserInfo = ({ user }) => {
   const [userInfo, setUserInfo] = useState(user);
   const [showStakButton, setShowStakeButton] = useState(false);
-
-  const socketUrl = import.meta.env.VITE_SOCKET_URL;
-  const userUrl = `${socketUrl}/user`;
-  const socket = io(userUrl, {
-    auth: {
-      token: localStorage.getItem('userToken'),
-    },
-    autoConnect: false,
-  });
 
   useEffect(() => {
     socket.on(`user:${user._id}`, (data) => {

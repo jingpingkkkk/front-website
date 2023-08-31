@@ -74,6 +74,9 @@
 .dropdown-menu-dark .dropdown-divider {
   border-top: 1px solid rgb(46 52 57);
 }
+.form-control:disabled {
+  background-color: #3c444b !important;
+}
 @media only screen and (min-width: 320px) and (max-width: 1279px) {
   .d-none-mobile {
     display: none !important;
