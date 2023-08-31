@@ -1814,3 +1814,82 @@ nav#sidebar li.all-sports.text-deco a {
 .table-section .sport-tabs .tab-main.active {
   background-color: #3c444b;
 }
+.upcoming-fixure {
+  background-color: #101215;
+  margin-bottom: 13px;
+  border-radius: 10px;
+}
+.fixure-title {
+  text-align: center;
+  position: relative;
+  height: 46px;
+  display: flex;
+  display: -webkit-flex;
+  justify-content: center;
+  align-items: center;
+  margin-right: 25px;
+  background-color: #3c444b;
+  color: #aaafb5;
+  font-size: 12px;
+  padding-left: 10px;
+  width: 15%;
+  border-radius: 10px 0px 0px 10px;
+}
+.fixure-title::after {
+  content: '';
+  position: absolute;
+  width: 46px;
+  height: 46px;
+  border-top: 23px solid transparent;
+  border-left: 23px solid #3c444b;
+  border-bottom: 23px solid transparent;
+  right: -46px;
+  top: 0;
+}
+.fixure-box-container {
+  width: 85%;
+  display: flex;
+  align-items: center;
+}
+.fixure-box {
+  margin-right: 20px;
+  padding: 5px;
+  font-size: 14px;
+  line-height: 1;
+  color: #aaafb5;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: flex-start;
+  text-align: left;
+}
+.fixure-box > div:first-child {
+  display: block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  max-width: 100%;
+  margin-bottom: 2px;
+}
+@media only screen and (min-width: 320px) and (max-width: 1279px) {
+  .new-container {
+    display: block !important;
+  }
+  .marqueee-row {
+    width: 100% !important;
+  }
+  .upcoming-fixure {
+    width: 100% !important;
+    margin-left: 0 !important;
+  }
+  .fixure-box-container {
+    width: 75% !important;
+  }
+  .fixure-title {
+    width: 25% !important;
+  }
+  .fixure-box {
+    font-size: 12px;
+  }
+}
