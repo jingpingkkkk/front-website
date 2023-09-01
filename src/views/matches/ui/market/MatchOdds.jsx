@@ -5,11 +5,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { io } from 'socket.io-client';
 import { postRequest } from '../../../../api';
 import shortNumber from '../../../../helper/number';
-import {
-  betTypes,
-  setBetOdds,
-  setBetStake,
-} from '../../../../redux/reducers/event-bet';
+import { betTypes, setBetOdds } from '../../../../redux/reducers/event-bet';
 import {
   setMarketPlForecast,
   setMarketRunnerPl,
@@ -118,6 +114,7 @@ function MatchOdds({ market }) {
         betDelay: 0,
         minStake: market.minStake,
         maxStake: market.maxStake,
+        isBetLock: market.isBetLock || false,
       },
       runner: {
         _id: runner._id,
@@ -130,7 +127,7 @@ function MatchOdds({ market }) {
       betType: type,
     };
 
-    dispatch(setBetStake(0));
+    // dispatch(setBetStake(0));
     dispatch(setBetOdds(selectedOdd));
     dispatch(setMarketPlForecast({ marketId: market._id, plForecast: [0, 0] }));
   };
@@ -180,7 +177,7 @@ function MatchOdds({ market }) {
                           : 'text-light'
                       }`}
                     >
-                      {runner.pl ? runner.pl.toFixed(0) : '0'}
+                      {runner.pl ? runner.pl.toFixed(0) : ''}
                     </div>
                   </div>
 

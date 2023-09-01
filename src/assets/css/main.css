@@ -66,6 +66,17 @@ header {
   padding: 10px;
   color: #000 !important;
 }
+.c-btn:hover {
+  background: #ceb15b;
+}
+.c-btn:active {
+  background: #c3a54b;
+}
+.c-btn:disabled {
+  cursor: not-allowed;
+  color: #3e3e3e !important;
+  background: linear-gradient(180deg, #82703a 0%, #837f66 100%);
+}
 .header-right-two ul.button-group {
   padding: 0;
   margin: 0;
@@ -950,6 +961,13 @@ button {
   align-items: center;
   justify-content: center;
   color: #fff;
+  transition: all 0.05s ease-in-out;
+}
+.amount-choose .amounts:hover {
+  background: #4a4b4b;
+}
+.amount-choose .amounts:active {
+  background: #595b5b;
 }
 
 .type-aminunt {

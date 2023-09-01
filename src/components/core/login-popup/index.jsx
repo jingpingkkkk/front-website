@@ -1,12 +1,20 @@
 import React, { useState } from 'react';
-import { Label, Modal, ModalBody } from 'reactstrap';
-import './login-popup.css';
 import { useForm } from 'react-hook-form';
+import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router';
+import { Label, Modal, ModalBody } from 'reactstrap';
 import { postRequest } from '../../../api';
 import ipDetails from '../../../helper/ip-information';
+import {
+  setShouldLogin,
+  setStakeButtons,
+  setUserDetails,
+} from '../../../redux/reducers/user-details';
+import './login-popup.css';
 
 const LoginPopup = ({ isOpen, toggle }) => {
+  const dispatch = useDispatch();
+
   const {
     register,
     handleSubmit,
@@ -17,6 +25,21 @@ const LoginPopup = ({ isOpen, toggle }) => {
   const [error, setError] = useState(null);
   const navigate = useNavigate();
 
+  const getUserStakeButtons = async () => {
+    const result = await postRequest('stake/getUserStakes');
+    if (result?.success) {
+      if (result?.data?.details?.length) {
+        const gameButtons = result.data.details.find(
+          (el) => el.stakeType === 'games',
+        );
+        const casinoButtons = result.data.details.find(
+          (el) => el.stakeType === 'casino',
+        );
+        dispatch(setStakeButtons({ casinoButtons, gameButtons }));
+      }
+    }
+  };
+
   const onSubmit = async (data) => {
     setLoading(true);
     try {
@@ -26,10 +49,15 @@ const LoginPopup = ({ isOpen, toggle }) => {
       }
       const result = await postRequest('auth/userLogin', data, false);
       if (result?.success) {
-        setLoading(false);
         localStorage.setItem('user', JSON.stringify(result?.data?.user));
         localStorage.setItem('userToken', result?.data?.token);
         localStorage.setItem('isWelcome', true);
+
+        dispatch(setUserDetails(result?.data?.user));
+        dispatch(setShouldLogin(false));
+        await getUserStakeButtons();
+
+        setLoading(false);
         navigate('/', true);
       } else {
         setLoading(false);
