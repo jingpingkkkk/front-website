@@ -1,17 +1,24 @@
+/* eslint-disable jsx-a11y/click-events-have-key-events */
+/* eslint-disable jsx-a11y/no-static-element-interactions */
 /* eslint-disable react/jsx-one-expression-per-line */
 /* eslint-disable jsx-a11y/alt-text */
 /* eslint-disable no-script-url */
 /* eslint-disable react/jsx-no-script-url */
 /* eslint-disable jsx-a11y/anchor-is-valid */
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import Marquee from 'react-fast-marquee';
 import { Carousel } from 'react-responsive-carousel';
 import moment from 'moment';
+import { useDispatch } from 'react-redux';
 import UpcommingMatches from '../upcomming-matches';
 import { getRequest } from '../../../../api';
+import { setLoginPopup } from '../../../../redux/reducers/login-popup';
 
 function SportPageContent() {
+  const dispatch = useDispatch();
   const [events, setEvents] = useState([]);
+  const [allCasino, setAllCasino] = useState([]);
+  const [allGames, setAllGames] = useState([]);
   const getUpcomingEvents = async () => {
     try {
       const result = await getRequest('event/upcomingEvent', false);
@@ -22,9 +29,47 @@ function SportPageContent() {
       console.log(error);
     }
   };
-
+  const getLiveCasino = async () => {
+    try {
+      const result = await getRequest('casino/allCasino', false);
+      if (result?.success) {
+        setAllCasino(result?.data?.details || []);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  const getFantasyGames = async () => {
+    try {
+      const result = await getRequest('casinoGame/showFavouriteGame', false);
+      if (result?.success) {
+        setAllGames(result?.data?.details || []);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  const classNameRef = useRef('');
+  const checkLogin = () => {
+    const item = JSON.parse(localStorage.getItem('user'));
+    if (!item) {
+      classNameRef.current = 'login-hover';
+      return false;
+    }
+    return true;
+  };
+  const openPage = (link = '') => {
+    if (!checkLogin()) {
+      dispatch(setLoginPopup(true));
+    } else {
+      window.location.href = `${link}`;
+    }
+  };
   useEffect(() => {
     getUpcomingEvents();
+    getLiveCasino();
+    getFantasyGames();
+    checkLogin();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   return (
@@ -109,119 +154,37 @@ function SportPageContent() {
       <div className="griad-games">
         <div className="section-title">Fantasy Games</div>
         <div className="geiad-layout-four">
-          <div className="casino-banner-item login-hover">
-            <a href="#">
-              <img alt="casino" src="images/aviator.jpg" />
-              <div role="button">Login</div>
-            </a>
-          </div>
-          <div className="casino-banner-item login-hover">
-            <a href="#">
-              <img alt="casino" src="images/dream-wheel.jpg" />
-              <div role="button">Login</div>
-            </a>
-          </div>
-          <div className="casino-banner-item login-hover">
-            <a href="#">
-              <img alt="casino" src="images/poptheball.jpg" />
-              <div role="button">Login</div>
-            </a>
-          </div>
-          <div className="casino-banner-item login-hover">
-            <a href="#">
-              <img alt="casino" src="images/Dice-Pascal-Gaming.jpg" />
-              <div role="button">Login</div>
-            </a>
-          </div>
-          <div className="casino-banner-item login-hover">
-            <a href="#">
-              <img alt="casino" src="images/Magic-Dice-Pascal-Gaming.jpg" />
-              <div role="button">Login</div>
-            </a>
-          </div>
-          <div className="casino-banner-item login-hover">
-            <a href="#">
-              <img alt="casino" src="images/Catch-Me.jpg" />
-              <div role="button">Login</div>
-            </a>
-          </div>
-          <div className="casino-banner-item login-hover">
-            <a href="#">
-              <img alt="casino" src="images/x50-wheel.jpg" />
-              <div role="button">Login</div>
-            </a>
-          </div>
-          <div className="casino-banner-item login-hover">
-            <a href="#">
-              <img alt="casino" src="images/big-hilo.jpg" />
-              <div role="button">Login</div>
-            </a>
-          </div>
+          {allGames?.length &&
+            allGames?.map((game) => (
+              <div
+                key={game?._id}
+                className={`casino-banner-item ${classNameRef.current}`}
+                onClick={() => openPage('#')}
+              >
+                {/* <a href="#"> */}
+                <img alt={game?.name || ''} src={game?.image} />
+                <div role="button">Login</div>
+                {/* </a> */}
+              </div>
+            ))}
         </div>
       </div>
       <div className="griad-games">
         <div className="section-title">Live Casino</div>
         <div className="geiad-layout-four">
-          <div className="casino-banner-item login-hover">
-            <a href="#">
-              <img alt="casino" src="images/tembo.jpg" />
-              <div role="button">Login</div>
-            </a>
-          </div>
-          <div className="casino-banner-item login-hover">
-            <a href="#">
-              <img alt="casino" src="images/creedrooms.jpg" />
-              <div role="button">Login</div>
-            </a>
-          </div>
-          <div className="casino-banner-item login-hover">
-            <a href="#">
-              <img alt="casino" src="images/vivo.jpg" />
-              <div role="button">Login</div>
-            </a>
-          </div>
-          <div className="casino-banner-item login-hover">
-            <a href="#">
-              <img alt="casino" src="images/evolution.jpg" />
-              <div role="button">Login</div>
-            </a>
-          </div>
-          <div className="casino-banner-item login-hover">
-            <a href="#">
-              <img alt="casino" src="images/lucky.jpg" />
-              <div role="button">Login</div>
-            </a>
-          </div>
-          <div className="casino-banner-item login-hover">
-            <a href="#">
-              <img alt="casino" src="images/ezugi.jpg" />
-              <div role="button">Login</div>
-            </a>
-          </div>
-          <div className="casino-banner-item login-hover">
-            <a href="#">
-              <img alt="casino" src="images/bota.jpg" />
-              <div role="button">Login</div>
-            </a>
-          </div>
-          <div className="casino-banner-item login-hover">
-            <a href="#">
-              <img alt="casino" src="images/super-spled.jpg" />
-              <div role="button">Login</div>
-            </a>
-          </div>
-          <div className="casino-banner-item login-hover">
-            <a href="#">
-              <img alt="casino" src="images/ckckfight.jpg" />
-              <div role="button">Login</div>
-            </a>
-          </div>
-          <div className="casino-banner-item login-hover">
-            <a href="#">
-              <img alt="casino" src="images/slots.jpg" />
-              <div role="button">Login</div>
-            </a>
-          </div>
+          {allCasino?.length &&
+            allCasino.map((casino) => (
+              <div
+                key={casino?._id}
+                className={`casino-banner-item ${classNameRef.current}`}
+                onClick={() => openPage('#')}
+              >
+                {/* <a href="#"> */}
+                <img alt={casino?.name || ''} src={casino?.image} />
+                <div role="button">Login</div>
+                {/* </a> */}
+              </div>
+            ))}
         </div>
       </div>
     </>

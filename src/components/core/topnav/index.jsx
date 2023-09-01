@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { NavLink } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
 import topNavItems from './api/top-nav-items';
 import './topNav.css';
 import MenuToggleButton from './ui/MenuToggleButton';
@@ -8,15 +9,18 @@ import LoginPopup from '../login-popup';
 import RegisterPopup from '../register-popup';
 import WelcomePopup from '../welcome-popup';
 import UserInfo from './ui/UserInfo';
+import { setLoginPopup } from '../../../redux/reducers/login-popup';
 
 function Topnav() {
-  const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
+  const dispatch = useDispatch();
+  const { isLogingOpen } = useSelector((state) => state.loginDetails);
+  const [isLoginModalOpen, setIsLoginModalOpen] = useState(isLogingOpen);
   const [isRegisterModalOpen, setIsRegisterModalOpen] = useState(false);
   const [user, setUser] = useState('');
   const [isWelcome, setIsWelcome] = useState(false);
-
   const toggleLoginModal = () => {
     setIsLoginModalOpen(!isLoginModalOpen);
+    dispatch(setLoginPopup(!isLoginModalOpen));
   };
   const toggleRegisterModal = () => {
     setIsRegisterModalOpen(!isRegisterModalOpen);
@@ -30,7 +34,8 @@ function Topnav() {
     if (item) {
       setUser(item);
     }
-  }, [isWelcome]);
+    setIsLoginModalOpen(isLogingOpen);
+  }, [isWelcome, isLoginModalOpen, isLogingOpen]);
 
   return (
     <StickyHeader>
