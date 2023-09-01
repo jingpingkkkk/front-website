@@ -1,10 +1,10 @@
 /* eslint-disable no-nested-ternary */
 /* eslint-disable react/no-array-index-key */
-import React from 'react';
-import '../../../matches/ui/page-content/matches.css';
 import moment from 'moment';
+import React from 'react';
 import { Link } from 'react-router-dom';
 import menuImages from '../../../../components/common/exchange-sidemenu/menu-images';
+import '../../../matches/ui/matches.css';
 
 function EventList({ events, sportName }) {
   const imgPath = menuImages[sportName] || '';

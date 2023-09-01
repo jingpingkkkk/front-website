@@ -33,6 +33,7 @@
   padding: 1px;
 }
 .sidebar-link {
+  all: unset;
   font-size: 14px;
   text-decoration: none;
   color: gainsboro;

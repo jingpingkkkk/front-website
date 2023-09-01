@@ -6,6 +6,7 @@ import { Label, Modal, ModalBody } from 'reactstrap';
 import { postRequest } from '../../../api';
 import ipDetails from '../../../helper/ip-information';
 import {
+  setShouldLogin,
   setStakeButtons,
   setUserDetails,
 } from '../../../redux/reducers/user-details';
@@ -13,6 +14,7 @@ import './login-popup.css';
 
 const LoginPopup = ({ isOpen, toggle }) => {
   const dispatch = useDispatch();
+
   const {
     register,
     handleSubmit,
@@ -45,11 +47,14 @@ const LoginPopup = ({ isOpen, toggle }) => {
       }
       const result = await postRequest('auth/userLogin', data, false);
       if (result?.success) {
-        dispatch(setUserDetails(result?.data?.user));
         localStorage.setItem('user', JSON.stringify(result?.data?.user));
         localStorage.setItem('userToken', result?.data?.token);
         localStorage.setItem('isWelcome', true);
+
+        dispatch(setUserDetails(result?.data?.user));
+        dispatch(setShouldLogin(false));
         await getUserStakeButtons();
+
         setLoading(false);
         navigate('/', true);
       } else {

@@ -1,7 +1,8 @@
 import { faCaretDown, faCaretUp } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { Link, useNavigate } from 'react-router-dom';
 import {
   Accordion,
   AccordionBody,
@@ -10,10 +11,17 @@ import {
   Spinner,
 } from 'reactstrap';
 import { getRequest } from '../../../api';
+import { setShouldLogin } from '../../../redux/reducers/user-details';
 import './exchangeMenu.css';
 import menuImages from './menu-images';
 
 function ExchangeSideMenu({ className = 'd-none d-lg-block' }) {
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  const userDetails = useSelector((state) => state.userDetails);
+  console.log(userDetails);
+
   const [open, setOpen] = useState('');
   const [subOpen, setSubOpen] = useState('');
   const [loading, setLoading] = useState(false);
@@ -26,6 +34,14 @@ function ExchangeSideMenu({ className = 'd-none d-lg-block' }) {
 
   const subToggle = (id) => {
     setSubOpen(id === subOpen ? '' : id);
+  };
+
+  const handleEventClick = (id, path, shouldLogin = true) => {
+    if (shouldLogin) {
+      dispatch(setShouldLogin(true));
+    } else {
+      navigate(path, { state: { eventId: id } });
+    }
   };
 
   const getAllSports = async () => {
@@ -114,14 +130,21 @@ function ExchangeSideMenu({ className = 'd-none d-lg-block' }) {
                                     style={{ background: '#101215' }}
                                   >
                                     {comp?.event?.map((evnt) => (
-                                      <Link
+                                      <button
+                                        type="button"
+                                        onClick={() =>
+                                          handleEventClick(
+                                            evnt?._id,
+                                            '/matches',
+                                          )
+                                        }
                                         key={evnt?._id}
                                         className="sidebar-link"
-                                        to="/matches"
-                                        state={{ eventId: evnt?._id }}
+                                        // to="/matches"
+                                        // state={{ eventId: evnt?._id }}
                                       >
                                         {evnt?.name || ''}
-                                      </Link>
+                                      </button>
                                     ))}
                                   </AccordionBody>
                                 </>

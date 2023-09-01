@@ -244,8 +244,8 @@ function BetPanel() {
                 </div>
 
                 <button
-                  disabled={eventBet?.stake === 0}
-                  className="custom-buttton"
+                  disabled={eventBet?.stake === 0 || eventBet?.isBetLock}
+                  className="custom-buttton c-btn"
                   type="button"
                   onClick={() => placeBet()}
                 >

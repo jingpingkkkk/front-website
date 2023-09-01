@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { NavLink } from 'react-router-dom';
 import { postRequest } from '../../../api';
 import {
+  setShouldLogin,
   setStakeButtons,
   setUserDetails,
 } from '../../../redux/reducers/user-details';
@@ -18,6 +19,8 @@ import UserInfo from './ui/UserInfo';
 function Topnav() {
   const dispatch = useDispatch();
 
+  const { shouldLogin } = useSelector((state) => state.userDetails);
+
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
   const [isRegisterModalOpen, setIsRegisterModalOpen] = useState(false);
   const [user, setUser] = useState('');
@@ -29,6 +32,14 @@ function Topnav() {
   const toggleRegisterModal = () => {
     setIsRegisterModalOpen(!isRegisterModalOpen);
   };
+
+  useEffect(() => {
+    if (shouldLogin) {
+      toggleLoginModal();
+      dispatch(setShouldLogin(false));
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [shouldLogin]);
 
   useEffect(() => {
     const getUserStakeButtons = async () => {

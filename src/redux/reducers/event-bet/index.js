@@ -29,6 +29,7 @@ export const eventBetSlice = createSlice({
      *    betDelay: Number, // in seconds
      *    minStake: Number,
      *    maxStake: Number,
+     *    isBetLock: Boolean,
      * }
      */
     market: {},

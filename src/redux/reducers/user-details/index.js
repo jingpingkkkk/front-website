@@ -4,6 +4,8 @@ const userDetailsSlice = createSlice({
   name: 'user',
 
   initialState: {
+    shouldLogin: false,
+
     /**
      * {
      *    _id: String,
@@ -62,9 +64,14 @@ const userDetailsSlice = createSlice({
       state.gameButtons = action.payload.gameButtons;
       state.casinoButtons = action.payload.casinoButtons;
     },
+
+    setShouldLogin: (state, action) => {
+      state.shouldLogin = action.payload;
+    },
   },
 });
 
-export const { setUserDetails, setStakeButtons } = userDetailsSlice.actions;
+export const { setUserDetails, setStakeButtons, setShouldLogin } =
+  userDetailsSlice.actions;
 
 export default userDetailsSlice.reducer;

@@ -114,6 +114,7 @@ function MatchOdds({ market }) {
         betDelay: 0,
         minStake: market.minStake,
         maxStake: market.maxStake,
+        isBetLock: market.isBetLock || false,
       },
       runner: {
         _id: runner._id,

@@ -1,9 +1,9 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import React, { useEffect, useState } from 'react';
-import { Modal, ModalBody, Table } from 'reactstrap';
-import '../../../views/matches/ui/page-content/matches.css';
 import { useForm } from 'react-hook-form';
+import { Modal, ModalBody, Table } from 'reactstrap';
 import { postRequest } from '../../../api';
+import '../../../views/matches/ui/matches.css';
 
 const StateButtons = ({ isOpen, closeModal }) => {
   const {
