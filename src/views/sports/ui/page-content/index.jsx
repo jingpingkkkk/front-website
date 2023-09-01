@@ -3,14 +3,78 @@
 /* eslint-disable no-script-url */
 /* eslint-disable react/jsx-no-script-url */
 /* eslint-disable jsx-a11y/anchor-is-valid */
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import Marquee from 'react-fast-marquee';
 import { Carousel } from 'react-responsive-carousel';
+import moment from 'moment';
 import UpcommingMatches from '../upcomming-matches';
+import { getRequest } from '../../../../api';
 
 function SportPageContent() {
+  const [events, setEvents] = useState([]);
+  const getUpcomingEvents = async () => {
+    try {
+      const result = await getRequest('event/upcomingEvent', false);
+      if (result?.success) {
+        setEvents(result?.data?.details || []);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    getUpcomingEvents();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
   return (
     <>
+      <div className="d-flex new-container">
+        <div className="w-50 d-flex mx-2 upcoming-fixure">
+          <div className="fixure-title">Upcoming Fixture</div>
+          <div className="fixure-box-container">
+            <Carousel
+              showArrows={false}
+              showThumbs={false}
+              showStatus={false}
+              showIndicators={false}
+              infiniteLoop
+              autoPlay
+              stopOnHover
+              swipeable
+              dynamicHeight
+              emulateTouch
+              axis="vertical"
+              verticalSwipe="natural"
+            >
+              {events?.length &&
+                events.map((event) => {
+                  return (
+                    <div className="fixure-box" key={event?._id}>
+                      <div>{event?.name || ''} </div>
+                      <div>
+                        {event?.matchDate
+                          ? moment(event?.matchDate).format(
+                              'DD/MM/YYYY HH:mm:ss (UTCZ)',
+                            )
+                          : ''}
+                      </div>
+                    </div>
+                  );
+                })}
+            </Carousel>
+          </div>
+        </div>
+        <div className="w-50 marqueee-row custom-buttton ">
+          <Marquee>
+            <div className="left-text py-1">
+              COUNTY CHAMPIONSHIP DIVISION 1 &lt; MIDDLESEX V NORTHAMPTONSHIRE
+            </div>
+            <div className="right-text">10/07/23 14:00:00 PM</div>
+          </Marquee>
+        </div>
+      </div>
+
       <Carousel
         showArrows={false}
         showStatus={false}
@@ -36,16 +100,7 @@ function SportPageContent() {
         </div>
       </Carousel>
 
-      <div className="marqueee-row custom-buttton mt-3 mx-1">
-        <Marquee>
-          <div className="left-text py-1">
-            COUNTY CHAMPIONSHIP DIVISION 1 &lt; MIDDLESEX V NORTHAMPTONSHIRE
-          </div>
-          <div className="right-text">10/07/23 14:00:00 PM</div>
-        </Marquee>
-      </div>
-
-      <div className="table-section">
+      <div className="table-section mt-3">
         <div className="tab-content">
           <UpcommingMatches />
         </div>
