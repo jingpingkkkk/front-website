@@ -1,31 +1,35 @@
+/* eslint-disable react/jsx-no-useless-fragment */
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { postRequest } from '../../../../api';
 import LoadingRelative from '../../../../components/common/loading-relative';
 import ipDetails from '../../../../helper/ip-information';
 import shortNumber from '../../../../helper/number';
+import defaultStakeButtons from '../../../../helper/stake-buttons';
 import ToastAlert from '../../../../helper/toast-alert';
 import {
   betTypes,
   resetEventBet,
+  setAbsoluteBetProfit,
   setBetPrice,
   setBetStake,
 } from '../../../../redux/reducers/event-bet';
 import { setMarketPlForecast } from '../../../../redux/reducers/event-market';
 import { addUserBet } from '../../../../redux/reducers/user-bets';
 
-const amountArray = [
-  1000, 2000, 5000, 10000, 20000, 25000, 50000, 75000, 90000, 95000,
-];
-
 function BetPanel() {
   const dispatch = useDispatch();
+
   const eventBet = useSelector((state) => state.eventBet);
   const eventMarket = useSelector((state) => state.eventMarket);
+  const userDetails = useSelector((state) => state.userDetails);
+
+  const stakeButtons =
+    userDetails?.gameButtons?.inputValues || defaultStakeButtons;
 
   const [betLoading, setBetLoading] = useState(false);
 
-  const updateStake = ({ stake = null, price = null }) => {
+  const updateStake = ({ stake = null, price = null, max = false }) => {
     const { betType, market } = eventBet;
     const { priority, pl, _id } = eventBet.runner;
 
@@ -33,19 +37,42 @@ function BetPanel() {
       .find((mkt) => mkt._id === market._id)
       ?.runners.find((runner) => runner._id !== _id);
 
-    const quantity = stake || eventBet.stake;
-    const rate = price || eventBet.price;
+    let quantity = eventBet.stake;
+    let rate = eventBet.price;
 
+    if (stake !== null) {
+      if (stake < 0) return;
+      quantity = stake;
+    }
+    if (price !== null) {
+      if (price < 1) return;
+      rate = price;
+    }
+
+    if (max) {
+      const losingCapacity =
+        userDetails.user.balance - userDetails.user.exposure;
+      if (betType === betTypes.BACK) {
+        quantity = losingCapacity;
+      } else {
+        quantity = Math.floor(losingCapacity / (rate - 1));
+      }
+    }
+
+    let absoluteBetProfit = 0;
     const plForecast = [0, 0];
 
     if (betType === betTypes.BACK) {
+      absoluteBetProfit = rate * quantity - quantity;
       plForecast[priority] = pl + rate * quantity - quantity;
       plForecast[priority === 0 ? 1 : 0] = oppRunner.pl + -quantity;
     } else {
+      absoluteBetProfit = quantity;
       plForecast[priority] = pl + -(rate * quantity - quantity);
       plForecast[priority === 0 ? 1 : 0] = oppRunner.pl + quantity;
     }
 
+    dispatch(setAbsoluteBetProfit(absoluteBetProfit));
     dispatch(setBetStake(quantity));
     dispatch(setBetPrice(rate));
     dispatch(setMarketPlForecast({ marketId: market._id, plForecast }));
@@ -94,6 +121,12 @@ function BetPanel() {
     }
   };
 
+  const placeBetOnEnter = (e) => {
+    if (e.key === 'Enter') {
+      placeBet();
+    }
+  };
+
   return (
     <div>
       {eventBet?.market ? (
@@ -112,6 +145,7 @@ function BetPanel() {
 
                         <button
                           type="button"
+                          onKeyDown={placeBetOnEnter}
                           onClick={() => {
                             dispatch(resetEventBet());
                             dispatch(
@@ -142,50 +176,78 @@ function BetPanel() {
                       </div>
 
                       <div className="selection">
-                        <form action="">
-                          <p className="qty">
-                            <input
-                              type="number"
-                              name="qty"
-                              id="qty"
-                              step="1"
-                              value={eventBet?.price || 0}
-                              onChange={(e) =>
-                                updateStake({ price: Number(e.target.value) })
-                              }
-                            />
-                          </p>
-                        </form>
+                        <p className="qty">
+                          <input
+                            type="number"
+                            name="qty"
+                            id="qty"
+                            step="0.01"
+                            min={0}
+                            value={eventBet?.price || 0}
+                            onChange={(e) =>
+                              updateStake({ price: Number(e.target.value) })
+                            }
+                          />
+                        </p>
                       </div>
                     </div>
                   </div>
 
-                  <input
-                    type="number"
-                    placeholder="Amount"
-                    className="type-aminunt form-control"
-                    value={eventBet?.stake || 0}
-                    onChange={(e) =>
-                      updateStake({ stake: Number(e.target.value) })
-                    }
-                  />
+                  <div className="d-flex justify-content-between align-items-baseline">
+                    <input
+                      type="number"
+                      placeholder="Amount"
+                      className="type-aminunt form-control w-50"
+                      value={eventBet?.stake}
+                      onKeyDown={placeBetOnEnter}
+                      onChange={(e) =>
+                        updateStake({ stake: Number(e.target.value) })
+                      }
+                    />
+
+                    <div className="pe-2 small">
+                      {eventBet.absoluteBetProfit ? (
+                        <>
+                          {eventBet.absoluteBetProfit > 0 ? (
+                            <span className="text-success">
+                              {eventBet.absoluteBetProfit.toFixed(0)}
+                            </span>
+                          ) : (
+                            <span className="text-danger">
+                              {eventBet.absoluteBetProfit.toFixed(0)}
+                            </span>
+                          )}
+                        </>
+                      ) : null}
+                    </div>
+                  </div>
 
                   <div className="amount-choose">
-                    {amountArray?.map((amount) => (
+                    {stakeButtons?.map((btn) => (
                       <button
                         type="button"
                         className="amounts"
-                        key={amount}
-                        onClick={() => updateStake({ stake: amount })}
+                        key={btn._id}
+                        onClick={() => updateStake({ stake: btn.priceValue })}
                       >
-                        {shortNumber(amount)}
+                        {btn.priceLabel
+                          ? btn.priceLabel
+                          : shortNumber(btn.priceValue)}
                       </button>
                     ))}
+                    <button
+                      type="button"
+                      className="amounts text-warning"
+                      onClick={() => updateStake({ max: true })}
+                    >
+                      MAX
+                    </button>
                   </div>
                 </div>
 
                 <button
-                  className="custom-buttton"
+                  disabled={eventBet?.stake === 0 || eventBet?.isBetLock}
+                  className="custom-buttton c-btn"
                   type="button"
                   onClick={() => placeBet()}
                 >

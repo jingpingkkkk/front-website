@@ -90,7 +90,7 @@ const makeRequest = async ({
   }
 };
 
-const postRequest = async (url, data, useAuthToken = true) => {
+const postRequest = async (url, data = {}, useAuthToken = true) => {
   return makeRequest({
     method: 'POST',
     url,

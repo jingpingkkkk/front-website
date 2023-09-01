@@ -18,7 +18,7 @@ import {
 } from '../../../../redux/reducers/event-market';
 import { addEventMarketBets } from '../../../../redux/reducers/user-bets';
 import Market from '../market';
-import './matches.css';
+import '../matches.css';
 
 function MatchPageContent() {
   const navigate = useNavigate();
@@ -58,9 +58,7 @@ function MatchPageContent() {
           minStake: market.minStake,
           maxStake: market.maxStake,
           betDelay: market.betDelay,
-          // minStake: 100,
-          // maxStake: 200000,
-          // betDelay: 5,
+          isBetLock: market.isBetLock || false,
           runners: market.market_runner.map((runner, index) => {
             return {
               _id: runner._id,

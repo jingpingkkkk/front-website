@@ -25,6 +25,7 @@ export const eventMarketSlice = createSlice({
      *      minStake: Number,
      *      maxStake: Number,
      *      betDelay: Number, // in seconds
+     *      isBetLock: Boolean,
      *      runners: [
      *        {
      *          _id: String,
