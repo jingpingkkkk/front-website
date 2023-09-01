@@ -5,6 +5,7 @@ import { postRequest } from '../../../../api';
 import LoadingRelative from '../../../../components/common/loading-relative';
 import ipDetails from '../../../../helper/ip-information';
 import shortNumber from '../../../../helper/number';
+import defaultStakeButtons from '../../../../helper/stake-buttons';
 import ToastAlert from '../../../../helper/toast-alert';
 import {
   betTypes,
@@ -23,7 +24,8 @@ function BetPanel() {
   const eventMarket = useSelector((state) => state.eventMarket);
   const userDetails = useSelector((state) => state.userDetails);
 
-  const stakeButtons = userDetails?.gameButtons?.inputValues;
+  const stakeButtons =
+    userDetails?.gameButtons?.inputValues || defaultStakeButtons;
 
   const [betLoading, setBetLoading] = useState(false);
 

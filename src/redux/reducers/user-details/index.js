@@ -68,10 +68,21 @@ const userDetailsSlice = createSlice({
     setShouldLogin: (state, action) => {
       state.shouldLogin = action.payload;
     },
+
+    resetUserDetails: (state) => {
+      state.shouldLogin = false;
+      state.user = {};
+      state.gameButtons = {};
+      state.casinoButtons = {};
+    },
   },
 });
 
-export const { setUserDetails, setStakeButtons, setShouldLogin } =
-  userDetailsSlice.actions;
+export const {
+  setUserDetails,
+  setStakeButtons,
+  setShouldLogin,
+  resetUserDetails,
+} = userDetailsSlice.actions;
 
 export default userDetailsSlice.reducer;

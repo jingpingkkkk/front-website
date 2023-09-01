@@ -28,13 +28,15 @@ const LoginPopup = ({ isOpen, toggle }) => {
   const getUserStakeButtons = async () => {
     const result = await postRequest('stake/getUserStakes');
     if (result?.success) {
-      const gameButtons = result.data.details.find(
-        (el) => el.stakeType === 'games',
-      );
-      const casinoButtons = result.data.details.find(
-        (el) => el.stakeType === 'casino',
-      );
-      dispatch(setStakeButtons({ casinoButtons, gameButtons }));
+      if (result?.data?.details?.length) {
+        const gameButtons = result.data.details.find(
+          (el) => el.stakeType === 'games',
+        );
+        const casinoButtons = result.data.details.find(
+          (el) => el.stakeType === 'casino',
+        );
+        dispatch(setStakeButtons({ casinoButtons, gameButtons }));
+      }
     }
   };
 

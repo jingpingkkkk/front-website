@@ -20,7 +20,6 @@ function ExchangeSideMenu({ className = 'd-none d-lg-block' }) {
   const dispatch = useDispatch();
 
   const userDetails = useSelector((state) => state.userDetails);
-  console.log(userDetails);
 
   const [open, setOpen] = useState('');
   const [subOpen, setSubOpen] = useState('');
@@ -36,12 +35,16 @@ function ExchangeSideMenu({ className = 'd-none d-lg-block' }) {
     setSubOpen(id === subOpen ? '' : id);
   };
 
-  const handleEventClick = (id, path, shouldLogin = true) => {
-    if (shouldLogin) {
+  const handleEventClick = (id, path) => {
+    const notLoggedIn =
+      !userDetails?.user?._id ||
+      !JSON.parse(localStorage.getItem('user'))?._id ||
+      !localStorage.getItem('userToken');
+    if (notLoggedIn) {
       dispatch(setShouldLogin(true));
-    } else {
-      navigate(path, { state: { eventId: id } });
+      return;
     }
+    navigate(path, { state: { eventId: id } });
   };
 
   const getAllSports = async () => {

@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { useDispatch } from 'react-redux';
 import {
   DropdownItem,
   DropdownMenu,
@@ -6,6 +7,7 @@ import {
   UncontrolledDropdown,
 } from 'reactstrap';
 import { io } from 'socket.io-client';
+import { resetUserDetails } from '../../../../redux/reducers/user-details';
 import StateButtons from '../../stake-button-popup';
 import './userInfo.css';
 
@@ -22,6 +24,8 @@ const socket = io(userUrl, {
 });
 
 const UserInfo = ({ user }) => {
+  const dispatch = useDispatch();
+
   const [userInfo, setUserInfo] = useState(user);
   const [showStakButton, setShowStakeButton] = useState(false);
 
@@ -39,6 +43,7 @@ const UserInfo = ({ user }) => {
   }, []);
 
   const logout = () => {
+    dispatch(resetUserDetails());
     localStorage.clear();
     window.location.href = '/';
   };
