@@ -47,6 +47,7 @@ export const eventBetSlice = createSlice({
     price: 0,
     stake: 0,
     betType: '',
+    absoluteBetProfit: 0,
     orderType: orderTypes.LIMIT,
   },
 
@@ -66,18 +67,28 @@ export const eventBetSlice = createSlice({
       state.price = action.payload;
     },
 
+    setAbsoluteBetProfit: (state, action) => {
+      state.absoluteBetProfit = action.payload;
+    },
+
     resetEventBet: (state) => {
       state.market = {};
       state.runner = {};
       state.price = 0;
       state.stake = 0;
       state.betType = '';
+      state.absoluteBetProfit = 0;
       state.orderType = orderTypes.LIMIT;
     },
   },
 });
 
-export const { setBetOdds, setBetStake, setBetPrice, resetEventBet } =
-  eventBetSlice.actions;
+export const {
+  setBetOdds,
+  setBetStake,
+  setBetPrice,
+  resetEventBet,
+  setAbsoluteBetProfit,
+} = eventBetSlice.actions;
 
 export default eventBetSlice.reducer;

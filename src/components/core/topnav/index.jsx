@@ -47,7 +47,7 @@ function Topnav() {
     const rehydrateUser = async () => {
       const result = await postRequest('users/rehydrateUser');
       if (result.success) {
-        dispatch(setUserDetails(result.data.user));
+        dispatch(setUserDetails(result.data.details));
         await getUserStakeButtons();
       }
     };
