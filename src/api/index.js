@@ -10,11 +10,13 @@ const handleError = (error) => {
   if (error.response) {
     console.log('Error status:', error.response.status);
     console.log('Error data:', error.response.data);
-    ToastAlert.error(error.response.data.message);
+
     if (error.response.status === 401) {
       localStorage.clear();
       window.location.href = '/';
       ToastAlert.warning('Session expired, please login again');
+    } else if (error.response.status === 429) {
+      ToastAlert.error(error.response.data);
     }
   } else if (error.request) {
     console.log('No response received');

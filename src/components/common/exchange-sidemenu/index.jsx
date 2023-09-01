@@ -48,16 +48,13 @@ function ExchangeSideMenu({ className = 'd-none d-lg-block' }) {
   };
 
   const getAllSports = async () => {
-    try {
-      setLoading(true);
-      const result = await getRequest('exchangeHome/sportsList', false);
-      if (result?.success) {
-        setLoading(false);
-        setSports(result?.data || []);
-      }
-    } catch (error) {
+    setLoading(true);
+    const result = await getRequest('exchangeHome/sportsList', false);
+    if (result?.success) {
       setLoading(false);
+      setSports(result?.data || []);
     }
+    setLoading(false);
   };
 
   useEffect(() => {
@@ -143,8 +140,6 @@ function ExchangeSideMenu({ className = 'd-none d-lg-block' }) {
                                         }
                                         key={evnt?._id}
                                         className="sidebar-link"
-                                        // to="/matches"
-                                        // state={{ eventId: evnt?._id }}
                                       >
                                         {evnt?.name || ''}
                                       </button>

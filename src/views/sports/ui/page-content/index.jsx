@@ -3,15 +3,16 @@
 /* eslint-disable no-script-url */
 /* eslint-disable react/jsx-no-script-url */
 /* eslint-disable jsx-a11y/anchor-is-valid */
+import moment from 'moment';
 import React, { useEffect, useState } from 'react';
 import Marquee from 'react-fast-marquee';
 import { Carousel } from 'react-responsive-carousel';
-import moment from 'moment';
-import UpcommingMatches from '../upcomming-matches';
 import { getRequest } from '../../../../api';
+import UpcommingMatches from '../upcomming-matches';
 
 function SportPageContent() {
   const [events, setEvents] = useState([]);
+
   const getUpcomingEvents = async () => {
     try {
       const result = await getRequest('event/upcomingEvent', false);
@@ -27,6 +28,7 @@ function SportPageContent() {
     getUpcomingEvents();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
   return (
     <>
       <div className="d-flex new-container">
