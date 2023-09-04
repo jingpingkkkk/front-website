@@ -137,7 +137,7 @@ function Footer() {
         </footer>
 
         <div className="copyright-text">
-          © 2023 Cricadda.com All Rights Reserved
+          © 2023 Exchange All Rights Reserved
         </div>
       </div>
       <div className="col-md-2 col-sm-12 col-12" />
