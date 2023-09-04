@@ -83,13 +83,23 @@ function Topnav() {
         <MenuToggleButton />
 
         <NavLink to="/" className="ms-5 ps-3">
-          <img src="images/logo.png" width="125" alt="brand-logo" />
+          <img
+            src="images/logo.png"
+            width="125"
+            alt="brand-logo"
+            style={{ paddingTop: '0.75rem' }}
+          />
         </NavLink>
       </div>
 
       {/* Logo - Desktop View */}
       <NavLink to="/" className="d-none d-lg-block">
-        <img src="images/logo.png" width="150" alt="brand-logo" />
+        <img
+          src="images/logo.png"
+          width="150"
+          alt="brand-logo"
+          style={{ paddingTop: '0.75rem' }}
+        />
       </NavLink>
 
       {/* Nav Items */}
