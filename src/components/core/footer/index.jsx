@@ -3,57 +3,130 @@
 /* eslint-disable max-len */
 import React from 'react';
 import './footer.css';
+import { useSelector } from 'react-redux';
 
 function Footer() {
+  const { themeSettings } = useSelector((state) => state.themeSettings);
   return (
-    <div className="row footer-row">
+    <div className="row footer-row mt-3">
       <div className="col-md-2 col-sm-12 col-12" />
-      <div className="col-md-8 col-sm-8 col-12 footer-area">
+      <div className="col-md-7 col-sm-7 col-12 footer-area">
         <footer className="footer">
           <div className="row">
             <div className="col-md-4 col-sm-12 col-12">
               <div className="logo">
                 <a href="#">
+                  {/* delete static image */}
                   <img src="images/logo.png" className="footer-logo" />
+                  {/* use this <img src={themeSettings?.logoImage} className="footer-logo" /> */}
                 </a>
               </div>
 
-              <div className="footer-about-us">
-                This website is operated by Seven Investments America N.V.,
-                registered in Curaçao under the number 152581, with the address
-                at Zuikertuintjeweg Z/N (Zuikertuin Tower), Curaçao.
-              </div>
-
               <div className="support-image">
-                <img src="images/support-inmage.png" />
+                <div>
+                  <img src="images/support-icon.svg" />
+                </div>
+                <div className="d-flex flex-column align-items-start ps-1">
+                  <div className="support-text">24X7 Support</div>
+                  <div className="support-number">
+                    {themeSettings?.supportNumber || ''}
+                  </div>
+                </div>
               </div>
 
               <div className="social-feeds">
-                <div className="icon">
-                  <a href="#">
-                    <img src="images/watsapp.png" />
-                  </a>
-                </div>
-                <div className="icon">
-                  <a href="#">
-                    <img src="images/facebook.png" />
-                  </a>
-                </div>
-                <div className="icon">
-                  <a href="#">
-                    <img src="images/insta.png" />
-                  </a>
-                </div>
-                <div className="icon">
-                  <a href="#">
-                    <img src="images/telegram.png" />
-                  </a>
-                </div>
-                <div className="icon">
-                  <a href="#">
-                    <img src="images/twitter.png" />
-                  </a>
-                </div>
+                {themeSettings?.facebookLink ? (
+                  <div className="icon">
+                    <a
+                      href={themeSettings?.facebookLink}
+                      target="_blank"
+                      rel="noreferrer"
+                    >
+                      <img src="images/facebook.png" />
+                    </a>
+                  </div>
+                ) : (
+                  ''
+                )}
+
+                {themeSettings?.twitterLink ? (
+                  <div className="icon">
+                    <a
+                      href={themeSettings?.twitterLink}
+                      target="_blank"
+                      rel="noreferrer"
+                    >
+                      <img src="images/twitter.png" />
+                    </a>
+                  </div>
+                ) : (
+                  ''
+                )}
+                {themeSettings?.instagramLink ? (
+                  <div className="icon">
+                    <a
+                      href={themeSettings?.instagramLink}
+                      target="_blank"
+                      rel="noreferrer"
+                    >
+                      <img src="images/insta.png" />
+                    </a>
+                  </div>
+                ) : (
+                  ''
+                )}
+                {themeSettings?.telegramLink ? (
+                  <div className="icon">
+                    <a
+                      href={themeSettings?.telegramLink}
+                      target="_blank"
+                      rel="noreferrer"
+                    >
+                      <img src="images/telegram.png" />
+                    </a>
+                  </div>
+                ) : (
+                  ''
+                )}
+                {themeSettings?.youtubeLink ? (
+                  <div className="icon">
+                    <a
+                      href={themeSettings?.youtubeLink}
+                      target="_blank"
+                      rel="noreferrer"
+                    >
+                      <img src="images/youtube.png" />
+                    </a>
+                  </div>
+                ) : (
+                  ''
+                )}
+                {themeSettings?.whatsappLink ? (
+                  <div className="icon">
+                    <a
+                      href={themeSettings?.whatsappLink}
+                      target="_blank"
+                      rel="noreferrer"
+                    >
+                      <img src="images/watsapp.png" />
+                    </a>
+                  </div>
+                ) : (
+                  ''
+                )}
+                {themeSettings?.blogLink ? (
+                  <div className="icon">
+                    <a
+                      href={themeSettings?.blogLink}
+                      target="_blank"
+                      rel="noreferrer"
+                    >
+                      <img src="images/blog.png" />
+                    </a>
+                  </div>
+                ) : (
+                  ''
+                )}
               </div>
             </div>
 
@@ -119,15 +192,7 @@ function Footer() {
                   </div>
                   <div className="footer-bottom">
                     <span className="ws-pre-wrap">
-                      The transactions are processed by Seven Investments LTD
-                      registered with the number 12391820, with head office at
-                      Kemp House 160 City Road, London, United Kingdom. For the
-                      purpose of processing payments via Paysafe Group including
-                      but not limited to Neteller and Skrill, the transaction
-                      processing entity shall be Seven Investments America N.V.,
-                      registered in Curaçao under the number 152581, with the
-                      address at Zuikertuintjeweg Z/N (Zuikertuin Tower),
-                      Curaçao..
+                      {themeSettings?.footerMessage || ''}
                     </span>
                   </div>
                 </div>
