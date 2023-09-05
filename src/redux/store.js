@@ -3,6 +3,7 @@ import eventBetReducer from './reducers/event-bet';
 import eventMarketReducer from './reducers/event-market';
 import userBetsReducer from './reducers/user-bets';
 import userDetailsReducer from './reducers/user-details';
+import loginDetailReducer from './reducers/login-popup';
 
 const store = configureStore({
   reducer: {
@@ -10,6 +11,7 @@ const store = configureStore({
     userBets: userBetsReducer,
     eventBet: eventBetReducer,
     eventMarket: eventMarketReducer,
+    loginDetails: loginDetailReducer,
   },
 });
 

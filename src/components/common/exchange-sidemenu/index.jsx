@@ -25,6 +25,9 @@ function ExchangeSideMenu({ className = 'd-none d-lg-block' }) {
   const [subOpen, setSubOpen] = useState('');
   const [loading, setLoading] = useState(false);
   const [sports, setSports] = useState([]);
+  const [allSports, setAllSports] = useState([]);
+  const [searchValue, setSearchValue] = useState('');
+  const [favouriteEvents, setFavouriteEvents] = useState([]);
 
   const toggle = (id) => {
     setOpen(id === open ? '' : id);
@@ -54,12 +57,52 @@ function ExchangeSideMenu({ className = 'd-none d-lg-block' }) {
       if (result?.success) {
         setLoading(false);
         setSports(result?.data || []);
+        setAllSports(result?.data || []);
+        if (result?.data?.length) {
+          const favEvents = result?.data?.flatMap((sport) =>
+            sport.competition.flatMap((com) =>
+              com.event.filter((evnt) => evnt.isFavourite),
+            ),
+          );
+          setFavouriteEvents(favEvents);
+        }
       }
     } catch (error) {
       setLoading(false);
     }
   };
 
+  const searchData = (data, find) => {
+    return data.reduce((acc, topic) => {
+      if (topic.name.toLowerCase().includes(find.toLowerCase())) {
+        return [...acc, { ...topic }];
+      }
+      const competitions = topic.competition.reduce((comAcc, competition) => {
+        if (competition.name.toLowerCase().includes(find.toLowerCase())) {
+          return [...comAcc, { ...competition, event: [] }];
+        }
+        const event = competition.event.filter((evnt) =>
+          evnt.name.toLowerCase().includes(find.toLowerCase()),
+        );
+        if (event.length > 0) {
+          return [...comAcc, { ...competition, event }];
+        }
+        return comAcc;
+      }, []);
+      if (competitions.length > 0) {
+        return [...acc, { ...topic, competition: competitions }];
+      }
+      return acc;
+    }, []);
+  };
+  const handleSearch = async (val) => {
+    setSearchValue(val);
+    if (val) {
+      setSports(await searchData(allSports, val));
+    } else {
+      setSports(allSports);
+    }
+  };
   useEffect(() => {
     getAllSports();
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -67,16 +110,32 @@ function ExchangeSideMenu({ className = 'd-none d-lg-block' }) {
 
   return (
     <nav id="sidebar" className={className}>
-      {/* <div className="search-bar">
-        <form className="search-container">
+      <div className="event-title">Favourite Matches</div>
+      <ul className="fav-events ps-0">
+        {favouriteEvents?.length
+          ? favouriteEvents?.map((favEvent) => (
+              <li className="py-1" key={favEvent?._id}>
+                {favEvent?.name || ''}
+              </li>
+            ))
+          : ''}
+      </ul>
+      <div className="search-bar">
+        <div className="search-container">
           <img
             className="search-icon"
             src="images/search.png"
             alt="search-icon"
           />
-          <input type="text" id="search-bar" placeholder="Search" />
-        </form>
-      </div> */}
+          <input
+            type="text"
+            id="search-bar"
+            placeholder="Search"
+            value={searchValue}
+            onChange={(e) => handleSearch(e.target.value)}
+          />
+        </div>
+      </div>
 
       <ul className="list-unstyled components">
         <li className="all-sports text-deco">

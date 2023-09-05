@@ -43,3 +43,27 @@
 .sidebar-link:hover {
   color: white;
 }
+.fav-events li {
+  list-style: none;
+  font-size: 14px;
+  display: flex;
+  font-weight: 400;
+}
+.fav-events li::before {
+  content: '\2022';
+  color: #c39e32;
+  font-weight: bold;
+  display: inline-block;
+  width: 1em;
+}
+.event-title {
+  font-size: 18px;
+  font-weight: 700;
+  line-height: normal;
+  margin-bottom: 10px;
+  background: linear-gradient(180deg, #c39e32 0%, #e7dfb3 100%);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  text-decoration: none;
+}

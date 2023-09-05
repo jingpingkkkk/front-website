@@ -15,19 +15,20 @@ import './topNav.css';
 import MenuToggleButton from './ui/MenuToggleButton';
 import StickyHeader from './ui/StickyHeader';
 import UserInfo from './ui/UserInfo';
+import { setLoginPopup } from '../../../redux/reducers/login-popup';
 
 function Topnav() {
   const dispatch = useDispatch();
 
   const { shouldLogin } = useSelector((state) => state.userDetails);
-
-  const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
+  const { isLogingOpen } = useSelector((state) => state.loginDetails);
+  const [isLoginModalOpen, setIsLoginModalOpen] = useState(isLogingOpen);
   const [isRegisterModalOpen, setIsRegisterModalOpen] = useState(false);
   const [user, setUser] = useState('');
   const [isWelcome, setIsWelcome] = useState(false);
-
   const toggleLoginModal = () => {
     setIsLoginModalOpen(!isLoginModalOpen);
+    dispatch(setLoginPopup(!isLoginModalOpen));
   };
   const toggleRegisterModal = () => {
     setIsRegisterModalOpen(!isRegisterModalOpen);
@@ -74,7 +75,8 @@ function Topnav() {
     if (item) {
       setUser(item);
     }
-  }, [isWelcome]);
+    setIsLoginModalOpen(isLogingOpen);
+  }, [isWelcome, isLoginModalOpen, isLogingOpen]);
 
   return (
     <StickyHeader>
