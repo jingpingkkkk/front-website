@@ -1,25 +1,44 @@
+/* eslint-disable no-new-func */
 /* eslint-disable no-else-return */
 import axios from 'axios';
 import ToastAlert from '../helper/toast-alert';
+import { decryptResponse, encryptRequest } from './encryption';
 
 const api = axios.create({
   baseURL: import.meta.env.VITE_API_URL,
 });
 
+const isJSONString = (str) => {
+  try {
+    JSON.parse(str);
+  } catch (e) {
+    return false;
+  }
+  return true;
+};
+
 const handleError = (error) => {
   if (error.response) {
-    console.log('Error status:', error.response.status);
-    console.log('Error data:', error.response.data);
-    ToastAlert.error(error.response.data.message);
-    if (error.response.status === 401) {
+    const { data, status } = error.response;
+
+    const decryptedData = decryptResponse(data);
+    let errorMessage = decryptedData;
+
+    if (isJSONString(decryptedData)) {
+      errorMessage =
+        JSON.parse(decryptedData)?.message || 'Something went wrong';
+    }
+
+    console.log('Error status:', status);
+    console.log('Error message:', errorMessage);
+
+    if (status === 401) {
       localStorage.clear();
       window.location.href = '/';
       ToastAlert.warning('Session expired, please login again');
+    } else {
+      ToastAlert.error(errorMessage);
     }
-  } else if (error.request) {
-    console.log('No response received');
-  } else {
-    console.log('Error message:', error.message);
   }
   return error;
 };
@@ -73,14 +92,15 @@ const makeRequest = async ({
   const config = {
     method,
     url,
-    data,
+    data: encryptRequest(data),
     headers: createHeaders(useAuthToken),
     cancelToken: useAbortController ? source.token : undefined,
   };
 
   try {
     const response = await api(config);
-    return response.data;
+    const decrypted = JSON.parse(decryptResponse(response.data));
+    return decrypted;
   } catch (error) {
     return handleError(error);
   } finally {
