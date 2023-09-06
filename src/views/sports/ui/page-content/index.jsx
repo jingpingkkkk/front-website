@@ -6,13 +6,14 @@
 /* eslint-disable react/jsx-no-script-url */
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import React, { useEffect, useState, useRef } from 'react';
-import Marquee from 'react-fast-marquee';
 import { Carousel } from 'react-responsive-carousel';
 import moment from 'moment';
 import { useDispatch } from 'react-redux';
 import UpcommingMatches from '../upcomming-matches';
+import News from '../../../../components/core/news';
 import { getRequest } from '../../../../api';
 import { setLoginPopup } from '../../../../redux/reducers/login-popup';
+import BannerSlider from '../../../../components/core/slider';
 
 function SportPageContent() {
   const dispatch = useDispatch();
@@ -110,41 +111,9 @@ function SportPageContent() {
             </Carousel>
           </div>
         </div>
-        <div className="w-50 marqueee-row custom-buttton ">
-          <Marquee>
-            <div className="left-text py-1">
-              COUNTY CHAMPIONSHIP DIVISION 1 &lt; MIDDLESEX V NORTHAMPTONSHIRE
-            </div>
-            <div className="right-text">10/07/23 14:00:00 PM</div>
-          </Marquee>
-        </div>
+        <News />
       </div>
-
-      <Carousel
-        showArrows={false}
-        showStatus={false}
-        infiniteLoop
-        showThumbs={false}
-        autoPlay
-        stopOnHover
-        swipeable
-        dynamicHeight
-        emulateTouch
-      >
-        <div className="px-1">
-          <img src="images/banner1.png" alt="banner" />
-        </div>
-        <div className="px-1">
-          <img src="images/banner1.png" alt="banner" />
-        </div>
-        <div className="px-1">
-          <img src="images/banner1.png" alt="banner" />
-        </div>
-        <div className="px-1">
-          <img src="images/banner1.png" alt="banner" />
-        </div>
-      </Carousel>
-
+      <BannerSlider />
       <div className="table-section mt-3">
         <div className="tab-content">
           <UpcommingMatches />

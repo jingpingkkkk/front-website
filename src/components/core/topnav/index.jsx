@@ -19,7 +19,7 @@ import { setLoginPopup } from '../../../redux/reducers/login-popup';
 
 function Topnav() {
   const dispatch = useDispatch();
-
+  // const { themeSettings } = useSelector((state) => state.themeSettings);
   const { shouldLogin } = useSelector((state) => state.userDetails);
   const { isLogingOpen } = useSelector((state) => state.loginDetails);
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(isLogingOpen);
@@ -85,12 +85,16 @@ function Topnav() {
         <MenuToggleButton />
 
         <NavLink to="/" className="ms-5 ps-3">
+          {/* delete static image */}
           <img
             src="images/logo.png"
             width="125"
             alt="brand-logo"
             style={{ paddingTop: '0.75rem' }}
           />
+          {/* use this <img src={themeSettings?.logoImage} width="125"
+            alt="brand-logo"
+            style={{ paddingTop: '0.75rem' }} /> */}
         </NavLink>
       </div>
 

@@ -1,6 +1,7 @@
 .footer-logo {
   height: 100%;
   width: 100%;
+  padding: 10px;
 }
 .footer-area {
   padding-right: calc(1.5rem * 0.5);

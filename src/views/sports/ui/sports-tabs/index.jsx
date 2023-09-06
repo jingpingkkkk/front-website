@@ -63,8 +63,10 @@ function SportsTabs({ availableSports, onClick }) {
                   <div className="title-area">{sport?.name || ''}</div>
 
                   <div className="remark">
-                    <span className="totel me-0">{sport?.total || 0}</span>
-                    <span className="out-of">{sport?.outOf || 0}</span>
+                    <span className="totel me-0">
+                      {sport?.activeEventCount || 0}
+                    </span>
+                    <span className="out-of">{sport?.allEventCount || 0}</span>
                   </div>
                 </div>
               </button>

@@ -221,11 +221,29 @@ footer.footer {
 footer.footer .logo {
   margin-left: -15px;
 }
-.support-image img {
+.support-image {
+  background: linear-gradient(180deg, #c39e32 0%, #e7dfb3 100%);
   margin-top: 20px;
   width: 100%;
   margin-bottom: 5px;
   max-width: 200px;
+  border-radius: 10px;
+  color: #000;
+  display: flex;
+  padding: 3px 5px;
+  align-items: center;
+}
+.support-image img {
+  width: 35px;
+  height: 35px;
+}
+.support-text {
+  font-size: 20px;
+  font-weight: 800;
+}
+.support-number {
+  font-size: 10px;
+  font-weight: 800;
 }
 .stiky-header {
   transition: all 1s;
