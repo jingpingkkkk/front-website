@@ -127,4 +127,22 @@ const getRequest = async (url, useAuthToken = true) => {
   });
 };
 
-export { getRequest, handleFormData, makeRequest, postRequest };
+const handshake = async () => {
+  try {
+    const url = import.meta.env.VITE_API_URL.replace('/api/v1', '');
+    const response = await fetch(`${url}/handshake`, { method: 'GET' });
+    const data = await response.json();
+    if (!data.success) {
+      throw new Error('Handshake failed');
+    }
+    localStorage.setItem(
+      'frr_buf',
+      JSON.stringify(data.metadata.relay.rel_buf1),
+    );
+    localStorage.setItem('dfr_buf', data.metadata.relay.rel_buf2);
+  } catch (e) {
+    ToastAlert.error('Error', 'Unable to establish connection with server');
+  }
+};
+
+export { getRequest, handleFormData, handshake, makeRequest, postRequest };

@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 import {
   DropdownItem,
   DropdownMenu,
@@ -25,6 +26,7 @@ const socket = io(userUrl, {
 
 const UserInfo = ({ user }) => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const [userInfo, setUserInfo] = useState(user);
   const [showStakButton, setShowStakeButton] = useState(false);
@@ -45,7 +47,8 @@ const UserInfo = ({ user }) => {
   const logout = () => {
     dispatch(resetUserDetails());
     localStorage.clear();
-    window.location.href = '/';
+    localStorage.setItem('reload', true);
+    navigate('/');
   };
 
   return (

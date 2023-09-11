@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { NavLink } from 'react-router-dom';
 import { postRequest } from '../../../api';
+import { setLoginPopup } from '../../../redux/reducers/login-popup';
 import {
   setShouldLogin,
   setStakeButtons,
@@ -15,12 +16,13 @@ import './topNav.css';
 import MenuToggleButton from './ui/MenuToggleButton';
 import StickyHeader from './ui/StickyHeader';
 import UserInfo from './ui/UserInfo';
-import { setLoginPopup } from '../../../redux/reducers/login-popup';
 
 function Topnav() {
   const dispatch = useDispatch();
 
-  const { shouldLogin } = useSelector((state) => state.userDetails);
+  const { shouldLogin, user: loggedInUser } = useSelector(
+    (state) => state.userDetails,
+  );
   const { isLogingOpen } = useSelector((state) => state.loginDetails);
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(isLogingOpen);
   const [isRegisterModalOpen, setIsRegisterModalOpen] = useState(false);
@@ -63,7 +65,10 @@ function Topnav() {
         await getUserStakeButtons();
       }
     };
-    rehydrateUser();
+
+    if (loggedInUser?._id) {
+      rehydrateUser();
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
