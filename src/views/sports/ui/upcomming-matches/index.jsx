@@ -54,13 +54,15 @@ function UpcommingMatches() {
   }, []);
   return (
     <>
-      {!loading && availableSports?.length ? (
+      {loading ? (
+        <Spinner color="secondary" />
+      ) : availableSports?.length ? (
         <SportsTabs
           availableSports={availableSports}
           onClick={(id, name) => fetchSportDetails(id, name)}
         />
       ) : (
-        <Spinner color="secondary" />
+        <div>No Data </div>
       )}
       {!loading ? (
         !eventLoading ? (

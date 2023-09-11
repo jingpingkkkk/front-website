@@ -1929,3 +1929,141 @@ nav#sidebar li.all-sports.text-deco a {
     font-size: 12px;
   }
 }
+.report-box {
+  background-color: #2e3439;
+  padding: 16px;
+  min-height: calc(100vh - 60px);
+}
+.report-title {
+  display: flex;
+  display: -webkit-flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.report-name {
+  height: 43px;
+  font-size: 24px;
+}
+.casino-report-tabs {
+  padding: 10px 0;
+  background-color: #16191c;
+  margin-top: 16px;
+  display: flex;
+  display: -webkit-flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 10px;
+}
+.casino-report-tabs .nav-tabs {
+  border: 0;
+}
+.nav-tabs .nav-item {
+  margin-bottom: -1px;
+}
+.casino-report-tabs .nav-tabs .nav-item .nav-link.active {
+  color: #aaafb5;
+  font-weight: 600;
+  border-bottom: 2px solid #aaafb5;
+  background-color: transparent;
+}
+.casino-report-tabs .nav-tabs .nav-link {
+  color: #aaafb5;
+  padding-top: 0;
+  padding-bottom: 4px;
+  padding-left: 12px;
+  padding-right: 12px;
+  border: 0;
+  cursor: pointer;
+}
+.report-page-count {
+  margin-top: 16px;
+  margin-bottom: 16px;
+  display: flex;
+  display: -webkit-flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.custom-control {
+  position: relative;
+  display: block;
+  min-height: 1.5rem;
+  padding-left: 1.5rem;
+}
+.custom-control-inline {
+  line-height: 24px;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  margin-right: 1rem;
+}
+.custom-control-input {
+  position: absolute;
+  left: 0;
+  z-index: -1;
+  width: 1rem;
+  height: 1.25rem;
+  opacity: 0;
+}
+.custom-bet-label {
+  color: #aaafb5;
+  line-height: unset;
+  position: relative;
+  margin-bottom: 0;
+  vertical-align: top;
+}
+.custom-bet-label::before {
+  position: absolute;
+  top: 0.25rem;
+  left: -1.5rem;
+  display: block;
+  width: 1rem;
+  height: 1rem;
+  pointer-events: none;
+  content: '';
+  border: #adb5bd solid 1px;
+}
+.custom-control-input:checked ~ .custom-bet-label::before {
+  border-color: #16191c;
+  background-color: #16191c;
+  color: #fff;
+}
+.custom-radio .custom-bet-label::before {
+  border-radius: 50%;
+}
+.custom-bet-label::after {
+  position: absolute;
+  top: 0.25rem;
+  left: -1.5rem;
+  display: block;
+  width: 1rem;
+  height: 1rem;
+  content: '';
+}
+.custom-radio .custom-control-input:checked ~ .custom-bet-label::after {
+  content: '\2022';
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.file-icons {
+  display: flex;
+  display: -webkit-flex;
+  flex-wrap: wrap;
+}
+.file-icons img {
+  cursor: pointer;
+  font-size: 32px;
+  margin-right: 10px;
+}
+.mx-2 {
+  margin-right: 0.5rem !important;
+}
+.table-responsive {
+  display: block;
+  width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+.report-table {
+  margin-top: 0;
+  min-height: 400px;
+}
