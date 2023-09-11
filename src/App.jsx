@@ -1,10 +1,11 @@
-import React, { Suspense } from 'react';
+import React, { Suspense, useEffect } from 'react';
 import {
   Navigate,
   Route,
   BrowserRouter as Router,
   Routes,
 } from 'react-router-dom';
+import { handshake } from './api';
 import LoadingOverlay from './components/common/loading-overlay';
 
 const ErrorStatus404 = React.lazy(() => import('./views/error-views/404'));
@@ -12,6 +13,14 @@ const Sports = React.lazy(() => import('./views/sports'));
 const Matches = React.lazy(() => import('./views/matches'));
 
 function App() {
+  useEffect(() => {
+    if (localStorage.getItem('reload')) {
+      localStorage.removeItem('reload');
+      window.location.reload();
+    }
+    handshake();
+  }, []);
+
   return (
     <Suspense fallback={<LoadingOverlay />}>
       <Router>

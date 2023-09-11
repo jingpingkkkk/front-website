@@ -7,6 +7,7 @@ import {
   UncontrolledDropdown,
 } from 'reactstrap';
 import { io } from 'socket.io-client';
+import { userLogout } from '../../../../helper/user';
 import { resetUserDetails } from '../../../../redux/reducers/user-details';
 import StateButtons from '../../stake-button-popup';
 import './userInfo.css';
@@ -17,9 +18,7 @@ import './userInfo.css';
 const socketUrl = import.meta.env.VITE_SOCKET_URL;
 const userUrl = `${socketUrl}/user`;
 const socket = io(userUrl, {
-  auth: {
-    token: localStorage.getItem('userToken'),
-  },
+  auth: { token: localStorage.getItem('userToken') },
   autoConnect: false,
 });
 
@@ -34,7 +33,6 @@ const UserInfo = ({ user }) => {
       setUserInfo(data);
       localStorage.setItem('user', JSON.stringify(data));
     });
-
     socket.connect();
     return () => {
       socket.disconnect();
@@ -44,8 +42,7 @@ const UserInfo = ({ user }) => {
 
   const logout = () => {
     dispatch(resetUserDetails());
-    localStorage.clear();
-    window.location.href = '/';
+    userLogout();
   };
 
   return (
