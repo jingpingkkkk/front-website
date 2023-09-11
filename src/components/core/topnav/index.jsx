@@ -19,7 +19,7 @@ import UserInfo from './ui/UserInfo';
 
 function Topnav() {
   const dispatch = useDispatch();
-
+  // const { themeSettings } = useSelector((state) => state.themeSettings);
   const { shouldLogin, user: loggedInUser } = useSelector(
     (state) => state.userDetails,
   );
@@ -90,12 +90,16 @@ function Topnav() {
         <MenuToggleButton />
 
         <NavLink to="/" className="ms-5 ps-3">
+          {/* delete static image */}
           <img
             src="images/logo.png"
             width="125"
             alt="brand-logo"
             style={{ paddingTop: '0.75rem' }}
           />
+          {/* use this <img src={themeSettings?.logoImage} width="125"
+            alt="brand-logo"
+            style={{ paddingTop: '0.75rem' }} /> */}
         </NavLink>
       </div>
 
