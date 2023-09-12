@@ -86,7 +86,7 @@ const UserInfo = ({ user }) => {
 
         <DropdownMenu dark>
           <DropdownItem>Account Statement</DropdownItem>
-          <DropdownItem>Current Bets</DropdownItem>
+          <DropdownItem href="/currentbets">Current Bets</DropdownItem>
           <DropdownItem>Casino Results</DropdownItem>
           <DropdownItem onClick={() => setShowStakeButton(true)}>
             Set Button Value
