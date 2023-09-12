@@ -2049,11 +2049,6 @@ nav#sidebar li.all-sports.text-deco a {
   display: -webkit-flex;
   flex-wrap: wrap;
 }
-.file-icons img {
-  cursor: pointer;
-  font-size: 32px;
-  margin-right: 10px;
-}
 .mx-2 {
   margin-right: 0.5rem !important;
 }
@@ -2066,4 +2061,23 @@ nav#sidebar li.all-sports.text-deco a {
 .report-table {
   margin-top: 0;
   min-height: 400px;
+}
+.table {
+  border: 1px solid #3c444b;
+  table-layout: fixed;
+}
+.table thead tr th {
+  background-color: #3c444b;
+  color: #aaafb5;
+}
+.table tbody tr td {
+  background-color: #23292e;
+  text-align: center;
+  color: #aaafb5;
+}
+.table td,
+.table th {
+  border: 0;
+  border-bottom: 1px solid #3c444b;
+  padding: 4px;
 }

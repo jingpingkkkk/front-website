@@ -1,10 +1,14 @@
+/* eslint-disable new-cap */
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import React, { useState, useEffect } from 'react';
 import { Label } from 'reactstrap';
+import { jsPDF } from 'jspdf';
+import 'jspdf-autotable';
 import DataTable from 'react-data-table-component';
 import LoadingOverlay from '../../../../components/common/loading-overlay';
 import { postRequest } from '../../../../api';
+import ExportToExcel from '../../../../helper/export-excel';
 
 function CurrentBetPageContent() {
   const [loading, setLoading] = useState(false);
@@ -12,18 +16,25 @@ function CurrentBetPageContent() {
   const [data, setData] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(0);
+  const [rowsPerPage, setRowsPerPage] = useState(10);
+  const [betType, setBetType] = useState('');
+  const [totalAmount, setTotalAmount] = useState(0);
 
-  const fetchApiData = async () => {
+  const fetchCurrentBetsData = async () => {
+    const item = JSON.parse(localStorage.getItem('user'));
     setLoading(true);
     try {
-      const result = await postRequest('bet/getCurrentBetsUserwise', {
-        loginUserId: '64f1b90f95883a1ff9a17221',
+      const body = {
+        loginUserId: item?._id,
         page: currentPage,
-        perPage: 10,
-      });
+        perPage: rowsPerPage,
+        betType,
+      };
+      const result = await postRequest('bet/getCurrentBetsUserwise', body);
       if (result?.success) {
         setData(result?.data?.details?.records || []);
         setTotalPages(result?.data?.details?.totalRecords);
+        setTotalAmount(result?.data?.details?.totalAmount);
         setLoading(false);
       }
     } catch (error) {
@@ -45,29 +56,71 @@ function CurrentBetPageContent() {
       selector: (row) => row.marketName,
     },
     {
-      name: 'Nation',
-      selector: (row) => row.sportName,
-    },
-    {
       name: 'User Rate',
-      selector: (row) => row.sportName,
+      selector: (row) => row.odds,
     },
     {
-      name: 'Amount	Place Date',
-      selector: (row) => row.sportName,
+      name: 'Amount	Placed',
+      selector: (row) => row.stake,
     },
     {
       name: 'Action',
     },
   ];
-
+  const casinoColumns = [
+    {
+      name: 'Event Name',
+      selector: (row) => row.eventName,
+    },
+    {
+      name: 'User Rate',
+      selector: (row) => row.odds,
+    },
+    {
+      name: 'Amount	Placed',
+      selector: (row) => row.stake,
+    },
+    {
+      name: 'Action',
+    },
+  ];
   const handlePageChange = (page) => {
     setCurrentPage(page);
   };
+  const handleRowsPerPageChange = (newPerPage) => {
+    setRowsPerPage(newPerPage);
+    setCurrentPage(1);
+  };
+  const onExportData = () => {
+    const exportData = data.map((item) => ({
+      Sports: item.sportName,
+      'Event Name': item.eventName,
+      'Market Name': item.marketName,
+      'User Rate': item.odds,
+      'Amount Placed': item.stake,
+    }));
+    ExportToExcel(exportData, activeTab);
+  };
+  const exportToPDF = () => {
+    const doc = new jsPDF();
+    doc.autoTable({
+      head: [
+        ['Sports', 'Event Name', 'Market Name', 'User Rate', 'Amount Placed'],
+      ],
+      body: data.map((item) => [
+        item.sportName,
+        item.eventName,
+        item.marketName,
+        item.odds,
+        item.stake,
+      ]),
+    });
+    doc.save(`${activeTab}.pdf`);
+  };
 
   useEffect(() => {
-    fetchApiData(currentPage);
-  }, [currentPage]);
+    fetchCurrentBetsData();
+  }, [currentPage, activeTab, betType, rowsPerPage]);
 
   const customStyles = {
     table: {
@@ -118,7 +171,10 @@ function CurrentBetPageContent() {
                 }
                 href="#"
                 role="tab"
-                onClick={() => setActiveTab('sports')}
+                onClick={() => {
+                  setActiveTab('sports');
+                  setBetType('');
+                }}
               >
                 Sports
               </a>
@@ -130,7 +186,10 @@ function CurrentBetPageContent() {
                 }
                 href="#"
                 role="tab"
-                onClick={() => setActiveTab('casino')}
+                onClick={() => {
+                  setActiveTab('casino');
+                  setBetType('');
+                }}
               >
                 Casino
               </a>
@@ -144,8 +203,12 @@ function CurrentBetPageContent() {
                 type="radio"
                 id="soda-all"
                 name="betType"
-                value="all"
+                value=""
                 className="custom-control-input"
+                checked={betType === ''}
+                onChange={() => {
+                  setBetType('');
+                }}
               />
               <Label for="soda-all" className="custom-bet-label">
                 All
@@ -158,6 +221,10 @@ function CurrentBetPageContent() {
                 name="betType"
                 value="back"
                 className="custom-control-input"
+                checked={betType === 'back'}
+                onChange={() => {
+                  setBetType('back');
+                }}
               />
               <Label for="soda-back" className="custom-bet-label">
                 Back
@@ -170,6 +237,10 @@ function CurrentBetPageContent() {
                 name="betType"
                 value="lay"
                 className="custom-control-input"
+                checked={betType === 'lay'}
+                onChange={() => {
+                  setBetType('lay');
+                }}
               />
               <Label for="soda-lay" className="custom-bet-label">
                 Lay
@@ -178,30 +249,116 @@ function CurrentBetPageContent() {
           </div>
           <div className="custom-control-inline">
             <div>
-              Total Bets: <span className="mr-2">0</span> Total Amount:
-              <span>0</span>
+              Total Bets: <span className="mr-2">{totalPages || 0}</span> Total
+              Amount:
+              <span>{totalAmount}</span>
             </div>
           </div>
           <div className="file-icons">
             <div>
-              <img src="images/pdf.png" alt="pdf" />
+              <button
+                type="button"
+                className="bg-transparent"
+                onClick={exportToPDF}
+                disabled={!data?.length}
+              >
+                <img src="images/pdf.png" alt="pdf" />
+              </button>
             </div>
             <div id="export_1694411267194">
-              <img src="images/pdfx.png" alt="pdf" />
+              <button
+                type="button"
+                className="bg-transparent"
+                onClick={onExportData}
+                disabled={!data?.length}
+              >
+                <img src="images/pdfx.png" alt="pdf" />
+              </button>
             </div>
           </div>
         </div>
-        <div className="report-table table-responsive">
-          <DataTable
-            columns={columns}
-            data={data}
-            progressPending={loading}
-            pagination
-            paginationServer
-            paginationTotalRows={totalPages}
-            onChangePage={handlePageChange}
-            customStyles={customStyles}
-          />
+        <div className="tab-content">
+          {activeTab === 'sports' ? (
+            <div
+              role="tabpanel"
+              className="tab-pane fade in active"
+              id="sports"
+            >
+              <div className="report-table table-responsive">
+                {data.length > 0 ? (
+                  <DataTable
+                    columns={columns}
+                    data={data}
+                    progressPending={loading}
+                    pagination
+                    paginationServer
+                    paginationTotalRows={totalPages}
+                    onChangePage={(page) => handlePageChange(page)}
+                    onChangeRowsPerPage={(value) =>
+                      handleRowsPerPageChange(value)
+                    }
+                    paginationPerPage={rowsPerPage}
+                    customStyles={customStyles}
+                  />
+                ) : (
+                  <table className="table">
+                    <thead>
+                      <tr>
+                        {columns.map((column) => (
+                          <th key={column.name}>{column.name}</th>
+                        ))}
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td colSpan={columns.length}>No records found</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                )}
+              </div>
+            </div>
+          ) : (
+            <div
+              role="tabpanel"
+              className="tab-pane fade in active"
+              id="casino"
+            >
+              <div className="report-table table-responsive">
+                {data.length > 0 ? (
+                  <DataTable
+                    columns={casinoColumns}
+                    data={data}
+                    progressPending={loading}
+                    pagination
+                    paginationServer
+                    paginationTotalRows={totalPages}
+                    onChangePage={(page) => handlePageChange(page)}
+                    onChangeRowsPerPage={(value) =>
+                      handleRowsPerPageChange(value)
+                    }
+                    paginationPerPage={rowsPerPage}
+                    customStyles={customStyles}
+                  />
+                ) : (
+                  <table className="table">
+                    <thead>
+                      <tr>
+                        {casinoColumns.map((column) => (
+                          <th key={column.name}>{column.name}</th>
+                        ))}
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td colSpan={casinoColumns.length}>No records found</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                )}
+              </div>
+            </div>
+          )}
         </div>
       </div>
     </div>
