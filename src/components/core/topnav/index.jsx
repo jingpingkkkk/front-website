@@ -20,9 +20,7 @@ import UserInfo from './ui/UserInfo';
 function Topnav() {
   const dispatch = useDispatch();
   // const { themeSettings } = useSelector((state) => state.themeSettings);
-  const { shouldLogin, user: loggedInUser } = useSelector(
-    (state) => state.userDetails,
-  );
+  const { shouldLogin } = useSelector((state) => state.userDetails);
   const { isLogingOpen } = useSelector((state) => state.loginDetails);
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(isLogingOpen);
   const [isRegisterModalOpen, setIsRegisterModalOpen] = useState(false);
@@ -66,9 +64,8 @@ function Topnav() {
       }
     };
 
-    if (loggedInUser?._id) {
-      rehydrateUser();
-    }
+    rehydrateUser();
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
