@@ -66,6 +66,7 @@ function MatchPageContent() {
               name: runner.runnerName,
               priority: index,
               pl: 0,
+              status: runner?.matchOdds?.status,
             };
           }),
         };
