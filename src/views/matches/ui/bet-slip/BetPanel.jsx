@@ -29,6 +29,50 @@ function BetPanel() {
 
   const [betLoading, setBetLoading] = useState(false);
 
+  const calculateMatchOddStake = (
+    betType,
+    rate,
+    quantity,
+    oppRunner,
+    priority,
+    pl,
+  ) => {
+    let absoluteBetProfit = 0;
+    const plForecast = [0, 0];
+    if (betType === betTypes.BACK) {
+      absoluteBetProfit = rate * quantity - quantity;
+      plForecast[priority] = pl + rate * quantity - quantity;
+      plForecast[priority === 0 ? 1 : 0] = oppRunner.pl + -quantity;
+    } else {
+      absoluteBetProfit = quantity;
+      plForecast[priority] = pl + -(rate * quantity - quantity);
+      plForecast[priority === 0 ? 1 : 0] = oppRunner.pl + quantity;
+    }
+    return { absoluteBetProfit, plForecast };
+  };
+
+  const calculateBookMakerStake = (
+    betType,
+    rate,
+    quantity,
+    oppRunner,
+    priority,
+    pl,
+  ) => {
+    let absoluteBetProfit = 0;
+    const plForecast = [0, 0];
+    if (betType === betTypes.BACK) {
+      absoluteBetProfit = (rate * quantity) / 100;
+      plForecast[priority] = pl + (rate * quantity) / 100;
+      plForecast[priority === 0 ? 1 : 0] = oppRunner.pl + -quantity;
+    } else {
+      absoluteBetProfit = quantity;
+      plForecast[priority] = pl + -((rate * quantity) / 100);
+      plForecast[priority === 0 ? 1 : 0] = oppRunner.pl + quantity;
+    }
+    return { absoluteBetProfit, plForecast };
+  };
+
   const updateStake = ({ stake = null, price = null, max = false }) => {
     const { betType, market } = eventBet;
     const { priority, pl, _id } = eventBet.runner;
@@ -60,16 +104,30 @@ function BetPanel() {
     }
 
     let absoluteBetProfit = 0;
-    const plForecast = [0, 0];
+    let plForecast = [0, 0];
 
-    if (betType === betTypes.BACK) {
-      absoluteBetProfit = rate * quantity - quantity;
-      plForecast[priority] = pl + rate * quantity - quantity;
-      plForecast[priority === 0 ? 1 : 0] = oppRunner.pl + -quantity;
-    } else {
-      absoluteBetProfit = quantity;
-      plForecast[priority] = pl + -(rate * quantity - quantity);
-      plForecast[priority === 0 ? 1 : 0] = oppRunner.pl + quantity;
+    if (eventBet?.market?.name === 'Match Odds') {
+      const { absoluteBetProfit: ap, plForecast: pf } = calculateMatchOddStake(
+        betType,
+        rate,
+        quantity,
+        oppRunner,
+        priority,
+        pl,
+      );
+      absoluteBetProfit = ap;
+      plForecast = pf;
+    } else if (eventBet?.market?.name === 'Bookmaker') {
+      const { absoluteBetProfit: ap, plForecast: pf } = calculateBookMakerStake(
+        betType,
+        rate,
+        quantity,
+        oppRunner,
+        priority,
+        pl,
+      );
+      absoluteBetProfit = ap;
+      plForecast = pf;
     }
 
     dispatch(setAbsoluteBetProfit(absoluteBetProfit));
