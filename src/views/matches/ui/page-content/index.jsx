@@ -52,6 +52,7 @@ function MatchPageContent() {
         return {
           _id: market._id,
           apiMarketId: market.marketId,
+          apiEventId: market.apiEventId,
           name: market.name,
           eventName: event.name,
           plForecast: [0, 0],
@@ -67,6 +68,8 @@ function MatchPageContent() {
               priority: index,
               pl: 0,
               status: runner?.matchOdds?.status,
+              minStake: runner?.matchOdds?.min,
+              maxStake: runner?.matchOdds?.max,
             };
           }),
         };
