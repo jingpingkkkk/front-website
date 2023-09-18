@@ -23,24 +23,24 @@ function ProductPromotion() {
           emulateTouch
         >
           <div>
-            <img src="images/pramotion-banner1.png" alt="carouselbanner" />
+            <img src="images/side-banner.png" alt="carouselbanner" />
           </div>
           <div>
-            <img src="images/pramotion-banner1.png" alt="carouselbanner" />
+            <img src="images/side-banner.png" alt="carouselbanner" />
           </div>
           <div>
-            <img src="images/pramotion-banner1.png" alt="carouselbanner" />
+            <img src="images/side-banner.png" alt="carouselbanner" />
           </div>
           <div>
-            <img src="images/pramotion-banner1.png" alt="carouselbanner" />
+            <img src="images/side-banner.png" alt="carouselbanner" />
           </div>
           <div>
-            <img src="images/pramotion-banner1.png" alt="carouselbanner" />
+            <img src="images/side-banner.png" alt="carouselbanner" />
           </div>
         </Carousel>
       </div>
 
-      <div className="tabing-sec">
+      <div className="tabing-sec mt-3">
         <ul className="nav nav-tabs" role="tablist">
           <li className="nav-item">
             <a

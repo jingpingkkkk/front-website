@@ -7,25 +7,32 @@ const BannerSlider = () => {
   // const { themeSettings } = useSelector((state) => state.themeSettings);
   // const sliderImages = themeSettings?.bannerImages || [];
   // delete static image
-  const sliderImages = ['images/banner1.png', 'images/banner1.png'];
+  const sliderImages = [
+    'images/banner1.png',
+    'images/banner1.png',
+    'images/banner1.png',
+    'images/banner1.png',
+  ];
   return (
-    <Carousel
-      showArrows={false}
-      showStatus={false}
-      infiniteLoop
-      showThumbs={false}
-      autoPlay
-      stopOnHover
-      swipeable
-      dynamicHeight
-      emulateTouch
-    >
-      {sliderImages?.map((banner, index) => (
-        <div className="px-1" key={index}>
-          <img src={banner} alt="banner" />
-        </div>
-      ))}
-    </Carousel>
+    <div style={{ borderRadius: '8px', overflow: 'hidden' }}>
+      <Carousel
+        showArrows={false}
+        showStatus={false}
+        infiniteLoop
+        showThumbs={false}
+        autoPlay
+        stopOnHover
+        swipeable
+        dynamicHeight
+        emulateTouch
+      >
+        {sliderImages?.map((banner, index) => (
+          <div className="px-1" key={index}>
+            <img src={banner} alt="banner" />
+          </div>
+        ))}
+      </Carousel>
+    </div>
   );
 };
 export default BannerSlider;
