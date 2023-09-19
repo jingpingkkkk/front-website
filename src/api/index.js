@@ -17,11 +17,11 @@ const isJSONString = (str) => {
   return true;
 };
 
-const handleError = (error) => {
+const handleError = async (error) => {
   if (error.response) {
     const { data, status } = error.response;
 
-    const decryptedData = decryptResponse(data);
+    const decryptedData = await decryptResponse(data);
     let errorMessage = decryptedData;
 
     if (isJSONString(decryptedData)) {
@@ -52,7 +52,7 @@ const handleFormData = async (url, formData) => {
     });
     return response.data;
   } catch (error) {
-    handleError(error);
+    await handleError(error);
     throw error;
   }
 };
@@ -92,14 +92,14 @@ const makeRequest = async ({
   const config = {
     method,
     url,
-    data: encryptRequest(data),
+    data: await encryptRequest(data),
     headers: createHeaders(useAuthToken),
     cancelToken: useAbortController ? source.token : undefined,
   };
 
   try {
     const response = await api(config);
-    const decrypted = JSON.parse(decryptResponse(response.data));
+    const decrypted = JSON.parse(await decryptResponse(response.data));
     return decrypted;
   } catch (error) {
     return handleError(error);
@@ -127,22 +127,4 @@ const getRequest = async (url, useAuthToken = true) => {
   });
 };
 
-const handshake = async () => {
-  try {
-    const url = import.meta.env.VITE_API_URL.replace('/api/v1', '');
-    const response = await fetch(`${url}/handshake`, { method: 'GET' });
-    const data = await response.json();
-    if (!data.success) {
-      throw new Error('Handshake failed');
-    }
-    localStorage.setItem(
-      'frr_buf',
-      JSON.stringify(data.metadata.relay.rel_buf1),
-    );
-    localStorage.setItem('dfr_buf', data.metadata.relay.rel_buf2);
-  } catch (e) {
-    ToastAlert.error('Error', 'Unable to establish connection with server');
-  }
-};
-
-export { getRequest, handleFormData, handshake, makeRequest, postRequest };
+export { getRequest, handleFormData, makeRequest, postRequest };
