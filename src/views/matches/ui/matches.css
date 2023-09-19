@@ -403,6 +403,11 @@
   line-height: 16px;
   font-weight: bold;
 }
+.fancy-tripple .suspendedtext:after {
+  width: 148px !important;
+  right: 84px !important;
+  height: calc(100% - 4px);
+}
 @media only screen and (min-width: 1280px) {
   .d-none-desktop {
     display: none !important;

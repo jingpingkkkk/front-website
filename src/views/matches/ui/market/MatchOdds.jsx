@@ -189,7 +189,7 @@ function MatchOdds({ market }) {
                           : 'text-danger'
                       }`}
                     >
-                      {market?.plForecast[runner?.priority].toFixed(0)}
+                      {market?.plForecast[runner?.priority]?.toFixed(0)}
                     </div>
                   ) : null}
                 </div>

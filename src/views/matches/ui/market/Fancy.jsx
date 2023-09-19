@@ -5,8 +5,12 @@ import { useDispatch, useSelector } from 'react-redux';
 import { io } from 'socket.io-client';
 import { postRequest } from '../../../../api';
 import shortNumber from '../../../../helper/number';
-import { betTypes } from '../../../../redux/reducers/event-bet';
-import { setMarketRunnerPl } from '../../../../redux/reducers/event-market';
+import { betTypes, setBetOdds } from '../../../../redux/reducers/event-bet';
+import {
+  setFancyMarketRunners,
+  setMarketPlForecast,
+  setMarketRunnerPl,
+} from '../../../../redux/reducers/event-market';
 
 const emptyOdds = {
   back: { price: 0, size: 0 },
@@ -50,17 +54,21 @@ function Fancy({ market }) {
     });
 
     socket.on(`market:data:${market.apiEventId}`, (data) => {
-      // console.log('Data=>', data);
       if (data) {
-        // const { BackPrice1, LayPrice1, BackSize1, LaySize1 } = data;
-
-        const teamData = { back: {}, lay: {} };
-
-        // teamData.back.price = BackPrice1;
-        // teamData.back.size = BackSize1;
-        // teamData.lay.price = LayPrice1;
-        // teamData.lay.size = LaySize1;
+        const teamData = data?.map((item) => ({
+          runnerId: item?.runnerId,
+          back: { price: item.BackPrice1, size: item.BackSize1 },
+          lay: { price: item.LayPrice1, size: item.LaySize1 },
+        }));
         setRunnerOdds(teamData);
+        const differences = market?.runners?.filter((runner) => {
+          return data.some((item2) => runner?._id === item2?.runnerId);
+        });
+        const marketData = {
+          runners: differences,
+          marketId: market?._id,
+        };
+        dispatch(setFancyMarketRunners(marketData));
       }
     });
 
@@ -75,7 +83,31 @@ function Fancy({ market }) {
   }, [market]);
 
   const handleOddClick = (runner, odd, type) => {
-    console.log(runner, odd, type);
+    if (odd.price === 0) return;
+    const selectedOdd = {
+      market: {
+        _id: market._id,
+        apiMarketId: market.apiMarketId,
+        name: market.name,
+        betDelay: 0,
+        minStake: market.minStake,
+        maxStake: market.maxStake,
+        isBetLock: market.isBetLock || false,
+      },
+      runner: {
+        _id: runner._id,
+        selectionId: runner.selectionId,
+        name: runner.name,
+        priority: runner.priority,
+        pl: runner.pl,
+      },
+      price: odd.price,
+      betType: type,
+    };
+
+    // dispatch(setBetStake(0));
+    dispatch(setBetOdds(selectedOdd));
+    dispatch(setMarketPlForecast({ marketId: market._id, plForecast: [0, 0] }));
   };
   return (
     <div className="pb-1">
@@ -101,60 +133,45 @@ function Fancy({ market }) {
       </div>
       <div className="row row5">
         {market?.runners?.map((runner) => {
+          const odds = runnerOdds?.length
+            ? runnerOdds?.find((item) => item?.runnerId === runner?._id)
+            : {};
           return (
             <div key={runner?._id} className="col-12 col-md-6">
               <div className="fancy-tripple">
                 <div className="bet-table-mobile-row d-none-desktop">
                   <div className="bet-table-mobile-team-name">
                     <span>{runner?.name || ''}</span>
-                    <div
-                      className={`pt-1 small ${
-                        runner.pl > 0
-                          ? 'text-success'
-                          : runner.pl < 0
-                          ? 'text-danger'
-                          : 'text-light'
-                      }`}
-                    >
-                      {runner.pl ? runner.pl.toFixed(0) : ''}
-                    </div>
                   </div>
                 </div>
-                <div data-title="" className="bet-table-row">
+                <div
+                  data-title={runner?.GameStatus}
+                  className={`bet-table-row ${
+                    runner?.GameStatus === 'SUSPENDED' ? 'suspendedtext' : ''
+                  }`}
+                >
                   <div className="nation-name d-none-mobile small">
                     <div className="text-light">
                       <span>{runner?.name || ''}</span>
-                      <span className="float-right" />
-                      <div
-                        className={`pt-1 small ${
-                          runner.pl > 0
-                            ? 'text-success'
-                            : runner.pl < 0
-                            ? 'text-danger'
-                            : 'text-light'
-                        }`}
-                      >
-                        {runner.pl ? runner.pl.toFixed(0) : ''}
-                      </div>
                     </div>
                   </div>
                   <button
                     type="button"
                     className="bl-box lay lay"
                     onClick={() =>
-                      handleOddClick(runner, runnerOdds, betTypes.LAY)
+                      handleOddClick(runner, odds?.lay, betTypes.LAY)
                     }
                   >
-                    {runnerOdds?.lay?.price && runnerOdds?.lay?.price !== 0 ? (
+                    {odds?.lay?.price && odds?.lay?.price !== 0 ? (
                       <>
                         <span className="d-block odds">
-                          {runnerOdds?.lay?.price
-                            ? parseFloat(runnerOdds?.lay?.price.toFixed(2))
+                          {odds?.lay?.price
+                            ? parseFloat(odds?.lay?.price.toFixed(2))
                             : '-'}
                         </span>
                         <span className="d-block">
-                          {runnerOdds?.lay?.size
-                            ? shortNumber(runnerOdds?.lay?.size, 2)
+                          {odds?.lay?.size
+                            ? shortNumber(odds?.lay?.size, 2)
                             : 0}
                         </span>
                       </>
@@ -166,19 +183,19 @@ function Fancy({ market }) {
                     type="button"
                     className="bl-box back back"
                     onClick={() =>
-                      handleOddClick(runner, runnerOdds, betTypes.BACK)
+                      handleOddClick(runner, odds?.back, betTypes.BACK)
                     }
                   >
-                    {runnerOdds?.back?.price && runnerOdds.back.price !== 0 ? (
+                    {odds?.back?.price && odds?.back?.price !== 0 ? (
                       <>
                         <span className="d-block odds">
-                          {runnerOdds?.back?.price
-                            ? parseFloat(runnerOdds.back?.price.toFixed(2))
+                          {odds?.back?.price
+                            ? parseFloat(odds?.back?.price?.toFixed(2))
                             : '-'}
                         </span>
                         <span className="d-block">
-                          {runnerOdds?.back?.size
-                            ? shortNumber(runnerOdds.back?.size, 2)
+                          {odds?.back?.size
+                            ? shortNumber(odds.back?.size, 2)
                             : 0}
                         </span>
                       </>
@@ -188,16 +205,16 @@ function Fancy({ market }) {
                   </button>
                   <div className="fancy-min-max">
                     <div>
-                      <span title={`Min:${shortNumber(runner.minStake)}`}>
-                        Min:<span>{shortNumber(runner.minStake)}</span>
+                      <span title={`Min:${shortNumber(runner.minStake, 0)}`}>
+                        Min:<span>{shortNumber(runner.minStake, 0)}</span>
                       </span>
                     </div>
                     <div>
                       <span
                         className="ps-2"
-                        title={`Max:${shortNumber(runner.maxStake)}`}
+                        title={`Max:${shortNumber(runner.maxStake, 0)}`}
                       >
-                        Max:<span>{shortNumber(runner.maxStake)}</span>
+                        Max:<span>{shortNumber(runner.maxStake, 0)}</span>
                       </span>
                     </div>
                   </div>

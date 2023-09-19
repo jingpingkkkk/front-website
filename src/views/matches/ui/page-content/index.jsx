@@ -70,6 +70,7 @@ function MatchPageContent() {
               status: runner?.matchOdds?.status,
               minStake: runner?.matchOdds?.min,
               maxStake: runner?.matchOdds?.max,
+              GameStatus: runner?.matchOdds?.GameStatus,
             };
           }),
         };

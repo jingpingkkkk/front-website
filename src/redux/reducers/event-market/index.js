@@ -89,6 +89,16 @@ export const eventMarketSlice = createSlice({
       state.event = {};
       state.markets = [];
     },
+    setFancyMarketRunners: (state, action) => {
+      const { marketId, runners } = action.payload;
+      const currentMarkets = current(state).markets;
+      state.markets = currentMarkets.map((mkt) => {
+        if (mkt._id === marketId) {
+          return { ...mkt, runners };
+        }
+        return mkt;
+      });
+    },
   },
 });
 
@@ -98,6 +108,7 @@ export const {
   setMarketPlForecast,
   resetEventMarket,
   setMarketRunnerPl,
+  setFancyMarketRunners,
 } = eventMarketSlice.actions;
 
 export default eventMarketSlice.reducer;
