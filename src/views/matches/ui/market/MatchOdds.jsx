@@ -88,7 +88,7 @@ function MatchOdds({ market }) {
           teamTwoData.back.push(teamTwo.back[i] || {});
           teamTwoData.lay.push(teamTwo.lay[i] || {});
         }
-
+        // console.log('MatchOdds Data=>', data);
         setRunnerOdds({ 0: teamOneData, 1: teamTwoData });
       }
     });
@@ -189,7 +189,7 @@ function MatchOdds({ market }) {
                           : 'text-danger'
                       }`}
                     >
-                      {market?.plForecast[runner?.priority].toFixed(0)}
+                      {market?.plForecast[runner?.priority]?.toFixed(0)}
                     </div>
                   ) : null}
                 </div>
