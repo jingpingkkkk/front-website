@@ -7,7 +7,6 @@ import { postRequest } from '../../../../api';
 import shortNumber from '../../../../helper/number';
 import { betTypes, setBetOdds } from '../../../../redux/reducers/event-bet';
 import {
-  setFancyMarketRunners,
   setMarketPlForecast,
   setMarketRunnerPl,
 } from '../../../../redux/reducers/event-market';
@@ -25,7 +24,7 @@ function Fancy({ market }) {
   const { event } = useSelector((state) => state.eventMarket);
   const { market: eventBetMarket } = useSelector((state) => state.eventBet);
   const socket = useMemo(() => io(marketUrl, { autoConnect: false }), []);
-  // console.log('market', market);
+  const [fancyRunners, setFancyRunners] = useState([]);
 
   const [runnerOdds, setRunnerOdds] = useState(emptyOdds);
 
@@ -61,14 +60,7 @@ function Fancy({ market }) {
           lay: { price: item.LayPrice1, size: item.LaySize1 },
         }));
         setRunnerOdds(teamData);
-        const differences = market?.runners?.filter((runner) => {
-          return data.some((item2) => runner?._id === item2?.runnerId);
-        });
-        const marketData = {
-          runners: differences,
-          marketId: market?._id,
-        };
-        dispatch(setFancyMarketRunners(marketData));
+        setFancyRunners(data);
       }
     });
 
@@ -95,9 +87,9 @@ function Fancy({ market }) {
         isBetLock: market.isBetLock || false,
       },
       runner: {
-        _id: runner._id,
-        selectionId: runner.selectionId,
-        name: runner.name,
+        _id: runner.runnerId,
+        selectionId: runner.SelectionId,
+        name: runner.RunnerName,
         priority: runner.priority,
         pl: runner.pl,
       },
@@ -132,16 +124,16 @@ function Fancy({ market }) {
         </div>
       </div>
       <div className="row row5">
-        {market?.runners?.map((runner) => {
+        {fancyRunners?.map((runner) => {
           const odds = runnerOdds?.length
-            ? runnerOdds?.find((item) => item?.runnerId === runner?._id)
+            ? runnerOdds?.find((item) => item?.runnerId === runner?.runnerId)
             : {};
           return (
-            <div key={runner?._id} className="col-12 col-md-6">
+            <div key={runner?.runnerId} className="col-12 col-md-6">
               <div className="fancy-tripple">
                 <div className="bet-table-mobile-row d-none-desktop">
                   <div className="bet-table-mobile-team-name">
-                    <span>{runner?.name || ''}</span>
+                    <span>{runner?.RunnerName || ''}</span>
                   </div>
                 </div>
                 <div
@@ -152,7 +144,7 @@ function Fancy({ market }) {
                 >
                   <div className="nation-name d-none-mobile small">
                     <div className="text-light">
-                      <span>{runner?.name || ''}</span>
+                      <span>{runner?.RunnerName || ''}</span>
                     </div>
                   </div>
                   <button
@@ -205,16 +197,16 @@ function Fancy({ market }) {
                   </button>
                   <div className="fancy-min-max">
                     <div>
-                      <span title={`Min:${shortNumber(runner.minStake, 0)}`}>
-                        Min:<span>{shortNumber(runner.minStake, 0)}</span>
+                      <span title={`Min:${shortNumber(runner.min, 0)}`}>
+                        Min:<span>{shortNumber(runner.min, 0)}</span>
                       </span>
                     </div>
                     <div>
                       <span
                         className="ps-2"
-                        title={`Max:${shortNumber(runner.maxStake, 0)}`}
+                        title={`Max:${shortNumber(runner.max, 0)}`}
                       >
-                        Max:<span>{shortNumber(runner.maxStake, 0)}</span>
+                        Max:<span>{shortNumber(runner.max, 0)}</span>
                       </span>
                     </div>
                   </div>
