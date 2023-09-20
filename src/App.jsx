@@ -5,7 +5,6 @@ import {
   BrowserRouter as Router,
   Routes,
 } from 'react-router-dom';
-import { handshake } from './api';
 import LoadingOverlay from './components/common/loading-overlay';
 import CurrentBets from './views/currentbets';
 
@@ -19,7 +18,6 @@ function App() {
       localStorage.removeItem('reload');
       window.location.reload();
     }
-    handshake();
   }, []);
 
   return (

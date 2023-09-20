@@ -1,19 +1,14 @@
-/* eslint-disable jsx-a11y/click-events-have-key-events */
 /* eslint-disable jsx-a11y/no-static-element-interactions */
-/* eslint-disable react/jsx-one-expression-per-line */
-/* eslint-disable jsx-a11y/alt-text */
-/* eslint-disable no-script-url */
-/* eslint-disable react/jsx-no-script-url */
-/* eslint-disable jsx-a11y/anchor-is-valid */
-import React, { useEffect, useState, useRef } from 'react';
-import { Carousel } from 'react-responsive-carousel';
+/* eslint-disable jsx-a11y/click-events-have-key-events */
 import moment from 'moment';
+import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch } from 'react-redux';
-import UpcommingMatches from '../upcomming-matches';
-import News from '../../../../components/core/news';
+import { Carousel } from 'react-responsive-carousel';
 import { getRequest } from '../../../../api';
-import { setLoginPopup } from '../../../../redux/reducers/login-popup';
+import News from '../../../../components/core/news';
 import BannerSlider from '../../../../components/core/slider';
+import { setLoginPopup } from '../../../../redux/reducers/login-popup';
+import UpcommingMatches from '../upcomming-matches';
 
 function SportPageContent() {
   const dispatch = useDispatch();

@@ -57,6 +57,8 @@ function Topnav() {
     };
 
     const rehydrateUser = async () => {
+      const token = localStorage.getItem('userToken');
+      if (!token) return;
       const result = await postRequest('users/rehydrateUser');
       if (result.success) {
         dispatch(setUserDetails(result.data.details));
