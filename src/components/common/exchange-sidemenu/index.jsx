@@ -14,6 +14,7 @@ import { getRequest } from '../../../api';
 import { setShouldLogin } from '../../../redux/reducers/user-details';
 import './exchangeMenu.css';
 import menuImages from './menu-images';
+import { setSportsList } from '../../../redux/reducers/sports-list';
 
 function ExchangeSideMenu({ className = 'd-none d-lg-block' }) {
   const navigate = useNavigate();
@@ -66,6 +67,7 @@ function ExchangeSideMenu({ className = 'd-none d-lg-block' }) {
           );
           setFavouriteEvents(favEvents);
         }
+        dispatch(setSportsList(result?.data || []));
       }
     } catch (error) {
       setLoading(false);
