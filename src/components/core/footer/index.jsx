@@ -22,6 +22,10 @@ function Footer() {
                         ? themeSettings?.logoImage
                         : 'images/logo.png'
                     }
+                    onError={({ currentTarget }) => {
+                      currentTarget.onerror = null;
+                      currentTarget.src = 'images/logo.png';
+                    }}
                     className="footer-logo"
                   />
                 </a>

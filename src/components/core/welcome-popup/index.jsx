@@ -37,6 +37,10 @@ const WelcomePopup = ({ isOpen, onClose }) => {
           src={imageURL || 'images/welcome.png'}
           className="img-fluid"
           alt="back-img"
+          onError={({ currentTarget }) => {
+            currentTarget.onerror = null;
+            currentTarget.src = 'images/welcome.png';
+          }}
         />
       </ModalBody>
     </Modal>

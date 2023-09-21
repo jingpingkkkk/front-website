@@ -15,7 +15,7 @@ function LoadingOverlay({ loadingText = '', color = '#d5be77' }) {
     // const domainUrl = window.location.origin;
     const body = {
       countryName: ipAddress?.country,
-      domainUrl: 'https://gogle.com',
+      domainUrl: 'https://google1234.com',
     };
     const result = await postRequest(
       'themeSetting/themeSettingByCurrencyAndDomain',
