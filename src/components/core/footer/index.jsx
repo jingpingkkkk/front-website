@@ -16,9 +16,14 @@ function Footer() {
             <div className="col-md-4 col-sm-12 col-12">
               <div className="logo">
                 <a href="#">
-                  {/* delete static image */}
-                  <img src="images/logo.png" className="footer-logo" />
-                  {/* use this <img src={themeSettings?.logoImage} className="footer-logo" /> */}
+                  <img
+                    src={
+                      themeSettings?.logoImage
+                        ? themeSettings?.logoImage
+                        : 'images/logo.png'
+                    }
+                    className="footer-logo"
+                  />
                 </a>
               </div>
 

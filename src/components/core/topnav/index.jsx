@@ -19,7 +19,7 @@ import UserInfo from './ui/UserInfo';
 
 function Topnav() {
   const dispatch = useDispatch();
-  // const { themeSettings } = useSelector((state) => state.themeSettings);
+  const { themeSettings } = useSelector((state) => state.themeSettings);
   const { shouldLogin } = useSelector((state) => state.userDetails);
   const { isLogingOpen } = useSelector((state) => state.loginDetails);
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(isLogingOpen);
@@ -89,23 +89,27 @@ function Topnav() {
         <MenuToggleButton />
 
         <NavLink to="/" className="ms-5 ps-3">
-          {/* delete static image */}
           <img
-            src="images/logo.png"
+            src={
+              themeSettings?.logoImage
+                ? themeSettings?.logoImage
+                : 'images/logo.png'
+            }
             width="125"
             alt="brand-logo"
             style={{ paddingTop: '0.75rem' }}
           />
-          {/* use this <img src={themeSettings?.logoImage} width="125"
-            alt="brand-logo"
-            style={{ paddingTop: '0.75rem' }} /> */}
         </NavLink>
       </div>
 
       {/* Logo - Desktop View */}
       <NavLink to="/" className="d-none d-lg-block">
         <img
-          src="images/logo.png"
+          src={
+            themeSettings?.logoImage
+              ? themeSettings?.logoImage
+              : 'images/logo.png'
+          }
           width="150"
           alt="brand-logo"
           style={{ paddingTop: '0.75rem' }}
