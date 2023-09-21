@@ -1,18 +1,11 @@
 /* eslint-disable react/no-array-index-key */
 import React from 'react';
-// import { useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { Carousel } from 'react-responsive-carousel';
 
 const BannerSlider = () => {
-  // const { themeSettings } = useSelector((state) => state.themeSettings);
-  // const sliderImages = themeSettings?.bannerImages || [];
-  // delete static image
-  const sliderImages = [
-    'images/banner1.png',
-    'images/banner1.png',
-    'images/banner1.png',
-    'images/banner1.png',
-  ];
+  const { themeSettings } = useSelector((state) => state.themeSettings);
+  const sliderImages = themeSettings?.bannerImages || ['images/banner1.png'];
   return (
     <div style={{ borderRadius: '8px', overflow: 'hidden' }}>
       <Carousel
