@@ -416,7 +416,16 @@
     display: block;
   }
 }
+
 @media only screen and (min-width: 320px) and (max-width: 1279px) {
+  .suspendedtext:after {
+    width: calc(100% - 16px);
+  }
+  .fancy-tripple .suspendedtext:after {
+    width: calc(63% - 13px) !important;
+    right: calc(37% + 5px) !important;
+    height: calc(100% - 4px);
+  }
   .comman-bg .accordion-button {
     font-size: 12px;
   }
