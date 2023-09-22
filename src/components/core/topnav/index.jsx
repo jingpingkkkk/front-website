@@ -16,6 +16,7 @@ import './topNav.css';
 import MenuToggleButton from './ui/MenuToggleButton';
 import StickyHeader from './ui/StickyHeader';
 import UserInfo from './ui/UserInfo';
+import useScreenWidth from '../../../hooks/use-screen-width';
 
 function Topnav() {
   const dispatch = useDispatch();
@@ -26,6 +27,13 @@ function Topnav() {
   const [isRegisterModalOpen, setIsRegisterModalOpen] = useState(false);
   const [user, setUser] = useState('');
   const [isWelcome, setIsWelcome] = useState(false);
+
+  const { isMobile, isTablet } = useScreenWidth();
+  const imageURL =
+    isMobile || isTablet
+      ? themeSettings?.welcomeMobileImage
+      : themeSettings?.welcomeDesktopImage;
+
   const toggleLoginModal = () => {
     setIsLoginModalOpen(!isLoginModalOpen);
     dispatch(setLoginPopup(!isLoginModalOpen));
@@ -167,7 +175,7 @@ function Topnav() {
             />
           </>
         )}
-        {isWelcome && (
+        {isWelcome && imageURL && (
           <WelcomePopup
             isOpen={isWelcome}
             onClose={() => {

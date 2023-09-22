@@ -4,7 +4,7 @@ const sportsListSlice = createSlice({
   name: 'sports',
 
   initialState: {
-    sports: {},
+    sports: [],
   },
 
   reducers: {
