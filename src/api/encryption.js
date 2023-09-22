@@ -42,7 +42,7 @@ const defrag = (arr, defragStep) => {
   return str;
 };
 
-const handshake = async () => {
+export const handshake = async () => {
   try {
     const url = import.meta.env.VITE_API_URL.replace('/api/v1', '');
     const response = await fetch(`${url}/handshake`, { method: 'GET' });
@@ -52,10 +52,12 @@ const handshake = async () => {
     }
     const fragBuf = JSON.stringify(data.metadata.relay.rel_buf1);
     const defragBuf = data.metadata.relay.rel_buf2;
+    const envBuf = data.metadata.relay.rel_buf3;
     localStorage.setItem('frr_buf', fragBuf);
     localStorage.setItem('dfr_buf', defragBuf);
+    localStorage.setItem('evr_buf', envBuf);
 
-    return { fragBuf, defragBuf };
+    return { fragBuf, defragBuf, envBuf };
   } catch (e) {
     ToastAlert.error('Error', 'Unable to establish connection with server');
     return null;
@@ -65,12 +67,13 @@ const handshake = async () => {
 const decrypt = (str) => {
   if (!str) return null;
   const decrypted = CryptoJS.AES.decrypt(str, resAes);
-  return decrypted.toString(CryptoJS.enc.Utf8);
+  return JSON.parse(decrypted.toString(CryptoJS.enc.Utf8));
 };
 
 const genFragKeys = async () => {
   let fragBuf = localStorage.getItem('frr_buf');
   let defragBuf = localStorage.getItem('dfr_buf');
+  let dv = localStorage.getItem('evr_buf');
 
   if (!(fragBuf && defragBuf)) {
     const response = await handshake();
@@ -79,20 +82,23 @@ const genFragKeys = async () => {
     } else {
       fragBuf = response.fragBuf;
       defragBuf = response.defragBuf;
+      dv = response.envBuf;
     }
   }
 
-  const defragStep = Number(JSON.parse(decrypt(defragBuf)));
-  const fragChunk = Number(
-    JSON.parse(decrypt(defrag(JSON.parse(fragBuf), defragStep))),
-  );
+  const defragStep = Number(decrypt(defragBuf));
+  const fragChunk = Number(decrypt(defrag(JSON.parse(fragBuf), defragStep)));
+  const decryptedDv = JSON.parse(decrypt(dv));
 
-  return { defragStep, fragChunk };
+  return { defragStep, fragChunk, dv: decryptedDv };
 };
 
 const encryptRequest = async (data = {}) => {
   try {
-    const { fragChunk, defragStep } = await genFragKeys();
+    const { fragChunk, defragStep, dv } = await genFragKeys();
+    if (dv === true) {
+      return JSON.stringify(data);
+    }
     const encrypted = CryptoJS.AES.encrypt(JSON.stringify(data), resAes);
     const cipherText = encrypted.toString();
 
@@ -105,7 +111,10 @@ const encryptRequest = async (data = {}) => {
 
 const decryptResponse = async (data = {}) => {
   try {
-    const { defragStep } = await genFragKeys();
+    const { defragStep, dv } = await genFragKeys();
+    if (dv === true) {
+      return data;
+    }
     const mergedString = defrag(data?.cpr_ctx, defragStep);
     const decrypted = decrypt(mergedString);
     // const decrypted = decrypt(data?.cpr_ctx);
@@ -117,4 +126,25 @@ const decryptResponse = async (data = {}) => {
   }
 };
 
-export { decryptResponse, encryptRequest };
+const generateEncHeaders = async () => {
+  try {
+    let envBuf = localStorage.getItem('evr_buf');
+    if (!envBuf) {
+      const response = await handshake();
+      envBuf = response.envBuf;
+    }
+    const dv = JSON.parse(decrypt(envBuf));
+    if (dv === true) {
+      return {
+        'X-Bypass-Res-Enc': dv,
+        'X-Res-Enc-Bypass-Key': import.meta.env.VITE_RESPONSE_AES_BYPASS_KEY,
+      };
+    }
+    return {};
+  } catch (e) {
+    ToastAlert.error('Failed to generate enc headers');
+    return {};
+  }
+};
+
+export { decryptResponse, encryptRequest, generateEncHeaders };

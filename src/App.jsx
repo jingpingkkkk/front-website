@@ -5,6 +5,7 @@ import {
   BrowserRouter as Router,
   Routes,
 } from 'react-router-dom';
+import { handshake } from './api/encryption';
 import LoadingOverlay from './components/common/loading-overlay';
 import CurrentBets from './views/currentbets';
 
@@ -19,6 +20,17 @@ function App() {
       localStorage.removeItem('reload');
       window.location.reload();
     }
+  }, []);
+
+  useEffect(() => {
+    const interval = setInterval(
+      async () => {
+        await handshake();
+      },
+      1000 * 60 * 5,
+    );
+    handshake();
+    return () => clearInterval(interval);
   }, []);
 
   return (
