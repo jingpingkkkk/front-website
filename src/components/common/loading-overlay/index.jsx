@@ -11,11 +11,9 @@ function LoadingOverlay({ loadingText = '', color = '#d5be77' }) {
   const dispatch = useDispatch();
   const getThemeSettings = async () => {
     const ipAddress = await ipDetails();
-    // use this domainUrl in body
-    // const domainUrl = window.location.origin;
     const body = {
       countryName: ipAddress?.country,
-      domainUrl: 'https://google1234.com',
+      domainUrl: window?.location?.origin,
     };
     const result = await postRequest(
       'themeSetting/themeSettingByCurrencyAndDomain',

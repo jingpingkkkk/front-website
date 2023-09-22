@@ -131,8 +131,11 @@ const LoginPopup = ({ isOpen, toggle }) => {
               <input
                 type="checkbox"
                 id="customCheck"
-                name="example1"
+                name="agree"
                 className="custom-control-checkbox"
+                {...register('agree', {
+                  required: 'Please check',
+                })}
               />
               <Label for="customCheck" className="custom-control-label">
                 I am at least
@@ -157,6 +160,11 @@ const LoginPopup = ({ isOpen, toggle }) => {
                 </a>
                 ,<a href="/">GamCare</a>,<a href="/">Gambling Therapy</a>
               </Label>
+              {errors?.agree ? (
+                <div className="text-danger mt-2">{errors?.agree?.message}</div>
+              ) : (
+                ''
+              )}
             </div>
           </div>
           <div className="form-group mb-1">

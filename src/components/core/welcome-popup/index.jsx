@@ -34,7 +34,7 @@ const WelcomePopup = ({ isOpen, onClose }) => {
           <div>{themeSettings?.welcomeMessage || ''}</div>
         </div>
         <img
-          src={imageURL || 'images/welcome.png'}
+          src={imageURL}
           className="img-fluid"
           alt="back-img"
           onError={({ currentTarget }) => {

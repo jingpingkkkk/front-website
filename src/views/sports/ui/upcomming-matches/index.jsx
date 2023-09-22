@@ -3,16 +3,17 @@
 /* eslint-disable no-nested-ternary */
 import React, { useState, useEffect } from 'react';
 import { Spinner } from 'reactstrap';
+import { useSelector } from 'react-redux';
 import SportsTabs from '../sports-tabs';
-import { getRequest, postRequest } from '../../../../api';
+import { postRequest } from '../../../../api';
 import EventList from '../events';
 
 function UpcommingMatches() {
-  const [availableSports, setAvailableSports] = useState([]);
-  const [loading, setLoading] = useState(false);
+  const availableSports = useSelector((state) => state.sportsList?.sports);
+
   const [eventLoading, setEventLoading] = useState(false);
-  const [sportEvents, setSportEvents] = useState(availableSports[0]);
-  const [sportName, setSportName] = useState(availableSports[0]);
+  const [sportEvents, setSportEvents] = useState([]);
+  const [sportName, setSportName] = useState(null);
 
   const fetchSportDetails = async (id, name) => {
     setSportName(name);
@@ -32,31 +33,16 @@ function UpcommingMatches() {
       setEventLoading(false);
     }
   };
-  const getAllSports = async () => {
-    try {
-      setLoading(true);
-      const result = await getRequest('exchangeHome/sportsList', false);
-      if (result?.success) {
-        setAvailableSports(result?.data || []);
-        if (result?.data?.length) {
-          fetchSportDetails(result?.data?.[0]?._id, result?.data?.[0]?.name);
-        }
-        setLoading(false);
-      }
-    } catch (error) {
-      setLoading(false);
-    }
-  };
 
   useEffect(() => {
-    getAllSports();
+    if (availableSports?.length) {
+      fetchSportDetails(availableSports?.[0]?._id, availableSports?.[0]?.name);
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [availableSports?.length]);
   return (
     <>
-      {loading ? (
-        <Spinner color="secondary" />
-      ) : availableSports?.length ? (
+      {availableSports?.length ? (
         <SportsTabs
           availableSports={availableSports}
           onClick={(id, name) => fetchSportDetails(id, name)}
@@ -64,14 +50,10 @@ function UpcommingMatches() {
       ) : (
         <div>No Data </div>
       )}
-      {!loading ? (
-        !eventLoading ? (
-          <EventList events={sportEvents} sportName={sportName} />
-        ) : (
-          <Spinner color="secondary" />
-        )
+      {!eventLoading ? (
+        <EventList events={sportEvents} sportName={sportName} />
       ) : (
-        ''
+        <Spinner color="secondary" />
       )}
     </>
   );
