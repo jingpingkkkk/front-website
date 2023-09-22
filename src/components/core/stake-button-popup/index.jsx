@@ -2,10 +2,14 @@
 import React, { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { Modal, ModalBody, Table } from 'reactstrap';
+import { useDispatch } from 'react-redux';
 import { postRequest } from '../../../api';
 import '../../../views/matches/ui/matches.css';
+import defaultStakeButtons from '../../../helper/stake-buttons';
+import { setStakeButtons } from '../../../redux/reducers/user-details';
 
 const StateButtons = ({ isOpen, closeModal }) => {
+  const dispatch = useDispatch();
   const {
     handleSubmit,
     setValue,
@@ -36,7 +40,12 @@ const StateButtons = ({ isOpen, closeModal }) => {
       const result = await postRequest('stake/getStakeById', data);
       if (result?.success) {
         setLoading(false);
-        const newInputValues = result?.data?.details?.inputValues?.slice();
+        const newInputValues =
+          result?.data?.details?.inputValues?.slice() ||
+          defaultStakeButtons?.map(({ priceLabel, priceValue }) => ({
+            priceLabel,
+            priceValue,
+          }));
         while (newInputValues.length < maxInputs) {
           newInputValues.push('');
         }
@@ -50,7 +59,20 @@ const StateButtons = ({ isOpen, closeModal }) => {
       setLoading(false);
     }
   };
-
+  const getUserStakeButtons = async () => {
+    const result = await postRequest('stake/getUserStakes');
+    if (result?.success) {
+      if (result?.data?.details?.length) {
+        const gameButtons = result.data.details.find(
+          (el) => el.stakeType === 'games',
+        );
+        const casinoButtons = result.data.details.find(
+          (el) => el.stakeType === 'casino',
+        );
+        dispatch(setStakeButtons({ casinoButtons, gameButtons }));
+      }
+    }
+  };
   const onSubmit = async (data) => {
     const url = stakeId ? 'stake/updateStake' : 'stake/createStake';
     const formData = {
@@ -65,8 +87,11 @@ const StateButtons = ({ isOpen, closeModal }) => {
       setAddLoading(true);
       const result = await postRequest(url, formData);
       if (result?.success) {
+        await getUserStakeButtons();
         setAddLoading(false);
         closeModal();
+      } else {
+        setAddLoading(false);
       }
     } catch (error) {
       setAddLoading(false);
@@ -140,7 +165,7 @@ const StateButtons = ({ isOpen, closeModal }) => {
                   <tbody>
                     {!loading &&
                       inputValues?.map((stake, index) => (
-                        <tr key={stake?.priceLabel}>
+                        <tr key={stake?.priceLabel || index}>
                           <td className="w-50">
                             <input
                               type="text"
