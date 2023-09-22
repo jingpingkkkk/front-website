@@ -26,7 +26,7 @@ const handleError = async (error) => {
     const { data, status } = error.response;
 
     const decryptedData = await decryptResponse(data);
-    let errorMessage = decryptedData;
+    let errorMessage = decryptedData?.message;
 
     if (isJSONString(decryptedData)) {
       errorMessage =
