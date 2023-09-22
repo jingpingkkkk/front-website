@@ -2,12 +2,31 @@
 /* eslint-disable react/no-array-index-key */
 import moment from 'moment';
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
 import menuImages from '../../../../components/common/exchange-sidemenu/menu-images';
 import '../../../matches/ui/matches.css';
+import { setShouldLogin } from '../../../../redux/reducers/user-details';
 
 function EventList({ events, sportName }) {
   const imgPath = menuImages[sportName] || '';
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const userDetails = useSelector((state) => state.userDetails);
+  const handleEventClick = (e, path, id) => {
+    e.preventDefault();
+    const notLoggedIn =
+      !userDetails?.user?._id ||
+      !JSON.parse(localStorage.getItem('user'))?._id ||
+      !localStorage.getItem('userToken');
+    if (notLoggedIn) {
+      dispatch(setShouldLogin(true));
+      return;
+    }
+
+    navigate(path, { state: { eventId: id } });
+  };
+
   return (
     <div className="comman-bg mb-0">
       <div className="bet-table-header d-flex sport4 d-none-mobile">
@@ -49,6 +68,9 @@ function EventList({ events, sportName }) {
                       className="text-decoration-none"
                       to="/matches"
                       state={{ eventId: event?._id }}
+                      onClick={(e) =>
+                        handleEventClick(e, '/matches', event?._id)
+                      }
                     >
                       <p className="team-name text-left">
                         {event?.eventName || ''}
