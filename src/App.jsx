@@ -11,6 +11,7 @@ import CurrentBets from './views/currentbets';
 const ErrorStatus404 = React.lazy(() => import('./views/error-views/404'));
 const Sports = React.lazy(() => import('./views/sports'));
 const Matches = React.lazy(() => import('./views/matches'));
+const Casino = React.lazy(() => import('./views/casino'));
 
 function App() {
   useEffect(() => {
@@ -29,6 +30,7 @@ function App() {
           <Route path="/sports" element={<Sports />} />
           <Route path="/matches" element={<Matches />} />
           <Route path="/currentbets" element={<CurrentBets />} />
+          <Route path="/casino" element={<Casino />} />
         </Routes>
       </Router>
     </Suspense>

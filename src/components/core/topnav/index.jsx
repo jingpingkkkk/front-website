@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
 import { postRequest } from '../../../api';
 import { setLoginPopup } from '../../../redux/reducers/login-popup';
 import {
@@ -20,9 +20,11 @@ import useScreenWidth from '../../../hooks/use-screen-width';
 
 function Topnav() {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const { themeSettings } = useSelector((state) => state.themeSettings);
   const { shouldLogin } = useSelector((state) => state.userDetails);
   const { isLogingOpen } = useSelector((state) => state.loginDetails);
+  const userDetails = useSelector((state) => state.userDetails);
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(isLogingOpen);
   const [isRegisterModalOpen, setIsRegisterModalOpen] = useState(false);
   const [user, setUser] = useState('');
@@ -89,7 +91,20 @@ function Topnav() {
     }
     setIsLoginModalOpen(isLogingOpen);
   }, [isWelcome, isLoginModalOpen, isLogingOpen]);
-
+  const handleEventClick = (e, path, label) => {
+    if (label !== 'Exchange') {
+      e.preventDefault();
+      const notLoggedIn =
+        !userDetails?.user?._id ||
+        !JSON.parse(localStorage.getItem('user'))?._id ||
+        !localStorage.getItem('userToken');
+      if (notLoggedIn) {
+        dispatch(setShouldLogin(true));
+        return;
+      }
+    }
+    navigate(path);
+  };
   return (
     <StickyHeader>
       {/* Mobile View */}
@@ -137,6 +152,7 @@ function Topnav() {
             className={({ isActive }) =>
               `me-4 nav-items ${isActive ? 'custom-buttton' : ''}`
             }
+            onClick={(e) => handleEventClick(e, item.path, item?.label)}
           >
             {item.image ? (
               <img src={item.image} alt={item.label} />
