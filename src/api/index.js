@@ -2,7 +2,11 @@
 /* eslint-disable no-else-return */
 import axios from 'axios';
 import ToastAlert from '../helper/toast-alert';
-import { decryptResponse, encryptRequest } from './encryption';
+import {
+  decryptResponse,
+  encryptRequest,
+  generateEncHeaders,
+} from './encryption';
 
 const api = axios.create({
   baseURL: import.meta.env.VITE_API_URL,
@@ -57,7 +61,7 @@ const handleFormData = async (url, formData) => {
   }
 };
 
-const createHeaders = (useAuthToken = true) => {
+const createHeaders = async (useAuthToken = true) => {
   let headers = {
     'Content-Type': 'application/json',
   };
@@ -77,7 +81,9 @@ const createHeaders = (useAuthToken = true) => {
     }
   }
 
-  return headers;
+  const encHeaders = await generateEncHeaders();
+
+  return { ...headers, ...encHeaders };
 };
 
 const makeRequest = async ({
@@ -93,13 +99,13 @@ const makeRequest = async ({
     method,
     url,
     data: await encryptRequest(data),
-    headers: createHeaders(useAuthToken),
+    headers: await createHeaders(useAuthToken),
     cancelToken: useAbortController ? source.token : undefined,
   };
 
   try {
     const response = await api(config);
-    const decrypted = JSON.parse(await decryptResponse(response.data));
+    const decrypted = await decryptResponse(response.data);
     return decrypted;
   } catch (error) {
     return handleError(error);
