@@ -74,8 +74,8 @@ function Fancy({ market }) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [market]);
 
-  const handleOddClick = (runner, odd, type) => {
-    if (odd.price === 0) return;
+  const handleOddClick = (runner, price, type) => {
+    if (price === 0) return;
     const selectedOdd = {
       market: {
         _id: market._id,
@@ -93,7 +93,7 @@ function Fancy({ market }) {
         priority: runner.priority,
         pl: runner.pl,
       },
-      price: odd.price,
+      price,
       betType: type,
     };
 
@@ -140,6 +140,8 @@ function Fancy({ market }) {
                   data-title={runner?.GameStatus}
                   className={`bet-table-row ${
                     runner?.GameStatus === 'SUSPENDED' ? 'suspendedtext' : ''
+                  }${
+                    runner?.GameStatus === 'Ball Running' ? 'suspendedtext' : ''
                   }`}
                 >
                   <div className="nation-name d-none-mobile small">
@@ -151,7 +153,7 @@ function Fancy({ market }) {
                     type="button"
                     className="bl-box lay lay"
                     onClick={() =>
-                      handleOddClick(runner, odds?.lay, betTypes.LAY)
+                      handleOddClick(runner, odds?.lay?.price, betTypes.LAY)
                     }
                   >
                     {odds?.lay?.price && odds?.lay?.price !== 0 ? (
@@ -175,7 +177,7 @@ function Fancy({ market }) {
                     type="button"
                     className="bl-box back back"
                     onClick={() =>
-                      handleOddClick(runner, odds?.back, betTypes.BACK)
+                      handleOddClick(runner, odds?.back?.price, betTypes.BACK)
                     }
                   >
                     {odds?.back?.price && odds?.back?.price !== 0 ? (
@@ -211,6 +213,154 @@ function Fancy({ market }) {
                     </div>
                   </div>
                 </div>
+                {runner?.LayPrice2 &&
+                runner?.LayPrice2 !== 0 &&
+                runner?.BackPrice2 &&
+                runner?.BackPrice2 !== 0 ? (
+                  <div
+                    data-title={runner?.GameStatus}
+                    className={`bet-table-row ${
+                      runner?.GameStatus === 'SUSPENDED' ? 'suspendedtext' : ''
+                    }${
+                      runner?.GameStatus === 'Ball Running'
+                        ? 'suspendedtext'
+                        : ''
+                    }`}
+                  >
+                    <div className="nation-name d-none-mobile small" />
+                    <button
+                      type="button"
+                      className="bl-box lay lay"
+                      onClick={() =>
+                        handleOddClick(runner, runner?.LayPrice2, betTypes.LAY)
+                      }
+                    >
+                      {runner?.LayPrice2 && runner?.LayPrice2 !== 0 ? (
+                        <>
+                          <span className="d-block odds">
+                            {runner?.LayPrice2 && runner?.LayPrice2
+                              ? parseFloat(
+                                  runner?.LayPrice2 &&
+                                    runner?.LayPrice2.toFixed(2),
+                                )
+                              : '-'}
+                          </span>
+                          <span className="d-block">
+                            {runner?.LaySize2
+                              ? shortNumber(runner?.LaySize2, 2)
+                              : 0}
+                          </span>
+                        </>
+                      ) : (
+                        <span>-</span>
+                      )}
+                    </button>
+                    <button
+                      type="button"
+                      className="bl-box back back"
+                      onClick={() =>
+                        handleOddClick(
+                          runner,
+                          runner?.BackPrice2,
+                          betTypes.BACK,
+                        )
+                      }
+                    >
+                      {runner?.BackPrice2 && runner?.BackPrice2 !== 0 ? (
+                        <>
+                          <span className="d-block odds">
+                            {runner?.BackPrice2
+                              ? parseFloat(runner?.BackPrice2?.toFixed(2))
+                              : '-'}
+                          </span>
+                          <span className="d-block">
+                            {runner?.BackSize2
+                              ? shortNumber(runner?.BackSize2, 2)
+                              : 0}
+                          </span>
+                        </>
+                      ) : (
+                        <span>-</span>
+                      )}
+                    </button>
+                  </div>
+                ) : (
+                  ''
+                )}
+                {runner?.LayPrice3 &&
+                runner?.LayPrice3 !== 0 &&
+                runner?.BackPrice3 &&
+                runner?.BackPrice3 !== 0 ? (
+                  <div
+                    data-title={runner?.GameStatus}
+                    className={`bet-table-row ${
+                      runner?.GameStatus === 'SUSPENDED' ? 'suspendedtext' : ''
+                    }${
+                      runner?.GameStatus === 'Ball Running'
+                        ? 'suspendedtext'
+                        : ''
+                    }`}
+                  >
+                    <div className="nation-name d-none-mobile small" />
+                    <button
+                      type="button"
+                      className="bl-box lay lay"
+                      onClick={() =>
+                        handleOddClick(runner, runner?.LayPrice3, betTypes.LAY)
+                      }
+                    >
+                      {runner?.LayPrice3 && runner?.LayPrice3 !== 0 ? (
+                        <>
+                          <span className="d-block odds">
+                            {runner?.LayPrice3 && runner?.LayPrice3
+                              ? parseFloat(
+                                  runner?.LayPrice3 &&
+                                    runner?.LayPrice3.toFixed(2),
+                                )
+                              : '-'}
+                          </span>
+                          <span className="d-block">
+                            {runner?.LaySize3
+                              ? shortNumber(runner?.LaySize3, 2)
+                              : 0}
+                          </span>
+                        </>
+                      ) : (
+                        <span>-</span>
+                      )}
+                    </button>
+                    <button
+                      type="button"
+                      className="bl-box back back"
+                      onClick={() =>
+                        handleOddClick(
+                          runner,
+                          runner?.BackPrice3,
+                          betTypes.BACK,
+                        )
+                      }
+                    >
+                      {runner?.BackPrice3 && runner?.BackPrice3 !== 0 ? (
+                        <>
+                          <span className="d-block odds">
+                            {runner?.BackPrice3
+                              ? parseFloat(runner?.BackPrice3?.toFixed(2))
+                              : '-'}
+                          </span>
+                          <span className="d-block">
+                            {runner?.BackSize3
+                              ? shortNumber(runner?.BackSize3, 2)
+                              : 0}
+                          </span>
+                        </>
+                      ) : (
+                        <span>-</span>
+                      )}
+                    </button>
+                  </div>
+                ) : (
+                  ''
+                )}
               </div>
             </div>
           );
