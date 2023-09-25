@@ -299,6 +299,46 @@
   position: relative;
   font-size: 14px;
 }
+.game-date.inplay {
+  width: auto;
+  border-right: 0 !important;
+  padding-right: 0;
+  width: 50px;
+  position: relative;
+}
+.game-date.inplay span {
+  position: relative;
+  width: 50px;
+  color: #03b37f;
+  text-align: center;
+}
+.game-date.inplay span:after {
+  content: '';
+  background-color: #03b37f;
+  height: 2px;
+  width: 50px;
+  position: absolute;
+  bottom: -1px;
+  animation: linear infinite alternate;
+  animation-name: run;
+  animation-duration: 1.2s;
+  -webkit-animation: linear infinite alternate;
+  -webkit-animation-name: run;
+  -webkit-animation-duration: 1.2s;
+}
+@keyframes run {
+  0% {
+    left: 0;
+    width: 5%;
+  }
+  50% {
+    width: 100%;
+  }
+  100% {
+    right: 0;
+    width: 5%;
+  }
+}
 .comman-bg .game-name {
   padding-left: 10px;
   width: calc(100% - 160px);
@@ -554,6 +594,23 @@
     background-color: #3c444b;
     padding: 4px;
     margin-bottom: 3px;
+  }
+}
+@media only screen and (min-width: 425px) and (max-width: 1279px) {
+  .suspendedtext:after {
+    width: calc(100% - 16px);
+  }
+  .fancy-tripple .suspendedtext:after {
+    width: calc(63% - 14px) !important;
+    right: calc(37% + 6px) !important;
+    height: calc(100% - 4px);
+  }
+}
+@media only screen and (min-width: 768px) and (max-width: 1279px) {
+  .fancy-tripple .suspendedtext:after {
+    width: calc(63% - 13px) !important;
+    right: calc(37% + 5px) !important;
+    height: calc(100% - 4px);
   }
 }
 @media only screen and (min-device-width: 1024px) and (max-device-width: 1024px) {

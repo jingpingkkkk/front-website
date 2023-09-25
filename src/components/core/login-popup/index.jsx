@@ -126,7 +126,7 @@ const LoginPopup = ({ isOpen, toggle }) => {
               </a>
             </div>
           </div>
-          <div className="form-group">
+          {/* <div className="form-group">
             <div className="custom-control custom-checkbox d-inline-block">
               <input
                 type="checkbox"
@@ -166,7 +166,7 @@ const LoginPopup = ({ isOpen, toggle }) => {
                 ''
               )}
             </div>
-          </div>
+          </div> */}
           <div className="form-group mb-1">
             <button type="submit" className="btn login-btn" disabled={loading}>
               {loading && (
@@ -175,11 +175,11 @@ const LoginPopup = ({ isOpen, toggle }) => {
               Login
             </button>
           </div>
-          <small className="recaptchaTerms">
+          {/* <small className="recaptchaTerms">
             This site is protected by reCAPTCHA and the Google
             <a href="/">Privacy Policy</a> and
             <a href="/">Terms of Service</a> apply.
-          </small>
+          </small> */}
         </form>
       </ModalBody>
     </Modal>

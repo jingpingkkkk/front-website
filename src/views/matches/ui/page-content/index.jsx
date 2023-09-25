@@ -92,7 +92,12 @@ function MatchPageContent() {
     if (!eventId) {
       navigate('/sports');
     }
-    Promise.all([fetchEventMarkets(), fetchUserEventBets()]);
+    Promise.all([
+      fetchEventMarkets(),
+      setInterval(() => {
+        fetchUserEventBets();
+      }, 3000),
+    ]);
     return () => {
       dispatch(resetEventBet());
       dispatch(resetEventMarket());

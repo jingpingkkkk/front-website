@@ -44,25 +44,31 @@ function EventList({ events, sportName }) {
             <div className="bet-table-box" key={i}>
               <div className="bet-table-row p-2">
                 <div className="game-title d-none-mobil">
-                  <div className="game-date">
-                    <p className="day text-left">
-                      {event?.matchDate
-                        ? moment(event?.matchDate).isSame(moment(), 'day')
-                          ? 'Today'
-                          : moment(event?.matchDate).isSame(
-                              moment().clone().add(1, 'day'),
-                              'day',
-                            )
-                          ? 'Tomorrow'
-                          : moment(event?.matchDate).format()
-                        : ''}
-                    </p>
-                    <p className="mb-0 day text-left">
-                      {event?.matchDate
-                        ? moment(event?.matchDate).format('HH:mm')
-                        : ''}
-                    </p>
-                  </div>
+                  {event?.isLive ? (
+                    <div className="game-date inplay">
+                      <span>Live</span>
+                    </div>
+                  ) : (
+                    <div className="game-date">
+                      <p className="day text-left">
+                        {event?.matchDate
+                          ? moment(event?.matchDate).isSame(moment(), 'day')
+                            ? 'Today'
+                            : moment(event?.matchDate).isSame(
+                                moment().clone().add(1, 'day'),
+                                'day',
+                              )
+                            ? 'Tomorrow'
+                            : moment(event?.matchDate).format()
+                          : ''}
+                      </p>
+                      <p className="mb-0 day text-left">
+                        {event?.matchDate
+                          ? moment(event?.matchDate).format('HH:mm')
+                          : ''}
+                      </p>
+                    </div>
+                  )}
                   <div className="game-name d-inline-block">
                     <Link
                       className="text-decoration-none"

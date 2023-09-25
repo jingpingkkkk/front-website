@@ -14,11 +14,13 @@ function CurrentBetPageContent() {
   const [loading, setLoading] = useState(false);
   const [activeTab, setActiveTab] = useState('sports');
   const [data, setData] = useState([]);
+  const [allData, setAllData] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [betType, setBetType] = useState('');
   const [totalAmount, setTotalAmount] = useState(0);
+  const [betStatus, setBetStatus] = useState('all');
 
   const fetchCurrentBetsData = async () => {
     const item = JSON.parse(localStorage.getItem('user'));
@@ -33,6 +35,7 @@ function CurrentBetPageContent() {
       const result = await postRequest('bet/getCurrentBetsUserwise', body);
       if (result?.success) {
         setData(result?.data?.details?.records || []);
+        setAllData(result?.data?.details?.records || []);
         setTotalPages(result?.data?.details?.totalRecords);
         setTotalAmount(result?.data?.details?.totalAmount);
         setLoading(false);
@@ -64,7 +67,8 @@ function CurrentBetPageContent() {
       selector: (row) => row.stake,
     },
     {
-      name: 'Action',
+      name: 'Result',
+      selector: (row) => row.betResultStatus,
     },
   ];
   const casinoColumns = [
@@ -98,6 +102,7 @@ function CurrentBetPageContent() {
       'Market Name': item.marketName,
       'User Rate': item.odds,
       'Amount Placed': item.stake,
+      Result: item.betResultStatus,
     }));
     ExportToExcel(exportData, activeTab);
   };
@@ -105,7 +110,14 @@ function CurrentBetPageContent() {
     const doc = new jsPDF();
     doc.autoTable({
       head: [
-        ['Sports', 'Event Name', 'Market Name', 'User Rate', 'Amount Placed'],
+        [
+          'Sports',
+          'Event Name',
+          'Market Name',
+          'User Rate',
+          'Amount Placed',
+          'Result',
+        ],
       ],
       body: data.map((item) => [
         item.sportName,
@@ -113,14 +125,39 @@ function CurrentBetPageContent() {
         item.marketName,
         item.odds,
         item.stake,
+        item.betResultStatus,
       ]),
     });
     doc.save(`${activeTab}.pdf`);
   };
+  const onChangeTab = (tab) => {
+    setActiveTab(tab);
+    setBetType('');
+    setBetStatus('running');
+    if (tab === 'sports') {
+      fetchCurrentBetsData();
+    } else {
+      setData([]);
+      setTotalPages(0);
+      setTotalAmount(0);
+    }
+  };
+  const onChangeBetStatus = (status) => {
+    setBetStatus(status);
+    if (status !== 'all') {
+      const btStatus = status === 'running' ? ['running'] : ['won', 'lost'];
+      const filteredResult = allData.filter((item) =>
+        btStatus?.includes(item.betResultStatus),
+      );
+      setData(filteredResult);
+    } else {
+      setData(allData);
+    }
+  };
 
   useEffect(() => {
     fetchCurrentBetsData();
-  }, [currentPage, activeTab, betType, rowsPerPage]);
+  }, [currentPage, betType, rowsPerPage]);
 
   const customStyles = {
     table: {
@@ -172,8 +209,7 @@ function CurrentBetPageContent() {
                 href="#"
                 role="tab"
                 onClick={() => {
-                  setActiveTab('sports');
-                  setBetType('');
+                  onChangeTab('sports');
                 }}
               >
                 Sports
@@ -187,8 +223,7 @@ function CurrentBetPageContent() {
                 href="#"
                 role="tab"
                 onClick={() => {
-                  setActiveTab('casino');
-                  setBetType('');
+                  onChangeTab('casino');
                 }}
               >
                 Casino
@@ -244,6 +279,56 @@ function CurrentBetPageContent() {
               />
               <Label for="soda-lay" className="custom-bet-label">
                 Lay
+              </Label>
+            </div>
+          </div>
+          <div className="bet-types-container">
+            <div className="custom-control custom-radio custom-control-inline">
+              <input
+                type="radio"
+                id="bet-all"
+                name="betStatus"
+                value="all"
+                className="custom-control-input"
+                checked={betStatus === 'all'}
+                onChange={() => {
+                  onChangeBetStatus('all');
+                }}
+              />
+              <Label for="bet-all" className="custom-bet-label">
+                All
+              </Label>
+            </div>
+            <div className="custom-control custom-radio custom-control-inline">
+              <input
+                type="radio"
+                id="bet-running"
+                name="betStatus"
+                value="running"
+                className="custom-control-input"
+                checked={betStatus === 'running'}
+                onChange={() => {
+                  onChangeBetStatus('running');
+                }}
+              />
+              <Label for="bet-running" className="custom-bet-label">
+                Running
+              </Label>
+            </div>
+            <div className="custom-control custom-radio custom-control-inline">
+              <input
+                type="radio"
+                id="bet-complete"
+                name="betStatus"
+                value="complete"
+                className="custom-control-input"
+                checked={betStatus === 'complete'}
+                onChange={() => {
+                  onChangeBetStatus('complete');
+                }}
+              />
+              <Label for="bet-complete" className="custom-bet-label">
+                Complete
               </Label>
             </div>
           </div>
