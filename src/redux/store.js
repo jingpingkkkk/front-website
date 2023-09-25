@@ -6,6 +6,7 @@ import userDetailsReducer from './reducers/user-details';
 import loginDetailReducer from './reducers/login-popup';
 import themeSettingsReducer from './reducers/theme-settings';
 import sportsListReducer from './reducers/sports-list';
+import casinoReducer from './reducers/casino-detail';
 
 const store = configureStore({
   reducer: {
@@ -16,6 +17,7 @@ const store = configureStore({
     loginDetails: loginDetailReducer,
     themeSettings: themeSettingsReducer,
     sportsList: sportsListReducer,
+    casino: casinoReducer,
   },
 });
 

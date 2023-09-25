@@ -133,7 +133,7 @@ function CurrentBetPageContent() {
   const onChangeTab = (tab) => {
     setActiveTab(tab);
     setBetType('');
-    setBetStatus('running');
+    setBetStatus('all');
     if (tab === 'sports') {
       fetchCurrentBetsData();
     } else {

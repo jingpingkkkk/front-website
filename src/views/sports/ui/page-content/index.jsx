@@ -9,6 +9,10 @@ import News from '../../../../components/core/news';
 import BannerSlider from '../../../../components/core/slider';
 import { setLoginPopup } from '../../../../redux/reducers/login-popup';
 import UpcommingMatches from '../upcomming-matches';
+import {
+  setLiveCasino,
+  setVirtualCasino,
+} from '../../../../redux/reducers/casino-detail';
 
 function SportPageContent() {
   const dispatch = useDispatch();
@@ -30,6 +34,14 @@ function SportPageContent() {
       const result = await getRequest('casino/allCasino', false);
       if (result?.success) {
         setAllCasino(result?.data?.details || []);
+        const liveCasino = result?.data?.details?.filter(
+          (casino) => casino?.casinoType === 'live',
+        );
+        const virtualCasino = result?.data?.details?.filter(
+          (casino) => casino?.casinoType === 'virtual',
+        );
+        dispatch(setLiveCasino(liveCasino));
+        dispatch(setVirtualCasino(virtualCasino));
       }
     } catch (error) {
       console.log(error);
@@ -117,9 +129,7 @@ function SportPageContent() {
 
       <div className="griad-games">
         <div className="section-title">Fantasy Games</div>
-        <div
-          className={`geiad-layout- ${allCasino?.allGames ? 'four' : 'one'}`}
-        >
+        <div className={`geiad-layout-${allGames?.length ? 'four' : 'one'}`}>
           {allGames?.length ? (
             allGames?.map((game) => (
               <div
@@ -140,7 +150,7 @@ function SportPageContent() {
       </div>
       <div className="griad-games">
         <div className="section-title">Live Casino</div>
-        <div className={`geiad-layout- ${allCasino?.length ? 'four' : 'one'}`}>
+        <div className={`geiad-layout-${allCasino?.length ? 'four' : 'one'}`}>
           {allCasino?.length ? (
             allCasino.map((casino) => (
               <div
