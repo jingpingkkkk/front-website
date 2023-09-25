@@ -19,9 +19,13 @@ function UpcommingMatches() {
     setSportName(name);
     try {
       setEventLoading(true);
-      const result = await postRequest('exchangeHome/sportWiseMatchList', {
-        sportId: id,
-      });
+      const result = await postRequest(
+        'exchangeHome/sportWiseMatchList',
+        {
+          sportId: id,
+        },
+        false,
+      );
       if (result?.success) {
         setSportEvents(result?.data);
       } else {

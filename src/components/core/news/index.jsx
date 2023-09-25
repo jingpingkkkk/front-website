@@ -5,7 +5,7 @@ import { useSelector } from 'react-redux';
 const News = () => {
   const { themeSettings } = useSelector((state) => state.themeSettings);
   return (
-    <div className="w-50 marqueee-row custom-buttton ">
+    <div className="w-100 marqueee-row custom-buttton ">
       <Marquee>
         <div className="left-text py-1">{themeSettings?.news || ''}</div>
       </Marquee>

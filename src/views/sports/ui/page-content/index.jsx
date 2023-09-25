@@ -1,35 +1,47 @@
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
-import moment from 'moment';
+// import moment from 'moment';
 import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { Carousel } from 'react-responsive-carousel';
+// import { Carousel } from 'react-responsive-carousel';
 import { getRequest } from '../../../../api';
 import News from '../../../../components/core/news';
 import BannerSlider from '../../../../components/core/slider';
 import { setLoginPopup } from '../../../../redux/reducers/login-popup';
 import UpcommingMatches from '../upcomming-matches';
+import {
+  setLiveCasino,
+  setVirtualCasino,
+} from '../../../../redux/reducers/casino-detail';
 
 function SportPageContent() {
   const dispatch = useDispatch();
-  const [events, setEvents] = useState([]);
+  // const [events, setEvents] = useState([]);
   const [allCasino, setAllCasino] = useState([]);
   const [allGames, setAllGames] = useState([]);
-  const getUpcomingEvents = async () => {
-    try {
-      const result = await getRequest('event/upcomingEvent', false);
-      if (result?.success) {
-        setEvents(result?.data?.details || []);
-      }
-    } catch (error) {
-      console.log(error);
-    }
-  };
+  // const getUpcomingEvents = async () => {
+  //   try {
+  //     const result = await getRequest('event/upcomingEvent', false);
+  //     if (result?.success) {
+  //       setEvents(result?.data?.details || []);
+  //     }
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // };
   const getLiveCasino = async () => {
     try {
       const result = await getRequest('casino/allCasino', false);
       if (result?.success) {
         setAllCasino(result?.data?.details || []);
+        const liveCasino = result?.data?.details?.filter(
+          (casino) => casino?.casinoType === 'live',
+        );
+        const virtualCasino = result?.data?.details?.filter(
+          (casino) => casino?.casinoType === 'virtual',
+        );
+        dispatch(setLiveCasino(liveCasino));
+        dispatch(setVirtualCasino(virtualCasino));
       }
     } catch (error) {
       console.log(error);
@@ -62,7 +74,7 @@ function SportPageContent() {
     }
   };
   useEffect(() => {
-    getUpcomingEvents();
+    // getUpcomingEvents();
     getLiveCasino();
     getFantasyGames();
     checkLogin();
@@ -71,7 +83,7 @@ function SportPageContent() {
   return (
     <>
       <div className="d-flex new-container">
-        <div className="w-50 d-flex mx-2 upcoming-fixure">
+        {/* <div className="w-50 d-flex mx-2 upcoming-fixure">
           <div className="fixure-title">Upcoming Fixture</div>
           <div className="fixure-box-container">
             <Carousel
@@ -105,7 +117,7 @@ function SportPageContent() {
                 })}
             </Carousel>
           </div>
-        </div>
+        </div> */}
         <News />
       </div>
       <BannerSlider />
@@ -117,8 +129,8 @@ function SportPageContent() {
 
       <div className="griad-games">
         <div className="section-title">Fantasy Games</div>
-        <div className="geiad-layout-four">
-          {allGames?.length &&
+        <div className={`geiad-layout-${allGames?.length ? 'four' : 'one'}`}>
+          {allGames?.length ? (
             allGames?.map((game) => (
               <div
                 key={game?._id}
@@ -130,13 +142,16 @@ function SportPageContent() {
                 <div role="button">Login</div>
                 {/* </a> */}
               </div>
-            ))}
+            ))
+          ) : (
+            <div className="text-center">No Data Found</div>
+          )}
         </div>
       </div>
       <div className="griad-games">
         <div className="section-title">Live Casino</div>
-        <div className="geiad-layout-four">
-          {allCasino?.length &&
+        <div className={`geiad-layout-${allCasino?.length ? 'four' : 'one'}`}>
+          {allCasino?.length ? (
             allCasino.map((casino) => (
               <div
                 key={casino?._id}
@@ -148,7 +163,10 @@ function SportPageContent() {
                 <div role="button">Login</div>
                 {/* </a> */}
               </div>
-            ))}
+            ))
+          ) : (
+            <div className="text-center">No Data Found</div>
+          )}
         </div>
       </div>
     </>

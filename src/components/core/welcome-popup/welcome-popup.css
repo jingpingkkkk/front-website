@@ -50,9 +50,14 @@
   margin-left: 10px;
 }
 @media only screen and (min-width: 320px) and (max-width: 767px) {
+  .home-modal-title img {
+    height: 18px;
+  }
   .home-modal .close-home-modal {
     top: -10px;
     right: -10px;
+    height: 30px;
+    width: 30px;
   }
 }
 @keyframes blinkwarning {

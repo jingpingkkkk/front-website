@@ -3,6 +3,7 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { io } from 'socket.io-client';
+import { Spinner } from 'reactstrap';
 import { postRequest } from '../../../../api';
 import shortNumber from '../../../../helper/number';
 import { betTypes, setBetOdds } from '../../../../redux/reducers/event-bet';
@@ -27,6 +28,7 @@ function Fancy({ market }) {
   const [fancyRunners, setFancyRunners] = useState([]);
 
   const [runnerOdds, setRunnerOdds] = useState(emptyOdds);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     const fetchRunnerPls = async () => {
@@ -45,6 +47,7 @@ function Fancy({ market }) {
   }, [eventBetMarket]);
 
   useEffect(() => {
+    setLoading(true);
     socket.on('connect', () => {
       socket.emit('join:market', {
         id: market.apiEventId,
@@ -53,7 +56,8 @@ function Fancy({ market }) {
     });
 
     socket.on(`market:data:${market.apiEventId}`, (data) => {
-      if (data) {
+      if (Object.keys(data).length > 0) {
+        setLoading(false);
         const teamData = data?.map((item) => ({
           runnerId: item?.runnerId,
           back: { price: item.BackPrice1, size: item.BackSize1 },
@@ -61,6 +65,8 @@ function Fancy({ market }) {
         }));
         setRunnerOdds(teamData);
         setFancyRunners(data);
+      } else {
+        setLoading(false);
       }
     });
 
@@ -124,6 +130,11 @@ function Fancy({ market }) {
         </div>
       </div>
       <div className="row row5">
+        {loading ? (
+          <div className="col-md-12 text-center mt-2">
+            <Spinner />
+          </div>
+        ) : null}
         {fancyRunners?.map((runner) => {
           const odds = runnerOdds?.length
             ? runnerOdds?.find((item) => item?.runnerId === runner?.runnerId)
@@ -138,7 +149,7 @@ function Fancy({ market }) {
                 </div>
                 <div
                   data-title={runner?.GameStatus}
-                  className={`bet-table-row ${
+                  className={`bet-table-row suspendedtext ${
                     runner?.GameStatus === 'SUSPENDED' ? 'suspendedtext' : ''
                   }${
                     runner?.GameStatus === 'Ball Running' ? 'suspendedtext' : ''

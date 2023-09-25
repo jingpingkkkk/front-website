@@ -48,6 +48,8 @@ function BookMaker({ market }) {
   const socket = useMemo(() => io(marketUrl, { autoConnect: false }), []);
 
   const [runnerOdds, setRunnerOdds] = useState(emptyOdds);
+  const [min, setMin] = useState(market.minStake);
+  const [max, setMax] = useState(market.maxStake);
 
   useEffect(() => {
     const fetchRunnerPls = async () => {
@@ -88,6 +90,8 @@ function BookMaker({ market }) {
           teamTwoData.lay.push(teamTwo.lay[i] || {});
         }
         setRunnerOdds({ 0: teamOneData, 1: teamTwoData });
+        setMin(data?.min || 0);
+        setMax(data?.max || 0);
       }
     });
 
@@ -135,14 +139,11 @@ function BookMaker({ market }) {
       <div className="bet-table-row d-none-mobile">
         <div className="nation-name pe-2">
           <span className="max-bet">
-            <span title={`Min:${shortNumber(market.minStake)}`}>
-              Min:<span>{shortNumber(market.minStake)}</span>
+            <span title={`Min:${shortNumber(min)}`}>
+              Min:<span>{shortNumber(min)}</span>
             </span>
-            <span
-              className="ps-2"
-              title={`Max:${shortNumber(market.maxStake)}`}
-            >
-              Max:<span>{shortNumber(market.maxStake)}</span>
+            <span className="ps-2" title={`Max:${shortNumber(max)}`}>
+              Max:<span>{shortNumber(max)}</span>
             </span>
           </span>
         </div>

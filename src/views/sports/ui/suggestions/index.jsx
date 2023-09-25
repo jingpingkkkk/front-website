@@ -1,11 +1,36 @@
+/* eslint-disable jsx-a11y/no-static-element-interactions */
+/* eslint-disable jsx-a11y/click-events-have-key-events */
 /* eslint-disable jsx-a11y/anchor-is-valid */
-import React, { useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { Carousel } from 'react-responsive-carousel';
 import 'react-responsive-carousel/lib/styles/carousel.min.css';
+import { setLoginPopup } from '../../../../redux/reducers/login-popup';
 
 function ProductPromotion() {
+  const dispatch = useDispatch();
   const [activeTab, setActiveTab] = useState('live');
-
+  const casino = useSelector((state) => state.casino);
+  const classNameRef = useRef('');
+  const checkLogin = () => {
+    const item = JSON.parse(localStorage.getItem('user'));
+    if (!item) {
+      classNameRef.current = 'login-hover';
+      return false;
+    }
+    return true;
+  };
+  const openPage = (link = '') => {
+    if (!checkLogin()) {
+      dispatch(setLoginPopup(true));
+    } else {
+      window.location.href = `${link}`;
+    }
+  };
+  useEffect(() => {
+    checkLogin();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
   return (
     <>
       <div className="pramotion-sec">
@@ -72,102 +97,20 @@ function ProductPromotion() {
             <div role="tabpanel" className="tab-pane fade in active" id="live">
               <div className="griad-tabing">
                 <div className="geiad-layout-two">
-                  <div className="casino-banner-item login-hover">
-                    <a href="#">
-                      <img alt="casino" src="images/vteen20.jpg" />
-                      <div role="button">Login</div>
-                    </a>
-                  </div>
-                  <div className="casino-banner-item login-hover">
-                    <a href="#">
-                      <img alt="casino" src="images/ab3.jpg" />
-                      <div role="button">Login</div>
-                    </a>
-                  </div>
-                  <div className="casino-banner-item login-hover">
-                    <a href="#">
-                      <img alt="casino" src="images/vlucky7.jpg" />
-                      <div role="button">Login</div>
-                    </a>
-                  </div>
-                  <div className="casino-banner-item login-hover">
-                    <a href="#">
-                      <img alt="casino" src="images/trap.jpg" />
-                      <div role="button">Login</div>
-                    </a>
-                  </div>
-                  <div className="casino-banner-item login-hover">
-                    <a href="#">
-                      <img alt="casino" src="images/poker.jpg" />
-                      <div role="button">Login</div>
-                    </a>
-                  </div>
-                  <div className="casino-banner-item login-hover">
-                    <a href="#">
-                      <img alt="casino" src="images/teen6.jpg" />
-                      <div role="button">Login</div>
-                    </a>
-                  </div>
-                  <div className="casino-banner-item login-hover">
-                    <a href="#">
-                      <img alt="casino" src="images/poker20.jpg" />
-                      <div role="button">Login</div>
-                    </a>
-                  </div>
-                  <div className="casino-banner-item login-hover">
-                    <a href="#">
-                      <img alt="casino" src="images/teen9.jpg" />
-                      <div role="button">Login</div>
-                    </a>
-                  </div>
-                  <div className="casino-banner-item login-hover">
-                    <a href="#">
-                      <img alt="casino" src="images/race20.jpg" />
-                      <div role="button">Login</div>
-                    </a>
-                  </div>
-                  <div className="casino-banner-item login-hover">
-                    <a href="#">
-                      <img alt="casino" src="images/trio.jpg" />
-                      <div role="button">Login</div>
-                    </a>
-                  </div>
-                  <div className="casino-banner-item login-hover">
-                    <a href="#">
-                      <img alt="casino" src="images/baccarat.jpg" />
-                      <div role="button">Login</div>
-                    </a>
-                  </div>
-                  <div className="casino-banner-item login-hover">
-                    <a href="#">
-                      <img alt="casino" src="images/notenum.jpg" />
-                      <div role="button">Login</div>
-                    </a>
-                  </div>
-                  <div className="casino-banner-item login-hover">
-                    <a href="#">
-                      <img alt="casino" src="images/roulette.jpg" />
-                      <div role="button">Login</div>
-                    </a>
-                  </div>
-                  <div className="casino-banner-item login-hover">
-                    <a href="#">
-                      <img alt="casino" src="images/teen3.jpg" />
-                      <div role="button">Login</div>
-                    </a>
-                  </div>
-                  <div className="casino-banner-item login-hover">
-                    <a href="#">
-                      <img alt="casino" src="images/lottcard.jpg" />
-                      <div role="button">Login</div>
-                    </a>
-                  </div>
-                  <div className="casino-banner-item login-hover">
-                    <a href="#">
-                      <img alt="casino" src="images/btable.jpg" />
-                      <div role="button">Login</div>
-                    </a>
-                  </div>
+                  {casino?.liveCasino?.length
+                    ? casino?.liveCasino?.map((liveCasino) => (
+                        <div
+                          className={`casino-banner-item ${classNameRef.current}`}
+                          key={liveCasino?._id}
+                          onClick={() => openPage('#')}
+                        >
+                          {/* <a href="#"> */}
+                          <img alt="casino" src={liveCasino?.image} />
+                          <div role="button">Login</div>
+                          {/* </a> */}
+                        </div>
+                      ))
+                    : ''}
                 </div>
               </div>
             </div>
@@ -178,108 +121,20 @@ function ProductPromotion() {
               id="virtual"
             >
               <div className="geiad-layout-two">
-                <div className="casino-banner-item login-hover">
-                  <a href="#">
-                    <img alt="casino" src="images/aviator.jpg" />
-                    <div role="button">Login</div>
-                  </a>
-                </div>
-                <div className="casino-banner-item login-hover">
-                  <a href="#">
-                    <img alt="casino" src="images/dream-wheel.jpg" />
-                    <div role="button">Login</div>
-                  </a>
-                </div>
-                <div className="casino-banner-item login-hover">
-                  <a href="#">
-                    <img alt="casino" src="images/poptheball.jpg" />
-                    <div role="button">Login</div>
-                  </a>
-                </div>
-                <div className="casino-banner-item login-hover">
-                  <a href="#">
-                    <img alt="casino" src="images/Dice-Pascal-Gaming.jpg" />
-                    <div role="button">Login</div>
-                  </a>
-                </div>
-                <div className="casino-banner-item login-hover">
-                  <a href="#">
-                    <img
-                      alt="casino"
-                      src="images/Magic-Dice-Pascal-Gaming.jpg"
-                    />
-                    <div role="button">Login</div>
-                  </a>
-                </div>
-                <div className="casino-banner-item login-hover">
-                  <a href="#">
-                    <img alt="casino" src="images/Catch-Me.jpg" />
-                    <div role="button">Login</div>
-                  </a>
-                </div>
-                <div className="casino-banner-item login-hover">
-                  <a href="#">
-                    <img alt="casino" src="images/x50-wheel.jpg" />
-                    <div role="button">Login</div>
-                  </a>
-                </div>
-                <div className="casino-banner-item login-hover">
-                  <a href="#">
-                    <img alt="casino" src="images/big-hilo.jpg" />
-                    <div role="button">Login</div>
-                  </a>
-                </div>
-                <div className="casino-banner-item login-hover">
-                  <a href="#">
-                    <img alt="casino" src="images/aviator.jpg" />
-                    <div role="button">Login</div>
-                  </a>
-                </div>
-                <div className="casino-banner-item login-hover">
-                  <a href="#">
-                    <img alt="casino" src="images/dream-wheel.jpg" />
-                    <div role="button">Login</div>
-                  </a>
-                </div>
-                <div className="casino-banner-item login-hover">
-                  <a href="#">
-                    <img alt="casino" src="images/poptheball.jpg" />
-                    <div role="button">Login</div>
-                  </a>
-                </div>
-                <div className="casino-banner-item login-hover">
-                  <a href="#">
-                    <img alt="casino" src="images/Dice-Pascal-Gaming.jpg" />
-                    <div role="button">Login</div>
-                  </a>
-                </div>
-                <div className="casino-banner-item login-hover">
-                  <a href="#">
-                    <img
-                      alt="casino"
-                      src="images/Magic-Dice-Pascal-Gaming.jpg"
-                    />
-                    <div role="button">Login</div>
-                  </a>
-                </div>
-                <div className="casino-banner-item login-hover">
-                  <a href="#">
-                    <img alt="casino" src="images/Catch-Me.jpg" />
-                    <div role="button">Login</div>
-                  </a>
-                </div>
-                <div className="casino-banner-item login-hover">
-                  <a href="#">
-                    <img alt="casino" src="images/x50-wheel.jpg" />
-                    <div role="button">Login</div>
-                  </a>
-                </div>
-                <div className="casino-banner-item login-hover">
-                  <a href="#">
-                    <img alt="casino" src="images/big-hilo.jpg" />
-                    <div role="button">Login</div>
-                  </a>
-                </div>
+                {casino?.virtualCasino?.length
+                  ? casino?.virtualCasino?.map((virtualCasino) => (
+                      <div
+                        className={`casino-banner-item ${classNameRef.current}`}
+                        key={virtualCasino?._id}
+                        onClick={() => openPage('#')}
+                      >
+                        {/* <a href="#"> */}
+                        <img alt="casino" src={virtualCasino?.image} />
+                        <div role="button">Login</div>
+                        {/* </a> */}
+                      </div>
+                    ))
+                  : ''}
               </div>
             </div>
           )}
