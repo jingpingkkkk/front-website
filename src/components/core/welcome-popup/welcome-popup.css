@@ -38,6 +38,7 @@
   align-items: flex-start;
   justify-content: space-between;
   font-size: 18px;
+  color: var(--primary-text-color);
 }
 .home-modal-title img {
   height: 30px;
