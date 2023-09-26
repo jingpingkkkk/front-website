@@ -1,19 +1,20 @@
+@import url('../../../assets/css/variables.css');
 .login-modal {
   font-weight: 400;
   margin: 0 auto;
 }
 .login-modal .modal-content {
   border-radius: 8px 8px 8px 8px;
-  background-color: #333;
+  background-color: var(--bg-color);
   border-color: transparent;
   border-width: 1px;
 }
 .login-modal .modal-header {
   justify-content: flex-end;
   padding: 10px 16px;
-  background: #000;
+  background: var(--header-color);
   border-radius: 8px;
-  color: #fff;
+  color: var(--primary-text-color);
   border: 0;
 }
 .login-modal .close-login-modal {
@@ -32,16 +33,16 @@
   height: 30px;
   width: 30px;
   border-radius: 50%;
-  background: transparent;
+  background: var(--icon-bg2);
   padding: 5px;
-  border: 2px solid #f00;
+  /* border: 2px solid #f00; */
 }
 .login-modal .modal-body {
   padding: 16px;
   max-height: 100vh;
 }
 .login-modal .modal-body .login-form {
-  background: #000;
+  background: var(--background-color);
   color: #fff;
   padding: 16px;
   border-radius: 8px;
@@ -55,23 +56,24 @@
   width: 100%;
 }
 .login-modal .login-label {
-  color: #fff;
+  color: var(--primary-text-color);
   font-size: 16px;
 }
 .login-modal .form-control {
-  border: 1px solid #777;
-  color: #fff !important;
+  border: 1px solid var(--third-color);
+  color: var(--primary-text-color) !important;
   transition: 0.8s;
   height: 56px;
-  background-color: #444;
+  background-color: var(--input-color);
   border-radius: 4px;
-  opacity: 0.6;
+  font-weight: 500;
 }
 .login-modal .forgot-password {
   text-align: right;
+  margin-top: 0.25rem !important;
 }
 .login-form .form-group .forgot-password a {
-  color: #03b37f;
+  color: var(--light-text-2);
   text-decoration: underline;
   background: transparent;
   font-size: 16px;
@@ -150,13 +152,15 @@
 }
 .login-btn {
   border-radius: 6px;
-  background: linear-gradient(180deg, #c39e32 0%, #e7dfb3 100%);
+  /* background: linear-gradient(180deg, #c39e32 0%, #e7dfb3 100%); */
+  background: var(--login-btn-color);
   padding: 8px 5px;
-  color: #000 !important;
+  color: var(--black-text) !important;
   width: 100%;
   font-size: 15px;
   font-weight: 600;
   text-transform: capitalize;
+  box-shadow: var(--login-shadow);
 }
 .recaptchaTerms a {
   color: #03b37f;

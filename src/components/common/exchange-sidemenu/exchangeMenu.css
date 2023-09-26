@@ -1,3 +1,4 @@
+@import url('../../../assets/css/variables.css');
 .accordion {
   --bs-accordion-color: white;
   --bs-accordion-bg: transparent;
@@ -13,7 +14,7 @@
 }
 .accordion-button {
   font-size: 14px;
-  color: white;
+  color: var(--sidenav-hover-text);
   padding: 5px 8px 5px 5px !important;
   display: flex;
   justify-content: space-between;
@@ -21,8 +22,9 @@
 }
 .accordion-button:not(.collapsed) {
   color: black;
-  background-color: unset;
-  background: linear-gradient(180deg, #c39e32 0%, #e7dfb3 100%);
+  /* background-color: unset;
+  background: linear-gradient(180deg, #c39e32 0%, #e7dfb3 100%); */
+  background-color: var(--primary-color);
   box-shadow: unset;
   border-radius: 6px;
 }
@@ -31,17 +33,18 @@
 }
 .accordion-body {
   padding: 1px;
+  background-color: var(--main-tabs-color);
 }
 .sidebar-link {
   all: unset;
   font-size: 14px;
   text-decoration: none;
-  color: gainsboro;
+  color: var(--sidenav-text);
   display: block;
   padding: 6px;
 }
 .sidebar-link:hover {
-  color: white;
+  color: var(--sidenav-text);
 }
 .fav-events li {
   list-style: none;
@@ -61,9 +64,9 @@
   font-weight: 700;
   line-height: normal;
   margin-bottom: 10px;
-  background: linear-gradient(180deg, #c39e32 0%, #e7dfb3 100%);
+  /* background: linear-gradient(180deg, #c39e32 0%, #e7dfb3 100%);
   background-clip: text;
   -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
+  -webkit-text-fill-color: transparent; */
   text-decoration: none;
 }

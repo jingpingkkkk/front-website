@@ -162,13 +162,13 @@ function Topnav() {
             </NavLink>
 
             <LoginPopup isOpen={isLoginModalOpen} toggle={toggleLoginModal} />
-            <NavLink
+            {/* <NavLink
               to="#"
               className="ms-2 custom-buttton nav-items"
               onClick={toggleRegisterModal}
             >
               REGISTER
-            </NavLink>
+            </NavLink> */}
             <RegisterPopup
               isOpen={isRegisterModalOpen}
               toggle={toggleRegisterModal}
