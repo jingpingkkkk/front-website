@@ -1,0 +1,64 @@
+body {
+  --header-color: #fff;
+  --bottom-header-color: #060b42;
+  --primary-color: #f1d618;
+  --secondary-color: #fff;
+  --third-color: #ecb023;
+  --forth-color: #1a1a1a;
+  --login-btn-color: linear-gradient(
+    92.99deg,
+    #f1d618 3.48%,
+    rgba(254, 219, 3, 0.925159) 44.48%,
+    rgba(254, 219, 3, 0.79) 118.53%
+  );
+  --login-btn-hover-color: linear-gradient(
+    92.99deg,
+    #f1d618 3.48%,
+    rgba(254, 219, 3, 0.925159) 44.48%,
+    rgba(254, 219, 3, 0.79) 118.53%
+  );
+  --login-shadow: -4px 4px 8px rgba(237, 237, 237, 0.2),
+    4px -4px 8px rgba(237, 237, 237, 0.2),
+    -4px -4px 8px rgba(255, 255, 255, 0.9),
+    4px 4px 10px rgba(237, 237, 237, 0.9),
+    inset 1px 1px 2px rgba(255, 255, 255, 0.3),
+    inset -1px -1px 2px rgba(237, 237, 237, 0.5);
+  --primary-text-color: #1a1a1a;
+  --secondary-text-color: #fff;
+  --header-text-color: #1a1a1a;
+  --sidenav-text: #2c2a2a;
+  --sidenav-hover: #f1d618;
+  --sidenav-hover-text: #1a1a1a;
+  --deposit-btn-text: #f1d618;
+  --white-text: #fff;
+  --black-text: #2c2a2a;
+  --button-color: #837200;
+  --btn-color: #f5f4f4;
+  --search-color: #e6e6e6;
+  --search-text: #1a1a1a;
+  --main-tabs-color: #fff;
+  --light-text-color: #a7a7a7;
+  --light-text-2: #737070;
+  --light-text-3: #e6e6e6;
+  --bg-color: #eeeeee;
+  --event-content-bg: #fcfcfc;
+  --sports-shadow: -4px 4px 8px rgba(237, 237, 237, 0.2),
+    4px -4px 8px rgba(237, 237, 237, 0.2),
+    -4px -4px 8px rgba(255, 255, 255, 0.9),
+    4px 4px 10px rgba(237, 237, 237, 0.9),
+    inset 1px 1px 2px rgba(255, 255, 255, 0.3),
+    inset -1px -1px 2px rgba(237, 237, 237, 0.5);
+  --inplay-collapsible-bg: #fff8dd;
+  --background-color: #fff;
+  --footer-title: #1a1a1a;
+  --footer-subtitle: #737070;
+  --footer-icon-bg: #ffe4a4;
+  --support-btn-border: #f1d618;
+  --input-color: #fffdf2;
+  --icon-bg2: #f5f5f5;
+  --promo-tab-bg: #e6e6e6;
+  --rightside-border: #c29900;
+  --market-suspend-bg: rgba(255, 223, 118, 0.7);
+  --market-suspend-title: #1a1a1a;
+  --team-name-color: #111215;
+}

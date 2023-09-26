@@ -132,7 +132,7 @@ function Fancy({ market }) {
       <div className="row row5">
         {loading ? (
           <div className="col-md-12 text-center mt-2">
-            <Spinner />
+            <Spinner className="text-dark" />
           </div>
         ) : null}
         {fancyRunners?.map((runner) => {
@@ -149,14 +149,14 @@ function Fancy({ market }) {
                 </div>
                 <div
                   data-title={runner?.GameStatus}
-                  className={`bet-table-row suspendedtext ${
+                  className={`bet-table-row ${
                     runner?.GameStatus === 'SUSPENDED' ? 'suspendedtext' : ''
                   }${
                     runner?.GameStatus === 'Ball Running' ? 'suspendedtext' : ''
                   }`}
                 >
                   <div className="nation-name d-none-mobile small">
-                    <div className="text-light">
+                    <div>
                       <span>{runner?.RunnerName || ''}</span>
                     </div>
                   </div>

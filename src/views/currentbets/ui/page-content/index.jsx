@@ -14,13 +14,12 @@ function CurrentBetPageContent() {
   const [loading, setLoading] = useState(false);
   const [activeTab, setActiveTab] = useState('sports');
   const [data, setData] = useState([]);
-  const [allData, setAllData] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [betType, setBetType] = useState('');
   const [totalAmount, setTotalAmount] = useState(0);
-  const [betStatus, setBetStatus] = useState('all');
+  const [betStatus, setBetStatus] = useState('');
 
   const fetchCurrentBetsData = async () => {
     const item = JSON.parse(localStorage.getItem('user'));
@@ -31,11 +30,11 @@ function CurrentBetPageContent() {
         page: currentPage,
         perPage: rowsPerPage,
         betType,
+        betResultStatus: betStatus,
       };
       const result = await postRequest('bet/getCurrentBetsUserwise', body);
       if (result?.success) {
         setData(result?.data?.details?.records || []);
-        setAllData(result?.data?.details?.records || []);
         setTotalPages(result?.data?.details?.totalRecords);
         setTotalAmount(result?.data?.details?.totalAmount);
         setLoading(false);
@@ -133,7 +132,7 @@ function CurrentBetPageContent() {
   const onChangeTab = (tab) => {
     setActiveTab(tab);
     setBetType('');
-    setBetStatus('all');
+    setBetStatus('');
     if (tab === 'sports') {
       fetchCurrentBetsData();
     } else {
@@ -142,50 +141,38 @@ function CurrentBetPageContent() {
       setTotalAmount(0);
     }
   };
-  const onChangeBetStatus = (status) => {
-    setBetStatus(status);
-    if (status !== 'all') {
-      const btStatus = status === 'running' ? ['running'] : ['won', 'lost'];
-      const filteredResult = allData.filter((item) =>
-        btStatus?.includes(item.betResultStatus),
-      );
-      setData(filteredResult);
-    } else {
-      setData(allData);
-    }
-  };
 
   useEffect(() => {
     fetchCurrentBetsData();
-  }, [currentPage, betType, rowsPerPage]);
+  }, [currentPage, betType, rowsPerPage, betStatus]);
 
   const customStyles = {
     table: {
       style: {
-        border: '1px solid #3c444b',
+        border: '1px solid #e6e6e6',
         backgroundColor: '#2E3439',
-        color: '#AAAFB5',
+        color: '#1A1A1A',
       },
     },
     headCells: {
       style: {
-        backgroundColor: '#3c444b',
-        color: '#AAAFB5',
+        backgroundColor: '#e6e6e6',
+        color: '#1A1A1A',
         fontSize: '16px',
       },
     },
     rows: {
       style: {
         cursor: 'pointer',
-        backgroundColor: '#23292E',
-        color: '#AAAFB5',
+        backgroundColor: '#eeeeee',
+        color: '#1A1A1A',
         fontSize: '14px',
       },
     },
     pagination: {
       style: {
-        backgroundColor: '#3c444b',
-        color: '#AAAFB5',
+        backgroundColor: '#e6e6e6',
+        color: '#1A1A1A',
         fontSize: '14px',
       },
     },
@@ -290,9 +277,9 @@ function CurrentBetPageContent() {
                 name="betStatus"
                 value="all"
                 className="custom-control-input"
-                checked={betStatus === 'all'}
+                checked={betStatus === ''}
                 onChange={() => {
-                  onChangeBetStatus('all');
+                  setBetStatus('');
                 }}
               />
               <Label for="bet-all" className="custom-bet-label">
@@ -308,7 +295,7 @@ function CurrentBetPageContent() {
                 className="custom-control-input"
                 checked={betStatus === 'running'}
                 onChange={() => {
-                  onChangeBetStatus('running');
+                  setBetStatus('running');
                 }}
               />
               <Label for="bet-running" className="custom-bet-label">
@@ -318,17 +305,33 @@ function CurrentBetPageContent() {
             <div className="custom-control custom-radio custom-control-inline">
               <input
                 type="radio"
-                id="bet-complete"
+                id="bet-won"
                 name="betStatus"
-                value="complete"
+                value="won"
                 className="custom-control-input"
-                checked={betStatus === 'complete'}
+                checked={betStatus === 'won'}
                 onChange={() => {
-                  onChangeBetStatus('complete');
+                  setBetStatus('won');
                 }}
               />
-              <Label for="bet-complete" className="custom-bet-label">
-                Complete
+              <Label for="bet-won" className="custom-bet-label">
+                Won
+              </Label>
+            </div>
+            <div className="custom-control custom-radio custom-control-inline">
+              <input
+                type="radio"
+                id="bet-lost"
+                name="betStatus"
+                value="lost"
+                className="custom-control-input"
+                checked={betStatus === 'lost'}
+                onChange={() => {
+                  setBetStatus('lost');
+                }}
+              />
+              <Label for="bet-lost" className="custom-bet-label">
+                Lost
               </Label>
             </div>
           </div>
@@ -390,13 +393,35 @@ function CurrentBetPageContent() {
                     <thead>
                       <tr>
                         {columns.map((column) => (
-                          <th key={column.name}>{column.name}</th>
+                          <th
+                            key={column.name}
+                            style={{
+                              backgroundColor: '#e6e6e6',
+                              color: '#1A1A1A',
+                              fontSize: '16px',
+                              height: '52px',
+                              verticalAlign: 'middle',
+                            }}
+                          >
+                            {column.name}
+                          </th>
                         ))}
                       </tr>
                     </thead>
                     <tbody>
                       <tr>
-                        <td colSpan={columns.length}>No records found</td>
+                        <td
+                          colSpan={columns.length}
+                          style={{
+                            backgroundColor: '#eeeeee',
+                            color: '#1A1A1A',
+                            fontSize: '14px',
+                            height: '52px',
+                            verticalAlign: 'middle',
+                          }}
+                        >
+                          No records found
+                        </td>
                       </tr>
                     </tbody>
                   </table>
@@ -430,13 +455,35 @@ function CurrentBetPageContent() {
                     <thead>
                       <tr>
                         {casinoColumns.map((column) => (
-                          <th key={column.name}>{column.name}</th>
+                          <th
+                            key={column.name}
+                            style={{
+                              backgroundColor: '#e6e6e6',
+                              color: '#1A1A1A',
+                              fontSize: '16px',
+                              height: '52px',
+                              verticalAlign: 'middle',
+                            }}
+                          >
+                            {column.name}
+                          </th>
                         ))}
                       </tr>
                     </thead>
                     <tbody>
                       <tr>
-                        <td colSpan={casinoColumns.length}>No records found</td>
+                        <td
+                          colSpan={casinoColumns.length}
+                          style={{
+                            backgroundColor: '#eeeeee',
+                            color: '#1A1A1A',
+                            fontSize: '14px',
+                            height: '52px',
+                            verticalAlign: 'middle',
+                          }}
+                        >
+                          No records found
+                        </td>
                       </tr>
                     </tbody>
                   </table>

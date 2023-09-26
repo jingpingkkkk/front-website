@@ -1,10 +1,11 @@
+@import url('../../../assets/css/variables.css');
 .comman-bg .bet-table-header {
   min-height: 30px;
   height: auto;
   padding: 5px 8px;
   border-radius: 8px 8px 0 0;
-  background-color: #3c444b;
-  color: #aaafb5;
+  background-color: var(--inplay-collapsible-bg);
+  color: var(--primary-text-color);
   width: 100%;
   justify-content: space-between;
   align-items: center;
@@ -12,11 +13,11 @@
 }
 .comman-bg .accordion-button {
   background: transparent;
-  color: #aaafb5;
+  color: var(--primary-text-color);
   padding: 0 !important;
 }
 .comman-bg .accordion-body {
-  background-color: #2e3439;
+  background-color: var(--background-color);
 }
 .comman-bg .bet-table-row:first-child {
   padding: 2px 8px;
@@ -43,6 +44,7 @@
   justify-content: space-between;
   align-items: center;
   position: relative;
+  color: var(--team-name-color);
 }
 .comman-bg .accordion-body .bet-table-row .nation-name > span:first-child {
   max-width: 100%;
@@ -69,7 +71,7 @@
   width: 72px;
   text-align: center;
   line-height: 22px;
-  color: #eee !important;
+  color: var(--primary-text-color) !important;
   font-weight: 500;
   margin-right: 4px;
   cursor: default;
@@ -251,7 +253,7 @@
   opacity: 0.65;
 }
 .right-sidebar.casino-right-sidebar {
-  background-color: #2e3439;
+  background-color: var(--background-color);
   padding: 4px;
 }
 .right-sidebar {
@@ -267,7 +269,7 @@
 }
 .comman-bg .bet-table-body {
   position: relative;
-  background-color: #2e3439;
+  background-color: var(--secondary-color);
   border-radius: 0px 0px 8px 8px;
 }
 .comman-bg .bet-table-box {
@@ -352,12 +354,13 @@
   white-space: nowrap;
   text-overflow: ellipsis;
   max-width: 100%;
-  color: #aaafb5;
+  color: var(--primary-text-color);
   font-size: 14px;
   font-weight: 400;
 }
 .team-name.team-event {
   font-size: 14px;
+  color: var(--third-color);
 }
 .comman-bg .point-title {
   width: 148px;
@@ -425,7 +428,7 @@
 .suspendedtext:after {
   content: attr(data-title);
   text-transform: uppercase;
-  background-color: #131313c2;
+  background-color: var(--market-suspend-bg);
   background-repeat: no-repeat;
   background-position: center;
   position: absolute;
@@ -433,7 +436,7 @@
   height: 38px;
   right: 8px;
   top: 2px;
-  color: #fc4242;
+  color: var(--market-suspend-title);
   font-size: 16px;
   font-weight: bold;
   display: flex;
@@ -443,6 +446,7 @@
   border-radius: 3px;
   cursor: not-allowed;
   pointer-events: none;
+  font-weight: 400;
 }
 .fancy-tripple .bet-table-row .nation-name {
   width: calc(100% - 224px) !important;
@@ -468,6 +472,7 @@
   width: 72px;
   line-height: 16px;
   font-weight: bold;
+  color: var(--light-text-2);
 }
 .fancy-tripple .suspendedtext:after {
   width: 148px !important;
@@ -551,7 +556,7 @@
   .comman-bg .game-title {
     width: 100%;
     margin-bottom: 4px;
-    background: #3c444b;
+    background: var(--inplay-collapsible-bg);
   }
   .bet-table-box {
     padding-bottom: 4px;
@@ -626,11 +631,25 @@
   }
 }
 .bet-table-popup .modal-content {
-  background-color: #333;
+  background-color: var(--background-color);
 }
 .bet-table-popup .modal-body {
   padding: 5px;
+  background: var(--bg-color);
 }
 .bet-table-popup .modal-title {
   font-size: 14px;
+}
+.stake-input {
+  border: 1px solid var(--third-color);
+  color: var(--primary-text-color) !important;
+  transition: 0.8s;
+  background-color: var(--input-color);
+}
+.stake-input:focus {
+  border: 1px solid var(--third-color);
+  color: var(--primary-text-color) !important;
+  transition: 0.8s;
+  background-color: var(--input-color);
+  box-shadow: 0 0 0 0.25rem #ecb02321;
 }

@@ -218,7 +218,7 @@ function BetPanel() {
                           <img
                             src="./images/close.svg"
                             alt="close"
-                            className="w-75 h-75"
+                            className="w-50 h-75"
                           />
                         </button>
                       </div>

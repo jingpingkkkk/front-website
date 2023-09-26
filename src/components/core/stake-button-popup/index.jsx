@@ -117,7 +117,7 @@ const StateButtons = ({ isOpen, closeModal }) => {
           className="close-bet"
           onClick={closeModal}
         >
-          <img src="./images/close.svg" alt="close" className="w-75 h-75" />
+          <img src="./images/close.svg" alt="close" className="w-50 h-50" />
         </button>
       </div>
       <ModalBody>
@@ -158,8 +158,8 @@ const StateButtons = ({ isOpen, closeModal }) => {
                 <Table responsive bordered dark className="mb-0">
                   <thead>
                     <tr>
-                      <th>Price Label</th>
-                      <th>Price Value</th>
+                      <th className="text-primary">Price Label</th>
+                      <th className="text-primary">Price Value</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -169,7 +169,7 @@ const StateButtons = ({ isOpen, closeModal }) => {
                           <td className="w-50">
                             <input
                               type="text"
-                              className="form-control bg-transparent text-white"
+                              className="form-control stake-input"
                               {...register(
                                 `${activeTab}.inputValues.${index}.priceLabel`,
                                 {
@@ -206,7 +206,7 @@ const StateButtons = ({ isOpen, closeModal }) => {
                           <td className="w-50">
                             <input
                               type="number"
-                              className="form-control bg-transparent text-white"
+                              className="form-control stake-input"
                               {...register(
                                 `${activeTab}.inputValues.${index}.priceValue`,
                                 {

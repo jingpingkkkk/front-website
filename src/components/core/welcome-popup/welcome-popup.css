@@ -1,3 +1,4 @@
+@import url('../../../assets/css/variables.css');
 .home-modal {
   display: flex !important;
   text-align: center;
@@ -13,7 +14,8 @@
   align-items: center;
   z-index: 100;
   border-radius: 50%;
-  background: linear-gradient(180deg, #c39e32 0%, #e7dfb3 100%);
+  /* background: linear-gradient(180deg, #c39e32 0%, #e7dfb3 100%); */
+  background-color: var(--primary-color);
 }
 .home-modal .modal-header {
   padding: 0;
@@ -28,7 +30,8 @@
 }
 .home-modal-title {
   width: 100%;
-  background: linear-gradient(180deg, #c39e32 0%, #e7dfb3 100%);
+  /* background: linear-gradient(180deg, #c39e32 0%, #e7dfb3 100%); */
+  background-color: var(--primary-color);
   padding: 10px;
   display: flex;
   flex-wrap: wrap;

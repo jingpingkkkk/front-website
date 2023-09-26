@@ -8,7 +8,7 @@
   cursor: pointer;
   display: flex;
   flex-wrap: wrap;
-  background: #000;
+  background: var(--promo-tab-bg);
   width: auto;
   padding: 0 5px 0 0;
   height: 46px;
@@ -30,7 +30,7 @@
   align-items: flex-end;
 }
 .balance-value {
-  color: #aaafb5;
+  color: var(--primary-text-color);
 }
 .username-info {
   padding-left: 0;
@@ -43,8 +43,9 @@
   justify-content: flex-start;
   margin-left: 10px;
   padding-right: 10px;
-  background-color: #000;
-  border-color: #000;
+  background-color: var(--promo-tab-bg);
+  border-color: transparent;
+  color: var(--primary-text-color) !important;
 }
 .user-icon {
   height: 100%;
@@ -54,15 +55,17 @@
   padding: 0 10px;
 }
 .username-info:hover {
-  background-color: #000;
-  border-color: #000;
+  background-color: var(--promo-tab-bg);
+  border-color: transparent;
+  color: var(--primary-text-color) !important;
 }
 .username-info:active {
-  background-color: #000 !important;
-  border-color: #000 !important;
+  background-color: var(--promo-tab-bg) !important;
+  border-color: transparent !important;
+  color: var(--primary-text-color) !important;
 }
 .dropdown-menu.dropdown-menu-dark {
-  background-color: #000 !important;
+  background-color: var(--promo-tab-bg) !important;
 }
 .dropdown-menu-dark .dropdown-item {
   padding-left: 16px;
@@ -70,6 +73,7 @@
   padding-top: 6px;
   padding-bottom: 6px;
   margin: 6px 0px;
+  color: var(--primary-text-color);
 }
 .dropdown-menu-dark .dropdown-divider {
   border-top: 1px solid rgb(46 52 57);
@@ -92,7 +96,7 @@
   .header-right .bal-point {
     font-size: 10px;
     font-weight: bold;
-    color: #eee;
+    color: var(--primary-text-color);
   }
   .username-info {
     padding-left: 0;

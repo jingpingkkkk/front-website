@@ -166,7 +166,7 @@ function MatchOdds({ market }) {
             <div className="bet-table-row">
               <div className="nation-name d-none-mobile">
                 <div className="w-100 d-flex justify-content-between align-items-center">
-                  <div className="text-light">
+                  <div>
                     <span>{runner?.name || ''}</span>
                     <span className="float-right" />
                     <div
