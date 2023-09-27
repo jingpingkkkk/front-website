@@ -4,7 +4,6 @@ import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router';
 import { Label, Modal, ModalBody } from 'reactstrap';
 import { postRequest } from '../../../api';
-import ipDetails from '../../../helper/ip-information';
 import {
   setShouldLogin,
   setStakeButtons,
@@ -43,10 +42,10 @@ const LoginPopup = ({ isOpen, toggle }) => {
   const onSubmit = async (data) => {
     setLoading(true);
     try {
-      const ipaddress = await ipDetails();
-      if (ipaddress?.ip) {
-        data.ipAddress = ipaddress?.ip;
-      }
+      // const ipaddress = await ipDetails();
+      // if (ipaddress?.ip) {
+      //   data.ipAddress = ipaddress?.ip;
+      // }
       const result = await postRequest('auth/userLogin', data, false);
       if (result?.success) {
         localStorage.setItem('user', JSON.stringify(result?.data?.user));

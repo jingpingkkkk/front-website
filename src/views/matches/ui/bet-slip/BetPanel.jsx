@@ -1,9 +1,8 @@
 /* eslint-disable react/jsx-no-useless-fragment */
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { postRequest } from '../../../../api';
 import LoadingRelative from '../../../../components/common/loading-relative';
-import ipDetails from '../../../../helper/ip-information';
 import shortNumber from '../../../../helper/number';
 import defaultStakeButtons from '../../../../helper/stake-buttons';
 import ToastAlert from '../../../../helper/toast-alert';
@@ -147,7 +146,7 @@ function BetPanel() {
     try {
       setBetLoading(true);
 
-      const ipAddress = await ipDetails();
+      // const ipAddress = await ipDetails();
 
       const body = {
         marketId: eventBet.market._id,
@@ -160,7 +159,8 @@ function BetPanel() {
         isBack: eventBet.betType === betTypes.BACK,
         betOrderType: eventBet.orderType,
         deviceInfo: navigator.userAgent,
-        ipAddress: ipAddress.ip,
+        // ipAddress: ipAddress.ip,
+        ipAddress: '0.0.0.0',
       };
 
       const result = await postRequest('bet/createBet', body);
