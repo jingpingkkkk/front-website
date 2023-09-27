@@ -19,6 +19,7 @@
 }
 .home-modal .modal-header {
   padding: 0;
+  border-bottom: 0;
 }
 .home-modal .modal-body {
   padding: 0;
@@ -38,7 +39,7 @@
   align-items: flex-start;
   justify-content: space-between;
   font-size: 18px;
-  color: var(--primary-text-color);
+  color: var(--white-text);
 }
 .home-modal-title img {
   height: 30px;

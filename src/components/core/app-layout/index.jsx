@@ -10,7 +10,7 @@ function AppLayout({ sidebarLeft, sidebarRight, pageContent }) {
 
   const contentMdColWidth = isSidebarLeft
     ? isSidebarRight
-      ? '7'
+      ? '8'
       : '10'
     : isSidebarRight
     ? '9'
@@ -28,7 +28,7 @@ function AppLayout({ sidebarLeft, sidebarRight, pageContent }) {
             {pageContent}
           </Col>
 
-          {sidebarRight ? <Col lg="3">{sidebarRight}</Col> : null}
+          {sidebarRight ? <Col lg="2">{sidebarRight}</Col> : null}
         </Row>
         <Footer />
       </Container>

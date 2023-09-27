@@ -155,12 +155,20 @@
   /* background: linear-gradient(180deg, #c39e32 0%, #e7dfb3 100%); */
   background: var(--login-btn-color);
   padding: 8px 5px;
-  color: var(--black-text) !important;
+  color: var(--white-text) !important;
   width: 100%;
   font-size: 15px;
   font-weight: 600;
   text-transform: capitalize;
   box-shadow: var(--login-shadow);
+}
+.login-btn:hover {
+  background: var(--login-btn-color);
+  color: var(--white-text);
+}
+.login-btn:active {
+  background-color: var(--login-btn-color) !important;
+  color: var(--white-text) !important;
 }
 .recaptchaTerms a {
   color: #03b37f;

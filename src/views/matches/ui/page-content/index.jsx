@@ -143,7 +143,7 @@ function MatchPageContent() {
               className="bet-table-header"
             >
               <div className="text-uppercase">{market.name}</div>
-              <div className="btn btn-success btn-sm disabled">Cashout</div>
+              {/* <div className="btn btn-success btn-sm disabled">Cashout</div> */}
               <span className="max-bet d-none-desktop">
                 <span title="Max : 1">
                   Max: <span>1</span>

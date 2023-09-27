@@ -1,22 +1,24 @@
 body {
   --header-color: #fff;
   --bottom-header-color: #060b42;
-  --primary-color: #f1d618;
+  --primary-color: #075ba6;
   --secondary-color: #fff;
   --third-color: #ecb023;
   --forth-color: #1a1a1a;
-  --login-btn-color: linear-gradient(
+  /* --login-btn-color: linear-gradient(
     92.99deg,
-    #f1d618 3.48%,
+    #075ba6 3.48%,
     rgba(254, 219, 3, 0.925159) 44.48%,
     rgba(254, 219, 3, 0.79) 118.53%
-  );
-  --login-btn-hover-color: linear-gradient(
+  ); */
+  --login-btn-color: #075ba6;
+  /* --login-btn-hover-color: linear-gradient(
     92.99deg,
-    #f1d618 3.48%,
+    #075ba6 3.48%,
     rgba(254, 219, 3, 0.925159) 44.48%,
     rgba(254, 219, 3, 0.79) 118.53%
-  );
+  ); */
+  --login-btn-hover-color: #075ba6;
   --login-shadow: -4px 4px 8px rgba(237, 237, 237, 0.2),
     4px -4px 8px rgba(237, 237, 237, 0.2),
     -4px -4px 8px rgba(255, 255, 255, 0.9),
@@ -27,9 +29,9 @@ body {
   --secondary-text-color: #fff;
   --header-text-color: #1a1a1a;
   --sidenav-text: #2c2a2a;
-  --sidenav-hover: #f1d618;
+  --sidenav-hover: #075ba6;
   --sidenav-hover-text: #1a1a1a;
-  --deposit-btn-text: #f1d618;
+  --deposit-btn-text: #075ba6;
   --white-text: #fff;
   --black-text: #2c2a2a;
   --button-color: #837200;
@@ -53,7 +55,7 @@ body {
   --footer-title: #1a1a1a;
   --footer-subtitle: #737070;
   --footer-icon-bg: #ffe4a4;
-  --support-btn-border: #f1d618;
+  --support-btn-border: #075ba6;
   --input-color: #fffdf2;
   --icon-bg2: #f5f5f5;
   --promo-tab-bg: #e6e6e6;
@@ -61,8 +63,8 @@ body {
   --market-suspend-bg: rgba(255, 223, 118, 0.7);
   --market-suspend-title: #1a1a1a;
   --team-name-color: #111215;
-  --in-play-color: #f1d618;
-  --in-play-border: #f1d618;
+  --in-play-color: #075ba6;
+  --in-play-border: #075ba6;
   --in-play: #00b181;
   --filter-primary: invert(135%) sepia(206%) saturate(2470%) hue-rotate(225deg)
     brightness(107%) contrast(76%);

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
 import { postRequest } from '../../../api';
 import { setLoginPopup } from '../../../redux/reducers/login-popup';
 import {
@@ -20,6 +20,7 @@ import useScreenWidth from '../../../hooks/use-screen-width';
 
 function Topnav() {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const { themeSettings } = useSelector((state) => state.themeSettings);
   const { shouldLogin } = useSelector((state) => state.userDetails);
   const { isLogingOpen } = useSelector((state) => state.loginDetails);
@@ -89,7 +90,13 @@ function Topnav() {
     }
     setIsLoginModalOpen(isLogingOpen);
   }, [isWelcome, isLoginModalOpen, isLogingOpen]);
-
+  const onchangeMenu = (e, path) => {
+    if (path !== '/sports') {
+      e?.preventDefault();
+    } else {
+      navigate(path);
+    }
+  };
   return (
     <StickyHeader>
       {/* Mobile View */}
@@ -135,8 +142,11 @@ function Topnav() {
             key={item.label}
             to={item.path}
             className={({ isActive }) =>
-              `me-4 nav-items ${isActive ? 'custom-buttton' : ''}`
+              `me-4 nav-items ${isActive ? 'custom-buttton active' : ''}`
             }
+            onClick={(e) => {
+              onchangeMenu(e, item.path);
+            }}
           >
             {item.image ? (
               <img src={item.image} alt={item.label} />
