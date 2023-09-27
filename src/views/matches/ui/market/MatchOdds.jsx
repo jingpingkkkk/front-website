@@ -79,19 +79,21 @@ function MatchOdds({ market }) {
     socket.on(`market:data:${market.apiMarketId}`, (data) => {
       if (data) {
         const { matchOdds } = data;
-        const [teamOne, teamTwo] = matchOdds;
+        const [teamOne, teamTwo, teamThree] = matchOdds;
 
         const teamOneData = { back: [], lay: [] };
         const teamTwoData = { back: [], lay: [] };
+        const teamThreeData = { back: [], lay: [] };
 
         for (let i = 0; i < 3; i++) {
           teamOneData.back.push(teamOne.back[i] || {});
           teamOneData.lay.push(teamOne.lay[i] || {});
           teamTwoData.back.push(teamTwo.back[i] || {});
           teamTwoData.lay.push(teamTwo.lay[i] || {});
+          teamThreeData.back.push(teamThree.back[i] || {});
+          teamThreeData.lay.push(teamThree.lay[i] || {});
         }
-        // console.log('MatchOdds Data=>', data);
-        setRunnerOdds({ 0: teamOneData, 1: teamTwoData });
+        setRunnerOdds({ 0: teamOneData, 1: teamTwoData, 2: teamThreeData });
         setMin(data?.min || 0);
         setMax(data?.max || 0);
       }
