@@ -64,9 +64,9 @@ function SportsTabs({ availableSports, onClick }) {
 
                   <div className="remark">
                     <span className="totel me-0">
-                      {sport?.activeEventCount || 0}
+                      {sport?.allActiveEvent || 0}
                     </span>
-                    <span className="out-of">{sport?.allEventCount || 0}</span>
+                    <span className="out-of">{sport?.allLiveEvent || 0}</span>
                   </div>
                 </div>
               </button>

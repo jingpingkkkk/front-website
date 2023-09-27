@@ -44,31 +44,54 @@ function EventList({ events, sportName }) {
             <div className="bet-table-box" key={i}>
               <div className="bet-table-row p-2">
                 <div className="game-title d-none-mobil">
-                  {event?.isLive ? (
-                    <div className="game-date inplay">
-                      <span>Live</span>
+                  <div className="date-height">
+                    <div
+                      className={`date-time ${event?.isLive ? 'in-play' : ''}`}
+                    >
+                      <div className={` ${event?.isLive ? 'animate' : ''}`}>
+                        <ul
+                          className={` ${
+                            event?.isLive ? 'flip-animation' : ''
+                          }`}
+                        >
+                          <li className="time_date">
+                            <span className="time">
+                              {event?.matchDate
+                                ? moment(event?.matchDate).isSame(
+                                    moment(),
+                                    'day',
+                                  )
+                                  ? 'Today'
+                                  : moment(event?.matchDate).isSame(
+                                      moment().clone().add(1, 'day'),
+                                      'day',
+                                    )
+                                  ? 'Tomorrow'
+                                  : moment(event?.matchDate).format('Do MMM')
+                                : ''}
+                            </span>
+                            <span className="date">
+                              {event?.matchDate
+                                ? moment(event?.matchDate).format('HH:mm')
+                                : ''}
+                            </span>
+                          </li>
+                          {event?.isLive ? (
+                            <li>
+                              <span className="in-play-light">
+                                <div className="icon-holder-small">
+                                  <div className="sports-icon inplay-light-icon" />
+                                </div>
+                                In-Play
+                              </span>
+                            </li>
+                          ) : (
+                            ''
+                          )}
+                        </ul>
+                      </div>
                     </div>
-                  ) : (
-                    <div className="game-date">
-                      <p className="day text-left">
-                        {event?.matchDate
-                          ? moment(event?.matchDate).isSame(moment(), 'day')
-                            ? 'Today'
-                            : moment(event?.matchDate).isSame(
-                                moment().clone().add(1, 'day'),
-                                'day',
-                              )
-                            ? 'Tomorrow'
-                            : moment(event?.matchDate).format()
-                          : ''}
-                      </p>
-                      <p className="mb-0 day text-left">
-                        {event?.matchDate
-                          ? moment(event?.matchDate).format('HH:mm')
-                          : ''}
-                      </p>
-                    </div>
-                  )}
+                  </div>
                   <div className="game-name d-inline-block">
                     <Link
                       className="text-decoration-none"

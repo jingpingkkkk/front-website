@@ -341,6 +341,167 @@
     width: 5%;
   }
 }
+.date-height {
+  display: block;
+  float: left;
+}
+.date-time {
+  position: relative;
+  width: 62px;
+  height: 42px;
+  border-radius: 5px;
+  color: var(--white-text);
+  text-align: center;
+  font-weight: 400;
+  background-color: var(--primary-color);
+  padding: 6px 1px;
+  float: left;
+  margin-right: 5px;
+  text-transform: uppercase;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.time {
+  font-size: 9px;
+  white-space: nowrap;
+  text-align: center;
+  display: block;
+  font-weight: 700;
+  color: var(--black-text);
+}
+.date {
+  font-size: 9px;
+  white-space: nowrap;
+  text-align: center;
+  display: block;
+  font-weight: 700;
+  color: var(--black-text);
+}
+.date-height ul:not(.browser-default) {
+  padding-left: 0;
+  list-style-type: none;
+  margin-bottom: 0;
+}
+.in-play {
+  position: relative;
+  background: var(--in-play-color);
+  color: var(--in-play-border);
+  font-size: 8px;
+  font-weight: 400;
+  text-align: center;
+  display: inline-block;
+  text-transform: initial;
+}
+.in-play::before {
+  animation-delay: -4s !important;
+}
+.in-play::before,
+.in-play::after {
+  content: '';
+  z-index: 0;
+  margin: -5%;
+  box-shadow: inset 0 0 0 2px;
+  border-radius: 7px;
+  animation: clipMe 8s linear infinite;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+@keyframes clipMe {
+  0%,
+  100% {
+    clip: rect(0, 75px, 2px, 0);
+  }
+
+  25% {
+    clip: rect(0, 2px, 75px, 0);
+  }
+  50% {
+    clip: rect(45px, 75px, 75px, 0);
+  }
+  75% {
+    clip: rect(0, 75px, 75px, 45px);
+  }
+}
+.date-time .animate {
+  left: 7px;
+}
+.animate {
+  overflow: hidden;
+  position: relative;
+  float: right;
+  width: 73px;
+  height: 40px;
+  left: 2px;
+  top: -4px;
+}
+.animate .flip-animation {
+  animation: flip-1 6s cubic-bezier(0.23, 1, 0.32, 1.2) infinite;
+}
+.animate .flip-animation li {
+  color: var(--black-text);
+  font-size: 9px;
+  font-weight: 700;
+  padding: 0;
+  height: 39px;
+  margin-bottom: 20px !important;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-transform: uppercase;
+  flex-direction: column;
+}
+.in-play .in-play-light {
+  display: flex;
+  align-items: center;
+  left: -4px;
+  position: relative;
+}
+
+.in-play .in-play-light .icon-holder-small {
+  width: 21px;
+  position: relative;
+}
+.icon-holder-small {
+  width: 24px;
+  height: 24px;
+  margin: 2px auto auto;
+  align-items: center;
+  display: flex;
+}
+.icon-holder-small .sports-icon {
+  display: inline-block;
+  overflow: hidden;
+  background-repeat: no-repeat;
+  background-image: url(./images/icon-play.png);
+  width: 18px;
+  height: 18px;
+  background-size: 18px 18px;
+  margin-left: 2px;
+}
+@keyframes flip-1 {
+  0% {
+    margin-top: -90px;
+  }
+  30% {
+    margin-top: -60px;
+  }
+  55% {
+    margin-top: -60px;
+  }
+  75% {
+    margin-top: 0;
+  }
+  99.99% {
+    margin-top: 0;
+  }
+  100% {
+    margin-top: -90px;
+  }
+}
 .comman-bg .game-name {
   padding-left: 10px;
   width: calc(100% - 160px);
