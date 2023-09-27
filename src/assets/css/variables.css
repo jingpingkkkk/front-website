@@ -61,4 +61,9 @@ body {
   --market-suspend-bg: rgba(255, 223, 118, 0.7);
   --market-suspend-title: #1a1a1a;
   --team-name-color: #111215;
+  --in-play-color: #f1d618;
+  --in-play-border: #f1d618;
+  --in-play: #00b181;
+  --filter-primary: invert(135%) sepia(206%) saturate(2470%) hue-rotate(225deg)
+    brightness(107%) contrast(76%);
 }

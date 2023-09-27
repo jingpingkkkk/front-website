@@ -36,6 +36,18 @@ const emptyOdds = {
       { price: 0, level: 2 },
     ],
   },
+  2: {
+    back: [
+      { price: 0, level: 0 },
+      { price: 0, level: 1 },
+      { price: 0, level: 2 },
+    ],
+    lay: [
+      { price: 0, level: 0 },
+      { price: 0, level: 1 },
+      { price: 0, level: 2 },
+    ],
+  },
 };
 
 const socketUrl = import.meta.env.VITE_SOCKET_URL;
@@ -90,8 +102,8 @@ function MatchOdds({ market }) {
           teamOneData.lay.push(teamOne.lay[i] || {});
           teamTwoData.back.push(teamTwo.back[i] || {});
           teamTwoData.lay.push(teamTwo.lay[i] || {});
-          teamThreeData.back.push(teamThree.back[i] || {});
-          teamThreeData.lay.push(teamThree.lay[i] || {});
+          teamThreeData.back.push(teamThree?.back[i] || {});
+          teamThreeData.lay.push(teamThree?.lay[i] || {});
         }
         setRunnerOdds({ 0: teamOneData, 1: teamTwoData, 2: teamThreeData });
         setMin(data?.min || 0);
