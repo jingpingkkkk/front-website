@@ -1,18 +1,18 @@
 import React, { useEffect, useState } from 'react';
-import { BounceLoader } from 'react-spinners';
-import './loadingOverlay.css';
 import { useDispatch } from 'react-redux';
-import { setThemeSettings } from '../../../redux/reducers/theme-settings';
+import { BounceLoader } from 'react-spinners';
 import { postRequest } from '../../../api';
-import ipDetails from '../../../helper/ip-information';
+import { setThemeSettings } from '../../../redux/reducers/theme-settings';
+import './loadingOverlay.css';
 
 function LoadingOverlay({ loadingText = '', color = '#d5be77' }) {
   const [visible, setVisible] = useState(true);
   const dispatch = useDispatch();
   const getThemeSettings = async () => {
-    const ipAddress = await ipDetails();
+    // const ipAddress = await ipDetails();
     const body = {
-      countryName: ipAddress?.country,
+      // countryName: ipAddress?.country,
+      countryName: 'IN',
       domainUrl: window?.location?.origin,
     };
     const result = await postRequest(
