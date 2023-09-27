@@ -6,22 +6,22 @@ const topNavItems = [
   },
   {
     label: 'Live Casino',
-    path: '/casino',
+    path: '/',
     state: {},
   },
   {
     label: 'Slot',
-    path: '/slot',
+    path: '/',
     state: {},
   },
   {
     label: 'Fantasy Games',
-    path: '/fantasy',
+    path: '/',
     state: {},
   },
   {
     label: 'Aviator',
-    path: '/fantasy',
+    path: '/',
     state: { gameId: 'aviator' },
     image: 'images/aviator-menu-image.png',
   },

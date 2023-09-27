@@ -79,9 +79,9 @@ function EventList({ events, sportName }) {
                           {event?.isLive ? (
                             <li>
                               <span className="in-play-light">
-                                <div className="icon-holder-small">
+                                {/* <div className="icon-holder-small">
                                   <div className="sports-icon inplay-light-icon" />
-                                </div>
+                                </div> */}
                                 In-Play
                               </span>
                             </li>

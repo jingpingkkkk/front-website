@@ -1,3 +1,5 @@
+/* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
+/* eslint-disable jsx-a11y/click-events-have-key-events */
 import { faCaretDown, faCaretUp } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React, { useEffect, useState } from 'react';
@@ -96,7 +98,11 @@ function ExchangeSideMenu({ className = 'd-none d-lg-block' }) {
       <ul className="fav-events ps-0">
         {favouriteEvents?.length
           ? favouriteEvents?.map((favEvent) => (
-              <li className="py-1" key={favEvent?._id}>
+              <li
+                className="py-1 cursor-pointer"
+                key={favEvent?._id}
+                onClick={() => handleEventClick(favEvent?._id, '/matches')}
+              >
                 {favEvent?.name || ''}
               </li>
             ))

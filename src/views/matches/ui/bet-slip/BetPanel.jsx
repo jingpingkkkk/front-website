@@ -1,5 +1,5 @@
 /* eslint-disable react/jsx-no-useless-fragment */
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { postRequest } from '../../../../api';
 import LoadingRelative from '../../../../components/common/loading-relative';
@@ -15,11 +15,12 @@ import {
   setBetStake,
 } from '../../../../redux/reducers/event-bet';
 import { setMarketPlForecast } from '../../../../redux/reducers/event-market';
-import { addUserBet } from '../../../../redux/reducers/user-bets';
+import { addEventMarketBets } from '../../../../redux/reducers/user-bets';
+// import { addUserBet } from '../../../../redux/reducers/user-bets';
 
 function BetPanel() {
   const dispatch = useDispatch();
-
+  const inputRef = useRef(null);
   const eventBet = useSelector((state) => state.eventBet);
   const eventMarket = useSelector((state) => state.eventMarket);
   const userDetails = useSelector((state) => state.userDetails);
@@ -135,7 +136,13 @@ function BetPanel() {
     dispatch(setBetPrice(rate));
     dispatch(setMarketPlForecast({ marketId: market._id, plForecast }));
   };
-
+  const fetchUserEventBets = async (eventId) => {
+    const result = await postRequest('bet/getUserEventBets', { eventId });
+    if (result?.success) {
+      const marketBets = result.data.details;
+      dispatch(addEventMarketBets({ eventId, marketBets }));
+    }
+  };
   const placeBet = async () => {
     try {
       setBetLoading(true);
@@ -161,11 +168,12 @@ function BetPanel() {
         throw new Error(result.message);
       }
 
-      const newBet = { betDetails: result.data.details, eventBet };
+      // const newBet = { betDetails: result.data.details, eventBet };
       const forecast = { marketId: eventBet.market._id, plForecast: [0, 0] };
 
       setTimeout(() => {
-        dispatch(addUserBet(newBet));
+        // dispatch(addUserBet(newBet));
+        fetchUserEventBets(eventMarket.event.eventId);
         dispatch(setMarketPlForecast(forecast));
         dispatch(resetEventBet());
         ToastAlert.success('Bet placed successfully.');
@@ -184,6 +192,12 @@ function BetPanel() {
       placeBet();
     }
   };
+
+  useEffect(() => {
+    if (inputRef.current) {
+      inputRef.current.value = eventBet.stake;
+    }
+  }, [eventBet.stake]);
 
   return (
     <div>
@@ -257,12 +271,12 @@ function BetPanel() {
                       placeholder="Amount"
                       className="type-aminunt form-control w-50"
                       value={eventBet?.stake}
+                      ref={inputRef}
                       onKeyDown={placeBetOnEnter}
                       onChange={(e) =>
                         updateStake({ stake: Number(e.target.value) })
                       }
                     />
-
                     <div className="pe-2 small">
                       {eventBet.absoluteBetProfit ? (
                         <>
@@ -305,7 +319,7 @@ function BetPanel() {
 
                 <button
                   disabled={eventBet?.stake === 0 || eventBet?.isBetLock}
-                  className="custom-buttton c-btn"
+                  className="custom-buttton c-btn text-white"
                   type="button"
                   onClick={() => placeBet()}
                 >

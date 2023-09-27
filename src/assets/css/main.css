@@ -18,7 +18,6 @@ a {
 nav#sidebar {
   position: fixed;
   width: 15.75%;
-  top: 115px;
   max-height: calc(100% - 130px);
   overflow-y: scroll;
 }
@@ -64,7 +63,7 @@ header {
   border-radius: 6px;
   background: var(--login-btn-color);
   padding: 10px;
-  color: var(--primary-text-color) !important;
+  color: var(--white-text) !important;
 }
 .c-btn:hover {
   background: #ceb15b;
@@ -723,7 +722,7 @@ nav#sidebar li a.dropdown-toggle {
 .tabing-sec ul.nav.nav-tabs {
   border: none;
   border-radius: 15px 15px 0px 0px;
-  background: var(--promo-tab-bg);
+  background: var(--login-btn-color);
 }
 .tabing-sec ul.nav.nav-tabs li.nav-item {
   width: 50%;
@@ -733,13 +732,13 @@ nav#sidebar li a.dropdown-toggle {
   font-style: normal;
   font-weight: 500;
   line-height: normal;
-  color: var(--primary-text-color);
+  color: var(--white-text);
   font-family: 'Inter', sans-serif;
   border: none !important;
   background-color: transparent !important;
   padding: 0 10px;
   text-align: center;
-  border-right: 1px solid var(--rightside-border) !important;
+  border-right: 1px solid var(--white-text) !important;
   margin: 10px 0;
   border-radius: 0 !important;
 }
@@ -747,7 +746,7 @@ nav#sidebar li a.dropdown-toggle {
   border-right: none !important;
 }
 .tabing-sec ul.nav.nav-tabs li.nav-item a.nav-link.active {
-  color: var(--third-color) !important;
+  color: var(--white-text) !important;
 }
 .tabing-sec .tab-content {
   padding: 15px;
@@ -1519,7 +1518,9 @@ nav#sidebar li.all-sports.text-deco a {
   color: var(--search-text) !important;
   font-weight: 400;
 }
-
+.nav-items.active {
+  color: var(--white-text) !important;
+}
 /* Responsive Css */
 
 @media only screen and (max-width: 1199px) and (min-width: 992px) {
@@ -2109,4 +2110,10 @@ nav#sidebar li.all-sports.text-deco a {
 .dropdown-item.active,
 .dropdown-item:active {
   background-color: var(--bg-color);
+}
+.cursor-pointer {
+  cursor: pointer;
+}
+.text-white {
+  color: var(--white-text);
 }

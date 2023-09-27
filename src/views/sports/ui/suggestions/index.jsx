@@ -3,7 +3,7 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Carousel } from 'react-responsive-carousel';
+// import { Carousel } from 'react-responsive-carousel';
 import 'react-responsive-carousel/lib/styles/carousel.min.css';
 import { setLoginPopup } from '../../../../redux/reducers/login-popup';
 
@@ -33,7 +33,7 @@ function ProductPromotion() {
   }, []);
   return (
     <>
-      <div className="pramotion-sec">
+      {/* <div className="pramotion-sec">
         <div className="pramotion-title">promotion</div>
 
         <Carousel
@@ -63,9 +63,9 @@ function ProductPromotion() {
             <img src="images/side-banner.png" alt="carouselbanner" />
           </div>
         </Carousel>
-      </div>
+      </div> */}
 
-      <div className="tabing-sec mt-3">
+      <div className="tabing-sec">
         <ul className="nav nav-tabs" role="tablist">
           <li className="nav-item">
             <a

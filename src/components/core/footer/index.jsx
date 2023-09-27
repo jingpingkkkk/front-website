@@ -10,7 +10,7 @@ function Footer() {
   return (
     <div className="row footer-row mt-3">
       <div className="col-md-2 col-sm-12 col-12" />
-      <div className="col-md-7 col-sm-7 col-12 footer-area">
+      <div className="col-md-8 col-sm-8 col-12 footer-area">
         <footer className="footer">
           <div className="row">
             <div className="col-md-4 col-sm-12 col-12">
