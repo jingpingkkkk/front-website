@@ -21,7 +21,7 @@
   align-items: center;
 }
 .accordion-button:not(.collapsed) {
-  color: black;
+  color: var(--white-text);
   /* background-color: unset;
   background: linear-gradient(180deg, #c39e32 0%, #e7dfb3 100%); */
   background-color: var(--primary-color);

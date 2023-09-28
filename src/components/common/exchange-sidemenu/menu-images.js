@@ -1,21 +1,22 @@
 const menuImages =
   // Cricket
   {
-    Cricket: 'images/Cricketball.png',
-    Soccer: 'images/Football.png',
-    Tennis: 'images/Tennis.png',
-    Basketball: 'images/Basketball.png',
+    Cricket: 'images/cricket.svg',
+    Soccer: 'images/football.svg',
+    Tennis: 'images/tennis.svg',
+    Basketball: 'images/basketball.svg',
     Rugby: 'images/Rugbyball.png',
-    Baseball: 'images/Baseball-01.png',
-    'Horse Racing': 'images/hource-racing.png',
+    Baseball: 'images/base ball.svg',
+    'Horse Racing': 'images/hource.svg',
     'Greyhound Racing': 'images/greyhound-racing.png',
-    Volleyball: 'images/Valleyball-01 1.png',
-    Boxing: 'images/Boxing.png',
-    'Ice Hockey': 'images/ice-hocky.png',
+    Volleyball: 'images/volleyball.svg',
+    Boxing: 'images/boxing.svg',
+    'Ice Hockey': 'images/ice-hocky.svg',
     Snooker: 'images/Snooker.png',
-    Racing: 'images/Bike.png',
+    Racing: 'images/bikes.svg',
     Chess: 'images/chess.png',
-    'E Gaming': 'images/e-game.png',
+    'E Gaming': 'images/e-games.svg',
+    'Table Tennis': 'images/table-tennis-equipment.svg',
   };
 
 export default menuImages;

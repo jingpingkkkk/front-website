@@ -31,7 +31,7 @@ function EventList({ events, sportName }) {
     <div className="comman-bg mb-0">
       <div className="bet-table-header d-flex sport4 d-none-mobile">
         <div className="game-title justify-content-start">
-          <img src={imgPath} alt={sportName} />
+          <img src={imgPath} alt={sportName} className="sports-image" />
           <span className="ms-1">{sportName || ''}</span>
         </div>
         <div className="point-title">1</div>
