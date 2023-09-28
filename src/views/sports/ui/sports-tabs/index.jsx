@@ -1,8 +1,8 @@
 /* eslint-disable no-nested-ternary */
 /* eslint-disable react/no-array-index-key */
 import React, { useState } from 'react';
-import useScreenWidth from '../../../../hooks/use-screen-width';
 import menuImages from '../../../../components/common/exchange-sidemenu/menu-images';
+import useScreenWidth from '../../../../hooks/use-screen-width';
 
 function SportsTabs({ availableSports, onClick }) {
   const { isMobile, isTablet } = useScreenWidth();
@@ -64,9 +64,11 @@ function SportsTabs({ availableSports, onClick }) {
 
                   <div className="remark">
                     <span className="totel me-0">
-                      {sport?.allActiveEvent || 0}
+                      {sport?.getAllActiveEvent || 0}
                     </span>
-                    <span className="out-of">{sport?.allLiveEvent || 0}</span>
+                    <span className="out-of">
+                      {sport?.getAllLiveEvent || 0}
+                    </span>
                   </div>
                 </div>
               </button>
