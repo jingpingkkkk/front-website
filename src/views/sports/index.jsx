@@ -3,7 +3,10 @@ import { useDispatch } from 'react-redux';
 import LoadingOverlay from '../../components/common/loading-overlay';
 import AppLayout from '../../components/core/app-layout';
 import { getRequest } from '../../api';
-import { setSportsList } from '../../redux/reducers/sports-list';
+import {
+  setSportsList,
+  setSportsLoader,
+} from '../../redux/reducers/sports-list';
 
 const ExchangeSideMenu = React.lazy(() =>
   import('../../components/common/exchange-sidemenu'),
@@ -15,11 +18,14 @@ function Sports() {
   const dispatch = useDispatch();
   const getAllSports = async () => {
     try {
+      dispatch(setSportsLoader(true));
       const result = await getRequest('exchangeHome/sportsList', false);
       if (result?.success) {
         dispatch(setSportsList(result?.data || []));
       }
+      dispatch(setSportsLoader(false));
     } catch (error) {
+      dispatch(setSportsLoader(false));
       console.log(error);
     }
   };

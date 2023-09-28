@@ -131,7 +131,7 @@ function Fancy({ market }) {
       <div className="row row5">
         {loading ? (
           <div className="col-md-12 text-center mt-2">
-            <Spinner className="text-dark" />
+            <Spinner className="text-primary" />
           </div>
         ) : fancyRunners?.length ? (
           fancyRunners?.map((runner) => {

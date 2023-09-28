@@ -5,15 +5,19 @@ const sportsListSlice = createSlice({
 
   initialState: {
     sports: [],
+    loading: false,
   },
 
   reducers: {
     setSportsList: (state, action) => {
       state.sports = action.payload;
     },
+    setSportsLoader: (state, action) => {
+      state.loading = action.payload;
+    },
   },
 });
 
-export const { setSportsList } = sportsListSlice.actions;
+export const { setSportsList, setSportsLoader } = sportsListSlice.actions;
 
 export default sportsListSlice.reducer;
