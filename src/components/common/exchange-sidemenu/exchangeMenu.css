@@ -15,13 +15,13 @@
 .accordion-button {
   font-size: 14px;
   color: var(--sidenav-hover-text);
-  padding: 5px 8px 5px 5px !important;
+  padding: 5px 8px 5px 0px !important;
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
 .accordion-button:not(.collapsed) {
-  color: black;
+  color: var(--white-text);
   /* background-color: unset;
   background: linear-gradient(180deg, #c39e32 0%, #e7dfb3 100%); */
   background-color: var(--primary-color);

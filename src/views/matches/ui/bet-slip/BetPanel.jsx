@@ -171,9 +171,9 @@ function BetPanel() {
       // const newBet = { betDetails: result.data.details, eventBet };
       const forecast = { marketId: eventBet.market._id, plForecast: [0, 0] };
 
+      fetchUserEventBets(eventMarket.event.eventId);
       setTimeout(() => {
         // dispatch(addUserBet(newBet));
-        fetchUserEventBets(eventMarket.event.eventId);
         dispatch(setMarketPlForecast(forecast));
         dispatch(resetEventBet());
         ToastAlert.success('Bet placed successfully.');

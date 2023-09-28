@@ -10,7 +10,7 @@ import EventList from '../events';
 
 function UpcommingMatches() {
   const availableSports = useSelector((state) => state.sportsList?.sports);
-
+  const loading = useSelector((state) => state.sportsList?.loading);
   const [eventLoading, setEventLoading] = useState(false);
   const [sportEvents, setSportEvents] = useState([]);
   const [sportName, setSportName] = useState(null);
@@ -46,7 +46,11 @@ function UpcommingMatches() {
   }, [availableSports?.length]);
   return (
     <>
-      {availableSports?.length ? (
+      {loading ? (
+        <div className="col-md-12 text-center mt-2">
+          <Spinner className="text-primary" />
+        </div>
+      ) : availableSports?.length ? (
         <SportsTabs
           availableSports={availableSports}
           onClick={(id, name) => fetchSportDetails(id, name)}
@@ -54,10 +58,14 @@ function UpcommingMatches() {
       ) : (
         <div>No Data </div>
       )}
-      {!eventLoading ? (
+      {loading ? (
+        ''
+      ) : !eventLoading ? (
         <EventList events={sportEvents} sportName={sportName} />
       ) : (
-        <Spinner color="secondary" />
+        <div className="col-md-12 text-center mt-2">
+          <Spinner className="text-primary" />
+        </div>
       )}
     </>
   );

@@ -14,7 +14,7 @@ import MyBets from './MyBets';
 function BatSlip() {
   const eventBet = useSelector((state) => state.eventBet);
 
-  const [openIds, setOpenIds] = useState(['2', '3']);
+  const [openIds, setOpenIds] = useState(['1', '2', '3']);
 
   useEffect(() => {
     if (eventBet.market?._id) {

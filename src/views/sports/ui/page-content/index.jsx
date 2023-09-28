@@ -1,9 +1,11 @@
+/* eslint-disable no-nested-ternary */
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 // import moment from 'moment';
 import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch } from 'react-redux';
 // import { Carousel } from 'react-responsive-carousel';
+import { Spinner } from 'reactstrap';
 import { getRequest } from '../../../../api';
 import News from '../../../../components/core/news';
 import BannerSlider from '../../../../components/core/slider';
@@ -19,6 +21,8 @@ function SportPageContent() {
   // const [events, setEvents] = useState([]);
   const [allCasino, setAllCasino] = useState([]);
   const [allGames, setAllGames] = useState([]);
+  const [gameLoading, setGameLoading] = useState(false);
+  const [casinoLoading, setCasinoLoading] = useState(false);
   // const getUpcomingEvents = async () => {
   //   try {
   //     const result = await getRequest('event/upcomingEvent', false);
@@ -31,6 +35,7 @@ function SportPageContent() {
   // };
   const getLiveCasino = async () => {
     try {
+      setCasinoLoading(true);
       const result = await getRequest('casino/allCasino', false);
       if (result?.success) {
         setAllCasino(result?.data?.details || []);
@@ -43,17 +48,22 @@ function SportPageContent() {
         dispatch(setLiveCasino(liveCasino));
         dispatch(setVirtualCasino(virtualCasino));
       }
+      setCasinoLoading(false);
     } catch (error) {
+      setCasinoLoading(false);
       console.log(error);
     }
   };
   const getFantasyGames = async () => {
     try {
+      setGameLoading(true);
       const result = await getRequest('casinoGame/showFavouriteGame', false);
       if (result?.success) {
         setAllGames(result?.data?.details || []);
       }
+      setGameLoading(false);
     } catch (error) {
+      setGameLoading(false);
       console.log(error);
     }
   };
@@ -129,8 +139,16 @@ function SportPageContent() {
 
       <div className="griad-games">
         <div className="section-title">Fantasy Games</div>
-        <div className={`geiad-layout-${allGames?.length ? 'four' : 'one'}`}>
-          {allGames?.length ? (
+        <div
+          className={`geiad-layout-${
+            allGames?.length && !gameLoading ? 'four' : 'one'
+          }`}
+        >
+          {gameLoading ? (
+            <div className="col-md-12 text-center mt-2">
+              <Spinner className="text-primary" />
+            </div>
+          ) : allGames?.length ? (
             allGames?.map((game) => (
               <div
                 key={game?._id}
@@ -150,8 +168,16 @@ function SportPageContent() {
       </div>
       <div className="griad-games">
         <div className="section-title">Live Casino</div>
-        <div className={`geiad-layout-${allCasino?.length ? 'four' : 'one'}`}>
-          {allCasino?.length ? (
+        <div
+          className={`geiad-layout-${
+            allCasino?.length && !casinoLoading ? 'four' : 'one'
+          }`}
+        >
+          {casinoLoading ? (
+            <div className="col-md-12 text-center mt-2">
+              <Spinner className="text-primary" />
+            </div>
+          ) : allCasino?.length ? (
             allCasino.map((casino) => (
               <div
                 key={casino?._id}
