@@ -11,6 +11,7 @@ import {
   resetEventBet,
   setAbsoluteBetProfit,
   setBetPrice,
+  setBetSize,
   setBetStake,
 } from '../../../../redux/reducers/event-bet';
 import { setMarketPlForecast } from '../../../../redux/reducers/event-market';
@@ -73,14 +74,22 @@ function BetPanel() {
     return { absoluteBetProfit, plForecast };
   };
 
-  const updateStake = ({ stake = null, price = null, max = false }) => {
-    const { betType, market } = eventBet;
-    const { priority, pl, _id } = eventBet.runner;
+  const calculateNormalStake = (betType, quantity, pl, size) => {
+    let absoluteBetProfit = 0;
+    if (betType === betTypes.BACK) {
+      absoluteBetProfit = pl + (quantity * size) / 100;
+    } else {
+      absoluteBetProfit = quantity;
+    }
+    return { absoluteBetProfit };
+  };
 
+  const updateStake = ({ stake = null, price = null, max = false }) => {
+    const { betType, market, size } = eventBet;
+    const { priority, pl, _id } = eventBet.runner;
     const oppRunner = eventMarket.markets
       .find((mkt) => mkt._id === market._id)
       ?.runners.find((runner) => runner._id !== _id);
-
     let quantity = eventBet.stake;
     let rate = eventBet.price;
 
@@ -128,11 +137,19 @@ function BetPanel() {
       );
       absoluteBetProfit = ap;
       plForecast = pf;
+    } else if (eventBet?.market?.name === 'Normal') {
+      const { absoluteBetProfit: ap } = calculateNormalStake(
+        betType,
+        quantity,
+        pl,
+        size,
+      );
+      absoluteBetProfit = ap;
     }
-
     dispatch(setAbsoluteBetProfit(absoluteBetProfit));
     dispatch(setBetStake(quantity));
     dispatch(setBetPrice(rate));
+    dispatch(setBetSize(size));
     dispatch(setMarketPlForecast({ marketId: market._id, plForecast }));
   };
   const fetchUserEventBets = async (eventId) => {
@@ -162,6 +179,11 @@ function BetPanel() {
         // ipAddress: ipAddress.ip,
         ipAddress: '0.0.0.0',
       };
+
+      if (eventBet?.market?.name === 'Normal') {
+        body.price = eventBet.size;
+        body.runnerScore = eventBet.price;
+      }
 
       const result = await postRequest('bet/createBet', body);
       if (!result.success) {

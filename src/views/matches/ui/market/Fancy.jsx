@@ -29,15 +29,16 @@ function Fancy({ market }) {
 
   const [runnerOdds, setRunnerOdds] = useState(emptyOdds);
   const [loading, setLoading] = useState(false);
-
+  const [runnerPLS, setRunnerPLS] = useState([]);
   useEffect(() => {
     const fetchRunnerPls = async () => {
-      const result = await postRequest('bet/getRunnerPls', {
+      const result = await postRequest('bet/getRunnerPlsFancy', {
         marketId: market._id,
         eventId: event.eventId,
       });
       if (result.success) {
         const runnerPls = result.data.details;
+        setRunnerPLS(runnerPls);
         dispatch(setMarketRunnerPl(runnerPls));
       }
     };
@@ -79,7 +80,7 @@ function Fancy({ market }) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [market]);
 
-  const handleOddClick = (runner, price, type) => {
+  const handleOddClick = (runner, price, size, type) => {
     if (price === 0) return;
     const selectedOdd = {
       market: {
@@ -95,10 +96,11 @@ function Fancy({ market }) {
         _id: runner.runnerId,
         selectionId: runner.SelectionId,
         name: runner.RunnerName,
-        priority: runner.priority,
-        pl: runner.pl,
+        priority: 0,
+        pl: 0,
       },
       price,
+      size,
       betType: type,
     };
 
@@ -138,6 +140,9 @@ function Fancy({ market }) {
             const odds = runnerOdds?.length
               ? runnerOdds?.find((item) => item?.runnerId === runner?.runnerId)
               : {};
+            const pls = runnerPLS?.length
+              ? runnerPLS?.find((item) => item?._id === runner?.runnerId)?.pl
+              : 0;
             return (
               <div key={runner?.runnerId} className="col-12 col-md-6">
                 <div className="fancy-tripple">
@@ -159,13 +164,29 @@ function Fancy({ market }) {
                     <div className="nation-name d-none-mobile small">
                       <div>
                         <span>{runner?.RunnerName || ''}</span>
+                        <div
+                          className={`pt-1 small ${
+                            pls > 0
+                              ? 'text-success'
+                              : pls < 0
+                              ? 'text-danger'
+                              : 'text-light'
+                          }`}
+                        >
+                          {pls ? pls.toFixed(0) : ''}
+                        </div>
                       </div>
                     </div>
                     <button
                       type="button"
                       className="bl-box lay lay"
                       onClick={() =>
-                        handleOddClick(runner, odds?.lay?.price, betTypes.LAY)
+                        handleOddClick(
+                          runner,
+                          odds?.lay?.price,
+                          odds?.lay?.size,
+                          betTypes.LAY,
+                        )
                       }
                     >
                       {odds?.lay?.price && odds?.lay?.price !== 0 ? (
@@ -189,7 +210,12 @@ function Fancy({ market }) {
                       type="button"
                       className="bl-box back back"
                       onClick={() =>
-                        handleOddClick(runner, odds?.back?.price, betTypes.BACK)
+                        handleOddClick(
+                          runner,
+                          odds?.back?.price,
+                          odds?.back?.size,
+                          betTypes.BACK,
+                        )
                       }
                     >
                       {odds?.back?.price && odds?.back?.price !== 0 ? (
@@ -249,6 +275,7 @@ function Fancy({ market }) {
                           handleOddClick(
                             runner,
                             runner?.LayPrice2,
+                            runner?.LaySize2,
                             betTypes.LAY,
                           )
                         }
@@ -280,6 +307,7 @@ function Fancy({ market }) {
                           handleOddClick(
                             runner,
                             runner?.BackPrice2,
+                            runner?.BackSize2,
                             betTypes.BACK,
                           )
                         }
@@ -329,6 +357,7 @@ function Fancy({ market }) {
                           handleOddClick(
                             runner,
                             runner?.LayPrice3,
+                            runner?.LaySize3,
                             betTypes.LAY,
                           )
                         }
@@ -360,6 +389,7 @@ function Fancy({ market }) {
                           handleOddClick(
                             runner,
                             runner?.BackPrice3,
+                            runner?.BackSize3,
                             betTypes.BACK,
                           )
                         }

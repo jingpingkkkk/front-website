@@ -50,6 +50,7 @@ export const eventBetSlice = createSlice({
     betType: '',
     absoluteBetProfit: 0,
     orderType: orderTypes.LIMIT,
+    size: 0,
   },
 
   reducers: {
@@ -58,6 +59,7 @@ export const eventBetSlice = createSlice({
       state.runner = action.payload.runner;
       state.price = action.payload.price;
       state.betType = action.payload.betType;
+      state.size = action.payload.size;
     },
 
     setBetStake: (state, action) => {
@@ -66,6 +68,10 @@ export const eventBetSlice = createSlice({
 
     setBetPrice: (state, action) => {
       state.price = action.payload;
+    },
+
+    setBetSize: (state, action) => {
+      state.size = action.payload;
     },
 
     setAbsoluteBetProfit: (state, action) => {
@@ -90,6 +96,7 @@ export const {
   setBetPrice,
   resetEventBet,
   setAbsoluteBetProfit,
+  setBetSize,
 } = eventBetSlice.actions;
 
 export default eventBetSlice.reducer;

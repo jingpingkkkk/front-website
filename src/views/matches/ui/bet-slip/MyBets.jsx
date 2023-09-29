@@ -66,7 +66,12 @@ function MyBets() {
                             }`,
                           }}
                         >
-                          <div className="text-start">{bet.runnerName}</div>
+                          <div className="text-start">
+                            {bet.runnerName}{' '}
+                            {bm.marketName === 'Normal'
+                              ? `${bet?.size ? '/'.bet?.size : ''}`
+                              : ''}
+                          </div>
                           <div className="text-secondary pt-1 small">
                             {moment(bet.createdAt).format(
                               'DD-MM-YYYY HH:mm:ss',
