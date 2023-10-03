@@ -59,7 +59,7 @@ function MyBets() {
                     <tr key={bet._id}>
                       <td className="py-1">
                         <div
-                          className="ps-2 py-2"
+                          className="ps-2 py-2 text-start"
                           style={{
                             borderLeft: `5px solid ${
                               bet.isBack ? '#72bbef' : '#f994ba'
