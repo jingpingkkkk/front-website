@@ -16,9 +16,7 @@ function EventList({ events, sportName }) {
   const handleEventClick = (e, path, id) => {
     e.preventDefault();
     const notLoggedIn =
-      !userDetails?.user?._id ||
-      !JSON.parse(localStorage.getItem('user'))?._id ||
-      !localStorage.getItem('userToken');
+      !userDetails?.user?._id || !localStorage.getItem('userToken');
     if (notLoggedIn) {
       dispatch(setShouldLogin(true));
       return;

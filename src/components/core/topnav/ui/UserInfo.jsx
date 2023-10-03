@@ -31,7 +31,7 @@ const UserInfo = ({ user }) => {
   useEffect(() => {
     socket.on(`user:${user._id}`, (data) => {
       setUserInfo(data);
-      localStorage.setItem('user', JSON.stringify(data));
+      // localStorage.setItem('user', JSON.stringify(data));
     });
     socket.connect();
     return () => {
