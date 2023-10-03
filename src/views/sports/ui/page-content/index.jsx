@@ -3,7 +3,7 @@
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 // import moment from 'moment';
 import React, { useEffect, useRef, useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 // import { Carousel } from 'react-responsive-carousel';
 import { Spinner } from 'reactstrap';
 import { getRequest } from '../../../../api';
@@ -18,6 +18,7 @@ import {
 
 function SportPageContent() {
   const dispatch = useDispatch();
+  const userDetails = useSelector((state) => state.userDetails);
   // const [events, setEvents] = useState([]);
   const [allCasino, setAllCasino] = useState([]);
   const [allGames, setAllGames] = useState([]);
@@ -69,8 +70,7 @@ function SportPageContent() {
   };
   const classNameRef = useRef('');
   const checkLogin = () => {
-    const item = JSON.parse(localStorage.getItem('user'));
-    if (!item) {
+    if (Object.keys(userDetails?.user)?.length <= 0) {
       classNameRef.current = 'login-hover';
       return false;
     }

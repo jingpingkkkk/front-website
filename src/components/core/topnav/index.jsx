@@ -24,6 +24,7 @@ function Topnav() {
   const { themeSettings } = useSelector((state) => state.themeSettings);
   const { shouldLogin } = useSelector((state) => state.userDetails);
   const { isLogingOpen } = useSelector((state) => state.loginDetails);
+  const userDetails = useSelector((state) => state.userDetails);
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(isLogingOpen);
   const [isRegisterModalOpen, setIsRegisterModalOpen] = useState(false);
   const [user, setUser] = useState('');
@@ -81,15 +82,14 @@ function Topnav() {
   }, []);
 
   useEffect(() => {
-    const item = JSON.parse(localStorage.getItem('user'));
     if (localStorage.getItem('isWelcome') === 'true') {
       setIsWelcome(true);
     }
-    if (item) {
-      setUser(item);
+    if (Object?.keys(userDetails?.user)?.length > 0) {
+      setUser(userDetails?.user);
     }
     setIsLoginModalOpen(isLogingOpen);
-  }, [isWelcome, isLoginModalOpen, isLogingOpen]);
+  }, [isWelcome, isLoginModalOpen, isLogingOpen, userDetails?.user]);
   const onchangeMenu = (e, path) => {
     if (path !== '/sports') {
       e?.preventDefault();

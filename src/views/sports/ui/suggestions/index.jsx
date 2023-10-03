@@ -9,12 +9,12 @@ import { setLoginPopup } from '../../../../redux/reducers/login-popup';
 
 function ProductPromotion() {
   const dispatch = useDispatch();
+  const userDetails = useSelector((state) => state.userDetails);
   const [activeTab, setActiveTab] = useState('live');
   const casino = useSelector((state) => state.casino);
   const classNameRef = useRef('');
   const checkLogin = () => {
-    const item = JSON.parse(localStorage.getItem('user'));
-    if (!item) {
+    if (Object.keys(userDetails?.user)?.length <= 0) {
       classNameRef.current = 'login-hover';
       return false;
     }

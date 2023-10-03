@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { Modal, ModalBody, Table } from 'reactstrap';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { postRequest } from '../../../api';
 import '../../../views/matches/ui/matches.css';
 import defaultStakeButtons from '../../../helper/stake-buttons';
@@ -10,6 +10,7 @@ import { setStakeButtons } from '../../../redux/reducers/user-details';
 
 const StateButtons = ({ isOpen, closeModal }) => {
   const dispatch = useDispatch();
+  const userDetails = useSelector((state) => state.userDetails);
   const {
     handleSubmit,
     setValue,
@@ -30,10 +31,9 @@ const StateButtons = ({ isOpen, closeModal }) => {
   const getStakeById = async () => {
     try {
       clearErrors();
-      const item = JSON.parse(localStorage.getItem('user'));
-      setUserId(item?._id);
+      setUserId(userDetails?.user?._id);
       const data = {
-        user_id: item?._id,
+        user_id: userDetails?.user?._id,
         stakeType: activeTab,
       };
       setLoading(true);

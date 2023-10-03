@@ -48,7 +48,7 @@ const LoginPopup = ({ isOpen, toggle }) => {
       // }
       const result = await postRequest('auth/userLogin', data, false);
       if (result?.success) {
-        localStorage.setItem('user', JSON.stringify(result?.data?.user));
+        // localStorage.setItem('user', JSON.stringify(result?.data?.user));
         localStorage.setItem('userToken', result?.data?.token);
         localStorage.setItem('isWelcome', true);
 

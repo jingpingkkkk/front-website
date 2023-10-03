@@ -6,11 +6,13 @@ import { Label } from 'reactstrap';
 import { jsPDF } from 'jspdf';
 import 'jspdf-autotable';
 import DataTable from 'react-data-table-component';
+import { useSelector } from 'react-redux';
 import LoadingOverlay from '../../../../components/common/loading-overlay';
 import { postRequest } from '../../../../api';
 import ExportToExcel from '../../../../helper/export-excel';
 
 function CurrentBetPageContent() {
+  const userDetails = useSelector((state) => state.userDetails);
   const [loading, setLoading] = useState(false);
   const [activeTab, setActiveTab] = useState('sports');
   const [data, setData] = useState([]);
@@ -22,11 +24,10 @@ function CurrentBetPageContent() {
   const [betStatus, setBetStatus] = useState('');
 
   const fetchCurrentBetsData = async () => {
-    const item = JSON.parse(localStorage.getItem('user'));
     setLoading(true);
     try {
       const body = {
-        loginUserId: item?._id,
+        loginUserId: userDetails?.user?._id,
         page: currentPage,
         perPage: rowsPerPage,
         betType,
