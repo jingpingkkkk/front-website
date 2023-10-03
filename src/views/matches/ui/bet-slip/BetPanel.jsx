@@ -181,6 +181,7 @@ function BetPanel() {
       };
 
       if (eventBet?.market?.name === 'Normal') {
+        body.odds = eventBet.size;
         body.price = eventBet.size;
         body.runnerScore = eventBet.price;
       }
@@ -200,8 +201,8 @@ function BetPanel() {
         dispatch(resetEventBet());
         ToastAlert.success('Bet placed successfully.');
         setBetLoading(false);
-        // }, eventBet.market.betDelay * 1000);
-      }, 5 * 1000);
+      }, eventBet.market.betDelay * 1000);
+      // }, 5 * 1000);
     } catch (e) {
       setBetLoading(false);
       console.log(e);
