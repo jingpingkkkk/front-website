@@ -15,6 +15,7 @@ import {
 import { setShouldLogin } from '../../../redux/reducers/user-details';
 import './exchangeMenu.css';
 import menuImages from './menu-images';
+import FavouriteEvents from '../../core/topnav/ui/FavouriteEvents';
 
 function ExchangeSideMenu({ className = 'd-none d-lg-block' }) {
   const navigate = useNavigate();
@@ -94,20 +95,14 @@ function ExchangeSideMenu({ className = 'd-none d-lg-block' }) {
 
   return (
     <nav id="sidebar" className={className}>
-      <div className="event-title">Favourite Matches</div>
-      <ul className="fav-events ps-0">
-        {favouriteEvents?.length
-          ? favouriteEvents?.map((favEvent) => (
-              <li
-                className="py-1 cursor-pointer"
-                key={favEvent?._id}
-                onClick={() => handleEventClick(favEvent?._id, '/matches')}
-              >
-                {favEvent?.name || ''}
-              </li>
-            ))
-          : ''}
-      </ul>
+      {favouriteEvents?.length ? (
+        <FavouriteEvents
+          favouriteEvents={favouriteEvents}
+          handleEventClick={handleEventClick}
+        />
+      ) : (
+        ''
+      )}
       <div className="search-bar">
         <div className="search-container">
           <img
