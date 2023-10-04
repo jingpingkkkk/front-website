@@ -30,15 +30,20 @@ export const themeSettingsSlice = createSlice({
      * }
      */
     themeSettings: {},
+    themeLoading: false,
   },
 
   reducers: {
     setThemeSettings: (state, action) => {
       state.themeSettings = action.payload;
     },
+
+    setThemeLoading: (state, action) => {
+      state.themeLoading = action.payload;
+    },
   },
 });
 
-export const { setThemeSettings } = themeSettingsSlice.actions;
+export const { setThemeSettings, setThemeLoading } = themeSettingsSlice.actions;
 
 export default themeSettingsSlice.reducer;
