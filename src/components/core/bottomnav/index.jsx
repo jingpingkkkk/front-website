@@ -23,7 +23,7 @@ const Bottomnav = () => {
                 onchangeMenu(e, item.path);
               }}
             >
-              <img src="./images/cricket.svg" alt={item?.label} />
+              <img src={item?.image} alt={item?.label} />
               <div className="title-name">{item.label}</div>
             </NavLink>
           </li>

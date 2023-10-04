@@ -1,28 +1,21 @@
 const bottomNavItems = [
   {
-    label: 'Exchange',
+    label: 'Home',
     path: '/sports',
     state: {},
+    image: './images/home-active.svg',
   },
   {
-    label: 'Casino',
+    label: 'Offers',
     path: '/',
     state: {},
+    image: './images/offers-active.svg',
   },
   {
-    label: 'Slot',
+    label: 'Prfile',
     path: '/',
     state: {},
-  },
-  {
-    label: 'Games',
-    path: '/',
-    state: {},
-  },
-  {
-    label: 'Aviator',
-    path: '/',
-    state: { gameId: 'aviator' },
+    image: './images/profile.svg',
   },
 ];
 
