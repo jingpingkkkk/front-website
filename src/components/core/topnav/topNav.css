@@ -35,3 +35,18 @@
     width: 70%;
   }
 }
+.notification-icon {
+  align-items: center;
+  display: flex;
+  justify-content: center;
+  background: transparent;
+  border: 0;
+}
+.notification-icon:hover {
+  background-color: transparent !important;
+  border: 0;
+}
+.notification-icon:active {
+  background-color: transparent !important;
+  border: 0;
+}

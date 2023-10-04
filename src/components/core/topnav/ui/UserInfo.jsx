@@ -101,6 +101,23 @@ const UserInfo = ({ user }) => {
           closeModal={() => setShowStakeButton(!showStakButton)}
         />
       )}
+      {/* Notification */}
+      <div className="notification-icon dropdown" data-bs-toggle="dropdown">
+        <img
+          src="./images/icons-bell.png"
+          alt="bell-icon"
+          className="w-50 h-50"
+        />
+      </div>
+      <ul className="dropdown-menu p-0 dropdown-menu-end dropdown-menu-arrow border-0 notifications">
+        <div
+          id="NotificationsDiv"
+          className="dropdown-menu rounded-lg  border-0 dropdown-animation dropdown-menu-sm-end p-0 m-0 show"
+          data-bs-popper="static"
+        >
+          <div>Notification</div>
+        </div>
+      </ul>
     </div>
   );
 };
