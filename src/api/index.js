@@ -97,10 +97,9 @@ const makeRequest = async ({
   const requestKey = `${method}:${url}`;
 
   if (useAbortController && requestsInProgress.has(requestKey)) {
-    requestsInProgress.get(requestKey).cancel('Request aborted');
-  } else {
-    requestsInProgress.set(requestKey, source);
+    requestsInProgress.get(requestKey).cancel('Duplicate request');
   }
+  requestsInProgress.set(requestKey, source);
 
   const config = {
     method,
@@ -118,9 +117,6 @@ const makeRequest = async ({
     return await handleError(error);
   } finally {
     requestsInProgress.delete(requestKey);
-    if (useAbortController && source) {
-      source.cancel('Request aborted');
-    }
   }
 };
 
