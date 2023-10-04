@@ -9,7 +9,7 @@ function Footer() {
   const { themeSettings } = useSelector((state) => state.themeSettings);
   return (
     <div className="row footer-row mt-3">
-      <div className="col-md-2 col-sm-12 col-12" />
+      <div className="col-md-2 col-sm-12 col-12 left-sidebar" />
       <div className="col-md-8 col-sm-8 col-12 footer-area">
         <footer className="footer">
           <div className="row">
@@ -214,7 +214,7 @@ function Footer() {
           © 2023 Exchange All Rights Reserved
         </div>
       </div>
-      <div className="col-md-2 col-sm-12 col-12" />
+      <div className="col-md-2 col-sm-12 col-12 right-side" />
     </div>
   );
 }

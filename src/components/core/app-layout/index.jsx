@@ -26,13 +26,21 @@ function AppLayout({ sidebarLeft, sidebarRight, pageContent }) {
 
       <Container fluid className="px-3">
         <Row>
-          {sidebarLeft ? <Col lg="2">{sidebarLeft}</Col> : null}
+          {sidebarLeft ? (
+            <Col lg="2" className="left-sidebar">
+              {sidebarLeft}
+            </Col>
+          ) : null}
 
           <Col md="12" lg={contentMdColWidth}>
             {pageContent}
           </Col>
 
-          {sidebarRight ? <Col lg="2">{sidebarRight}</Col> : null}
+          {sidebarRight ? (
+            <Col lg="2" className="right-side">
+              {sidebarRight}
+            </Col>
+          ) : null}
         </Row>
         <Footer />
       </Container>
