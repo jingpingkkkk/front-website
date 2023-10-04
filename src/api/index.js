@@ -1,5 +1,3 @@
-/* eslint-disable no-new-func */
-/* eslint-disable no-else-return */
 import axios from 'axios';
 import ToastAlert from '../helper/toast-alert';
 import {
