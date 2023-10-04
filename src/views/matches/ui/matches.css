@@ -716,7 +716,7 @@
   }
   .comman-bg .game-title {
     width: 100%;
-    margin-bottom: 4px;
+    margin-bottom: 10px;
     background: var(--inplay-collapsible-bg);
   }
   .bet-table-box {

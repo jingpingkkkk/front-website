@@ -15,9 +15,17 @@ button,
 a {
   cursor: pointer;
 }
+.left-sidebar {
+  width: 14.5%;
+}
+.right-side {
+  width: 18.5%;
+  padding-left: 0;
+  padding-right: 0;
+}
 nav#sidebar {
   position: fixed;
-  width: 15.75%;
+  width: 13.75%;
   max-height: calc(100% - 130px);
   overflow-y: scroll;
 }
@@ -1559,6 +1567,8 @@ nav#sidebar li.all-sports.text-deco a {
   }
   .footer-area {
     padding: 15px 15px 0 15px;
+    margin-bottom: 30px;
+    margin-top: 0;
   }
   .geiad-layout-two {
     grid-template-columns: repeat(4, minmax(auto, 1fr));
@@ -1576,14 +1586,14 @@ nav#sidebar li.all-sports.text-deco a {
     border: 0;
     border-radius: 4px;
     /* background: linear-gradient(180deg, #c39e32 0%, #e7dfb3 100%); */
-    background-color: var(--primary-color);
+    background-color: var(--white-text);
   }
   .navbar-toggle .icon-bar {
     display: block;
     width: 20px;
     height: 2px;
     border-radius: 1px;
-    background-color: var(--white-text);
+    background-color: var(--primary-color);
     margin: 4px;
   }
   .headder-col-left {
@@ -1709,6 +1719,11 @@ nav#sidebar li.all-sports.text-deco a {
   nav#sidebar li {
     padding: 5px 0;
   }
+  .right-side {
+    width: 100%;
+    padding-left: calc(1.5rem * 0.5);
+    padding-right: calc(1.5rem * 0.5);
+  }
 }
 
 @media only screen and (max-width: 767px) {
@@ -1754,8 +1769,12 @@ nav#sidebar li.all-sports.text-deco a {
   }
 }
 @media only screen and (max-width: 600px) {
+  .section-title {
+    font-size: 16px;
+  }
   .geiad-layout-four {
     grid-template-columns: repeat(2, minmax(auto, 1fr));
+    margin-top: 10px;
   }
   .geiad-layout-two {
     grid-template-columns: repeat(2, minmax(auto, 1fr));
