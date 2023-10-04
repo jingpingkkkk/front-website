@@ -71,6 +71,7 @@ function ExchangeSideMenu({ className = 'd-none d-lg-block' }) {
       return acc;
     }, []);
   };
+
   const handleSearch = async (val) => {
     setSearchValue(val);
     if (val) {
@@ -79,6 +80,7 @@ function ExchangeSideMenu({ className = 'd-none d-lg-block' }) {
       setSports(allSports);
     }
   };
+
   useEffect(() => {
     setSports(allSports);
     if (allSports?.length) {

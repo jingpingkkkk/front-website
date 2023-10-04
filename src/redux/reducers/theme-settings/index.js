@@ -17,16 +17,16 @@ export const themeSettingsSlice = createSlice({
      *    whatsappLink:String,
      *    blogLink:String,
      *    footerMessage: String,
-          news: String,
-          supportNumber: String,
-          forgotPasswordLink: String,
-          depositePopupNumber: String,
-          bannerImages: Array,
-          updatedAt: Date,
-          createdAt: Date,          
-          welcomeMobileImage: String,
-          welcomeDesktopImage: String,
-          logoImage: String
+     *    news: String,
+     *    supportNumber: String,
+     *    forgotPasswordLink: String,
+     *    depositePopupNumber: String,
+     *    bannerImages: Array,
+     *    updatedAt: Date,
+     *    createdAt: Date,
+     *    welcomeMobileImage: String,
+     *    welcomeDesktopImage: String,
+     *    logoImage: String
      * }
      */
     themeSettings: {},
