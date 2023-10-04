@@ -2,14 +2,24 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
 import { Carousel } from 'react-responsive-carousel';
+import { Spinner } from 'reactstrap';
 
 const BannerSlider = () => {
-  const { themeSettings } = useSelector((state) => state.themeSettings);
+  const { themeSettings, themeLoading } = useSelector(
+    (state) => state.themeSettings,
+  );
   const sliderImages =
     themeSettings?.bannerImages
       ?.filter((item) => item.url !== '')
       .map((item) => item.url) || [];
-  return (
+
+  return themeLoading ? (
+    <div className="d-flex align-items-center" style={{ height: '50px' }}>
+      <div className="col-12 text-center">
+        <Spinner className="text-primary" />
+      </div>
+    </div>
+  ) : (
     <div style={{ borderRadius: '8px', overflow: 'hidden' }}>
       {sliderImages?.length ? (
         <Carousel

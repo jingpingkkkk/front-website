@@ -9,12 +9,12 @@ import { Spinner } from 'reactstrap';
 import { getRequest } from '../../../../api';
 import News from '../../../../components/core/news';
 import BannerSlider from '../../../../components/core/slider';
-import { setLoginPopup } from '../../../../redux/reducers/login-popup';
-import UpcommingMatches from '../upcomming-matches';
 import {
   setLiveCasino,
   setVirtualCasino,
 } from '../../../../redux/reducers/casino-detail';
+import { setLoginPopup } from '../../../../redux/reducers/login-popup';
+import UpcommingMatches from '../upcomming-matches';
 
 function SportPageContent() {
   const dispatch = useDispatch();
@@ -34,6 +34,7 @@ function SportPageContent() {
   //     console.log(error);
   //   }
   // };
+
   const getLiveCasino = async () => {
     try {
       setCasinoLoading(true);
@@ -52,9 +53,9 @@ function SportPageContent() {
       setCasinoLoading(false);
     } catch (error) {
       setCasinoLoading(false);
-      console.log(error);
     }
   };
+
   const getFantasyGames = async () => {
     try {
       setGameLoading(true);
@@ -65,9 +66,9 @@ function SportPageContent() {
       setGameLoading(false);
     } catch (error) {
       setGameLoading(false);
-      console.log(error);
     }
   };
+
   const classNameRef = useRef('');
   const checkLogin = () => {
     if (Object.keys(userDetails?.user)?.length <= 0) {
@@ -76,6 +77,7 @@ function SportPageContent() {
     }
     return true;
   };
+
   const openPage = (link = '') => {
     if (!checkLogin()) {
       dispatch(setLoginPopup(true));
@@ -83,13 +85,14 @@ function SportPageContent() {
       window.location.href = `${link}`;
     }
   };
+
   useEffect(() => {
     // getUpcomingEvents();
-    getLiveCasino();
-    getFantasyGames();
+    Promise.all([getLiveCasino(), getFantasyGames()]);
     checkLogin();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
   return (
     <>
       <div className="d-flex new-container">

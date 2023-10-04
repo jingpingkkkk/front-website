@@ -15,13 +15,6 @@ const Matches = React.lazy(() => import('./views/matches'));
 
 function App() {
   useEffect(() => {
-    if (localStorage.getItem('reload')) {
-      localStorage.removeItem('reload');
-      window.location.reload();
-    }
-  }, []);
-
-  useEffect(() => {
     const interval = setInterval(
       async () => {
         await handshake();
@@ -29,12 +22,23 @@ function App() {
       1000 * 60 * 5,
     );
     handshake();
-    return () => clearInterval(interval);
+    return () => {
+      clearInterval(interval);
+    };
+  }, []);
+
+  useEffect(() => {
+    if (localStorage.getItem('reload')) {
+      localStorage.removeItem('reload');
+      window.location.reload();
+    }
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
-    <Suspense fallback={<LoadingOverlay />}>
-      <Router>
+    <Router>
+      <Suspense fallback={<LoadingOverlay />}>
         <Routes>
           <Route path="*" element={<ErrorStatus404 />} />
           <Route path="/" element={<Navigate to="/sports" />} />
@@ -42,8 +46,8 @@ function App() {
           <Route path="/matches" element={<Matches />} />
           <Route path="/currentbets" element={<CurrentBets />} />
         </Routes>
-      </Router>
-    </Suspense>
+      </Suspense>
+    </Router>
   );
 }
 
