@@ -22,7 +22,6 @@ const BannerSlider = () => {
           swipeable
           dynamicHeight
           emulateTouch
-          className="custom-carousel"
         >
           {sliderImages?.map((banner, index) => (
             <div className="px-1" key={index}>

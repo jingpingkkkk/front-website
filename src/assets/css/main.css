@@ -1724,13 +1724,6 @@ nav#sidebar li.all-sports.text-deco a {
     padding-left: calc(1.5rem * 0.5);
     padding-right: calc(1.5rem * 0.5);
   }
-  .custom-carousel {
-    height: 150px; /* Set your desired height for mobile view */
-  }
-  .carousel .slide img {
-    height: 150px; /* Set your desired height for the carousel images on mobile */
-    width: auto; /* Maintain aspect ratio */
-  }
 }
 
 @media only screen and (max-width: 767px) {
