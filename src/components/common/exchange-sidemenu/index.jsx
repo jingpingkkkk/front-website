@@ -1,3 +1,5 @@
+/* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
+/* eslint-disable jsx-a11y/click-events-have-key-events */
 import { faCaretDown, faCaretUp } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React, { useEffect, useState } from 'react';
@@ -12,6 +14,8 @@ import {
 } from 'reactstrap';
 import { getRequest } from '../../../api';
 import {
+  setFavouriteEvents,
+  setFilteredSports,
   setSportsList,
   setSportsLoader,
 } from '../../../redux/reducers/sports-list';
@@ -25,44 +29,13 @@ function ExchangeSideMenu({ className = 'd-none d-lg-block' }) {
   const dispatch = useDispatch();
 
   const userDetails = useSelector((state) => state.userDetails);
-  const { allSports, loading } = useSelector(
-    (state) => state.sportsList?.sports,
+  const { allSports, sports, favouriteEvents, loading } = useSelector(
+    (state) => state.sportsList,
   );
 
   const [open, setOpen] = useState('');
   const [subOpen, setSubOpen] = useState('');
-  const [sports, setSports] = useState(allSports);
   const [searchValue, setSearchValue] = useState('');
-  const [favouriteEvents, setFavouriteEvents] = useState([]);
-
-  useEffect(() => {
-    const getAllSports = async () => {
-      try {
-        dispatch(setSportsLoader(true));
-        const result = await getRequest('exchangeHome/sportsList', false);
-        if (result?.success) {
-          dispatch(setSportsList(result?.data || []));
-        }
-        dispatch(setSportsLoader(false));
-      } catch (error) {
-        dispatch(setSportsLoader(false));
-      }
-    };
-
-    getAllSports();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
-  useEffect(() => {
-    if (allSports?.length) {
-      const favEvents = allSports?.flatMap((sport) =>
-        sport.competition.flatMap((com) =>
-          com.event.filter((evnt) => evnt.isFavourite),
-        ),
-      );
-      setFavouriteEvents(favEvents);
-    }
-  }, [allSports]);
 
   const toggle = (id) => {
     setOpen(id === open ? '' : id);
@@ -110,11 +83,38 @@ function ExchangeSideMenu({ className = 'd-none d-lg-block' }) {
   const handleSearch = async (val) => {
     setSearchValue(val);
     if (val) {
-      setSports(await searchData(allSports, val));
+      dispatch(setFilteredSports(searchData(allSports, val)));
     } else {
-      setSports(allSports);
+      dispatch(setFilteredSports(allSports));
     }
   };
+
+  useEffect(() => {
+    const getAllSports = async () => {
+      try {
+        dispatch(setSportsLoader(true));
+        const result = await getRequest('exchangeHome/sportsList', false);
+        if (result?.success) {
+          const sportsList = result?.data || [];
+          if (sportsList?.length) {
+            const favEvents = allSports?.flatMap((sport) =>
+              sport.competition.flatMap((com) =>
+                com.event.filter((evnt) => evnt.isFavourite),
+              ),
+            );
+            dispatch(setFavouriteEvents(favEvents));
+          }
+          dispatch(setSportsList(result?.data || []));
+        }
+        dispatch(setSportsLoader(false));
+      } catch (error) {
+        dispatch(setSportsLoader(false));
+      }
+    };
+
+    getAllSports();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <nav id="sidebar" className={className}>
