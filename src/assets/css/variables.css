@@ -68,4 +68,5 @@ body {
   --in-play: #00b181;
   --filter-primary: invert(135%) sepia(206%) saturate(2470%) hue-rotate(225deg)
     brightness(107%) contrast(76%);
+  --bottom-tab-bg: #fff;
 }
