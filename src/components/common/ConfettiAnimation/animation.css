@@ -1,0 +1,25 @@
+.confetti-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none; /* Allows clicks to pass through confetti */
+}
+.confetti {
+  width: 10px;
+  height: 10px;
+  position: absolute;
+  background-color: #f00; /* Color of confetti particles */
+  opacity: 0.8;
+  animation: confetti-fall 5s ease-out infinite;
+}
+
+@keyframes confetti-fall {
+  0% {
+    transform: translate(0, -100vh) rotate(45deg); /* Start from above the viewport */
+  }
+  100% {
+    transform: translate(0, 100vh) rotate(45deg); /* End below the viewport */
+  }
+}
