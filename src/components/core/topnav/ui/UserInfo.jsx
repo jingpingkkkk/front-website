@@ -107,7 +107,7 @@ const UserInfo = ({ user }) => {
           />
         )}
         {/* Notification */}
-        <UncontrolledDropdown>
+        {/* <UncontrolledDropdown>
           <DropdownToggle caret className="notification-icon">
             <img
               src="./images/icons-bell.png"
@@ -127,7 +127,7 @@ const UserInfo = ({ user }) => {
                   <ul className="list-unstyled list mb-0">
                     <li className="notification-item">
                       <div className="ps-2 pe-2">
-                        <p className="d-flex justify-content-between mb-0 ">
+                        <div className="d-flex justify-content-between">
                           <div
                             className="cursor-pointer w-75"
                             onClick={() => {
@@ -141,12 +141,12 @@ const UserInfo = ({ user }) => {
                           <small className="notification-date w-25">
                             19 Hours Ago
                           </small>
-                        </p>
+                        </div>
                       </div>
                     </li>
                     <li className="notification-item">
                       <div className="ps-2 pe-2">
-                        <p className="d-flex justify-content-between mb-0 ">
+                        <div className="d-flex justify-content-between">
                           <div className="cursor-pointer w-75">
                             <span className="item-name">
                               Australia Women v West Indies Women
@@ -155,12 +155,12 @@ const UserInfo = ({ user }) => {
                           <small className="notification-date w-25">
                             1 Day Ago
                           </small>
-                        </p>
+                        </div>
                       </div>
                     </li>
                     <li className="notification-item">
                       <div className="ps-2 pe-2">
-                        <p className="d-flex justify-content-between mb-0 ">
+                        <div className="d-flex justify-content-between">
                           <div className="cursor-pointer w-75">
                             <span className="item-name">
                               South Africa Women v New Zealand Women
@@ -169,7 +169,7 @@ const UserInfo = ({ user }) => {
                           <small className="notification-date w-25">
                             1 Day Ago
                           </small>
-                        </p>
+                        </div>
                       </div>
                     </li>
                   </ul>
@@ -177,13 +177,13 @@ const UserInfo = ({ user }) => {
               </div>
               <a
                 className="card-footer text-center border-top-0 notification-footer"
-                href="/"
+                href="/notifications"
               >
                 View All Notifications
               </a>
             </div>
           </DropdownMenu>
-        </UncontrolledDropdown>
+        </UncontrolledDropdown> */}
       </div>
       {showNotificationDetail && (
         <NotificationPopup
