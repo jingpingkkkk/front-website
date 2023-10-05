@@ -75,49 +75,106 @@ const UserInfo = ({ user }) => {
         <span>{user?.balance || 0}</span>{' '}
         <span>| {userInfo?.exposure || 0}</span>
       </div>
+      <div className="d-flex">
+        <UncontrolledDropdown>
+          <DropdownToggle caret color="dark" className="username-info">
+            <span className="user-icon">
+              <img src="./images/userrr.png" alt="user" />
+            </span>
+            {userInfo?.fullName || ''}
+          </DropdownToggle>
 
-      <UncontrolledDropdown>
-        <DropdownToggle caret color="dark" className="username-info">
-          <span className="user-icon">
-            <img src="./images/userrr.png" alt="user" />
-          </span>
-          {userInfo?.fullName || ''}
-        </DropdownToggle>
-
-        <DropdownMenu dark>
-          <DropdownItem>Account Statement</DropdownItem>
-          <DropdownItem href="/currentbets">Current Bets</DropdownItem>
-          <DropdownItem>Casino Results</DropdownItem>
-          <DropdownItem onClick={() => setShowStakeButton(true)}>
-            Set Button Value
-          </DropdownItem>
-          <DropdownItem divider />
-          <DropdownItem onClick={() => logout()}>Logout</DropdownItem>
-        </DropdownMenu>
-      </UncontrolledDropdown>
-      {showStakButton && (
-        <StateButtons
-          isOpen={showStakButton}
-          closeModal={() => setShowStakeButton(!showStakButton)}
-        />
-      )}
-      {/* Notification */}
-      <div className="notification-icon dropdown" data-bs-toggle="dropdown">
-        <img
-          src="./images/icons-bell.png"
-          alt="bell-icon"
-          className="w-50 h-50"
-        />
+          <DropdownMenu dark>
+            <DropdownItem>Account Statement</DropdownItem>
+            <DropdownItem href="/currentbets">Current Bets</DropdownItem>
+            <DropdownItem>Casino Results</DropdownItem>
+            <DropdownItem onClick={() => setShowStakeButton(true)}>
+              Set Button Value
+            </DropdownItem>
+            <DropdownItem divider />
+            <DropdownItem onClick={() => logout()}>Logout</DropdownItem>
+          </DropdownMenu>
+        </UncontrolledDropdown>
+        {showStakButton && (
+          <StateButtons
+            isOpen={showStakButton}
+            closeModal={() => setShowStakeButton(!showStakButton)}
+          />
+        )}
+        {/* Notification */}
+        <UncontrolledDropdown>
+          <DropdownToggle caret className="notification-icon">
+            <img
+              src="./images/icons-bell.png"
+              alt="bell-icon"
+              className="w-50 h-50"
+            />
+          </DropdownToggle>
+          <DropdownMenu className="notification-menu">
+            <div className="card border-0 w300">
+              <div className="card-header notification-header">
+                <h5 className="mb-0">
+                  <span>Notifications</span>
+                </h5>
+              </div>
+              <div className="card-body p-0 notification-body">
+                <div className="fade show active">
+                  <ul className="list-unstyled list mb-0">
+                    <li className="notification-item">
+                      <div className="ps-2 pe-2">
+                        <p className="d-flex justify-content-between mb-0 ">
+                          <a href="/" className="text-decoration-none">
+                            <span className="item-name">
+                              Pakistan V Australia
+                            </span>
+                          </a>
+                          <small className="notification-date">
+                            19 Hours Ago
+                          </small>
+                        </p>
+                      </div>
+                    </li>
+                    <li className="notification-item">
+                      <div className="ps-2 pe-2">
+                        <p className="d-flex justify-content-between mb-0 ">
+                          <a href="/" className="text-decoration-none w-75">
+                            <span className="item-name">
+                              Australia Women v West Indies Women
+                            </span>
+                          </a>
+                          <small className="notification-date w-25">
+                            1 Day Ago
+                          </small>
+                        </p>
+                      </div>
+                    </li>
+                    <li className="notification-item">
+                      <div className="ps-2 pe-2">
+                        <p className="d-flex justify-content-between mb-0 ">
+                          <a href="/" className="text-decoration-none w-75">
+                            <span className="item-name">
+                              South Africa Women v New Zealand Women
+                            </span>
+                          </a>
+                          <small className="notification-date w-25">
+                            1 Day Ago
+                          </small>
+                        </p>
+                      </div>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+              <a
+                className="card-footer text-center border-top-0 notification-footer"
+                href="/"
+              >
+                View All Notifications
+              </a>
+            </div>
+          </DropdownMenu>
+        </UncontrolledDropdown>
       </div>
-      <ul className="dropdown-menu p-0 dropdown-menu-end dropdown-menu-arrow border-0 notifications">
-        <div
-          id="NotificationsDiv"
-          className="dropdown-menu rounded-lg  border-0 dropdown-animation dropdown-menu-sm-end p-0 m-0 show"
-          data-bs-popper="static"
-        >
-          <div>Notification</div>
-        </div>
-      </ul>
     </div>
   );
 };
