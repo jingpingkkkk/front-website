@@ -1,5 +1,3 @@
-/* eslint-disable no-new-func */
-/* eslint-disable no-else-return */
 import axios from 'axios';
 import ToastAlert from '../helper/toast-alert';
 import {
@@ -86,21 +84,29 @@ const createHeaders = async (useAuthToken = true) => {
   return { ...headers, ...encHeaders };
 };
 
+const requestsInProgress = new Map();
+
 const makeRequest = async ({
   method,
   url,
   data = null,
   useAuthToken = true,
-  useAbortController = false,
+  useAbortController = true,
 }) => {
-  const source = useAbortController ? axios.CancelToken.source() : null;
+  const source = axios.CancelToken.source();
+  const requestKey = `${method}:${url}`;
+
+  if (useAbortController && requestsInProgress.has(requestKey)) {
+    requestsInProgress.get(requestKey).cancel('Duplicate request');
+  }
+  requestsInProgress.set(requestKey, source);
 
   const config = {
     method,
     url,
     data: await encryptRequest(data),
     headers: await createHeaders(useAuthToken),
-    cancelToken: useAbortController ? source.token : undefined,
+    cancelToken: source.token || undefined,
   };
 
   try {
@@ -108,28 +114,37 @@ const makeRequest = async ({
     const decrypted = await decryptResponse(response.data);
     return decrypted;
   } catch (error) {
-    return handleError(error);
+    return await handleError(error);
   } finally {
-    if (useAbortController) {
-      source.cancel('Request aborted');
-    }
+    requestsInProgress.delete(requestKey);
   }
 };
 
-const postRequest = async (url, data = {}, useAuthToken = true) => {
+const postRequest = async (
+  url,
+  data = {},
+  useAuthToken = true,
+  useAbortController = true,
+) => {
   return makeRequest({
     method: 'POST',
     url,
     data,
     useAuthToken,
+    useAbortController,
   });
 };
 
-const getRequest = async (url, useAuthToken = true) => {
+const getRequest = async (
+  url,
+  useAuthToken = true,
+  useAbortController = true,
+) => {
   return makeRequest({
     method: 'GET',
     url,
     useAuthToken,
+    useAbortController,
   });
 };
 
