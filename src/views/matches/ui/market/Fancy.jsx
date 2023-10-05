@@ -2,8 +2,8 @@
 /* eslint-disable no-plusplus */
 import React, { useEffect, useMemo, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { io } from 'socket.io-client';
 import { Spinner } from 'reactstrap';
+import { io } from 'socket.io-client';
 import { postRequest } from '../../../../api';
 import shortNumber from '../../../../helper/number';
 import { betTypes, setBetOdds } from '../../../../redux/reducers/event-bet';
@@ -144,7 +144,7 @@ function Fancy({ market }) {
               ? runnerPLS?.find((item) => item?._id === runner?.runnerId)?.pl
               : 0;
             return (
-              <div key={runner?.runnerId} className="col-12 col-md-6">
+              <div key={runner?.RunnerName} className="col-12 col-md-6">
                 <div className="fancy-tripple">
                   <div className="bet-table-mobile-row d-none-desktop">
                     <div className="bet-table-mobile-team-name">

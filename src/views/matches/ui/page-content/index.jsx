@@ -8,17 +8,26 @@ import {
   AccordionItem,
   UncontrolledAccordion,
 } from 'reactstrap';
+import { io } from 'socket.io-client';
 import { postRequest } from '../../../../api';
 import LoadingOverlay from '../../../../components/common/loading-overlay';
-import eventBet, { resetEventBet } from '../../../../redux/reducers/event-bet';
+import { resetEventBet } from '../../../../redux/reducers/event-bet';
 import {
   resetEventMarket,
   setEvent,
+  setMarketRunnerPl,
   setMarkets,
 } from '../../../../redux/reducers/event-market';
 import { addEventMarketBets } from '../../../../redux/reducers/user-bets';
 import Market from '../market';
 import '../matches.css';
+
+const socketUrl = import.meta.env.VITE_SOCKET_URL;
+const marketUrl = `${socketUrl}/user-bet`;
+const socket = io(marketUrl, {
+  auth: { token: localStorage.getItem('userToken') },
+  autoConnect: false,
+});
 
 function MatchPageContent() {
   const navigate = useNavigate();
@@ -27,6 +36,7 @@ function MatchPageContent() {
 
   const dispatch = useDispatch();
   const eventMarket = useSelector((state) => state.eventMarket);
+  const { user } = useSelector((state) => state.userDetails);
 
   const [loading, setLoading] = useState(false);
   // const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
@@ -80,24 +90,11 @@ function MatchPageContent() {
     setLoading(false);
   };
 
-  const fetchUserEventBets = async () => {
-    const result = await postRequest('bet/getUserEventBets', { eventId });
-    if (result?.success) {
-      const marketBets = result.data.details;
-      dispatch(addEventMarketBets({ eventId, marketBets }));
-    }
-  };
-
   useEffect(() => {
     if (!eventId) {
       navigate('/sports');
     }
-    Promise.all([
-      fetchEventMarkets(),
-      setInterval(() => {
-        fetchUserEventBets();
-      }, 3000),
-    ]);
+    fetchEventMarkets();
     return () => {
       dispatch(resetEventBet());
       dispatch(resetEventMarket());
@@ -106,16 +103,23 @@ function MatchPageContent() {
   }, [eventId]);
 
   useEffect(() => {
-    if (!eventId) {
-      navigate('/sports');
-    }
-    fetchUserEventBets();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [eventBet.market]);
+    const handleBetPlData = ({ marketBets, marketPls }) => {
+      dispatch(addEventMarketBets({ eventId, marketBets }));
+      marketPls.forEach((pls) => {
+        dispatch(setMarketRunnerPl(pls));
+      });
+    };
+    console.log('here');
+    socket.emit('event:bet', { eventId }, handleBetPlData);
+    socket.on(`event:bet:${user._id}`, handleBetPlData);
 
-  // const toggleLoginModal = () => {
-  //   setIsLoginModalOpen(!isLoginModalOpen);
-  // };
+    socket.connect();
+    return () => {
+      socket.disconnect();
+      socket.off(`event:bet:${user._id}`);
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [eventMarket.eventId]);
 
   return loading ? (
     <LoadingOverlay />
@@ -131,32 +135,35 @@ function MatchPageContent() {
           )}
         </div>
       </div>
-      <UncontrolledAccordion
-        className="mt-1"
-        defaultOpen={eventMarket.markets.map((mkt) => mkt._id)}
-        stayOpen
-      >
-        {eventMarket.markets.map((market) => (
-          <AccordionItem key={market?._id}>
-            <AccordionHeader
-              targetId={market?._id}
-              className="bet-table-header"
-            >
-              <div className="text-uppercase">{market.name}</div>
-              {/* <div className="btn btn-success btn-sm disabled">Cashout</div> */}
-              <span className="max-bet d-none-desktop">
-                <span title="Max : 1">
-                  Max: <span>1</span>
-                </span>
-              </span>
-            </AccordionHeader>
 
-            <AccordionBody accordionId={market?._id}>
-              <Market market={market} />
-            </AccordionBody>
-          </AccordionItem>
-        ))}
-      </UncontrolledAccordion>
+      {eventMarket.markets?.length ? (
+        <UncontrolledAccordion
+          className="mt-1"
+          defaultOpen={eventMarket.markets.map((mkt) => mkt._id)}
+          stayOpen
+        >
+          {eventMarket.markets.map((market) => (
+            <AccordionItem key={market?._id}>
+              <AccordionHeader
+                targetId={market?._id}
+                className="bet-table-header"
+              >
+                <div className="text-uppercase">{market.name}</div>
+                {/* <div className="btn btn-success btn-sm disabled">Cashout</div> */}
+                <span className="max-bet d-none-desktop">
+                  <span title="Max : 1">
+                    Max: <span>1</span>
+                  </span>
+                </span>
+              </AccordionHeader>
+
+              <AccordionBody accordionId={market?._id}>
+                <Market market={market} />
+              </AccordionBody>
+            </AccordionItem>
+          ))}
+        </UncontrolledAccordion>
+      ) : null}
       {/* <BetSlipPopup isOpen={isLoginModalOpen} toggle={toggleLoginModal} /> */}
     </div>
   );

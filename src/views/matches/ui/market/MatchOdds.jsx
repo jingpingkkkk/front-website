@@ -1,15 +1,11 @@
 /* eslint-disable no-nested-ternary */
 /* eslint-disable no-plusplus */
 import React, { useEffect, useMemo, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { io } from 'socket.io-client';
-import { postRequest } from '../../../../api';
 import shortNumber from '../../../../helper/number';
 import { betTypes, setBetOdds } from '../../../../redux/reducers/event-bet';
-import {
-  setMarketPlForecast,
-  setMarketRunnerPl,
-} from '../../../../redux/reducers/event-market';
+import { setMarketPlForecast } from '../../../../redux/reducers/event-market';
 
 const emptyOdds = {
   0: {
@@ -55,8 +51,6 @@ const marketUrl = `${socketUrl}/market`;
 
 function MatchOdds({ market }) {
   const dispatch = useDispatch();
-  const { event } = useSelector((state) => state.eventMarket);
-  const { market: eventBetMarket } = useSelector((state) => state.eventBet);
 
   const socket = useMemo(() => io(marketUrl, { autoConnect: false }), []);
 
@@ -65,30 +59,7 @@ function MatchOdds({ market }) {
   const [max, setMax] = useState(market.maxStake);
 
   useEffect(() => {
-    const fetchRunnerPls = async () => {
-      const result = await postRequest('bet/getRunnerPls', {
-        marketId: market._id,
-        eventId: event.eventId,
-      });
-      if (result.success) {
-        const runnerPls = result.data.details;
-        dispatch(setMarketRunnerPl(runnerPls));
-      }
-    };
-
-    fetchRunnerPls();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [eventBetMarket]);
-
-  useEffect(() => {
-    socket.on('connect', () => {
-      socket.emit('join:market', {
-        id: market.apiMarketId,
-        type: 'match_odds',
-      });
-    });
-
-    socket.on(`market:data:${market.apiMarketId}`, (data) => {
+    const handleMarketData = (data) => {
       if (data) {
         const { matchOdds } = data;
         const [teamOne, teamTwo, teamThree] = matchOdds;
@@ -109,12 +80,18 @@ function MatchOdds({ market }) {
         setMin(data?.min || 0);
         setMax(data?.max || 0);
       }
-    });
+    };
+
+    socket.emit(
+      'join:market',
+      { id: market.apiMarketId, type: 'match_odds' },
+      handleMarketData,
+    );
+
+    socket.on(`market:data:${market.apiMarketId}`, handleMarketData);
 
     socket.connect();
-
     return () => {
-      socket.off('connect');
       socket.off(`market:data:${market.apiMarketId}`);
       socket.disconnect();
     };

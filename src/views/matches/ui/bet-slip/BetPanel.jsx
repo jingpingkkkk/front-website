@@ -15,7 +15,6 @@ import {
   setBetStake,
 } from '../../../../redux/reducers/event-bet';
 import { setMarketPlForecast } from '../../../../redux/reducers/event-market';
-import { addEventMarketBets } from '../../../../redux/reducers/user-bets';
 // import { addUserBet } from '../../../../redux/reducers/user-bets';
 
 function BetPanel() {
@@ -152,13 +151,7 @@ function BetPanel() {
     dispatch(setBetSize(size));
     dispatch(setMarketPlForecast({ marketId: market._id, plForecast }));
   };
-  const fetchUserEventBets = async (eventId) => {
-    const result = await postRequest('bet/getUserEventBets', { eventId });
-    if (result?.success) {
-      const marketBets = result.data.details;
-      dispatch(addEventMarketBets({ eventId, marketBets }));
-    }
-  };
+
   const placeBet = async () => {
     try {
       setBetLoading(true);
@@ -194,7 +187,6 @@ function BetPanel() {
       // const newBet = { betDetails: result.data.details, eventBet };
       const forecast = { marketId: eventBet.market._id, plForecast: [0, 0] };
 
-      fetchUserEventBets(eventMarket.event.eventId);
       setTimeout(() => {
         // dispatch(addUserBet(newBet));
         dispatch(setMarketPlForecast(forecast));
