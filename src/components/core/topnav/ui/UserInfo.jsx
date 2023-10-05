@@ -1,3 +1,5 @@
+/* eslint-disable jsx-a11y/no-static-element-interactions */
+/* eslint-disable jsx-a11y/click-events-have-key-events */
 import React, { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import {
@@ -11,6 +13,8 @@ import { userLogout } from '../../../../helper/user';
 import { resetUserDetails } from '../../../../redux/reducers/user-details';
 import StateButtons from '../../stake-button-popup';
 import './userInfo.css';
+import NotificationPopup from './NotificationPopup';
+import ConfettiAnimation from '../../../common/ConfettiAnimation';
 
 // const UserInfo = ({ user }) => {
 //   const [showStakButton, setShowStakeButton] = useState(false);
@@ -27,6 +31,7 @@ const UserInfo = ({ user }) => {
 
   const [userInfo, setUserInfo] = useState(user);
   const [showStakButton, setShowStakeButton] = useState(false);
+  const [showNotificationDetail, setShowNotificationDetail] = useState(false);
 
   useEffect(() => {
     socket.on(`user:${user._id}`, (data) => {
@@ -123,12 +128,17 @@ const UserInfo = ({ user }) => {
                     <li className="notification-item">
                       <div className="ps-2 pe-2">
                         <p className="d-flex justify-content-between mb-0 ">
-                          <a href="/" className="text-decoration-none">
+                          <div
+                            className="cursor-pointer w-75"
+                            onClick={() => {
+                              setShowNotificationDetail(true);
+                            }}
+                          >
                             <span className="item-name">
                               Pakistan V Australia
                             </span>
-                          </a>
-                          <small className="notification-date">
+                          </div>
+                          <small className="notification-date w-25">
                             19 Hours Ago
                           </small>
                         </p>
@@ -137,11 +147,11 @@ const UserInfo = ({ user }) => {
                     <li className="notification-item">
                       <div className="ps-2 pe-2">
                         <p className="d-flex justify-content-between mb-0 ">
-                          <a href="/" className="text-decoration-none w-75">
+                          <div className="cursor-pointer w-75">
                             <span className="item-name">
                               Australia Women v West Indies Women
                             </span>
-                          </a>
+                          </div>
                           <small className="notification-date w-25">
                             1 Day Ago
                           </small>
@@ -151,11 +161,11 @@ const UserInfo = ({ user }) => {
                     <li className="notification-item">
                       <div className="ps-2 pe-2">
                         <p className="d-flex justify-content-between mb-0 ">
-                          <a href="/" className="text-decoration-none w-75">
+                          <div className="cursor-pointer w-75">
                             <span className="item-name">
                               South Africa Women v New Zealand Women
                             </span>
-                          </a>
+                          </div>
                           <small className="notification-date w-25">
                             1 Day Ago
                           </small>
@@ -175,6 +185,13 @@ const UserInfo = ({ user }) => {
           </DropdownMenu>
         </UncontrolledDropdown>
       </div>
+      {showNotificationDetail && (
+        <NotificationPopup
+          isOpen={showNotificationDetail}
+          closeModal={() => setShowNotificationDetail(!showNotificationDetail)}
+        />
+      )}
+      {showNotificationDetail && <ConfettiAnimation />}
     </div>
   );
 };
