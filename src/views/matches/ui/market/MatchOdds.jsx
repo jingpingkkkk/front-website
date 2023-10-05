@@ -1,6 +1,6 @@
 /* eslint-disable no-nested-ternary */
 /* eslint-disable no-plusplus */
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useState, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { io } from 'socket.io-client';
 import { postRequest } from '../../../../api';
@@ -55,6 +55,7 @@ const marketUrl = `${socketUrl}/market`;
 
 function MatchOdds({ market }) {
   const dispatch = useDispatch();
+  const previousValue = useRef(emptyOdds);
   const { event } = useSelector((state) => state.eventMarket);
   const { market: eventBetMarket } = useSelector((state) => state.eventBet);
 
@@ -96,8 +97,47 @@ function MatchOdds({ market }) {
         const teamOneData = { back: [], lay: [] };
         const teamTwoData = { back: [], lay: [] };
         const teamThreeData = { back: [], lay: [] };
-
+        const { 0: runner1, 1: runner2, 2: runner3 } = previousValue.current;
         for (let i = 0; i < 3; i++) {
+          teamOne.back[i].class =
+            teamOne.back[i].price > runner1.back[i].price
+              ? 'odds-up'
+              : teamOne.back[i].price < runner1.back[i].price
+              ? 'odds-down'
+              : '';
+          teamTwo.back[i].class =
+            teamTwo.back[i].price > runner2.back[i].price
+              ? 'odds-up'
+              : teamTwo.back[i].price < runner2.back[i].price
+              ? 'odds-down'
+              : '';
+          teamOne.lay[i].class =
+            teamOne.lay[i].price > runner1.lay[i].price
+              ? 'odds-up'
+              : teamOne.lay[i].price < runner1.lay[i].price
+              ? 'odds-down'
+              : '';
+          teamTwo.lay[i].class =
+            teamTwo.lay[i].price > runner2.lay[i].price
+              ? 'odds-up'
+              : teamTwo.lay[i].price < runner2.lay[i].price
+              ? 'odds-down'
+              : '';
+          if (teamThree) {
+            teamThree.back[i].class =
+              teamThree?.back[i].price > runner3?.back[i].price
+                ? 'odds-up'
+                : teamThree?.back[i].price < runner3?.back[i].price
+                ? 'odds-down'
+                : '';
+            teamThree.lay[i].class =
+              teamThree?.lay[i].price > runner3?.lay[i].price
+                ? 'odds-up'
+                : teamThree?.lay[i].price < runner3?.lay[i].price
+                ? 'odds-down'
+                : '';
+          }
+
           teamOneData.back.push(teamOne.back[i] || {});
           teamOneData.lay.push(teamOne.lay[i] || {});
           teamTwoData.back.push(teamTwo.back[i] || {});
@@ -105,6 +145,11 @@ function MatchOdds({ market }) {
           teamThreeData.back.push(teamThree?.back[i] || {});
           teamThreeData.lay.push(teamThree?.lay[i] || {});
         }
+        previousValue.current = {
+          0: teamOneData,
+          1: teamTwoData,
+          2: teamThreeData,
+        };
         setRunnerOdds({ 0: teamOneData, 1: teamTwoData, 2: teamThreeData });
         setMin(data?.min || 0);
         setMax(data?.max || 0);
@@ -214,7 +259,9 @@ function MatchOdds({ market }) {
                 ?.map((odd, i) => (
                   <button
                     type="button"
-                    className={`bl-box back back${odd?.level || i}`}
+                    className={`bl-box back back${odd?.level || i} ${
+                      odd?.class
+                    }`}
                     key={`back-${odd?.level || i}`}
                     onClick={() => handleOddClick(runner, odd, betTypes.BACK)}
                   >
@@ -237,7 +284,7 @@ function MatchOdds({ market }) {
               {runnerOdds[runner?.priority]?.lay?.map((odd, i) => (
                 <button
                   type="button"
-                  className={`bl-box lay lay${odd?.level || i}`}
+                  className={`bl-box lay lay${odd?.level || i} ${odd?.class}`}
                   key={`lay-${odd?.level || i}`}
                   onClick={() => handleOddClick(runner, odd, betTypes.LAY)}
                 >

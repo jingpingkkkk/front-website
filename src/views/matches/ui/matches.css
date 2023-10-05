@@ -232,6 +232,7 @@
 }
 .odds-up {
   transform: translateZ(0);
+  animation: oddsdown 0.5s ease-out;
 }
 .odds-up::before {
   background: #13c41380;
