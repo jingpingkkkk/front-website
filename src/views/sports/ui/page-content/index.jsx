@@ -133,7 +133,9 @@ function SportPageContent() {
         </div> */}
         <News />
       </div>
+
       <BannerSlider />
+
       <div className="table-section mt-3">
         <div className="tab-content">
           <UpcommingMatches />

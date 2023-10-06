@@ -1,29 +1,32 @@
 /* eslint-disable react/no-array-index-key */
 /* eslint-disable jsx-a11y/alt-text */
 /* eslint-disable no-nested-ternary */
-import React, { useState, useEffect } from 'react';
-import { Spinner } from 'reactstrap';
+import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
-import SportsTabs from '../sports-tabs';
+import { Spinner } from 'reactstrap';
 import { postRequest } from '../../../../api';
 import EventList from '../events';
+import SportsTabs from '../sports-tabs';
 
 function UpcommingMatches() {
   const availableSports = useSelector((state) => state.sportsList?.sports);
   const loading = useSelector((state) => state.sportsList?.loading);
+
   const [eventLoading, setEventLoading] = useState(false);
   const [sportEvents, setSportEvents] = useState([]);
   const [sportName, setSportName] = useState(null);
+  const [selectedSport, setSelectedSport] = useState({});
 
-  const fetchSportDetails = async (id, name) => {
-    setSportName(name);
+  const fetchSportDetails = async (skipLoading = false) => {
+    if (!selectedSport._id) {
+      return;
+    }
+    setSportName(selectedSport?.name);
     try {
-      setEventLoading(true);
+      if (!skipLoading) setEventLoading(true);
       const result = await postRequest(
         'exchangeHome/sportWiseMatchList',
-        {
-          sportId: id,
-        },
+        { sportId: selectedSport?._id },
         false,
       );
       if (result?.success) {
@@ -39,11 +42,23 @@ function UpcommingMatches() {
   };
 
   useEffect(() => {
-    if (availableSports?.length) {
-      fetchSportDetails(availableSports?.[0]?._id, availableSports?.[0]?.name);
+    if (!selectedSport?._id) {
+      setSelectedSport(availableSports.length ? availableSports[0] : null);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [availableSports?.length]);
+  }, [availableSports.length]);
+
+  useEffect(() => {
+    const interval = setInterval(async () => {
+      await fetchSportDetails(true);
+    }, 5000);
+    fetchSportDetails();
+    return () => {
+      clearInterval(interval);
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [selectedSport]);
+
   return (
     <>
       {loading ? (
@@ -53,7 +68,7 @@ function UpcommingMatches() {
       ) : availableSports?.length ? (
         <SportsTabs
           availableSports={availableSports}
-          onClick={(id, name) => fetchSportDetails(id, name)}
+          onClick={(id, name) => setSelectedSport({ _id: id, name })}
         />
       ) : (
         <div>No Data </div>
