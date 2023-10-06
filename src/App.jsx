@@ -13,6 +13,7 @@ const Sports = React.lazy(() => import('./views/sports'));
 const Matches = React.lazy(() => import('./views/matches'));
 const CurrentBets = React.lazy(() => import('./views/currentbets'));
 const Notification = React.lazy(() => import('./views/notification'));
+const AccountStatement = React.lazy(() => import('./views/accountstatement'));
 
 function App() {
   useEffect(() => {
@@ -47,6 +48,7 @@ function App() {
           <Route path="/matches" element={<Matches />} />
           <Route path="/currentbets" element={<CurrentBets />} />
           <Route path="/notifications" element={<Notification />} />
+          <Route path="/accountstatement" element={<AccountStatement />} />
         </Routes>
       </Suspense>
     </Router>

@@ -182,7 +182,7 @@ function CurrentBetPageContent() {
   return loading ? (
     <LoadingOverlay />
   ) : (
-    <div className="comman-bg mb-0">
+    <div className="comman-bg">
       <div className="report-box">
         <div className="report-title">
           <div className="report-name">Current Bets</div>

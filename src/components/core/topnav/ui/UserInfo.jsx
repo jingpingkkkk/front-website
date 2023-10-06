@@ -90,7 +90,9 @@ const UserInfo = ({ user }) => {
           </DropdownToggle>
 
           <DropdownMenu dark>
-            <DropdownItem>Account Statement</DropdownItem>
+            <DropdownItem href="/accountstatement">
+              Account Statement
+            </DropdownItem>
             <DropdownItem href="/currentbets">Current Bets</DropdownItem>
             <DropdownItem>Casino Results</DropdownItem>
             <DropdownItem onClick={() => setShowStakeButton(true)}>
