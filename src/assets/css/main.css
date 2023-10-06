@@ -16,10 +16,11 @@ a {
   cursor: pointer;
 }
 .left-sidebar {
-  width: 14.5%;
+  width: 14.2%;
+  padding: 0;
 }
 .right-side {
-  width: 18.5%;
+  width: 19%;
   padding-left: 0;
   padding-right: 0;
 }
@@ -279,7 +280,7 @@ footer.footer .logo {
 nav#sidebar {
   border-radius: 15px;
   background: var(--main-tabs-color);
-  padding: 15px;
+  padding: 6px;
   margin-bottom: 15px;
 }
 .event-title {
@@ -297,8 +298,12 @@ nav#sidebar li.all-sports {
   justify-content: space-between;
   padding-bottom: 0;
 }
+.main-content {
+  padding-left: 0;
+  padding-right: 5px;
+}
 span.image-outer {
-  width: 35px;
+  width: 25px;
   display: -webkit-inline-box;
 }
 .table-section .nav-tabs {
@@ -1721,8 +1726,8 @@ nav#sidebar li.all-sports.text-deco a {
   }
   .right-side {
     width: 100%;
-    padding-left: calc(1.5rem * 0.5);
-    padding-right: calc(1.5rem * 0.5);
+    padding-left: 0;
+    padding-right: 0;
   }
 }
 

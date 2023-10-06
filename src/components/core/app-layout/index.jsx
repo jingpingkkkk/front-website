@@ -32,7 +32,7 @@ function AppLayout({ sidebarLeft, sidebarRight, pageContent }) {
             </Col>
           ) : null}
 
-          <Col md="12" lg={contentMdColWidth}>
+          <Col md="12" lg={contentMdColWidth} className="main-content">
             {pageContent}
           </Col>
 

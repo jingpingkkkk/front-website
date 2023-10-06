@@ -1,3 +1,5 @@
+/* eslint-disable jsx-a11y/no-static-element-interactions */
+/* eslint-disable jsx-a11y/click-events-have-key-events */
 import React, { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import {
@@ -11,6 +13,8 @@ import { userLogout } from '../../../../helper/user';
 import { resetUserDetails } from '../../../../redux/reducers/user-details';
 import StateButtons from '../../stake-button-popup';
 import './userInfo.css';
+import NotificationPopup from './NotificationPopup';
+import ConfettiAnimation from '../../../common/ConfettiAnimation';
 
 // const UserInfo = ({ user }) => {
 //   const [showStakButton, setShowStakeButton] = useState(false);
@@ -27,6 +31,7 @@ const UserInfo = ({ user }) => {
 
   const [userInfo, setUserInfo] = useState(user);
   const [showStakButton, setShowStakeButton] = useState(false);
+  const [showNotificationDetail, setShowNotificationDetail] = useState(false);
 
   useEffect(() => {
     socket.on(`user:${user._id}`, (data) => {
@@ -75,32 +80,118 @@ const UserInfo = ({ user }) => {
         <span>{user?.balance || 0}</span>{' '}
         <span>| {userInfo?.exposure || 0}</span>
       </div>
+      <div className="d-flex">
+        <UncontrolledDropdown>
+          <DropdownToggle caret color="dark" className="username-info">
+            <span className="user-icon">
+              <img src="./images/userrr.png" alt="user" />
+            </span>
+            {userInfo?.fullName || ''}
+          </DropdownToggle>
 
-      <UncontrolledDropdown>
-        <DropdownToggle caret color="dark" className="username-info">
-          <span className="user-icon">
-            <img src="./images/userrr.png" alt="user" />
-          </span>
-          {userInfo?.fullName || ''}
-        </DropdownToggle>
-
-        <DropdownMenu dark>
-          <DropdownItem>Account Statement</DropdownItem>
-          <DropdownItem href="/currentbets">Current Bets</DropdownItem>
-          <DropdownItem>Casino Results</DropdownItem>
-          <DropdownItem onClick={() => setShowStakeButton(true)}>
-            Set Button Value
-          </DropdownItem>
-          <DropdownItem divider />
-          <DropdownItem onClick={() => logout()}>Logout</DropdownItem>
-        </DropdownMenu>
-      </UncontrolledDropdown>
-      {showStakButton && (
-        <StateButtons
-          isOpen={showStakButton}
-          closeModal={() => setShowStakeButton(!showStakButton)}
+          <DropdownMenu dark>
+            <DropdownItem>Account Statement</DropdownItem>
+            <DropdownItem href="/currentbets">Current Bets</DropdownItem>
+            <DropdownItem>Casino Results</DropdownItem>
+            <DropdownItem onClick={() => setShowStakeButton(true)}>
+              Set Button Value
+            </DropdownItem>
+            <DropdownItem divider />
+            <DropdownItem onClick={() => logout()}>Logout</DropdownItem>
+          </DropdownMenu>
+        </UncontrolledDropdown>
+        {showStakButton && (
+          <StateButtons
+            isOpen={showStakButton}
+            closeModal={() => setShowStakeButton(!showStakButton)}
+          />
+        )}
+        {/* Notification */}
+        {/* <UncontrolledDropdown>
+          <DropdownToggle caret className="notification-icon">
+            <img
+              src="./images/icons-bell.png"
+              alt="bell-icon"
+              className="w-50 h-50"
+            />
+          </DropdownToggle>
+          <DropdownMenu className="notification-menu">
+            <div className="card border-0 w300">
+              <div className="card-header notification-header">
+                <h5 className="mb-0">
+                  <span>Notifications</span>
+                </h5>
+              </div>
+              <div className="card-body p-0 notification-body">
+                <div className="fade show active">
+                  <ul className="list-unstyled list mb-0">
+                    <li className="notification-item">
+                      <div className="ps-2 pe-2">
+                        <div className="d-flex justify-content-between">
+                          <div
+                            className="cursor-pointer w-75"
+                            onClick={() => {
+                              setShowNotificationDetail(true);
+                            }}
+                          >
+                            <span className="item-name">
+                              Pakistan V Australia
+                            </span>
+                          </div>
+                          <small className="notification-date w-25">
+                            19 Hours Ago
+                          </small>
+                        </div>
+                      </div>
+                    </li>
+                    <li className="notification-item">
+                      <div className="ps-2 pe-2">
+                        <div className="d-flex justify-content-between">
+                          <div className="cursor-pointer w-75">
+                            <span className="item-name">
+                              Australia Women v West Indies Women
+                            </span>
+                          </div>
+                          <small className="notification-date w-25">
+                            1 Day Ago
+                          </small>
+                        </div>
+                      </div>
+                    </li>
+                    <li className="notification-item">
+                      <div className="ps-2 pe-2">
+                        <div className="d-flex justify-content-between">
+                          <div className="cursor-pointer w-75">
+                            <span className="item-name">
+                              South Africa Women v New Zealand Women
+                            </span>
+                          </div>
+                          <small className="notification-date w-25">
+                            1 Day Ago
+                          </small>
+                        </div>
+                      </div>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+              <a
+                className="card-footer text-center border-top-0 notification-footer"
+                href="/notifications"
+              >
+                View All Notifications
+              </a>
+            </div>
+          </DropdownMenu>
+        </UncontrolledDropdown> */}
+      </div>
+      {showNotificationDetail && (
+        <NotificationPopup
+          isOpen={showNotificationDetail}
+          closeModal={() => setShowNotificationDetail(!showNotificationDetail)}
         />
       )}
+      {showNotificationDetail && <ConfettiAnimation />}
     </div>
   );
 };

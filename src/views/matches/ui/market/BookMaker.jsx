@@ -1,6 +1,6 @@
 /* eslint-disable no-nested-ternary */
 /* eslint-disable no-plusplus */
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useLayoutEffect, useMemo, useRef, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { Spinner } from 'reactstrap';
 import { io } from 'socket.io-client';
@@ -40,35 +40,69 @@ const marketUrl = `${socketUrl}/market`;
 
 function BookMaker({ market }) {
   const dispatch = useDispatch();
+  const previousValue = useRef({});
 
   const socket = useMemo(() => io(marketUrl, { autoConnect: false }), []);
 
   const [loading, setLoading] = useState(false);
-  const [runnerOdds, setRunnerOdds] = useState(emptyOdds);
+  const [runnerOdds, setRunnerOdds] = useState({});
   const [min, setMin] = useState(market.minStake);
   const [max, setMax] = useState(market.maxStake);
 
-  useEffect(() => {
-    setLoading(true);
-    const handleBookmakerData = (data) => {
-      if (data) {
-        const { matchOdds } = data;
-        const [teamOne, teamTwo] = matchOdds;
-        const teamOneData = { back: [], lay: [] };
-        const teamTwoData = { back: [], lay: [] };
-        for (let i = 0; i < 3; i++) {
-          teamOneData.back.push(teamOne.back[i] || {});
-          teamOneData.lay.push(teamOne.lay[i] || {});
-          teamTwoData.back.push(teamTwo.back[i] || {});
-          teamTwoData.lay.push(teamTwo.lay[i] || {});
-        }
-        setRunnerOdds({ 0: teamOneData, 1: teamTwoData });
-        setMin(data?.min || 0);
-        setMax(data?.max || 0);
-      }
-      setLoading(false);
-    };
+  const handleBookmakerData = (data) => {
+    setLoading(!Object.keys(runnerOdds).length);
+    if (!data) {
+      setRunnerOdds(emptyOdds);
+      previousValue.current = emptyOdds;
+    } else {
+      const { matchOdds } = data;
+      const [teamOne, teamTwo] = matchOdds;
+      const teamOneData = { back: [], lay: [] };
+      const teamTwoData = { back: [], lay: [] };
+      const { 0: runner1, 1: runner2 } = previousValue.current;
+      for (let i = 0; i < 3; i++) {
+        teamOne.back[i].class =
+          teamOne.back[i].price > runner1?.back[i]?.price
+            ? 'odds-up'
+            : teamOne.back[i].price < runner1?.back[i]?.price
+            ? 'odds-down'
+            : '';
+        teamTwo.back[i].class =
+          teamTwo.back[i].price > runner2?.back[i]?.price
+            ? 'odds-up'
+            : teamTwo.back[i].price < runner2?.back[i]?.price
+            ? 'odds-down'
+            : '';
+        teamOne.lay[i].class =
+          teamOne.lay[i].price > runner1?.lay[i]?.price
+            ? 'odds-up'
+            : teamOne.lay[i].price < runner1?.lay[i]?.price
+            ? 'odds-down'
+            : '';
+        teamTwo.lay[i].class =
+          teamTwo.lay[i].price > runner2?.lay[i]?.price
+            ? 'odds-up'
+            : teamTwo.lay[i].price < runner2?.lay[i]?.price
+            ? 'odds-down'
+            : '';
 
+        teamOneData.back.push(teamOne.back[i] || {});
+        teamOneData.lay.push(teamOne.lay[i] || {});
+        teamTwoData.back.push(teamTwo.back[i] || {});
+        teamTwoData.lay.push(teamTwo.lay[i] || {});
+      }
+      previousValue.current = {
+        0: teamOneData,
+        1: teamTwoData,
+      };
+      setRunnerOdds({ 0: teamOneData, 1: teamTwoData });
+      setMin(data?.min || 0);
+      setMax(data?.max || 0);
+    }
+    setLoading(false);
+  };
+
+  useLayoutEffect(() => {
     socket.emit(
       'join:market',
       { id: market.apiMarketId, type: 'bookamkers' },
@@ -81,7 +115,7 @@ function BookMaker({ market }) {
       socket.disconnect();
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [market._id]);
+  }, [market]);
 
   const handleOddClick = (runner, odd, type) => {
     if (odd.price === 0) return;
@@ -183,7 +217,9 @@ function BookMaker({ market }) {
                   ?.map((odd, i) => (
                     <button
                       type="button"
-                      className={`bl-box back back${odd?.level || i}`}
+                      className={`bl-box back back${odd?.level || i} ${
+                        odd?.class
+                      }`}
                       key={`back-${odd?.level || i}`}
                       onClick={() => handleOddClick(runner, odd, betTypes.BACK)}
                     >
@@ -208,7 +244,7 @@ function BookMaker({ market }) {
                 {runnerOdds[runner?.priority]?.lay?.map((odd, i) => (
                   <button
                     type="button"
-                    className={`bl-box lay lay${odd?.level || i}`}
+                    className={`bl-box lay lay${odd?.level || i} ${odd?.class}`}
                     key={`lay-${odd?.level || i}`}
                     onClick={() => handleOddClick(runner, odd, betTypes.LAY)}
                   >

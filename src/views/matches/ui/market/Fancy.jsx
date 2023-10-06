@@ -1,6 +1,5 @@
 /* eslint-disable no-nested-ternary */
-/* eslint-disable no-plusplus */
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { Spinner } from 'reactstrap';
 import { io } from 'socket.io-client';
@@ -16,28 +15,61 @@ function Fancy({ market }) {
 
   const dispatch = useDispatch();
 
+  const previousValue = useRef([]);
+
   const [fancyRunners, setFancyRunners] = useState([]);
   const [loading, setLoading] = useState(false);
 
-  useEffect(() => {
-    setLoading(true);
-    const handleFancyData = (data) => {
-      if (Object.keys(data).length > 0) {
-        const teamData = data?.map((item) => {
-          const currentItem = item;
-          currentItem.runnerId = item?.runnerId;
-          currentItem.back = { price: item.BackPrice1, size: item.BackSize1 };
-          currentItem.lay = { price: item.LayPrice1, size: item.LaySize1 };
-          currentItem.pl =
-            market.runners.find((runner) => runner._id === item?.runnerId)
-              ?.pl || 0;
-          return currentItem;
-        });
-        setFancyRunners(teamData);
-      }
-      setLoading(false);
-    };
+  const handleFancyData = (data) => {
+    setLoading(!fancyRunners.length);
+    if (data.length) {
+      const fancyPrevData = previousValue.current;
+      const teamData = data.map((item) => {
+        const currentItem = { ...item };
+        currentItem.back = {
+          price: item.BackPrice1,
+          size: item.BackSize1,
+          class: '',
+        };
+        currentItem.lay = {
+          price: item.LayPrice1,
+          size: item.LaySize1,
+          class: '',
+        };
+        currentItem.pl =
+          market.runners.find((runner) => runner._id === item.runnerId)?.pl ||
+          0;
+        if (fancyPrevData?.length) {
+          const prevRunnerOdds = fancyPrevData.find(
+            (fancy) => fancy.runnerId === item.runnerId,
+          );
+          const runnerOdds = data.find(
+            (fancy) => fancy.runnerId === item.runnerId,
+          );
+          if (prevRunnerOdds && runnerOdds) {
+            currentItem.back.class =
+              runnerOdds.BackPrice1 > prevRunnerOdds?.back?.price
+                ? 'odds-up'
+                : runnerOdds.BackPrice1 < prevRunnerOdds?.back?.price
+                ? 'odds-down'
+                : '';
+            currentItem.lay.class =
+              runnerOdds.LayPrice1 > prevRunnerOdds?.lay?.price
+                ? 'odds-up'
+                : runnerOdds.LayPrice1 < prevRunnerOdds?.lay?.price
+                ? 'odds-down'
+                : '';
+          }
+        }
+        return currentItem;
+      });
+      setFancyRunners(teamData);
+      previousValue.current = teamData;
+    }
+    setLoading(false);
+  };
 
+  useEffect(() => {
     socket.emit(
       'join:market',
       { id: market.apiEventId, type: 'fancy' },
@@ -50,7 +82,7 @@ function Fancy({ market }) {
       socket.disconnect();
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [market._id]);
+  }, [market]);
 
   const handleOddClick = (runner, price, size, type) => {
     if (price === 0) return;
@@ -146,7 +178,7 @@ function Fancy({ market }) {
                     </div>
                     <button
                       type="button"
-                      className="bl-box lay lay"
+                      className={`bl-box lay lay ${runner?.lay?.class}`}
                       onClick={() =>
                         handleOddClick(
                           runner,
@@ -175,7 +207,7 @@ function Fancy({ market }) {
                     </button>
                     <button
                       type="button"
-                      className="bl-box back back"
+                      className={`bl-box back back ${runner?.back?.class}`}
                       onClick={() =>
                         handleOddClick(
                           runner,
