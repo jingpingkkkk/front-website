@@ -85,7 +85,6 @@ function BookMaker({ market }) {
 
   const handleOddClick = (runner, odd, type) => {
     if (odd.price === 0) return;
-
     const selectedOdd = {
       market: {
         _id: market._id,
