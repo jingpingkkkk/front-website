@@ -162,8 +162,9 @@ function NotificationPageContent() {
             <div>
               <button
                 type="button"
-                className="bg-transparent"
+                className="bg-transparent file-icon"
                 onClick={exportToPDF}
+                disabled={!data?.length}
               >
                 <img src="images/pdf.png" alt="pdf" />
               </button>
@@ -171,8 +172,9 @@ function NotificationPageContent() {
             <div id="export_1694411267194">
               <button
                 type="button"
-                className="bg-transparent"
+                className="bg-transparent file-icon"
                 onClick={onExportData}
+                disabled={!data?.length}
               >
                 <img src="images/pdfx.png" alt="pdf" />
               </button>

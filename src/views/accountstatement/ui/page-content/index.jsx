@@ -1,53 +1,95 @@
+/* eslint-disable prefer-template */
+/* eslint-disable react/no-unstable-nested-components */
 /* eslint-disable new-cap */
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable jsx-a11y/anchor-is-valid */
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import 'jspdf-autotable';
 import DataTable from 'react-data-table-component';
 import { Label } from 'reactstrap';
+import moment from 'moment';
+import jsPDF from 'jspdf';
 import LoadingOverlay from '../../../../components/common/loading-overlay';
 import accountType from './data';
+import { postRequest } from '../../../../api';
+import ExportToExcel from '../../../../helper/export-excel';
 
 function AccountStatementPageContent() {
-  const [loading] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [totalRows, setTotalRows] = useState(0);
+  const [perPage, setPerPage] = useState(10);
   const [currentPage, setCurrentPage] = useState(1);
-  const [rowsPerPage, setRowsPerPage] = useState(10);
   const [fromDate, setFromDate] = useState('');
   const [toDate, setToDate] = useState('');
   const [searchText, setSearchText] = useState('');
-  const totalPages = 10;
-  console.log(currentPage);
-  const data = [];
+  const [data, setData] = useState([]);
+  const [type, setType] = useState(accountType[0]);
   const columns = [
     {
       name: 'Date',
+      selector: (row) =>
+        row.createdAt ? moment(row.createdAt).format('DD-MM-YYYY') : '',
     },
     {
       name: 'Sr no',
+      selector: (row, index) => (currentPage - 1) * perPage + (index + 1),
     },
     {
       name: 'Credit',
+      selector: (row) => row.points,
+      cell: (row) => (
+        <div style={{ color: 'green' }}>
+          {row.type === 'credit' ? row.points : ''}
+        </div>
+      ),
     },
     {
       name: 'Debit',
+      selector: (row) => row.points,
+      cell: (row) => (
+        <div style={{ color: 'red' }}>
+          {row.type === 'debit' ? '-' + row.points : ''}
+        </div>
+      ),
     },
     {
       name: 'Remark',
+      selector: (row) => row.remark,
     },
   ];
 
   const handlePageChange = (page) => {
     setCurrentPage(page);
   };
-  const handleRowsPerPageChange = (newPerPage) => {
-    setRowsPerPage(newPerPage);
-    setCurrentPage(1);
+
+  const handlePerRowsChange = async (newPerPage) => {
+    setLoading(true);
+    setPerPage(newPerPage);
+    setLoading(false);
   };
   const onExportData = () => {
-    console.log('Export Excel');
+    const exportData = data.map((item, i) => ({
+      Date: item.createdAt ? moment(item.createdAt).format('DD-MM-YYYY') : '',
+      'Sr No': i + 1,
+      Credit: item.type === 'credit' ? item.points : '',
+      Debit: item.type === 'debit' ? '-' + item.points : '',
+      Remark: item.remark,
+    }));
+    ExportToExcel(exportData, 'accountStatement');
   };
   const exportToPDF = () => {
-    console.log('Export PDF');
+    const doc = new jsPDF();
+    doc.autoTable({
+      head: [['Date', 'Sr No', 'Credit', 'Debit', 'Remark']],
+      body: data.map((item, index) => [
+        item.createdAt ? moment(item.createdAt).format('DD-MM-YYYY') : '',
+        index + 1,
+        item.type === 'credit' ? item.points : '',
+        item.type === 'debit' ? '-' + item.points : '',
+        item.remark,
+      ]),
+    });
+    doc.save(`accountStatement.pdf`);
   };
 
   const customStyles = {
@@ -81,6 +123,32 @@ function AccountStatementPageContent() {
       },
     },
   };
+
+  const getNotificationDetail = async () => {
+    setLoading(true);
+    const body = {
+      page: currentPage,
+      perPage,
+      fromDate,
+      toDate,
+      type,
+      searchQuery: searchText,
+    };
+    const result = await postRequest(
+      'transactionActivity/getAllTransactionActivity',
+      body,
+    );
+    if (result?.success) {
+      setData(result?.data?.details || []);
+      setTotalRows(result?.data?.totalRecords || 0);
+    }
+    setLoading(false);
+  };
+
+  useEffect(() => {
+    getNotificationDetail();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [searchText, currentPage, perPage]);
 
   return loading ? (
     <LoadingOverlay />
@@ -133,7 +201,11 @@ function AccountStatementPageContent() {
           </div>
           <div className="form-group">
             <Label>Type</Label>
-            <select className="form-select">
+            <select
+              className="form-select"
+              value={type}
+              onChange={(e) => setType(e.target.value)}
+            >
               {accountType?.length
                 ? accountType?.map((actype) => (
                     <option value={actype} key={actype}>
@@ -154,8 +226,9 @@ function AccountStatementPageContent() {
             <div>
               <button
                 type="button"
-                className="bg-transparent"
+                className="bg-transparent file-icon"
                 onClick={exportToPDF}
+                disabled={!data?.length}
               >
                 <img src="images/pdf.png" alt="pdf" />
               </button>
@@ -163,8 +236,9 @@ function AccountStatementPageContent() {
             <div id="export_1694411267194">
               <button
                 type="button"
-                className="bg-transparent"
+                className="bg-transparent file-icon"
                 onClick={onExportData}
+                disabled={!data?.length}
               >
                 <img src="images/pdfx.png" alt="pdf" />
               </button>
@@ -179,11 +253,11 @@ function AccountStatementPageContent() {
                 data={data}
                 progressPending={loading}
                 pagination
+                highlightOnHover
                 paginationServer
-                paginationTotalRows={totalPages}
-                onChangePage={(page) => handlePageChange(page)}
-                onChangeRowsPerPage={(value) => handleRowsPerPageChange(value)}
-                paginationPerPage={rowsPerPage}
+                paginationTotalRows={totalRows}
+                onChangeRowsPerPage={handlePerRowsChange}
+                onChangePage={handlePageChange}
                 customStyles={customStyles}
               />
             ) : (
