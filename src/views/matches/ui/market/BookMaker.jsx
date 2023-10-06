@@ -40,21 +40,17 @@ const marketUrl = `${socketUrl}/market`;
 
 function BookMaker({ market }) {
   const dispatch = useDispatch();
-  const previousValue = useRef({});
+  const previousValue = useRef(emptyOdds);
 
   const socket = useMemo(() => io(marketUrl, { autoConnect: false }), []);
 
-  const [loading, setLoading] = useState(false);
-  const [runnerOdds, setRunnerOdds] = useState({});
+  const [loading, setLoading] = useState(true);
+  const [runnerOdds, setRunnerOdds] = useState(emptyOdds);
   const [min, setMin] = useState(market.minStake);
   const [max, setMax] = useState(market.maxStake);
 
   const handleBookmakerData = (data) => {
-    setLoading(!Object.keys(runnerOdds).length);
-    if (!data) {
-      setRunnerOdds(emptyOdds);
-      previousValue.current = emptyOdds;
-    } else {
+    if (data) {
       const { matchOdds } = data;
       const [teamOne, teamTwo] = matchOdds;
       const teamOneData = { back: [], lay: [] };

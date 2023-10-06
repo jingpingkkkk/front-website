@@ -55,19 +55,15 @@ function MatchOdds({ market }) {
 
   const dispatch = useDispatch();
 
-  const previousValue = useRef({});
+  const previousValue = useRef(emptyOdds);
 
-  const [loading, setLoading] = useState(false);
-  const [runnerOdds, setRunnerOdds] = useState({});
+  const [loading, setLoading] = useState(true);
+  const [runnerOdds, setRunnerOdds] = useState(emptyOdds);
   const [min, setMin] = useState(market.minStake);
   const [max, setMax] = useState(market.maxStake);
 
   const handleMarketData = (data) => {
-    setLoading(!Object.keys(runnerOdds).length);
-    if (!data) {
-      previousValue.current = emptyOdds;
-      setRunnerOdds(emptyOdds);
-    } else {
+    if (data) {
       const { matchOdds } = data;
       const [teamOne, teamTwo, teamThree] = matchOdds;
       const teamOneData = { back: [], lay: [] };

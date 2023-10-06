@@ -18,10 +18,9 @@ function Fancy({ market }) {
   const previousValue = useRef([]);
 
   const [fancyRunners, setFancyRunners] = useState([]);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   const handleFancyData = (data) => {
-    setLoading(!fancyRunners.length);
     if (data.length) {
       const fancyPrevData = previousValue.current;
       const teamData = data.map((item) => {
