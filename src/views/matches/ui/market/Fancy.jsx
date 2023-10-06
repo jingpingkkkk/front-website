@@ -1,84 +1,59 @@
 /* eslint-disable no-nested-ternary */
 /* eslint-disable no-plusplus */
 import React, { useEffect, useMemo, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { Spinner } from 'reactstrap';
 import { io } from 'socket.io-client';
-import { postRequest } from '../../../../api';
 import shortNumber from '../../../../helper/number';
 import { betTypes, setBetOdds } from '../../../../redux/reducers/event-bet';
-import {
-  setMarketPlForecast,
-  setMarketRunnerPl,
-} from '../../../../redux/reducers/event-market';
-
-const emptyOdds = {
-  back: { price: 0, size: 0 },
-  lay: { price: 0, size: 0 },
-};
+import { setMarketPlForecast } from '../../../../redux/reducers/event-market';
 
 const socketUrl = import.meta.env.VITE_SOCKET_URL;
 const marketUrl = `${socketUrl}/market`;
 
 function Fancy({ market }) {
-  const dispatch = useDispatch();
-  const { event } = useSelector((state) => state.eventMarket);
-  const { market: eventBetMarket } = useSelector((state) => state.eventBet);
   const socket = useMemo(() => io(marketUrl, { autoConnect: false }), []);
+
+  const dispatch = useDispatch();
+
   const [fancyRunners, setFancyRunners] = useState([]);
-
-  const [runnerOdds, setRunnerOdds] = useState(emptyOdds);
   const [loading, setLoading] = useState(false);
-  const [runnerPLS, setRunnerPLS] = useState([]);
-  useEffect(() => {
-    const fetchRunnerPls = async () => {
-      const result = await postRequest('bet/getRunnerPlsFancy', {
-        marketId: market._id,
-        eventId: event.eventId,
-      });
-      if (result.success) {
-        const runnerPls = result.data.details;
-        setRunnerPLS(runnerPls);
-        dispatch(setMarketRunnerPl(runnerPls));
-      }
-    };
-
-    fetchRunnerPls();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [eventBetMarket]);
 
   useEffect(() => {
-    setLoading(!runnerOdds?.length);
-    socket.on('connect', () => {
-      socket.emit('join:market', {
-        id: market.apiEventId,
-        type: 'fancy',
-      });
-    });
+    setLoading(!fancyRunners?.length);
 
-    socket.on(`market:data:${market.apiEventId}`, (data) => {
+    const handleFancyData = (data) => {
       if (Object.keys(data).length > 0) {
         setLoading(false);
-        const teamData = data?.map((item) => ({
-          runnerId: item?.runnerId,
-          back: { price: item.BackPrice1, size: item.BackSize1 },
-          lay: { price: item.LayPrice1, size: item.LaySize1 },
-        }));
-        setRunnerOdds(teamData);
-        setFancyRunners(data);
+        const teamData = data?.map((item) => {
+          const currentItem = item;
+          currentItem.runnerId = item?.runnerId;
+          currentItem.back = { price: item.BackPrice1, size: item.BackSize1 };
+          currentItem.lay = { price: item.LayPrice1, size: item.LaySize1 };
+          currentItem.pl =
+            market.runners.find((runner) => runner._id === item?.runnerId)
+              ?.pl || 0;
+          return currentItem;
+        });
+        setFancyRunners(teamData);
       }
       setLoading(false);
-    });
+    };
 
+    socket.emit(
+      'join:market',
+      { id: market.apiEventId, type: 'fancy' },
+      handleFancyData,
+    );
+    socket.on(`market:data:${market.apiEventId}`, handleFancyData);
     socket.connect();
-
     return () => {
       socket.off('connect');
       socket.off(`market:data:${market.apiEventId}`);
       socket.disconnect();
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [market]);
+  }, [market._id]);
 
   const handleOddClick = (runner, price, size, type) => {
     if (price === 0) return;
@@ -103,11 +78,11 @@ function Fancy({ market }) {
       size,
       betType: type,
     };
-
     // dispatch(setBetStake(0));
     dispatch(setBetOdds(selectedOdd));
     dispatch(setMarketPlForecast({ marketId: market._id, plForecast: [0, 0] }));
   };
+
   return (
     <div className="pb-1">
       <div className="row row5 d-none-mobile">
@@ -137,12 +112,6 @@ function Fancy({ market }) {
           </div>
         ) : fancyRunners?.length ? (
           fancyRunners?.map((runner) => {
-            const odds = runnerOdds?.length
-              ? runnerOdds?.find((item) => item?.runnerId === runner?.runnerId)
-              : {};
-            const pls = runnerPLS?.length
-              ? runnerPLS?.find((item) => item?._id === runner?.runnerId)?.pl
-              : 0;
             return (
               <div key={runner?.RunnerName} className="col-12 col-md-6">
                 <div className="fancy-tripple">
@@ -166,14 +135,14 @@ function Fancy({ market }) {
                         <span>{runner?.RunnerName || ''}</span>
                         <div
                           className={`pt-1 small ${
-                            pls > 0
+                            runner?.pl > 0
                               ? 'text-success'
-                              : pls < 0
+                              : runner?.pl < 0
                               ? 'text-danger'
                               : 'text-light'
                           }`}
                         >
-                          {pls ? pls.toFixed(0) : ''}
+                          {runner?.pl ? runner?.pl?.toFixed(0) : ''}
                         </div>
                       </div>
                     </div>
@@ -183,22 +152,22 @@ function Fancy({ market }) {
                       onClick={() =>
                         handleOddClick(
                           runner,
-                          odds?.lay?.price,
-                          odds?.lay?.size,
+                          runner?.lay?.price,
+                          runner?.lay?.size,
                           betTypes.LAY,
                         )
                       }
                     >
-                      {odds?.lay?.price && odds?.lay?.price !== 0 ? (
+                      {runner?.lay?.price && runner?.lay?.price !== 0 ? (
                         <>
                           <span className="d-block odds">
-                            {odds?.lay?.price
-                              ? parseFloat(odds?.lay?.price.toFixed(2))
+                            {runner?.lay?.price
+                              ? parseFloat(runner?.lay?.price.toFixed(2))
                               : '-'}
                           </span>
                           <span className="d-block">
-                            {odds?.lay?.size
-                              ? shortNumber(odds?.lay?.size, 2)
+                            {runner?.lay?.size
+                              ? shortNumber(runner?.lay?.size, 2)
                               : 0}
                           </span>
                         </>
@@ -212,22 +181,22 @@ function Fancy({ market }) {
                       onClick={() =>
                         handleOddClick(
                           runner,
-                          odds?.back?.price,
-                          odds?.back?.size,
+                          runner?.back?.price,
+                          runner?.back?.size,
                           betTypes.BACK,
                         )
                       }
                     >
-                      {odds?.back?.price && odds?.back?.price !== 0 ? (
+                      {runner?.back?.price && runner?.back?.price !== 0 ? (
                         <>
                           <span className="d-block odds">
-                            {odds?.back?.price
-                              ? parseFloat(odds?.back?.price?.toFixed(2))
+                            {runner?.back?.price
+                              ? parseFloat(runner?.back?.price?.toFixed(2))
                               : '-'}
                           </span>
                           <span className="d-block">
-                            {odds?.back?.size
-                              ? shortNumber(odds.back?.size, 2)
+                            {runner?.back?.size
+                              ? shortNumber(runner.back?.size, 2)
                               : 0}
                           </span>
                         </>
