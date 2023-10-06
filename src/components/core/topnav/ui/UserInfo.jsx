@@ -14,7 +14,6 @@ import { resetUserDetails } from '../../../../redux/reducers/user-details';
 import StateButtons from '../../stake-button-popup';
 import './userInfo.css';
 import NotificationPopup from './NotificationPopup';
-import ConfettiAnimation from '../../../common/ConfettiAnimation';
 import { postRequest } from '../../../../api';
 import countDays from '../../../../helper/day-count';
 
@@ -202,7 +201,6 @@ const UserInfo = ({ user }) => {
           eventName={eventName}
         />
       )}
-      {showNotificationDetail && <ConfettiAnimation />}
     </div>
   );
 };
