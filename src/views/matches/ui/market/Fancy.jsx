@@ -1,6 +1,6 @@
 /* eslint-disable no-nested-ternary */
 /* eslint-disable no-plusplus */
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useState, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { io } from 'socket.io-client';
 import { Spinner } from 'reactstrap';
@@ -22,6 +22,7 @@ const marketUrl = `${socketUrl}/market`;
 
 function Fancy({ market }) {
   const dispatch = useDispatch();
+  const previousValue = useRef([]);
   const { event } = useSelector((state) => state.eventMarket);
   const { market: eventBetMarket } = useSelector((state) => state.eventBet);
   const socket = useMemo(() => io(marketUrl, { autoConnect: false }), []);
@@ -55,15 +56,45 @@ function Fancy({ market }) {
         type: 'fancy',
       });
     });
-
     socket.on(`market:data:${market.apiEventId}`, (data) => {
       if (Object.keys(data).length > 0) {
         setLoading(false);
-        const teamData = data?.map((item) => ({
-          runnerId: item?.runnerId,
-          back: { price: item.BackPrice1, size: item.BackSize1 },
-          lay: { price: item.LayPrice1, size: item.LaySize1 },
-        }));
+        const teamData = [];
+        const fancyPrevData = previousValue.current;
+        for (let index = 0; index < data?.length; index++) {
+          const teamObj = {};
+          teamObj.runnerId = data[index].runnerId;
+          teamObj.back = {
+            price: data[index].BackPrice1,
+            size: data[index].BackSize1,
+          };
+          teamObj.lay = {
+            price: data[index].LayPrice1,
+            size: data[index].LaySize1,
+          };
+          if (fancyPrevData?.length) {
+            const fancyPrevOdds = fancyPrevData?.find(
+              (fancy) => fancy?.runnerId === teamObj.runnerId,
+            );
+            const teamOdds = data?.find(
+              (fancy) => fancy?.runnerId === teamObj.runnerId,
+            );
+            teamObj.back.class =
+              teamOdds.BackPrice1 > fancyPrevOdds.back.price
+                ? 'odds-up'
+                : teamOdds.BackPrice1 < fancyPrevOdds.back.price
+                ? 'odds-down'
+                : '';
+            teamObj.lay.class =
+              teamOdds?.LayPrice1 > fancyPrevOdds?.lay?.price
+                ? 'odds-up'
+                : teamOdds?.LayPrice1 < fancyPrevOdds?.lay?.price
+                ? 'odds-down'
+                : '';
+          }
+          teamData.push(teamObj);
+        }
+        previousValue.current = teamData;
         setRunnerOdds(teamData);
         setFancyRunners(data);
       }
@@ -179,7 +210,7 @@ function Fancy({ market }) {
                     </div>
                     <button
                       type="button"
-                      className="bl-box lay lay"
+                      className={`bl-box lay lay ${odds?.lay?.class}`}
                       onClick={() =>
                         handleOddClick(
                           runner,
@@ -208,7 +239,7 @@ function Fancy({ market }) {
                     </button>
                     <button
                       type="button"
-                      className="bl-box back back"
+                      className={`bl-box back back ${odds?.back?.class}`}
                       onClick={() =>
                         handleOddClick(
                           runner,

@@ -41,7 +41,7 @@
   text-decoration: none;
   color: var(--sidenav-text);
   display: block;
-  padding: 6px;
+  padding: 6px 0px;
 }
 .sidebar-link:hover {
   color: var(--sidenav-text);
