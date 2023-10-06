@@ -14,7 +14,8 @@ import { resetUserDetails } from '../../../../redux/reducers/user-details';
 import StateButtons from '../../stake-button-popup';
 import './userInfo.css';
 import NotificationPopup from './NotificationPopup';
-import ConfettiAnimation from '../../../common/ConfettiAnimation';
+import { postRequest } from '../../../../api';
+import countDays from '../../../../helper/day-count';
 
 // const UserInfo = ({ user }) => {
 //   const [showStakButton, setShowStakeButton] = useState(false);
@@ -32,6 +33,9 @@ const UserInfo = ({ user }) => {
   const [userInfo, setUserInfo] = useState(user);
   const [showStakButton, setShowStakeButton] = useState(false);
   const [showNotificationDetail, setShowNotificationDetail] = useState(false);
+  const [notifications, setNotifications] = useState([]);
+  const [eventId, setEventId] = useState(null);
+  const [eventName, setEventName] = useState(null);
 
   useEffect(() => {
     socket.on(`user:${user._id}`, (data) => {
@@ -48,6 +52,13 @@ const UserInfo = ({ user }) => {
   const logout = () => {
     dispatch(resetUserDetails());
     userLogout();
+  };
+
+  const getNotification = async () => {
+    const result = await postRequest('event/completedEventList');
+    if (result?.success) {
+      setNotifications(result?.data?.details || []);
+    }
   };
 
   return (
@@ -90,7 +101,9 @@ const UserInfo = ({ user }) => {
           </DropdownToggle>
 
           <DropdownMenu dark>
-            <DropdownItem>Account Statement</DropdownItem>
+            <DropdownItem href="/accountstatement">
+              Account Statement
+            </DropdownItem>
             <DropdownItem href="/currentbets">Current Bets</DropdownItem>
             <DropdownItem>Casino Results</DropdownItem>
             <DropdownItem onClick={() => setShowStakeButton(true)}>
@@ -107,8 +120,12 @@ const UserInfo = ({ user }) => {
           />
         )}
         {/* Notification */}
-        {/* <UncontrolledDropdown>
-          <DropdownToggle caret className="notification-icon">
+        <UncontrolledDropdown>
+          <DropdownToggle
+            caret
+            className="notification-icon"
+            onClick={() => getNotification()}
+          >
             <img
               src="./images/icons-bell.png"
               alt="bell-icon"
@@ -125,53 +142,44 @@ const UserInfo = ({ user }) => {
               <div className="card-body p-0 notification-body">
                 <div className="fade show active">
                   <ul className="list-unstyled list mb-0">
-                    <li className="notification-item">
-                      <div className="ps-2 pe-2">
-                        <div className="d-flex justify-content-between">
-                          <div
-                            className="cursor-pointer w-75"
-                            onClick={() => {
-                              setShowNotificationDetail(true);
-                            }}
-                          >
-                            <span className="item-name">
-                              Pakistan V Australia
-                            </span>
+                    {notifications?.length ? (
+                      notifications?.map((notification) => (
+                        <li
+                          className="notification-item"
+                          key={notification?._id}
+                        >
+                          <div className="ps-2 pe-2">
+                            <div className="d-flex justify-content-between">
+                              <div
+                                className="cursor-pointer w-75"
+                                onClick={() => {
+                                  setEventId(notification?._id);
+                                  setEventName(notification?.name);
+                                  setShowNotificationDetail(true);
+                                }}
+                              >
+                                <span className="item-name">
+                                  {notification?.name || ''}
+                                </span>
+                              </div>
+                              <small className="notification-date w-25">
+                                {countDays(notification?.matchDateTime)}
+                              </small>
+                            </div>
                           </div>
-                          <small className="notification-date w-25">
-                            19 Hours Ago
-                          </small>
-                        </div>
-                      </div>
-                    </li>
-                    <li className="notification-item">
-                      <div className="ps-2 pe-2">
-                        <div className="d-flex justify-content-between">
-                          <div className="cursor-pointer w-75">
-                            <span className="item-name">
-                              Australia Women v West Indies Women
-                            </span>
+                        </li>
+                      ))
+                    ) : (
+                      <li className="notification-item border-0 text-center">
+                        <div className="ps-2 pe-2">
+                          <div className="d-flex justify-content-between">
+                            <div className="cursor-pointer w-100">
+                              <span className="item-name">No Data</span>
+                            </div>
                           </div>
-                          <small className="notification-date w-25">
-                            1 Day Ago
-                          </small>
                         </div>
-                      </div>
-                    </li>
-                    <li className="notification-item">
-                      <div className="ps-2 pe-2">
-                        <div className="d-flex justify-content-between">
-                          <div className="cursor-pointer w-75">
-                            <span className="item-name">
-                              South Africa Women v New Zealand Women
-                            </span>
-                          </div>
-                          <small className="notification-date w-25">
-                            1 Day Ago
-                          </small>
-                        </div>
-                      </div>
-                    </li>
+                      </li>
+                    )}
                   </ul>
                 </div>
               </div>
@@ -183,15 +191,16 @@ const UserInfo = ({ user }) => {
               </a>
             </div>
           </DropdownMenu>
-        </UncontrolledDropdown> */}
+        </UncontrolledDropdown>
       </div>
       {showNotificationDetail && (
         <NotificationPopup
           isOpen={showNotificationDetail}
           closeModal={() => setShowNotificationDetail(!showNotificationDetail)}
+          eventId={eventId}
+          eventName={eventName}
         />
       )}
-      {showNotificationDetail && <ConfettiAnimation />}
     </div>
   );
 };

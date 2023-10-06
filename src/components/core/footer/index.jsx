@@ -1,16 +1,31 @@
+/* eslint-disable no-nested-ternary */
 /* eslint-disable jsx-a11y/alt-text */
 /* eslint-disable jsx-a11y/anchor-is-valid */
 /* eslint-disable max-len */
 import React from 'react';
 import './footer.css';
 import { useSelector } from 'react-redux';
+import { Col } from 'reactstrap';
 
-function Footer() {
+function Footer({ sidebarLeft, sidebarRight }) {
+  const isSidebarLeft = sidebarLeft !== undefined;
+  const isSidebarRight = sidebarRight !== undefined;
   const { themeSettings } = useSelector((state) => state.themeSettings);
+
+  const contentMdColWidth = isSidebarLeft
+    ? isSidebarRight
+      ? '8'
+      : '10'
+    : isSidebarRight
+    ? '9'
+    : '12';
+
   return (
     <div className="row footer-row ">
-      <div className="col-md-2 col-sm-12 col-12 left-sidebar" />
-      <div className="col-md-8 col-sm-8 col-12 footer-area">
+      {sidebarLeft ? (
+        <div className="col-md-2 col-sm-12 col-12 left-sidebar" />
+      ) : null}
+      <Col md="8" lg={contentMdColWidth} className="main-content footer-area">
         <footer className="footer">
           <div className="row">
             <div className="col-md-4 col-sm-12 col-12">
@@ -213,8 +228,11 @@ function Footer() {
         <div className="copyright-text">
           © 2023 Exchange All Rights Reserved
         </div>
-      </div>
-      <div className="col-md-2 col-sm-12 col-12 right-side" />
+      </Col>
+      {/* <div className="col-md-8 col-sm-8 col-12 footer-area"></div> */}
+      {sidebarRight ? (
+        <div className="col-md-2 col-sm-12 col-12 right-side" />
+      ) : null}
     </div>
   );
 }
