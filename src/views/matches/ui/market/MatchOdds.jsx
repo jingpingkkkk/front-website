@@ -152,7 +152,7 @@ function MatchOdds({ market }) {
         _id: market._id,
         apiMarketId: market.apiMarketId,
         name: market.name,
-        betDelay: 0,
+        betDelay: market.betDelay,
         minStake: market.minStake,
         maxStake: market.maxStake,
         isBetLock: market.isBetLock || false,
@@ -168,7 +168,7 @@ function MatchOdds({ market }) {
       betType: type,
     };
 
-    // dispatch(setBetStake(0));
+    // dispatch(setBetStake(0)); // for resetting stake on odd click
     dispatch(setBetOdds(selectedOdd));
     dispatch(setMarketPlForecast({ marketId: market._id, plForecast: [0, 0] }));
   };
