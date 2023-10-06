@@ -2,6 +2,7 @@
 /* eslint-disable no-plusplus */
 import React, { useEffect, useMemo, useState } from 'react';
 import { useDispatch } from 'react-redux';
+import { Spinner } from 'reactstrap';
 import { io } from 'socket.io-client';
 import shortNumber from '../../../../helper/number';
 import { betTypes, setBetOdds } from '../../../../redux/reducers/event-bet';
@@ -42,26 +43,19 @@ function BookMaker({ market }) {
 
   const socket = useMemo(() => io(marketUrl, { autoConnect: false }), []);
 
+  const [loading, setLoading] = useState(false);
   const [runnerOdds, setRunnerOdds] = useState(emptyOdds);
   const [min, setMin] = useState(market.minStake);
   const [max, setMax] = useState(market.maxStake);
 
   useEffect(() => {
-    socket.on('connect', () => {
-      socket.emit('join:market', {
-        id: market.apiMarketId,
-        type: 'bookamkers',
-      });
-    });
-
-    socket.on(`market:data:${market.apiMarketId}`, (data) => {
+    setLoading(true);
+    const handleBookmakerData = (data) => {
       if (data) {
         const { matchOdds } = data;
         const [teamOne, teamTwo] = matchOdds;
-
         const teamOneData = { back: [], lay: [] };
         const teamTwoData = { back: [], lay: [] };
-
         for (let i = 0; i < 3; i++) {
           teamOneData.back.push(teamOne.back[i] || {});
           teamOneData.lay.push(teamOne.lay[i] || {});
@@ -72,17 +66,22 @@ function BookMaker({ market }) {
         setMin(data?.min || 0);
         setMax(data?.max || 0);
       }
-    });
+      setLoading(false);
+    };
 
+    socket.emit(
+      'join:market',
+      { id: market.apiMarketId, type: 'bookamkers' },
+      handleBookmakerData,
+    );
+    socket.on(`market:data:${market.apiMarketId}`, handleBookmakerData);
     socket.connect();
-
     return () => {
-      socket.off('connect');
       socket.off(`market:data:${market.apiMarketId}`);
       socket.disconnect();
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [market]);
+  }, [market._id]);
 
   const handleOddClick = (runner, odd, type) => {
     if (odd.price === 0) return;
@@ -107,8 +106,6 @@ function BookMaker({ market }) {
       price: odd.price,
       betType: type,
     };
-
-    // dispatch(setBetStake(0));
     dispatch(setBetOdds(selectedOdd));
     dispatch(setMarketPlForecast({ marketId: market._id, plForecast: [0, 0] }));
   };
@@ -131,60 +128,90 @@ function BookMaker({ market }) {
         <div className="lay bl-title lay-title">Lay</div>
       </div>
 
-      {market?.runners?.map((runner) => {
-        return (
-          <div key={runner?.name}>
-            <div className="bet-table-mobile-row d-none-desktop">
-              <div className="bet-table-mobile-team-name">
-                <span>{runner?.name || ''}</span>
-              </div>
-            </div>
-
-            <div
-              className={`bet-table-row ${
-                runner?.status === 'SUSPENDED' ? 'suspendedtext' : ''
-              }`}
-              data-title={runner?.status}
-            >
-              <div className="nation-name d-none-mobile">
-                <div className="w-100 d-flex justify-content-between align-items-center">
-                  <div>
-                    <span>{runner?.name || ''}</span>
-                    <span className="float-right" />
-                    <div
-                      className={`pt-1 small ${
-                        runner.pl > 0
-                          ? 'text-success'
-                          : runner.pl < 0
-                          ? 'text-danger'
-                          : 'text-light'
-                      }`}
-                    >
-                      {runner.pl ? runner.pl.toFixed(0) : ''}
-                    </div>
-                  </div>
-
-                  {market?.plForecast[runner?.priority] !== 0 ? (
-                    <div
-                      className={`small ${
-                        market?.plForecast[runner?.priority] > 0
-                          ? 'text-success'
-                          : 'text-danger'
-                      }`}
-                    >
-                      {market?.plForecast[runner?.priority].toFixed(0)}
-                    </div>
-                  ) : null}
+      {loading ? (
+        <div className="col-md-12 text-center mt-2">
+          <Spinner className="text-primary" />
+        </div>
+      ) : (
+        market?.runners?.map((runner) => {
+          return (
+            <div key={runner?.name}>
+              <div className="bet-table-mobile-row d-none-desktop">
+                <div className="bet-table-mobile-team-name">
+                  <span>{runner?.name || ''}</span>
                 </div>
               </div>
 
-              {runnerOdds[runner?.priority]?.back
-                ?.map((odd, i) => (
+              <div
+                className={`bet-table-row ${
+                  runner?.status === 'SUSPENDED' ? 'suspendedtext' : ''
+                }`}
+                data-title={runner?.status}
+              >
+                <div className="nation-name d-none-mobile">
+                  <div className="w-100 d-flex justify-content-between align-items-center">
+                    <div>
+                      <span>{runner?.name || ''}</span>
+                      <span className="float-right" />
+                      <div
+                        className={`pt-1 small ${
+                          runner.pl > 0
+                            ? 'text-success'
+                            : runner.pl < 0
+                            ? 'text-danger'
+                            : 'text-light'
+                        }`}
+                      >
+                        {runner.pl ? runner.pl.toFixed(0) : ''}
+                      </div>
+                    </div>
+
+                    {market?.plForecast[runner?.priority] !== 0 ? (
+                      <div
+                        className={`small ${
+                          market?.plForecast[runner?.priority] > 0
+                            ? 'text-success'
+                            : 'text-danger'
+                        }`}
+                      >
+                        {market?.plForecast[runner?.priority].toFixed(0)}
+                      </div>
+                    ) : null}
+                  </div>
+                </div>
+
+                {runnerOdds[runner?.priority]?.back
+                  ?.map((odd, i) => (
+                    <button
+                      type="button"
+                      className={`bl-box back back${odd?.level || i}`}
+                      key={`back-${odd?.level || i}`}
+                      onClick={() => handleOddClick(runner, odd, betTypes.BACK)}
+                    >
+                      {odd?.price && odd.price !== 0 ? (
+                        <>
+                          <span className="d-block odds">
+                            {odd?.price
+                              ? parseFloat(odd.price.toFixed(2))
+                              : '-'}
+                          </span>
+                          <span className="d-block">
+                            {odd?.size ? shortNumber(odd.size, 2) : 0}
+                          </span>
+                        </>
+                      ) : (
+                        <span>-</span>
+                      )}
+                    </button>
+                  ))
+                  .reverse()}
+
+                {runnerOdds[runner?.priority]?.lay?.map((odd, i) => (
                   <button
                     type="button"
-                    className={`bl-box back back${odd?.level || i}`}
-                    key={`back-${odd?.level || i}`}
-                    onClick={() => handleOddClick(runner, odd, betTypes.BACK)}
+                    className={`bl-box lay lay${odd?.level || i}`}
+                    key={`lay-${odd?.level || i}`}
+                    onClick={() => handleOddClick(runner, odd, betTypes.LAY)}
                   >
                     {odd?.price && odd.price !== 0 ? (
                       <>
@@ -199,34 +226,12 @@ function BookMaker({ market }) {
                       <span>-</span>
                     )}
                   </button>
-                ))
-                .reverse()}
-
-              {runnerOdds[runner?.priority]?.lay?.map((odd, i) => (
-                <button
-                  type="button"
-                  className={`bl-box lay lay${odd?.level || i}`}
-                  key={`lay-${odd?.level || i}`}
-                  onClick={() => handleOddClick(runner, odd, betTypes.LAY)}
-                >
-                  {odd?.price && odd.price !== 0 ? (
-                    <>
-                      <span className="d-block odds">
-                        {odd?.price ? parseFloat(odd.price.toFixed(2)) : '-'}
-                      </span>
-                      <span className="d-block">
-                        {odd?.size ? shortNumber(odd.size, 2) : 0}
-                      </span>
-                    </>
-                  ) : (
-                    <span>-</span>
-                  )}
-                </button>
-              ))}
+                ))}
+              </div>
             </div>
-          </div>
-        );
-      })}
+          );
+        })
+      )}
     </div>
   );
 }

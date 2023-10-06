@@ -20,11 +20,9 @@ function Fancy({ market }) {
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    setLoading(!fancyRunners?.length);
-
+    setLoading(true);
     const handleFancyData = (data) => {
       if (Object.keys(data).length > 0) {
-        setLoading(false);
         const teamData = data?.map((item) => {
           const currentItem = item;
           currentItem.runnerId = item?.runnerId;
@@ -48,7 +46,6 @@ function Fancy({ market }) {
     socket.on(`market:data:${market.apiEventId}`, handleFancyData);
     socket.connect();
     return () => {
-      socket.off('connect');
       socket.off(`market:data:${market.apiEventId}`);
       socket.disconnect();
     };
@@ -105,6 +102,7 @@ function Fancy({ market }) {
           </div>
         </div>
       </div>
+
       <div className="row row5">
         {loading ? (
           <div className="col-md-12 text-center mt-2">
