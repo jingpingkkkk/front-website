@@ -8,26 +8,16 @@ import {
   AccordionItem,
   UncontrolledAccordion,
 } from 'reactstrap';
-import { io } from 'socket.io-client';
 import { postRequest } from '../../../../api';
 import LoadingOverlay from '../../../../components/common/loading-overlay';
 import { resetEventBet } from '../../../../redux/reducers/event-bet';
 import {
   resetEventMarket,
   setEvent,
-  setMarketRunnerPl,
   setMarkets,
 } from '../../../../redux/reducers/event-market';
-import { addEventMarketBets } from '../../../../redux/reducers/user-bets';
 import Market from '../market';
 import '../matches.css';
-
-const socketUrl = import.meta.env.VITE_SOCKET_URL;
-const marketUrl = `${socketUrl}/user-bet`;
-const socket = io(marketUrl, {
-  auth: { token: localStorage.getItem('userToken') },
-  autoConnect: false,
-});
 
 function MatchPageContent() {
   const navigate = useNavigate();
@@ -36,7 +26,6 @@ function MatchPageContent() {
 
   const dispatch = useDispatch();
   const eventMarket = useSelector((state) => state.eventMarket);
-  const { user } = useSelector((state) => state.userDetails);
 
   const [loading, setLoading] = useState(false);
   // const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
@@ -102,25 +91,6 @@ function MatchPageContent() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [eventId]);
 
-  useEffect(() => {
-    const handleBetPlData = ({ marketBets, marketPls }) => {
-      dispatch(addEventMarketBets({ eventId, marketBets }));
-      marketPls.forEach((pls) => {
-        dispatch(setMarketRunnerPl(pls));
-      });
-    };
-    console.log('here');
-    socket.emit('event:bet', { eventId }, handleBetPlData);
-    socket.on(`event:bet:${user._id}`, handleBetPlData);
-
-    socket.connect();
-    return () => {
-      socket.disconnect();
-      socket.off(`event:bet:${user._id}`);
-    };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [eventMarket.eventId]);
-
   return loading ? (
     <LoadingOverlay />
   ) : (
@@ -158,7 +128,7 @@ function MatchPageContent() {
               </AccordionHeader>
 
               <AccordionBody accordionId={market?._id}>
-                <Market market={market} />
+                <Market market={market} eventId={eventId} />
               </AccordionBody>
             </AccordionItem>
           ))}
