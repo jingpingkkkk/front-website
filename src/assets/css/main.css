@@ -1580,6 +1580,13 @@ input[type='date']::-webkit-calendar-picker-indicator:hover {
   font-style: normal;
   font-weight: 400;
 }
+.custom-buttton:disabled {
+  border-radius: 6px;
+  background: var(--login-btn-color);
+  padding: 10px;
+  color: var(--white-text) !important;
+  opacity: 0.5;
+}
 /* Responsive Css */
 
 @media only screen and (max-width: 1199px) and (min-width: 992px) {

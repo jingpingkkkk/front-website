@@ -1,50 +1,69 @@
 /* eslint-disable new-cap */
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable jsx-a11y/anchor-is-valid */
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import 'jspdf-autotable';
 import DataTable from 'react-data-table-component';
 import { Label } from 'reactstrap';
+import moment from 'moment';
+import jsPDF from 'jspdf';
 import LoadingOverlay from '../../../../components/common/loading-overlay';
+import { postRequest } from '../../../../api';
+import ExportToExcel from '../../../../helper/export-excel';
 
 function NotificationPageContent() {
-  const [loading] = useState(false);
-  const [currentPage, setCurrentPage] = useState(1);
-  const [rowsPerPage, setRowsPerPage] = useState(10);
-  const [date, setDate] = useState('');
-  const totalPages = 10;
-  console.log(currentPage);
-  const data = [];
+  const [loading, setLoading] = useState(false);
+  const [startDate, setStartDate] = useState('');
+  const [endDate, setEndDate] = useState('');
+  const [data, setData] = useState([]);
   const columns = [
     {
       name: 'S.No',
+      selector: (row, index) => index + 1,
     },
     {
       name: 'Settle Time',
+      selector: (row) =>
+        row.matchDateTime ? moment(row.matchDateTime).format('DD-MM-YYYY') : '',
     },
     {
       name: 'Event Name',
+      selector: (row) => row.name,
     },
     {
       name: 'P/L',
+      selector: (row) => row.pl,
     },
     {
       name: 'Show Details',
     },
   ];
 
-  const handlePageChange = (page) => {
-    setCurrentPage(page);
-  };
-  const handleRowsPerPageChange = (newPerPage) => {
-    setRowsPerPage(newPerPage);
-    setCurrentPage(1);
-  };
   const onExportData = () => {
-    console.log('Export Excel');
+    const exportData = data.map((item, i) => ({
+      'Sr No': i + 1,
+      'Settle Time': item.matchDateTime
+        ? moment(item.matchDateTime).format('DD-MM-YYYY')
+        : '',
+      'Event Name': item.name,
+      'P/L': item.pl,
+    }));
+    ExportToExcel(exportData, 'notification');
   };
   const exportToPDF = () => {
-    console.log('Export PDF');
+    const doc = new jsPDF();
+    doc.autoTable({
+      head: [['Sr No', 'Settle Time', 'Event Name', 'P/L']],
+      body: data.map((item, index) => [
+        index + 1,
+        item.matchDateTime
+          ? moment(item.matchDateTime).format('DD-MM-YYYY')
+          : '',
+        item.name,
+        item.pl,
+      ]),
+    });
+    doc.save(`notification.pdf`);
   };
 
   const customStyles = {
@@ -78,6 +97,23 @@ function NotificationPageContent() {
       },
     },
   };
+  const getNotificationDetail = async () => {
+    setLoading(true);
+    const body = {
+      startDate,
+      endDate,
+    };
+    const result = await postRequest('event/completedEventList', body);
+    if (result?.success) {
+      setData(result?.data?.details || []);
+    }
+    setLoading(false);
+  };
+
+  useEffect(() => {
+    getNotificationDetail();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return loading ? (
     <LoadingOverlay />
@@ -87,25 +123,41 @@ function NotificationPageContent() {
         <div className="report-title">
           <div className="report-name">Notification</div>
         </div>
-        <div className="report-page-count">
-          <div className="bet-types-container">
-            <div className="custom-control custom-radio custom-control-inline align-items-center">
-              <Label for="soda-all" className="me-2 mb-0">
-                Date:
-              </Label>
-              <input
-                type="date"
-                id="soda-all"
-                name="betType"
-                value={date}
-                className="form-control"
-                onChange={(e) => setDate(e.target.value)}
-              />
-              <button type="button" className="btn custom-buttton py-1 ms-2">
-                Apply
-              </button>
-            </div>
+        <div className="report-form">
+          <div className="form-group">
+            <Label>From</Label>
+            <input
+              type="date"
+              className="form-control"
+              value={startDate}
+              onChange={(e) => {
+                setStartDate(e.target.value);
+              }}
+            />
           </div>
+          <div className="form-group">
+            <Label>To</Label>
+            <input
+              type="date"
+              className="form-control"
+              value={endDate}
+              onChange={(e) => {
+                setEndDate(e.target.value);
+              }}
+            />
+          </div>
+          <div className="form-group">
+            <button
+              type="button"
+              className="btn custom-buttton py-1"
+              disabled={!startDate || !endDate}
+              onClick={() => getNotificationDetail()}
+            >
+              Apply
+            </button>
+          </div>
+        </div>
+        <div className="report-page-count justify-content-end">
           <div className="file-icons">
             <div>
               <button
@@ -134,12 +186,6 @@ function NotificationPageContent() {
                 columns={columns}
                 data={data}
                 progressPending={loading}
-                pagination
-                paginationServer
-                paginationTotalRows={totalPages}
-                onChangePage={(page) => handlePageChange(page)}
-                onChangeRowsPerPage={(value) => handleRowsPerPageChange(value)}
-                paginationPerPage={rowsPerPage}
                 customStyles={customStyles}
               />
             ) : (
