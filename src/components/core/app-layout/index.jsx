@@ -42,7 +42,7 @@ function AppLayout({ sidebarLeft, sidebarRight, pageContent }) {
             </Col>
           ) : null}
         </Row>
-        <Footer />
+        <Footer sidebarLeft={sidebarLeft} sidebarRight={sidebarRight} />
       </Container>
       {isMobile || isTablet ? <Bottomnav /> : ''}
     </>

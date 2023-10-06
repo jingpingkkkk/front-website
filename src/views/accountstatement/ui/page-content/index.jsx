@@ -1,3 +1,5 @@
+/* eslint-disable prefer-template */
+/* eslint-disable react/no-unstable-nested-components */
 /* eslint-disable new-cap */
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable jsx-a11y/anchor-is-valid */
@@ -8,62 +10,86 @@ import { Label } from 'reactstrap';
 import moment from 'moment';
 import jsPDF from 'jspdf';
 import LoadingOverlay from '../../../../components/common/loading-overlay';
+import accountType from './data';
 import { postRequest } from '../../../../api';
 import ExportToExcel from '../../../../helper/export-excel';
 
-function NotificationPageContent() {
+function AccountStatementPageContent() {
   const [loading, setLoading] = useState(false);
-  const [startDate, setStartDate] = useState('');
-  const [endDate, setEndDate] = useState('');
+  const [totalRows, setTotalRows] = useState(0);
+  const [perPage, setPerPage] = useState(10);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [fromDate, setFromDate] = useState('');
+  const [toDate, setToDate] = useState('');
+  const [searchText, setSearchText] = useState('');
   const [data, setData] = useState([]);
+  const [type, setType] = useState(accountType[0]);
   const columns = [
     {
-      name: 'S.No',
-      selector: (row, index) => index + 1,
-    },
-    {
-      name: 'Settle Time',
+      name: 'Date',
       selector: (row) =>
-        row.matchDateTime ? moment(row.matchDateTime).format('DD-MM-YYYY') : '',
+        row.createdAt ? moment(row.createdAt).format('DD-MM-YYYY') : '',
     },
     {
-      name: 'Event Name',
-      selector: (row) => row.name,
+      name: 'Sr no',
+      selector: (row, index) => (currentPage - 1) * perPage + (index + 1),
     },
     {
-      name: 'P/L',
-      selector: (row) => row.pl,
+      name: 'Credit',
+      selector: (row) => row.points,
+      cell: (row) => (
+        <div style={{ color: 'green' }}>
+          {row.type === 'credit' ? row.points : ''}
+        </div>
+      ),
     },
     {
-      name: 'Show Details',
+      name: 'Debit',
+      selector: (row) => row.points,
+      cell: (row) => (
+        <div style={{ color: 'red' }}>
+          {row.type === 'debit' ? '-' + row.points : ''}
+        </div>
+      ),
+    },
+    {
+      name: 'Remark',
+      selector: (row) => row.remark,
     },
   ];
 
+  const handlePageChange = (page) => {
+    setCurrentPage(page);
+  };
+
+  const handlePerRowsChange = async (newPerPage) => {
+    setLoading(true);
+    setPerPage(newPerPage);
+    setLoading(false);
+  };
   const onExportData = () => {
     const exportData = data.map((item, i) => ({
+      Date: item.createdAt ? moment(item.createdAt).format('DD-MM-YYYY') : '',
       'Sr No': i + 1,
-      'Settle Time': item.matchDateTime
-        ? moment(item.matchDateTime).format('DD-MM-YYYY')
-        : '',
-      'Event Name': item.name,
-      'P/L': item.pl,
+      Credit: item.type === 'credit' ? item.points : '',
+      Debit: item.type === 'debit' ? '-' + item.points : '',
+      Remark: item.remark,
     }));
-    ExportToExcel(exportData, 'notification');
+    ExportToExcel(exportData, 'accountStatement');
   };
   const exportToPDF = () => {
     const doc = new jsPDF();
     doc.autoTable({
-      head: [['Sr No', 'Settle Time', 'Event Name', 'P/L']],
+      head: [['Date', 'Sr No', 'Credit', 'Debit', 'Remark']],
       body: data.map((item, index) => [
+        item.createdAt ? moment(item.createdAt).format('DD-MM-YYYY') : '',
         index + 1,
-        item.matchDateTime
-          ? moment(item.matchDateTime).format('DD-MM-YYYY')
-          : '',
-        item.name,
-        item.pl,
+        item.type === 'credit' ? item.points : '',
+        item.type === 'debit' ? '-' + item.points : '',
+        item.remark,
       ]),
     });
-    doc.save(`notification.pdf`);
+    doc.save(`accountStatement.pdf`);
   };
 
   const customStyles = {
@@ -97,15 +123,24 @@ function NotificationPageContent() {
       },
     },
   };
+
   const getNotificationDetail = async () => {
     setLoading(true);
     const body = {
-      startDate,
-      endDate,
+      page: currentPage,
+      perPage,
+      fromDate,
+      toDate,
+      type,
+      searchQuery: searchText,
     };
-    const result = await postRequest('event/completedEventList', body);
+    const result = await postRequest(
+      'transactionActivity/getAllTransactionActivity',
+      body,
+    );
     if (result?.success) {
       setData(result?.data?.details || []);
+      setTotalRows(result?.data?.totalRecords || 0);
     }
     setLoading(false);
   };
@@ -113,15 +148,33 @@ function NotificationPageContent() {
   useEffect(() => {
     getNotificationDetail();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [searchText, currentPage, perPage]);
 
   return loading ? (
     <LoadingOverlay />
   ) : (
-    <div className="comman-bg mb-0">
+    <div className="comman-bg">
       <div className="report-box">
-        <div className="report-title">
-          <div className="report-name">Notification</div>
+        <div className="report-title mb-2">
+          <div className="report-name">Account Statement</div>
+          <div className="report-search search-box">
+            <div className="form-group mb-0">
+              <input
+                type="text"
+                placeholder="Search"
+                className="form-control"
+                value={searchText}
+                onChange={(e) => {
+                  setSearchText(e.target.value);
+                }}
+              />
+              <img
+                src="./images/search.png"
+                className="search-icon"
+                alt="search"
+              />
+            </div>
+          </div>
         </div>
         <div className="report-form">
           <div className="form-group">
@@ -129,9 +182,9 @@ function NotificationPageContent() {
             <input
               type="date"
               className="form-control"
-              value={startDate}
+              value={fromDate}
               onChange={(e) => {
-                setStartDate(e.target.value);
+                setFromDate(e.target.value);
               }}
             />
           </div>
@@ -140,20 +193,31 @@ function NotificationPageContent() {
             <input
               type="date"
               className="form-control"
-              value={endDate}
+              value={toDate}
               onChange={(e) => {
-                setEndDate(e.target.value);
+                setToDate(e.target.value);
               }}
             />
           </div>
           <div className="form-group">
-            <button
-              type="button"
-              className="btn custom-buttton py-1"
-              disabled={!startDate || !endDate}
-              onClick={() => getNotificationDetail()}
+            <Label>Type</Label>
+            <select
+              className="form-select"
+              value={type}
+              onChange={(e) => setType(e.target.value)}
             >
-              Apply
+              {accountType?.length
+                ? accountType?.map((actype) => (
+                    <option value={actype} key={actype}>
+                      {actype}
+                    </option>
+                  ))
+                : ''}
+            </select>
+          </div>
+          <div className="form-group">
+            <button type="button" className="btn custom-buttton py-1">
+              Submit
             </button>
           </div>
         </div>
@@ -188,6 +252,12 @@ function NotificationPageContent() {
                 columns={columns}
                 data={data}
                 progressPending={loading}
+                pagination
+                highlightOnHover
+                paginationServer
+                paginationTotalRows={totalRows}
+                onChangeRowsPerPage={handlePerRowsChange}
+                onChangePage={handlePageChange}
                 customStyles={customStyles}
               />
             ) : (
@@ -235,4 +305,4 @@ function NotificationPageContent() {
   );
 }
 
-export default NotificationPageContent;
+export default AccountStatementPageContent;

@@ -80,9 +80,9 @@ function Fancy({ market }) {
               (fancy) => fancy?.runnerId === teamObj.runnerId,
             );
             teamObj.back.class =
-              teamOdds.BackPrice1 > fancyPrevOdds.back.price
+              teamOdds.BackPrice1 > fancyPrevOdds?.back?.price
                 ? 'odds-up'
-                : teamOdds.BackPrice1 < fancyPrevOdds.back.price
+                : teamOdds.BackPrice1 < fancyPrevOdds?.back?.price
                 ? 'odds-down'
                 : '';
             teamObj.lay.class =
