@@ -10,6 +10,7 @@ export const eventMarketSlice = createSlice({
      *    name: String,
      *    competitionName: String,
      *    startsOn: DateTime,
+     *    videoStreamId: String | null,
      * }
      */
     event: {},

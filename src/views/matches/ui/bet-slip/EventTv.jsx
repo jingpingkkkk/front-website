@@ -1,12 +1,17 @@
 import React, { useEffect } from 'react';
+import { useSelector } from 'react-redux';
 import UnrealWebRTCPlayer from '../../../../helper/unreal-webrtc-player';
 
-function EventTv({ togglePlayback, liveVideoId, enableLiveVideo }) {
+function EventTv({ togglePlayback }) {
+  const { videoStreamId = null } = useSelector(
+    (state) => state.eventMarket.event,
+  );
+
   useEffect(() => {
-    if (!enableLiveVideo) return () => {};
+    if (!videoStreamId) return () => {};
     const webRtcPlayer = new UnrealWebRTCPlayer(
-      `remoteVideo${liveVideoId}`,
-      `cricket${liveVideoId}`,
+      `remoteVideo${videoStreamId}`,
+      `cricket${videoStreamId}`,
       '',
       '93.115.26.41',
       '5119',
@@ -18,14 +23,14 @@ function EventTv({ togglePlayback, liveVideoId, enableLiveVideo }) {
     return () => {
       webRtcPlayer.Stop();
     };
-  }, [togglePlayback, enableLiveVideo, liveVideoId]);
+  }, [togglePlayback, videoStreamId]);
 
   return (
     <div>
-      {enableLiveVideo ? (
+      {videoStreamId ? (
         <video
           style={{ backgroundColor: 'white' }}
-          id={`remoteVideo${liveVideoId}`}
+          id={`remoteVideo${videoStreamId}`}
           width="100%"
           height="auto"
           controls

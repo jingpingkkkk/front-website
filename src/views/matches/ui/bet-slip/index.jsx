@@ -11,7 +11,7 @@ import BetPanel from './BetPanel';
 import EventTv from './EventTv';
 import MyBets from './MyBets';
 
-function BatSlip({ enableLiveVideo = true, liveVideoId = '1' }) {
+function BatSlip() {
   const eventBet = useSelector((state) => state.eventBet);
 
   const [openIds, setOpenIds] = useState(['1', '2', '3']);
@@ -37,11 +37,7 @@ function BatSlip({ enableLiveVideo = true, liveVideoId = '1' }) {
             TV
           </AccordionHeader>
           <AccordionBody accordionId="1">
-            <EventTv
-              togglePlayback={togglePlayback}
-              enableLiveVideo={enableLiveVideo}
-              liveVideoId={liveVideoId}
-            />
+            <EventTv togglePlayback={togglePlayback} />
           </AccordionBody>
         </AccordionItem>
 

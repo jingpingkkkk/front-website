@@ -30,8 +30,8 @@ function MatchPageContent() {
   const [loading, setLoading] = useState(false);
   // const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
 
-  const fetchEventMarkets = async () => {
-    setLoading(true);
+  const fetchEventMarkets = async (updateLoader = true) => {
+    if (updateLoader) setLoading(true);
     const result = await postRequest('event/getEventMatchDataFront', {
       eventId,
     });
@@ -44,6 +44,7 @@ function MatchPageContent() {
           name: event?.name,
           competitionName: event?.competitionName,
           startsOn: event.matchDate,
+          videoStreamId: event?.videoStreamId || null,
         }),
       );
 
@@ -83,8 +84,12 @@ function MatchPageContent() {
     if (!eventId) {
       navigate('/sports');
     }
+    const interval = setInterval(async () => {
+      await fetchEventMarkets(false);
+    }, 1000 * 10);
     fetchEventMarkets();
     return () => {
+      clearInterval(interval);
       dispatch(resetEventBet());
       dispatch(resetEventMarket());
     };
