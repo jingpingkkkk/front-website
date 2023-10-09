@@ -20,6 +20,7 @@ const emptyOdds = {
       { price: 0, level: 1 },
       { price: 0, level: 2 },
     ],
+    status: '',
   },
   1: {
     back: [
@@ -32,6 +33,7 @@ const emptyOdds = {
       { price: 0, level: 1 },
       { price: 0, level: 2 },
     ],
+    status: '',
   },
 };
 
@@ -86,6 +88,8 @@ function BookMaker({ market }) {
         teamOneData.lay.push(teamOne.lay[i] || {});
         teamTwoData.back.push(teamTwo.back[i] || {});
         teamTwoData.lay.push(teamTwo.lay[i] || {});
+        teamOneData.status = teamOne?.status || '';
+        teamTwoData.status = teamTwo?.status || '';
       }
       previousValue.current = {
         0: teamOneData,
@@ -173,9 +177,15 @@ function BookMaker({ market }) {
 
               <div
                 className={`bet-table-row ${
-                  runner?.status === 'SUSPENDED' ? 'suspendedtext' : ''
+                  runnerOdds[runner?.priority]?.status === 'SUSPENDED'
+                    ? 'suspendedtext'
+                    : ''
+                } ${
+                  runnerOdds[runner?.priority]?.status === 'Ball Running'
+                    ? 'suspendedtext'
+                    : ''
                 }`}
-                data-title={runner?.status}
+                data-title={runnerOdds[runner?.priority]?.status}
               >
                 <div className="nation-name d-none-mobile">
                   <div className="w-100 d-flex justify-content-between align-items-center">

@@ -20,6 +20,7 @@ const emptyOdds = {
       { price: 0, level: 1 },
       { price: 0, level: 2 },
     ],
+    status: '',
   },
   1: {
     back: [
@@ -32,6 +33,7 @@ const emptyOdds = {
       { price: 0, level: 1 },
       { price: 0, level: 2 },
     ],
+    status: '',
   },
   2: {
     back: [
@@ -44,6 +46,7 @@ const emptyOdds = {
       { price: 0, level: 1 },
       { price: 0, level: 2 },
     ],
+    status: '',
   },
 };
 
@@ -116,6 +119,9 @@ function MatchOdds({ market }) {
         teamTwoData.lay.push(teamTwo.lay[i] || {});
         teamThreeData.back.push(teamThree?.back[i] || {});
         teamThreeData.lay.push(teamThree?.lay[i] || {});
+        teamOneData.status = teamOne?.status || '';
+        teamTwoData.status = teamTwo?.status || '';
+        teamThreeData.status = teamThree?.status || '';
       }
       previousValue.current = {
         0: teamOneData,
@@ -205,7 +211,18 @@ function MatchOdds({ market }) {
                 </div>
               </div>
 
-              <div className="bet-table-row">
+              <div
+                className={`bet-table-row ${
+                  runnerOdds[runner?.priority]?.status === 'SUSPENDED'
+                    ? 'suspendedtext'
+                    : ''
+                } ${
+                  runnerOdds[runner?.priority]?.status === 'Ball Running'
+                    ? 'suspendedtext'
+                    : ''
+                }`}
+                data-title={runnerOdds[runner?.priority]?.status || ''}
+              >
                 <div className="nation-name d-none-mobile">
                   <div className="w-100 d-flex justify-content-between align-items-center">
                     <div>
