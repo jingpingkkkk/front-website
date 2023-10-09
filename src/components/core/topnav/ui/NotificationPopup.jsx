@@ -3,8 +3,8 @@ import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Modal, ModalBody, Spinner, Table } from 'reactstrap';
 import { useSelector } from 'react-redux';
+import Confetti from 'react-confetti';
 import { postRequest } from '../../../../api';
-import ConfettiAnimation from '../../../common/ConfettiAnimation';
 
 function NotificationPopup({ isOpen, closeModal, eventId, eventName }) {
   const userDetails = useSelector((state) => state.userDetails);
@@ -130,7 +130,16 @@ function NotificationPopup({ isOpen, closeModal, eventId, eventName }) {
           </div>
         </ModalBody>
       </Modal>
-      {countWinLoss() > 0 ? <ConfettiAnimation /> : ''}
+      {countWinLoss() > 0 ? (
+        <Confetti
+          width={window.innerWidth}
+          height={window.innerHeight}
+          recycle={false}
+          numberOfPieces={500}
+        />
+      ) : (
+        ''
+      )}
     </div>
   );
 }
