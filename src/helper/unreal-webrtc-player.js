@@ -129,7 +129,7 @@ function UnrealWebRTCPlayer(
     // if (showControls) remoteVideo.controls = true;
     setTimeout(() => {
       remoteVideo.controls = true;
-    }, 2000);
+    }, 3000);
   }
 
   function onConnStateChange(event) {
