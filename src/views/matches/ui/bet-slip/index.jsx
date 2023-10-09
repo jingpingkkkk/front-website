@@ -11,10 +11,11 @@ import BetPanel from './BetPanel';
 import EventTv from './EventTv';
 import MyBets from './MyBets';
 
-function BatSlip() {
+function BatSlip({ enableLiveVideo = true, liveVideoId = '1' }) {
   const eventBet = useSelector((state) => state.eventBet);
 
   const [openIds, setOpenIds] = useState(['1', '2', '3']);
+  const [togglePlayback, setTogglePlayback] = useState(false);
 
   useEffect(() => {
     if (eventBet.market?._id) {
@@ -28,11 +29,19 @@ function BatSlip() {
     <div className="col-md-12 col-sm-12 col-12 last-sidebar comman-bg right-sidebar casino-right-sidebar d-none d-lg-block">
       <UncontrolledAccordion stayOpen defaultOpen={openIds}>
         <AccordionItem>
-          <AccordionHeader targetId="1" className="bet-table-header">
+          <AccordionHeader
+            targetId="1"
+            className="bet-table-header"
+            onClick={() => setTogglePlayback(!togglePlayback)}
+          >
             TV
           </AccordionHeader>
           <AccordionBody accordionId="1">
-            <EventTv />
+            <EventTv
+              togglePlayback={togglePlayback}
+              enableLiveVideo={enableLiveVideo}
+              liveVideoId={liveVideoId}
+            />
           </AccordionBody>
         </AccordionItem>
 
