@@ -14,6 +14,7 @@ const Matches = React.lazy(() => import('./views/matches'));
 const CurrentBets = React.lazy(() => import('./views/currentbets'));
 const Notification = React.lazy(() => import('./views/notification'));
 const AccountStatement = React.lazy(() => import('./views/accountstatement'));
+const ChangePassword = React.lazy(() => import('./views/changepassword'));
 
 function App() {
   useEffect(() => {
@@ -49,6 +50,7 @@ function App() {
           <Route path="/currentbets" element={<CurrentBets />} />
           <Route path="/notifications" element={<Notification />} />
           <Route path="/accountstatement" element={<AccountStatement />} />
+          <Route path="/changepassword" element={<ChangePassword />} />
         </Routes>
       </Suspense>
     </Router>

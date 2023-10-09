@@ -1542,6 +1542,10 @@ nav#sidebar li.all-sports.text-deco a {
   background-color: var(--login-btn-color) !important;
   color: var(--white-text) !important;
 }
+.custom-buttton:focus-visible {
+  background: var(--login-btn-color);
+  color: var(--white-text) !important;
+}
 .search-box .form-group {
   position: relative;
   margin-right: 0;
@@ -2201,4 +2205,9 @@ input[type='date']::-webkit-calendar-picker-indicator:hover {
 .sports-image {
   width: 24px;
   height: 20px;
+}
+.password-box {
+  background-color: var(--background-color);
+  padding: 16px;
+  min-height: calc(70vh - 60px);
 }
