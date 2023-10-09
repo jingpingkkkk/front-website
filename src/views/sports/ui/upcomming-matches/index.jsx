@@ -18,7 +18,7 @@ function UpcommingMatches() {
   const [selectedSport, setSelectedSport] = useState({});
 
   const fetchSportDetails = async (skipLoading = false) => {
-    if (!selectedSport._id) {
+    if (!selectedSport?._id) {
       return;
     }
     setSportName(selectedSport?.name);
