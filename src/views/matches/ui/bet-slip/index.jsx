@@ -13,6 +13,10 @@ import MyBets from './MyBets';
 
 function BatSlip() {
   const eventBet = useSelector((state) => state.eventBet);
+  const { user } = useSelector((state) => state.userDetails);
+  const { videoStreamId = null } = useSelector(
+    (state) => state.eventMarket.event,
+  );
 
   const [openIds, setOpenIds] = useState(['1', '2', '3']);
   const [togglePlayback, setTogglePlayback] = useState(false);
@@ -28,18 +32,23 @@ function BatSlip() {
   return (
     <div className="col-md-12 col-sm-12 col-12 last-sidebar comman-bg right-sidebar casino-right-sidebar d-none d-lg-block">
       <UncontrolledAccordion stayOpen defaultOpen={openIds}>
-        <AccordionItem>
-          <AccordionHeader
-            targetId="1"
-            className="bet-table-header"
-            onClick={() => setTogglePlayback(!togglePlayback)}
-          >
-            TV
-          </AccordionHeader>
-          <AccordionBody accordionId="1">
-            <EventTv togglePlayback={togglePlayback} />
-          </AccordionBody>
-        </AccordionItem>
+        {user.balance >= 500 && videoStreamId ? (
+          <AccordionItem>
+            <AccordionHeader
+              targetId="1"
+              className="bet-table-header"
+              onClick={() => setTogglePlayback(!togglePlayback)}
+            >
+              TV
+            </AccordionHeader>
+            <AccordionBody accordionId="1">
+              <EventTv
+                togglePlayback={togglePlayback}
+                videoStreamId={videoStreamId}
+              />
+            </AccordionBody>
+          </AccordionItem>
+        ) : null}
 
         {eventBet.market?._id ? (
           <AccordionItem>
