@@ -109,6 +109,7 @@ const UserInfo = ({ user }) => {
             <DropdownItem onClick={() => setShowStakeButton(true)}>
               Set Button Value
             </DropdownItem>
+            <DropdownItem href="/changepassword">Change Password</DropdownItem>
             <DropdownItem divider />
             <DropdownItem onClick={() => logout()}>Logout</DropdownItem>
           </DropdownMenu>
