@@ -7,6 +7,7 @@ import { Spinner } from 'reactstrap';
 import { postRequest } from '../../../../api';
 import EventList from '../events';
 import SportsTabs from '../sports-tabs';
+import GreyhoundRacing from '../greyhound-racing';
 
 function UpcommingMatches() {
   const availableSports = useSelector((state) => state.sportsList?.sports);
@@ -76,7 +77,11 @@ function UpcommingMatches() {
       {loading ? (
         ''
       ) : !eventLoading ? (
-        <EventList events={sportEvents} sportName={sportName} />
+        sportName === 'Greyhound Racing' ? (
+          <GreyhoundRacing events={sportEvents} sportName={sportName} />
+        ) : (
+          <EventList events={sportEvents} sportName={sportName} />
+        )
       ) : (
         <div className="col-md-12 text-center mt-2">
           <Spinner className="text-primary" />

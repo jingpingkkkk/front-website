@@ -1594,6 +1594,20 @@ input[type='date']::-webkit-calendar-picker-indicator:hover {
 .file-icon:disabled {
   opacity: 0.5;
 }
+.horse-tab {
+  padding-top: 10px;
+}
+.horse-tab .nav {
+  border-bottom: 1px solid var(--primary-color);
+  overflow: auto;
+  flex-wrap: nowrap;
+  white-space: nowrap;
+}
+.horse-tab.race65 .nav-pills .nav-link.active {
+  background-color: var(--primary-color) !important;
+  padding: 2px 16px !important;
+  border-radius: 0;
+}
 /* Responsive Css */
 
 @media only screen and (max-width: 1199px) and (min-width: 992px) {
