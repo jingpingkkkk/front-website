@@ -30,6 +30,16 @@ const emptyOdds = {
 const socketUrl = import.meta.env.VITE_SOCKET_URL;
 const marketUrl = `${socketUrl}/market`;
 
+const colors = [
+  '#f00',
+  '#00f',
+  '#075ba6',
+  '#837200',
+  '#c29900',
+  '#72bbef',
+  '#f994ba',
+];
+
 function MatchOdds({ market }) {
   const socket = useMemo(() => io(marketUrl, { autoConnect: false }), []);
 
@@ -88,6 +98,9 @@ function MatchOdds({ market }) {
   };
 
   useLayoutEffect(() => {
+    for (let i = 0; i < market?.runners?.length; i += 1) {
+      emptyOdds[i] = singleOdd;
+    }
     socket.emit(
       'join:market',
       { id: market.apiMarketId, type: 'match_odds' },
@@ -100,7 +113,7 @@ function MatchOdds({ market }) {
       socket.disconnect();
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [market]);
+  }, [market, emptyOdds]);
 
   const handleOddClick = (runner, odd, type) => {
     if (odd.price === 0) return;
@@ -154,12 +167,30 @@ function MatchOdds({ market }) {
           <Spinner className="text-primary" />
         </div>
       ) : (
-        market?.runners?.map((runner) => {
+        market?.runners?.map((runner, index) => {
+          const runnernames = runner?.name.split(/\s*\.\s*/);
+          const number = runnernames[0];
+          const runnername = runnernames[1];
           return (
             <div key={runner?.name}>
               <div className="bet-table-mobile-row d-none-desktop">
                 <div className="bet-table-mobile-team-name">
-                  <span>{runner?.name || ''}</span>
+                  {/* <span>{runner?.name || ''}</span> */}
+                  {market?.sportsName === 'Greyhound Racing' ? (
+                    <div className="d-flex">
+                      <span
+                        className="badge runner-number"
+                        style={{
+                          backgroundColor: colors[index] || colors[0],
+                        }}
+                      >
+                        {number}
+                      </span>
+                      <span className="ms-2">{runnername || ''}</span>
+                    </div>
+                  ) : (
+                    <span>{runner?.name || ''}</span>
+                  )}
                 </div>
               </div>
 
@@ -178,7 +209,21 @@ function MatchOdds({ market }) {
                 <div className="nation-name d-none-mobile">
                   <div className="w-100 d-flex justify-content-between align-items-center">
                     <div>
-                      <span>{runner?.name || ''}</span>
+                      {market?.sportsName === 'Greyhound Racing' ? (
+                        <div className="d-flex">
+                          <span
+                            className="badge runner-number"
+                            style={{
+                              backgroundColor: colors[index] || colors[0],
+                            }}
+                          >
+                            {number}
+                          </span>
+                          <span className="ms-2">{runnername || ''}</span>
+                        </div>
+                      ) : (
+                        <span>{runner?.name || ''}</span>
+                      )}
                       <span className="float-right" />
                       <div
                         className={`pt-1 small ${

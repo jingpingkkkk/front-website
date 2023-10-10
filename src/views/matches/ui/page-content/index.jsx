@@ -23,6 +23,7 @@ function MatchPageContent() {
   const navigate = useNavigate();
   const location = useLocation();
   const { eventId = null } = location.state || {};
+  const { sportName = null } = location.state || {};
 
   const dispatch = useDispatch();
   const eventMarket = useSelector((state) => state.eventMarket);
@@ -32,34 +33,49 @@ function MatchPageContent() {
 
   const fetchEventMarkets = async (updateLoader = true) => {
     if (updateLoader) setLoading(true);
-    const result = await postRequest('event/getEventMatchDataFront', {
+    const urlEndPoint =
+      sportName === 'Greyhound Racing'
+        ? 'getRacingMatchData'
+        : 'getEventMatchDataFront';
+    const body = {
       eventId,
-    });
+    };
+    if (sportName === 'Greyhound Racing') {
+      delete body.eventId;
+      body.marketId = eventId;
+    }
+    const result = await postRequest(`event/${urlEndPoint}`, body);
 
     if (result?.success) {
       const event = result.data.details;
       dispatch(
         setEvent({
           eventId: event._id,
-          name: event?.name,
+          name:
+            sportName === 'Greyhound Racing' ? event?.event.name : event.name, // change key from backend
           competitionName: event?.competitionName,
           startsOn: event.matchDate,
           videoStreamId: event?.videoStreamId || null,
         }),
       );
-
-      const marketData = event.market.map((market) => {
+      const evntmarket =
+        sportName === 'Greyhound Racing' ? [event] : event.market;
+      const marketData = evntmarket.map((market) => {
         return {
           _id: market._id,
           apiMarketId: market.marketId,
           apiEventId: market.apiEventId,
-          name: market.name,
+          name:
+            sportName === 'Greyhound Racing'
+              ? market?.bet_category.name
+              : market?.name, // change key from backend
           eventName: event.name,
           plForecast: [0, 0],
           minStake: market.minStake,
           maxStake: market.maxStake,
           betDelay: market.betDelay,
           isBetLock: market.isBetLock || false,
+          sportsName: event?.sportsName || null,
           runners: market.market_runner.map((runner, index) => {
             return {
               _id: runner._id,

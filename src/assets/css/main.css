@@ -1594,6 +1594,70 @@ input[type='date']::-webkit-calendar-picker-indicator:hover {
 .file-icon:disabled {
   opacity: 0.5;
 }
+.horse-tab {
+  padding-top: 10px;
+}
+.horse-tab .nav {
+  border-bottom: 1px solid var(--primary-color);
+  overflow: auto;
+  flex-wrap: nowrap;
+  white-space: nowrap;
+}
+.horse-tab.race65 .nav-pills .nav-link {
+  padding: 2px 16px !important;
+}
+.horse-tab.race65 .nav-pills .nav-link.active {
+  background-color: var(--primary-color) !important;
+  padding: 2px 16px !important;
+  border-radius: 0;
+  color: var(--white-text);
+}
+.table-section .horse-tab.race65 a.nav-link {
+  padding: 2px 16px !important;
+  border-radius: 0;
+  color: var(--primary-color);
+}
+.horse-table .game-title {
+  width: 250px !important;
+  justify-content: flex-start !important;
+}
+.horse-table .game-name {
+  width: calc(100% - 30px) !important;
+}
+.horse-time-detail {
+  display: flex;
+  flex-wrap: wrap;
+  width: calc(100% - 250px);
+}
+.horse-time-detail a {
+  display: flex;
+  text-decoration: none !important;
+}
+.horse-time-detail span {
+  background: var(--inplay-collapsible-bg);
+  color: var(--black-text);
+  padding: 5px 10px;
+  border-radius: 0;
+  margin-right: 5px;
+  margin-bottom: 5px;
+  cursor: pointer;
+  position: relative;
+}
+.horse-table .bet-table-row {
+  padding: 6px 8px 1px 8px !important;
+}
+.tv-icons {
+  display: flex;
+  align-items: center;
+}
+.tv-icon img {
+  width: 80%;
+  height: 80%;
+}
+.runner-number {
+  background-color: var(--light-text-3);
+  padding: 7px 10px !important;
+}
 /* Responsive Css */
 
 @media only screen and (max-width: 1199px) and (min-width: 992px) {
@@ -1603,6 +1667,9 @@ input[type='date']::-webkit-calendar-picker-indicator:hover {
 }
 
 @media only screen and (max-width: 1200px) {
+  .horse-time-detail {
+    width: 100%;
+  }
   .headder-col-left {
     width: 20%;
   }
