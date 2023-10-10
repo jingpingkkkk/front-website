@@ -45,30 +45,33 @@ function MatchOdds({ market }) {
   const handleMarketData = (data) => {
     if (data) {
       const runners = data.matchOdds.reduce((acc, runner, index) => {
-        const { back, lay } = previousValue?.current?.[index] || {};
         const runnerBack = runner.back.length
           ? runner.back
           : Array(3).fill(singleOdd);
         const runnerLay = runner.lay.length
           ? runner.lay
           : Array(3).fill(singleOdd);
+
+        const { back: previousBack, lay: previousLay } =
+          previousValue?.current?.[index] || {};
+
         acc[index] = {
           ...runner,
           back: runnerBack.map((odd) => ({
             ...odd,
             class:
-              odd.price > back?.[odd.level]?.price
+              odd.price > previousBack?.[odd.level]?.price
                 ? 'odds-up'
-                : odd.price < back?.[odd.level]?.price
+                : odd.price < previousBack?.[odd.level]?.price
                 ? 'odds-down'
                 : '',
           })),
           lay: runnerLay.map((odd) => ({
             ...odd,
             class:
-              odd.price > lay?.[odd.level]?.price
+              odd.price > previousLay?.[odd.level]?.price
                 ? 'odds-up'
-                : odd.price < lay?.[odd.level]?.price
+                : odd.price < previousLay?.[odd.level]?.price
                 ? 'odds-down'
                 : '',
           })),
