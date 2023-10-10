@@ -35,19 +35,6 @@ const emptyOdds = {
     ],
     status: '',
   },
-  2: {
-    back: [
-      { price: 0, level: 0 },
-      { price: 0, level: 1 },
-      { price: 0, level: 2 },
-    ],
-    lay: [
-      { price: 0, level: 0 },
-      { price: 0, level: 1 },
-      { price: 0, level: 2 },
-    ],
-    status: '',
-  },
 };
 
 const socketUrl = import.meta.env.VITE_SOCKET_URL;
