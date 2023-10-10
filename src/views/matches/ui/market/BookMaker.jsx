@@ -1,5 +1,4 @@
 /* eslint-disable no-nested-ternary */
-/* eslint-disable no-plusplus */
 import React, { useLayoutEffect, useMemo, useRef, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { Spinner } from 'reactstrap';
@@ -8,33 +7,23 @@ import shortNumber from '../../../../helper/number';
 import { betTypes, setBetOdds } from '../../../../redux/reducers/event-bet';
 import { setMarketPlForecast } from '../../../../redux/reducers/event-market';
 
+const singleOdd = {
+  back: [
+    { price: 0, level: 0, class: '' },
+    { price: 0, level: 1, class: '' },
+    { price: 0, level: 2, class: '' },
+  ],
+  lay: [
+    { price: 0, level: 0, class: '' },
+    { price: 0, level: 1, class: '' },
+    { price: 0, level: 2, class: '' },
+  ],
+  status: '',
+};
+
 const emptyOdds = {
-  0: {
-    back: [
-      { price: 0, level: 0 },
-      { price: 0, level: 1 },
-      { price: 0, level: 2 },
-    ],
-    lay: [
-      { price: 0, level: 0 },
-      { price: 0, level: 1 },
-      { price: 0, level: 2 },
-    ],
-    status: '',
-  },
-  1: {
-    back: [
-      { price: 0, level: 0 },
-      { price: 0, level: 1 },
-      { price: 0, level: 2 },
-    ],
-    lay: [
-      { price: 0, level: 0 },
-      { price: 0, level: 1 },
-      { price: 0, level: 2 },
-    ],
-    status: '',
-  },
+  0: singleOdd,
+  1: singleOdd,
 };
 
 const socketUrl = import.meta.env.VITE_SOCKET_URL;
@@ -54,24 +43,33 @@ function BookMaker({ market }) {
   const handleBookmakerData = (data) => {
     if (data) {
       const runners = data.matchOdds.reduce((acc, runner, index) => {
-        const { back, lay } = previousValue?.current?.[index] || {};
+        const runnerBack = runner.back.length
+          ? runner.back
+          : Array(3).fill(singleOdd);
+        const runnerLay = runner.lay.length
+          ? runner.lay
+          : Array(3).fill(singleOdd);
+
+        const { back: previousBack, lay: previousLay } =
+          previousValue?.current?.[index] || {};
+
         acc[index] = {
           ...runner,
-          back: runner.back.map((odd) => ({
+          back: runnerBack.map((odd) => ({
             ...odd,
             class:
-              odd.price > back?.[odd.level]?.price
+              odd.price > previousBack?.[odd.level]?.price
                 ? 'odds-up'
-                : odd.price < back?.[odd.level]?.price
+                : odd.price < previousBack?.[odd.level]?.price
                 ? 'odds-down'
                 : '',
           })),
-          lay: runner.lay.map((odd) => ({
+          lay: runnerLay.map((odd) => ({
             ...odd,
             class:
-              odd.price > lay?.[odd.level]?.price
+              odd.price > previousLay?.[odd.level]?.price
                 ? 'odds-up'
-                : odd.price < lay?.[odd.level]?.price
+                : odd.price < previousLay?.[odd.level]?.price
                 ? 'odds-down'
                 : '',
           })),
