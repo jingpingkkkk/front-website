@@ -53,51 +53,36 @@ function BookMaker({ market }) {
 
   const handleBookmakerData = (data) => {
     if (data) {
-      const { matchOdds } = data;
-      const [teamOne, teamTwo] = matchOdds;
-      const teamOneData = { back: [], lay: [] };
-      const teamTwoData = { back: [], lay: [] };
-      const { 0: runner1, 1: runner2 } = previousValue.current;
-      for (let i = 0; i < 3; i++) {
-        teamOne.back[i].class =
-          teamOne.back[i].price > runner1?.back[i]?.price
-            ? 'odds-up'
-            : teamOne.back[i].price < runner1?.back[i]?.price
-            ? 'odds-down'
-            : '';
-        teamTwo.back[i].class =
-          teamTwo.back[i].price > runner2?.back[i]?.price
-            ? 'odds-up'
-            : teamTwo.back[i].price < runner2?.back[i]?.price
-            ? 'odds-down'
-            : '';
-        teamOne.lay[i].class =
-          teamOne.lay[i].price > runner1?.lay[i]?.price
-            ? 'odds-up'
-            : teamOne.lay[i].price < runner1?.lay[i]?.price
-            ? 'odds-down'
-            : '';
-        teamTwo.lay[i].class =
-          teamTwo.lay[i].price > runner2?.lay[i]?.price
-            ? 'odds-up'
-            : teamTwo.lay[i].price < runner2?.lay[i]?.price
-            ? 'odds-down'
-            : '';
+      const runners = data.matchOdds.reduce((acc, runner, index) => {
+        const { back, lay } = previousValue?.current?.[index] || {};
+        acc[index] = {
+          ...runner,
+          back: runner.back.map((odd) => ({
+            ...odd,
+            class:
+              odd.price > back?.[odd.level]?.price
+                ? 'odds-up'
+                : odd.price < back?.[odd.level]?.price
+                ? 'odds-down'
+                : '',
+          })),
+          lay: runner.lay.map((odd) => ({
+            ...odd,
+            class:
+              odd.price > lay?.[odd.level]?.price
+                ? 'odds-up'
+                : odd.price < lay?.[odd.level]?.price
+                ? 'odds-down'
+                : '',
+          })),
+        };
+        return acc;
+      }, {});
 
-        teamOneData.back.push(teamOne.back[i] || {});
-        teamOneData.lay.push(teamOne.lay[i] || {});
-        teamTwoData.back.push(teamTwo.back[i] || {});
-        teamTwoData.lay.push(teamTwo.lay[i] || {});
-        teamOneData.status = teamOne?.status || '';
-        teamTwoData.status = teamTwo?.status || '';
-      }
-      previousValue.current = {
-        0: teamOneData,
-        1: teamTwoData,
-      };
-      setRunnerOdds({ 0: teamOneData, 1: teamTwoData });
-      setMin(data?.min || 0);
-      setMax(data?.max || 0);
+      setMin(data.min);
+      setMax(data.max);
+      setRunnerOdds(runners);
+      previousValue.current = runners;
     }
     setLoading(false);
   };
