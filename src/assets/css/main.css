@@ -1654,6 +1654,10 @@ input[type='date']::-webkit-calendar-picker-indicator:hover {
   width: 80%;
   height: 80%;
 }
+.runner-number {
+  background-color: var(--light-text-3);
+  padding: 7px 10px !important;
+}
 /* Responsive Css */
 
 @media only screen and (max-width: 1199px) and (min-width: 992px) {

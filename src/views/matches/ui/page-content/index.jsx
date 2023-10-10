@@ -35,8 +35,8 @@ function MatchPageContent() {
     if (updateLoader) setLoading(true);
     const urlEndPoint =
       sportName === 'Greyhound Racing'
-        ? 'event/getRacingMatchData'
-        : 'event/getEventMatchDataFront';
+        ? 'getRacingMatchData'
+        : 'getEventMatchDataFront';
     const body = {
       eventId,
     };
@@ -44,14 +44,15 @@ function MatchPageContent() {
       delete body.eventId;
       body.marketId = eventId;
     }
-    const result = await postRequest(urlEndPoint, body);
+    const result = await postRequest(`event/${urlEndPoint}`, body);
 
     if (result?.success) {
       const event = result.data.details;
       dispatch(
         setEvent({
           eventId: event._id,
-          name: event?.name,
+          name:
+            sportName === 'Greyhound Racing' ? event?.event.name : event.name, // change key from backend
           competitionName: event?.competitionName,
           startsOn: event.matchDate,
           videoStreamId: event?.videoStreamId || null,
@@ -67,13 +68,14 @@ function MatchPageContent() {
           name:
             sportName === 'Greyhound Racing'
               ? market?.bet_category.name
-              : market?.name,
+              : market?.name, // change key from backend
           eventName: event.name,
           plForecast: [0, 0],
           minStake: market.minStake,
           maxStake: market.maxStake,
           betDelay: market.betDelay,
           isBetLock: market.isBetLock || false,
+          sportsName: event?.sportsName || null,
           runners: market.market_runner.map((runner, index) => {
             return {
               _id: runner._id,
