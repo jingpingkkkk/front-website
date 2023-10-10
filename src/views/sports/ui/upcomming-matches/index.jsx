@@ -17,6 +17,7 @@ function UpcommingMatches() {
   const [sportEvents, setSportEvents] = useState([]);
   const [sportName, setSportName] = useState(null);
   const [selectedSport, setSelectedSport] = useState({});
+  const [activeTab, setActiveTab] = useState('');
 
   const fetchSportDetails = async (skipLoading = false) => {
     if (!selectedSport?._id) {
@@ -78,7 +79,12 @@ function UpcommingMatches() {
         ''
       ) : !eventLoading ? (
         sportName === 'Greyhound Racing' ? (
-          <GreyhoundRacing events={sportEvents} sportName={sportName} />
+          <GreyhoundRacing
+            events={sportEvents}
+            sportName={sportName}
+            activeTab={activeTab}
+            onTabChange={setActiveTab}
+          />
         ) : (
           <EventList events={sportEvents} sportName={sportName} />
         )

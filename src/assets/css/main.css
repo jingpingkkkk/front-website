@@ -1603,6 +1603,9 @@ input[type='date']::-webkit-calendar-picker-indicator:hover {
   flex-wrap: nowrap;
   white-space: nowrap;
 }
+.horse-tab.race65 .nav-pills .nav-link {
+  padding: 2px 16px !important;
+}
 .horse-tab.race65 .nav-pills .nav-link.active {
   background-color: var(--primary-color) !important;
   padding: 2px 16px !important;

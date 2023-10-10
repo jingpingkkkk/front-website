@@ -1,32 +1,51 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable jsx-a11y/anchor-is-valid */
 /* eslint-disable no-nested-ternary */
 /* eslint-disable react/no-array-index-key */
 
 import React, { useEffect, useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
 import menuImages from '../../../../components/common/exchange-sidemenu/menu-images';
 import '../../../matches/ui/matches.css';
+import { setShouldLogin } from '../../../../redux/reducers/user-details';
 
-function GreyhoundRacing({ events, sportName }) {
+function GreyhoundRacing({ events, sportName, activeTab, onTabChange }) {
   const imgPath = menuImages[sportName] || '';
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const userDetails = useSelector((state) => state.userDetails);
+
   const [countryTab, setCountryTab] = useState([]);
-  const [activeTab, setActiveTab] = useState(countryTab[0]);
   const [eventData, setEventData] = useState([]);
 
   useEffect(() => {
     const allCode = events?.map((evnt) => evnt.countryCode);
-    const event = events?.filter((evnt) => evnt?.countryCode === allCode[0]);
+    const activeCode = activeTab || allCode[0];
+    const event = events?.filter((evnt) => evnt?.countryCode === activeCode);
     setEventData(event);
     setCountryTab(allCode);
-    setActiveTab(allCode[0]);
+    onTabChange(activeCode);
   }, [events]);
 
   const onChangeTab = (code) => {
     setEventData([]);
-    setActiveTab(code);
+    onTabChange(code);
     const event = events?.filter((evnt) => evnt?.countryCode === code);
     setEventData(event);
   };
-  console.log('eventData', eventData);
+
+  const handleEventClick = (e, path, id) => {
+    e.preventDefault();
+    const notLoggedIn =
+      !userDetails?.user?._id || !localStorage.getItem('userToken');
+    if (notLoggedIn) {
+      dispatch(setShouldLogin(true));
+      return;
+    }
+
+    navigate(path, { state: { eventId: id, sportName } });
+  };
 
   return (
     <div className="comman-bg mb-0">
@@ -42,16 +61,16 @@ function GreyhoundRacing({ events, sportName }) {
             {countryTab?.length
               ? countryTab.map((country) => (
                   <li className="nav-item" key={country}>
-                    <a
+                    <button
+                      type="button"
                       className={
                         activeTab === country ? 'nav-link active' : 'nav-link'
                       }
-                      href="#"
                       role="tab"
                       onClick={() => onChangeTab(country)}
                     >
                       {country}
-                    </a>
+                    </button>
                   </li>
                 ))
               : ''}
@@ -93,12 +112,16 @@ function GreyhoundRacing({ events, sportName }) {
                           </div>
                           <div className="horse-time-detail">
                             {event?.market.map((mrkt) => (
-                              <a
+                              <Link
                                 key={mrkt?._id}
-                                href="/sport/detail/Ky3Lwv5A1ABHmil6Q0cleg==/+VMmgMpNtfWaQuCKLkYalA=="
+                                to="/matches"
+                                state={{ eventId: mrkt?._id }}
+                                onClick={(e) =>
+                                  handleEventClick(e, '/matches', mrkt?._id)
+                                }
                               >
                                 <span>{mrkt?.time}</span>
-                              </a>
+                              </Link>
                             ))}
                           </div>
                         </div>
