@@ -755,7 +755,7 @@
   .bet-table-row-header-mobile {
     display: flex;
     align-items: center;
-    background-color: #3c444b;
+    background-color: var(--inplay-collapsible-bg);
     padding: 4px;
     margin-bottom: 3px;
   }
