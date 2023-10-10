@@ -1,12 +1,7 @@
 import React, { useEffect } from 'react';
-import { useSelector } from 'react-redux';
 import UnrealWebRTCPlayer from '../../../../helper/unreal-webrtc-player';
 
-function EventTv({ togglePlayback }) {
-  const { videoStreamId = null } = useSelector(
-    (state) => state.eventMarket.event,
-  );
-
+function EventTv({ videoStreamId, togglePlayback }) {
   useEffect(() => {
     if (!videoStreamId) return () => {};
     const webRtcPlayer = new UnrealWebRTCPlayer(
