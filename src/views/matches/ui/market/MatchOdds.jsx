@@ -1,5 +1,4 @@
 /* eslint-disable no-nested-ternary */
-/* eslint-disable no-plusplus */
 import React, { useLayoutEffect, useMemo, useRef, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { Spinner } from 'reactstrap';
@@ -23,19 +22,6 @@ const emptyOdds = {
     status: '',
   },
   1: {
-    back: [
-      { price: 0, level: 0 },
-      { price: 0, level: 1 },
-      { price: 0, level: 2 },
-    ],
-    lay: [
-      { price: 0, level: 0 },
-      { price: 0, level: 1 },
-      { price: 0, level: 2 },
-    ],
-    status: '',
-  },
-  2: {
     back: [
       { price: 0, level: 0 },
       { price: 0, level: 1 },
