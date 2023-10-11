@@ -9,21 +9,19 @@ import {
   UncontrolledDropdown,
 } from 'reactstrap';
 import { io } from 'socket.io-client';
+import countDays from '../../../../helper/day-count';
 import { userLogout } from '../../../../helper/user';
 import { resetUserDetails } from '../../../../redux/reducers/user-details';
 import StateButtons from '../../stake-button-popup';
-import './userInfo.css';
 import NotificationPopup from './NotificationPopup';
-import { postRequest } from '../../../../api';
-import countDays from '../../../../helper/day-count';
-
-// const UserInfo = ({ user }) => {
-//   const [showStakButton, setShowStakeButton] = useState(false);
+import './userInfo.css';
 
 const socketUrl = import.meta.env.VITE_SOCKET_URL;
-const userUrl = `${socketUrl}/user`;
-const socket = io(userUrl, {
+const userSocket = io(`${socketUrl}/user`, {
   auth: { token: localStorage.getItem('userToken') },
+  autoConnect: false,
+});
+const notificationSocket = io(`${socketUrl}/event-notification`, {
   autoConnect: false,
 });
 
@@ -38,13 +36,25 @@ const UserInfo = ({ user }) => {
   const [eventName, setEventName] = useState(null);
 
   useEffect(() => {
-    socket.on(`user:${user._id}`, (data) => {
+    userSocket.on(`user:${user._id}`, (data) => {
       setUserInfo(data);
-      // localStorage.setItem('user', JSON.stringify(data));
     });
-    socket.connect();
+    userSocket.connect();
     return () => {
-      socket.disconnect();
+      userSocket.disconnect();
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  useEffect(() => {
+    notificationSocket.emit('join:event:notification', setNotifications);
+    notificationSocket.on('event:complete', (data) => {
+      setNotifications((prev) => [data, ...prev]);
+    });
+    notificationSocket.connect();
+    return () => {
+      notificationSocket.off('event:complete');
+      notificationSocket.disconnect();
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -52,13 +62,6 @@ const UserInfo = ({ user }) => {
   const logout = () => {
     dispatch(resetUserDetails());
     userLogout();
-  };
-
-  const getNotification = async () => {
-    const result = await postRequest('event/completedEventList');
-    if (result?.success) {
-      setNotifications(result?.data?.details || []);
-    }
   };
 
   return (
@@ -122,17 +125,14 @@ const UserInfo = ({ user }) => {
         )}
         {/* Notification */}
         <UncontrolledDropdown>
-          <DropdownToggle
-            caret
-            className="notification-icon"
-            onClick={() => getNotification()}
-          >
+          <DropdownToggle caret className="notification-icon">
             <img
               src="./images/icons-bell.png"
               alt="bell-icon"
               className="w-50 h-50"
             />
           </DropdownToggle>
+
           <DropdownMenu className="notification-menu">
             <div className="card border-0 w300">
               <div className="card-header notification-header">
@@ -194,6 +194,7 @@ const UserInfo = ({ user }) => {
           </DropdownMenu>
         </UncontrolledDropdown>
       </div>
+
       {showNotificationDetail && (
         <NotificationPopup
           isOpen={showNotificationDetail}
