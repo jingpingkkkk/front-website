@@ -144,6 +144,17 @@ function BetPanel() {
         size,
       );
       absoluteBetProfit = ap;
+    } else if (eventBet?.market?.name === 'Fancy1') {
+      const { absoluteBetProfit: ap, plForecast: pf } = calculateMatchOddStake(
+        betType,
+        rate,
+        quantity,
+        oppRunner,
+        priority,
+        pl,
+      );
+      absoluteBetProfit = ap;
+      plForecast = pf;
     }
     dispatch(setAbsoluteBetProfit(absoluteBetProfit));
     dispatch(setBetStake(quantity));

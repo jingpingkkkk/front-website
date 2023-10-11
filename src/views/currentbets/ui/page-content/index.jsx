@@ -22,16 +22,34 @@ function CurrentBetPageContent() {
   const [betType, setBetType] = useState('');
   const [totalAmount, setTotalAmount] = useState(0);
   const [betStatus, setBetStatus] = useState('');
+  const [startDate, setStartDate] = useState('');
+  const [endDate, setEndDate] = useState('');
+
+  const rehydrateUser = async () => {
+    const token = localStorage.getItem('userToken');
+    if (!token) return null;
+    const result = await postRequest('users/rehydrateUser');
+    if (result.success) {
+      return result.data.details;
+    }
+    return null;
+  };
 
   const fetchCurrentBetsData = async () => {
     setLoading(true);
+    let user = userDetails?.user;
+    if (!userDetails?.user?._id) {
+      user = await rehydrateUser();
+    }
     try {
       const body = {
-        loginUserId: userDetails?.user?._id,
+        loginUserId: user?._id,
         page: currentPage,
         perPage: rowsPerPage,
         betType,
         betResultStatus: betStatus,
+        startDate,
+        endDate,
       };
       const result = await postRequest('bet/getCurrentBetsUserwise', body);
       if (result?.success) {
@@ -185,7 +203,7 @@ function CurrentBetPageContent() {
     <div className="comman-bg">
       <div className="report-box">
         <div className="report-title">
-          <div className="report-name">Current Bets</div>
+          <div className="report-name">Bet History</div>
         </div>
         <div className="casino-report-tabs">
           <ul className="nav nav-tabs" role="tablist">
@@ -218,6 +236,40 @@ function CurrentBetPageContent() {
               </a>
             </li>
           </ul>
+        </div>
+        <div className="col-2 d-flex align-items-end">
+          <div className="form-group">
+            <Label>From</Label>
+            <input
+              type="date"
+              className="form-control"
+              value={startDate}
+              onChange={(e) => {
+                setStartDate(e.target.value);
+              }}
+            />
+          </div>
+          <div className="form-group">
+            <Label>To</Label>
+            <input
+              type="date"
+              className="form-control"
+              value={endDate}
+              onChange={(e) => {
+                setEndDate(e.target.value);
+              }}
+            />
+          </div>
+          <div className="form-group">
+            <button
+              type="button"
+              className="btn custom-buttton py-1"
+              disabled={!startDate || !endDate}
+              onClick={fetchCurrentBetsData}
+            >
+              Submit
+            </button>
+          </div>
         </div>
         <div className="report-page-count">
           <div className="bet-types-container">
