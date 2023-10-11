@@ -1,9 +1,9 @@
 /* eslint-disable no-nested-ternary */
 import React, { useEffect, useState } from 'react';
+import Confetti from 'react-confetti';
+import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { Modal, ModalBody, Spinner, Table } from 'reactstrap';
-import { useSelector } from 'react-redux';
-import Confetti from 'react-confetti';
 import { postRequest } from '../../../../api';
 
 function NotificationPopup({ isOpen, closeModal, eventId, eventName }) {
