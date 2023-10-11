@@ -20,7 +20,9 @@ function GreyhoundRacing({ events, sportName, activeTab, onTabChange }) {
   const [eventData, setEventData] = useState([]);
 
   useEffect(() => {
-    const allCode = events?.map((evnt) => evnt.countryCode);
+    const allCode = events
+      ?.map((evnt) => evnt.countryCode)
+      .filter((name, index, array) => array.indexOf(name) === index);
     const activeCode = activeTab || allCode[0];
     const event = events?.filter((evnt) => evnt?.countryCode === activeCode);
     setEventData(event);
