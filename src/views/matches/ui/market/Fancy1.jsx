@@ -10,7 +10,7 @@ import { setMarketPlForecast } from '../../../../redux/reducers/event-market';
 const socketUrl = import.meta.env.VITE_SOCKET_URL;
 const marketUrl = `${socketUrl}/market`;
 
-function Fancy({ market }) {
+function Fancy1({ market }) {
   const socket = useMemo(() => io(marketUrl, { autoConnect: false }), []);
 
   const dispatch = useDispatch();
@@ -22,7 +22,7 @@ function Fancy({ market }) {
 
   const handleFancyData = (data) => {
     if (data.length) {
-      data = data.filter((fancy) => fancy.typeName === 'Normal');
+      data = data.filter((fancy1) => fancy1.typeName === 'Fancy1');
       const fancyPrevData = previousValue.current;
       const teamData = data.map((item) => {
         const currentItem = { ...item };
@@ -426,4 +426,4 @@ function Fancy({ market }) {
   );
 }
 
-export default Fancy;
+export default Fancy1;

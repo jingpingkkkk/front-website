@@ -9,6 +9,7 @@ import {
   UncontrolledDropdown,
 } from 'reactstrap';
 import { io } from 'socket.io-client';
+import { useNavigate } from 'react-router-dom';
 import countDays from '../../../../helper/day-count';
 import { userLogout } from '../../../../helper/user';
 import { resetUserDetails } from '../../../../redux/reducers/user-details';
@@ -27,7 +28,7 @@ const notificationSocket = io(`${socketUrl}/event-notification`, {
 
 const UserInfo = ({ user }) => {
   const dispatch = useDispatch();
-
+  const navigate = useNavigate();
   const [userInfo, setUserInfo] = useState(user);
   const [showStakButton, setShowStakeButton] = useState(false);
   const [showNotificationDetail, setShowNotificationDetail] = useState(false);
@@ -62,6 +63,10 @@ const UserInfo = ({ user }) => {
   const logout = () => {
     dispatch(resetUserDetails());
     userLogout();
+  };
+
+  const onOpenPage = () => {
+    navigate('/currentbets');
   };
 
   return (
@@ -107,7 +112,7 @@ const UserInfo = ({ user }) => {
             <DropdownItem href="/accountstatement">
               Account Statement
             </DropdownItem>
-            <DropdownItem href="/currentbets">Current Bets</DropdownItem>
+            <DropdownItem onClick={onOpenPage}>Bet History</DropdownItem>
             <DropdownItem>Casino Results</DropdownItem>
             <DropdownItem onClick={() => setShowStakeButton(true)}>
               Set Button Value

@@ -6,6 +6,7 @@ import { addEventMarketBets } from '../../../../redux/reducers/user-bets';
 import BookMaker from './BookMaker';
 import Fancy from './Fancy';
 import MatchOdds from './MatchOdds';
+import Fancy1 from './Fancy1';
 
 const socketUrl = import.meta.env.VITE_SOCKET_URL;
 const marketUrl = `${socketUrl}/user-bet`;
@@ -24,6 +25,7 @@ function Market({ market, eventId }) {
     'Match Odds': <MatchOdds market={currentMarket} />,
     Bookmaker: <BookMaker market={currentMarket} />,
     Normal: <Fancy market={currentMarket} />,
+    Fancy1: <Fancy1 market={currentMarket} />,
   };
 
   useEffect(() => {
