@@ -85,6 +85,10 @@ function CurrentBetPageContent() {
       selector: (row) => row.stake,
     },
     {
+      name: 'Bet Pl',
+      selector: (row) => row.betPl.toFixed(2),
+    },
+    {
       name: 'Result',
       selector: (row) => row.betResultStatus,
     },
@@ -120,6 +124,7 @@ function CurrentBetPageContent() {
       'Market Name': item.marketName,
       'User Rate': item.odds,
       'Amount Placed': item.stake,
+      'Bet Pl': item.betPl.toFixed(2),
       Result: item.betResultStatus,
     }));
     ExportToExcel(exportData, activeTab);
@@ -134,6 +139,7 @@ function CurrentBetPageContent() {
           'Market Name',
           'User Rate',
           'Amount Placed',
+          'Bet Pl',
           'Result',
         ],
       ],
@@ -143,6 +149,7 @@ function CurrentBetPageContent() {
         item.marketName,
         item.odds,
         item.stake,
+        item.betPl.toFixed(2),
         item.betResultStatus,
       ]),
     });
