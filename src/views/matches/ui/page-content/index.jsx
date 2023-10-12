@@ -31,8 +31,37 @@ function MatchPageContent() {
   const [loading, setLoading] = useState(false);
   // const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
 
-  const fetchEventMarkets = async (updateLoader = true) => {
-    if (updateLoader) setLoading(true);
+  const syncEventData = async () => {
+    const urlEndPoint =
+      sportName === 'Greyhound Racing'
+        ? 'getRacingMatchData'
+        : 'getEventMatchDataFront';
+    const body = {
+      eventId,
+    };
+    if (sportName === 'Greyhound Racing') {
+      delete body.eventId;
+      body.marketId = eventId;
+    }
+    const result = await postRequest(`event/${urlEndPoint}`, body);
+
+    if (result?.success) {
+      const event = result.data.details;
+      dispatch(
+        setEvent({
+          eventId: event._id,
+          name:
+            sportName === 'Greyhound Racing' ? event?.event.name : event.name, // change key from backend
+          competitionName: event?.competitionName,
+          startsOn: event.matchDate,
+          videoStreamId: event?.videoStreamId || null,
+        }),
+      );
+    }
+  };
+
+  const fetchEventMarkets = async () => {
+    setLoading(true);
     const urlEndPoint =
       sportName === 'Greyhound Racing'
         ? 'getRacingMatchData'
@@ -101,7 +130,7 @@ function MatchPageContent() {
       navigate('/sports');
     }
     const interval = setInterval(async () => {
-      await fetchEventMarkets(false);
+      await syncEventData();
     }, 1000 * 10);
     fetchEventMarkets();
     return () => {
