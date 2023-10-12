@@ -5,8 +5,8 @@ import { setMarketRunnerPl } from '../../../../redux/reducers/event-market';
 import { addEventMarketBets } from '../../../../redux/reducers/user-bets';
 import BookMaker from './BookMaker';
 import Fancy from './Fancy';
-import MatchOdds from './MatchOdds';
 import Fancy1 from './Fancy1';
+import MatchOdds from './MatchOdds';
 
 const socketUrl = import.meta.env.VITE_SOCKET_URL;
 const marketUrl = `${socketUrl}/user-bet`;
