@@ -1,10 +1,22 @@
-import React from 'react';
+import React, { useState } from 'react';
 import './bottomnav.css';
-import { NavLink, useNavigate } from 'react-router-dom';
-import bottomNavItems from './api/bottom-nav-items';
+import { Link, NavLink, useNavigate } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import {
+  resetUserDetails,
+  setShouldLogin,
+} from '../../../redux/reducers/user-details';
+import { userLogout } from '../../../helper/user';
+import StateButtons from '../stake-button-popup';
 
 const Bottomnav = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const userDetails = useSelector((state) => state.userDetails);
+
+  const [isOpen, setIsOpen] = useState(false);
+  const [showStakButton, setShowStakeButton] = useState(false);
+
   const onchangeMenu = (e, path) => {
     if (path !== '/sports') {
       e?.preventDefault();
@@ -12,23 +24,139 @@ const Bottomnav = () => {
       navigate(path);
     }
   };
+
+  const toggleDropdown = (e) => {
+    e?.preventDefault();
+    const notLoggedIn =
+      !userDetails?.user?._id || !localStorage.getItem('userToken');
+    if (notLoggedIn) {
+      dispatch(setShouldLogin(true));
+      return;
+    }
+    setIsOpen(!isOpen);
+  };
+  const logout = () => {
+    dispatch(resetUserDetails());
+    userLogout();
+  };
+
   return (
-    <div className="bottom-tabs">
-      <ul>
-        {bottomNavItems.map((item) => (
-          <li className="truncate all-sports" key={item.label}>
-            <NavLink
-              to={item.path}
+    <div>
+      {!isOpen && (
+        <div className="bottom-tabs">
+          <ul>
+            <li className="truncate all-sports">
+              <NavLink
+                to="/sports"
+                onClick={(e) => {
+                  onchangeMenu(e, '/sports');
+                }}
+              >
+                <img src="./images/home-active.svg" alt="home" />
+                <div className="title-name">Home</div>
+              </NavLink>
+            </li>
+            <li className="truncate all-sports">
+              <NavLink
+                to="/offers"
+                onClick={(e) => {
+                  onchangeMenu(e, '/offers');
+                }}
+              >
+                <img src="./images/offers-active.svg" alt="offers" />
+                <div className="title-name">Offers</div>
+              </NavLink>
+            </li>
+            <li className="truncate all-sports">
+              <Link
+                to="/"
+                onClick={(e) => {
+                  toggleDropdown(e);
+                }}
+                data-target="dropdown2"
+                className="dropdown-trigger1"
+              >
+                <img src="./images/profile.svg" alt="offers" />
+                <div className="title-name">
+                  {userDetails?.user?.fullName || 'Login'}
+                </div>
+              </Link>
+            </li>
+          </ul>
+        </div>
+      )}
+      <div className="bottom-profile">
+        <ul
+          className={`dropdown-content animated animatedFadeInUp fadeInUp mobile-profile-dropdown ${
+            isOpen ? 'open' : ''
+          }`}
+        >
+          <li>
+            <Link to="/accountstatement">
+              <img src="./images/icon-arrow.png" alt="arrow" />
+              Account Statement
+            </Link>
+          </li>
+          <li>
+            <Link to="/currentbets">
+              <img src="./images/icon-arrow.png" alt="arrow" />
+              Bet History
+            </Link>
+          </li>
+          <li>
+            <Link
+              to="/casinoresults"
               onClick={(e) => {
-                onchangeMenu(e, item.path);
+                onchangeMenu(e, '/casinoresults');
               }}
             >
-              <img src={item?.image} alt={item?.label} />
-              <div className="title-name">{item.label}</div>
-            </NavLink>
+              <img src="./images/icon-arrow.png" alt="arrow" />
+              Casino Results
+            </Link>
           </li>
-        ))}
-      </ul>
+          <li>
+            <Link
+              to="/"
+              onClick={(e) => {
+                e.preventDefault();
+                setShowStakeButton(true);
+              }}
+            >
+              <img src="./images/icon-arrow.png" alt="arrow" />
+              Set Button Value
+            </Link>
+          </li>
+          <li>
+            <Link to="/changepassword">
+              <img src="./images/icon-arrow.png" alt="arrow" />
+              Change Password
+            </Link>
+          </li>
+          <li>
+            <Link to="/offers" onClick={() => logout()}>
+              <img src="./images/icon-arrow.png" alt="arrow" />
+              Logout
+            </Link>
+          </li>
+          <li className="d-flex justify-content-center">
+            <Link
+              to="/offers"
+              onClick={(e) => {
+                toggleDropdown(e);
+              }}
+              className="close-btn"
+            >
+              <img src="./images/close.svg" alt="arrow" />
+            </Link>
+          </li>
+        </ul>
+      </div>
+      {showStakButton && (
+        <StateButtons
+          isOpen={showStakButton}
+          closeModal={() => setShowStakeButton(!showStakButton)}
+        />
+      )}
     </div>
   );
 };
