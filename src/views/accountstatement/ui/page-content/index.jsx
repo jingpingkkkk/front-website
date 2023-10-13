@@ -176,8 +176,8 @@ function AccountStatementPageContent() {
             </div>
           </div>
         </div>
-        <div className="report-form">
-          <div className="form-group">
+        <div className="report-form date-filter">
+          <div className="form-group from-date">
             <Label>From</Label>
             <input
               type="date"
@@ -188,7 +188,7 @@ function AccountStatementPageContent() {
               }}
             />
           </div>
-          <div className="form-group">
+          <div className="form-group to-date">
             <Label>To</Label>
             <input
               type="date"

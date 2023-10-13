@@ -6,12 +6,14 @@ import { Label } from 'reactstrap';
 import { jsPDF } from 'jspdf';
 import 'jspdf-autotable';
 import DataTable from 'react-data-table-component';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import LoadingOverlay from '../../../../components/common/loading-overlay';
 import { postRequest } from '../../../../api';
 import ExportToExcel from '../../../../helper/export-excel';
+import { setUserDetails } from '../../../../redux/reducers/user-details';
 
 function CurrentBetPageContent() {
+  const dispatch = useDispatch();
   const userDetails = useSelector((state) => state.userDetails);
   const [loading, setLoading] = useState(false);
   const [activeTab, setActiveTab] = useState('sports');
@@ -30,6 +32,7 @@ function CurrentBetPageContent() {
     if (!token) return null;
     const result = await postRequest('users/rehydrateUser');
     if (result.success) {
+      dispatch(setUserDetails(result.data.details));
       return result.data.details;
     }
     return null;
@@ -244,7 +247,7 @@ function CurrentBetPageContent() {
             </li>
           </ul>
         </div>
-        <div className="col-2 d-flex align-items-end">
+        <div className="col-2 date-filter">
           <div className="form-group">
             <Label>From</Label>
             <input
@@ -270,11 +273,11 @@ function CurrentBetPageContent() {
           <div className="form-group">
             <button
               type="button"
-              className="btn custom-buttton py-1"
+              className="btn custom-buttton py-1 search-btn"
               disabled={!startDate || !endDate}
               onClick={fetchCurrentBetsData}
             >
-              Submit
+              Search
             </button>
           </div>
         </div>
@@ -449,14 +452,13 @@ function CurrentBetPageContent() {
                     customStyles={customStyles}
                   />
                 ) : (
-                  <table className="table">
+                  <table className="table bet-history-tab">
                     <thead>
                       <tr>
                         {columns.map((column) => (
                           <th
                             key={column.name}
                             style={{
-                              backgroundColor: '#e6e6e6',
                               color: '#1A1A1A',
                               fontSize: '16px',
                               height: '52px',
@@ -518,7 +520,6 @@ function CurrentBetPageContent() {
                           <th
                             key={column.name}
                             style={{
-                              backgroundColor: '#e6e6e6',
                               color: '#1A1A1A',
                               fontSize: '16px',
                               height: '52px',
