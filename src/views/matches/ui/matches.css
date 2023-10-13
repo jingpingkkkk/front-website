@@ -623,7 +623,7 @@
 }
 .fancy-tripple {
   border-bottom: 1px solid #3c444b;
-  height: 100%;
+  /* height: 100%; */
 }
 .fancy-min-max {
   font-size: 12px;

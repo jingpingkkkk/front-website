@@ -95,7 +95,7 @@ ul:not(.browser-default) {
 }
 .bottom-profile ul.dropdown-content li {
   flex-basis: auto;
-  height: auto;
+  height: 35px;
   min-height: 0;
   display: block;
 }
