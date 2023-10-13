@@ -81,6 +81,11 @@
 .form-control:disabled {
   background-color: #3c444b !important;
 }
+@media only screen and (max-width: 991px) {
+  .username-info {
+    display: none !important;
+  }
+}
 @media only screen and (min-width: 320px) and (max-width: 1279px) {
   .d-none-mobile {
     display: none !important;

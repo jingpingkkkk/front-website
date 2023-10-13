@@ -69,4 +69,7 @@ body {
   --filter-primary: invert(135%) sepia(206%) saturate(2470%) hue-rotate(225deg)
     brightness(107%) contrast(76%);
   --bottom-tab-bg: #fff;
+  --dropdown-bg: rgba(227, 219, 171, 100);
+  --dropdown-text-color: #1a1a1a;
+  --bet-collapse-shadow: 0px 4px 43px rgba(220, 217, 217, 0.26);
 }

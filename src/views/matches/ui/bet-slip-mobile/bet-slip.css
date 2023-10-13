@@ -1,0 +1,183 @@
+.bet-collapse {
+  padding: 0;
+  position: relative;
+  margin: 5px 10px;
+  width: auto;
+  justify-content: right;
+}
+.fadeInDown {
+  animation-name: fadeInDown;
+  -webkit-animation-name: fadeInDown;
+}
+.animated {
+  animation-duration: 1s;
+  animation-fill-mode: both;
+  -webkit-animation-duration: 1s;
+  -webkit-animation-fill-mode: both;
+}
+
+.bet-collapse .bet-cont {
+  background: var(--white-text);
+  display: block;
+  border-radius: 10px;
+  box-shadow: var(--bet-collapse-shadow);
+}
+.bs-top-content {
+  display: flow-root;
+  position: relative;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+}
+.odd-info {
+  width: 50%;
+  float: left;
+  margin: 5px 0;
+  line-height: 20px;
+  position: relative;
+}
+.odd-info .profit {
+  font-weight: 400;
+  font-size: 14px;
+  margin-right: 5px;
+}
+.bs-top-content .input-group {
+  width: 50%;
+  position: relative;
+  display: flex;
+  justify-content: center;
+}
+.bs-top-content .input-group div {
+  display: inline-block;
+}
+
+.custom-btn {
+  /* text-align: right; */
+  margin-top: 5px;
+}
+main .bet-collapse .bet-cont .bet-input-container .betslip-button {
+  margin: 5px 0;
+  text-align: center;
+  padding: 0 2px;
+}
+.betslip-button button {
+  padding: 5px;
+  width: 18.7%;
+  margin: 2px;
+  line-height: 20px;
+}
+
+.bet-collapse .bet-cont .bet-input-container .bid-rate button {
+  display: inline-block;
+  padding: 0 10px;
+  margin: 3px;
+  font-size: 12px;
+  font-weight: 700;
+  text-align: center;
+  white-space: nowrap;
+  vertical-align: middle;
+  text-transform: uppercase;
+  border-radius: 3px;
+  box-shadow: none;
+  height: 30px;
+  line-height: 30px;
+  background-color: transparent;
+}
+
+.bet-collapse .bet-cont .bet-input-container .form-control {
+  position: relative;
+  top: 5px;
+  background-color: transparent;
+  font-weight: 700;
+  font-size: 15px;
+  padding: 0 5px;
+  box-shadow: none;
+  height: 30px;
+  line-height: 1.5;
+  width: 100%;
+  max-width: 60px;
+  margin: 0;
+  text-align: center;
+  border-radius: 0.37rem !important;
+}
+@keyframes fadeInDown {
+  0% {
+    opacity: 0;
+    transform: translatey(-10px);
+  }
+  100% {
+    opacity: 1;
+    transform: translatey(0);
+  }
+}
+.close-bet-btn {
+  position: absolute;
+  top: 5px;
+  right: 0;
+  margin: 0 10px 0 10px;
+  cursor: pointer;
+  text-align: right;
+}
+.close-bet-btn img {
+  width: 30%;
+  height: 30%;
+}
+.custom-btn input {
+  margin: 5px 10px 5px;
+  height: 25px;
+  line-height: 25px;
+  display: inline-block;
+  padding: 0 10px;
+  font-size: 12px;
+  font-weight: 500;
+  text-align: center;
+  white-space: nowrap;
+  vertical-align: middle;
+  text-transform: capitalize;
+  border-radius: 3px;
+  width: 80px;
+  box-shadow: none;
+  height: 30px;
+  line-height: 30px;
+  background-color: transparent;
+}
+.bet-collapse .bet-cont .bet-input-container .betslip-button {
+  margin: 5px 0;
+  text-align: center;
+  padding: 0 2px;
+}
+
+.betslip-place-button {
+  margin: 5px;
+  font-size: 12px;
+  padding: 5px 15px;
+  line-height: 1.5;
+  height: 30px;
+  width: 96%;
+  border-radius: 6px;
+}
+.back-border {
+  border: 1px solid #72bbef !important;
+}
+.back-color {
+  background-color: #72bbef !important;
+}
+.back-text {
+  color: #72bbef !important;
+}
+.back-top {
+  background-color: #72bbef57 !important;
+}
+
+/* lay */
+.lay-border {
+  border: 1px solid #f994ba !important;
+}
+.lay-color {
+  background-color: #f994ba !important;
+}
+.lay-text {
+  color: #f994ba !important;
+}
+.lay-top {
+  background-color: #f994ba4f !important;
+}

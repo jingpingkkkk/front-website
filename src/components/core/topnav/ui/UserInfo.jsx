@@ -97,10 +97,10 @@ const UserInfo = ({ user }) => {
       <div className="text-center d-none-desktop bal-point">
         pts:
         <span>{user?.balance || 0}</span>{' '}
-        <span>| {userInfo?.exposure || 0}</span>
+        <span>| {userInfo?.exposure?.toFixed(2) || 0}</span>
       </div>
       <div className="d-flex">
-        <UncontrolledDropdown>
+        <UncontrolledDropdown className="d-none-mobile">
           <DropdownToggle caret color="dark" className="username-info">
             <span className="user-icon">
               <img src="./images/userrr.png" alt="user" />

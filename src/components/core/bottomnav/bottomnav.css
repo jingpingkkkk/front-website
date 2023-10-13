@@ -59,3 +59,115 @@ ul:not(.browser-default) {
   overflow: hidden;
   text-overflow: ellipsis;
 }
+
+.mobile-profile-dropdown {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: #fff;
+  display: none;
+}
+
+.mobile-profile-dropdown.open {
+  display: block;
+}
+
+.dropdown-content {
+  padding: 10px;
+}
+.bottom-profile ul.dropdown-content {
+  max-width: 100%;
+  right: 0;
+  left: auto !important;
+  top: auto !important;
+  bottom: 0;
+  padding: 5px 0;
+  background-color: var(--dropdown-bg);
+  -webkit-backdrop-filter: blur(42px);
+  backdrop-filter: blur(42px);
+  box-shadow: none;
+  width: 100% !important;
+  height: 92vh !important;
+  padding-top: 135px;
+  z-index: 9;
+  margin-bottom: 0;
+}
+.bottom-profile ul.dropdown-content li {
+  flex-basis: auto;
+  height: 35px;
+  min-height: 0;
+  display: block;
+}
+.animated {
+  animation-duration: 1s;
+  animation-fill-mode: both;
+  -webkit-animation-duration: 1s;
+  -webkit-animation-fill-mode: both;
+}
+.fadeInUp {
+  animation-name: fadeInUp;
+  -webkit-animation-name: fadeInUp;
+}
+.dropdown-content li a {
+  clear: both;
+  color: rgba(0, 0, 0, 0.87);
+  cursor: pointer;
+  min-height: 50px;
+  line-height: 1.5rem;
+  width: 100%;
+  text-align: left;
+  text-decoration: none;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  padding: 5px 10px;
+  font-size: 14px;
+  line-height: 2.2;
+  flex-direction: initial;
+  margin: 0;
+  width: 100%;
+  background-color: transparent;
+}
+.bottom-profile ul.dropdown-content li a img {
+  width: 18px;
+  height: 18px;
+  margin-right: 10px !important;
+  display: block;
+  margin: inherit;
+}
+.bottom-profile ul.dropdown-content li a.close-btn {
+  text-align: center;
+  justify-content: center;
+  bottom: 0;
+  position: inherit;
+}
+.bottom-profile ul.dropdown-content li a.close-btn {
+  cursor: pointer;
+  position: absolute;
+  bottom: 30px;
+  font-size: 20px;
+  margin-right: 0;
+  padding: 0;
+  width: 50px;
+  height: 50px;
+  line-height: 50px;
+  text-align: center;
+  border-radius: 50%;
+  box-shadow:
+    rgba(255, 255, 255, 0.66) 0 2px 5px,
+    #000 0 2px 5px;
+}
+.bottom-profile ul.dropdown-content li a.close-btn img {
+  margin-right: 0 !important;
+}
+@keyframes fadeInUp {
+  0% {
+    opacity: 0;
+    transform: translate3d(0, 100%, 0);
+  }
+  100% {
+    opacity: 1;
+    transform: translateZ(0);
+  }
+}
