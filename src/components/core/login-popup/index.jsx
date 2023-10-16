@@ -119,11 +119,11 @@ const LoginPopup = ({ isOpen, toggle }) => {
             ) : (
               ''
             )}
-            <div className="forgot-password">
+            {/* <div className="forgot-password">
               <a href="/">
                 <u>Forgot Password?</u>
               </a>
-            </div>
+            </div> */}
           </div>
           {/* <div className="form-group">
             <div className="custom-control custom-checkbox d-inline-block">
