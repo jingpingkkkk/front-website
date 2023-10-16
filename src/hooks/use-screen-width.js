@@ -5,8 +5,9 @@ export default function useScreenWidth() {
     mobile: 576,
     tablet: 768,
     desktop: 992,
-    largeDesktop: 1200,
-    extraLargeDesktop: 1400,
+    largeDesktop: 1024,
+    extraLargeDesktop: 1536,
+    extra2LargeDesktop: 2500,
   };
 
   const [width, setWidth] = useState(window.innerWidth);
@@ -29,6 +30,7 @@ export default function useScreenWidth() {
     isTablet: width <= breakpoints.tablet,
     isDesktop: width <= breakpoints.desktop,
     isLargeDesktop: width <= breakpoints.largeDesktop,
-    isExtraLargeDesktop: width >= breakpoints.extraLargeDesktop,
+    isExtraLargeDesktop: width <= breakpoints.extraLargeDesktop,
+    isExtra2LargeDesktop: width >= breakpoints.extra2LargeDesktop,
   };
 }

@@ -135,8 +135,12 @@ function Topnav() {
                 ? themeSettings?.logoImage
                 : 'images/logo.png'
             }
+            onError={({ currentTarget }) => {
+              currentTarget.onerror = null;
+              currentTarget.src = 'images/logo.png';
+            }}
             width="125"
-            alt="brand-logo"
+            alt="Exchange"
             style={{ paddingTop: '0.75rem' }}
           />
         </NavLink>
@@ -155,7 +159,7 @@ function Topnav() {
             currentTarget.src = 'images/logo.png';
           }}
           width="150"
-          alt="brand-logo"
+          alt="Exchange"
           style={{ paddingTop: '0.75rem' }}
         />
       </NavLink>
