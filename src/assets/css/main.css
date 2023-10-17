@@ -1598,10 +1598,12 @@ input[type='date']::-webkit-calendar-picker-indicator:hover {
   padding-top: 10px;
 }
 .horse-tab .nav {
-  border-bottom: 1px solid var(--primary-color);
   overflow: auto;
   flex-wrap: nowrap;
   white-space: nowrap;
+}
+.horse-tab .nav:has(li) {
+  border-bottom: 1px solid var(--primary-color);
 }
 .horse-tab.race65 .nav-pills .nav-link {
   padding: 2px 16px !important;
