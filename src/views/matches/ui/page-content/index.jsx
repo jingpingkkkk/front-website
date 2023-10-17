@@ -49,7 +49,8 @@ function MatchPageContent() {
       const event = result.data.details;
       dispatch(
         setEvent({
-          eventId: event._id,
+          eventId:
+            sportName === 'Greyhound Racing' ? event?.event._id : event._id, // change key from backend
           name:
             sportName === 'Greyhound Racing' ? event?.event.name : event.name, // change key from backend
           competitionName: event?.competitionName,
@@ -79,7 +80,8 @@ function MatchPageContent() {
       const event = result.data.details;
       dispatch(
         setEvent({
-          eventId: event._id,
+          eventId:
+            sportName === 'Greyhound Racing' ? event?.event?._id : event._id, // change key from backend
           name:
             sportName === 'Greyhound Racing' ? event?.event.name : event.name, // change key from backend
           competitionName: event?.competitionName,
