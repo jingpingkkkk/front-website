@@ -1682,6 +1682,12 @@ input[type='date']::-webkit-calendar-picker-indicator:hover {
   .header-col-right {
     width: 80%;
   }
+  .bet-detail-tab {
+    font-size: 12px;
+  }
+  .bet-net-total-row {
+    font-size: 12px;
+  }
 }
 
 @media only screen and (max-width: 991px) {
