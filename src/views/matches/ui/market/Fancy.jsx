@@ -1,3 +1,5 @@
+/* eslint-disable jsx-a11y/no-static-element-interactions */
+/* eslint-disable jsx-a11y/click-events-have-key-events */
 /* eslint-disable no-nested-ternary */
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -8,6 +10,7 @@ import { betTypes, setBetOdds } from '../../../../redux/reducers/event-bet';
 import { setMarketPlForecast } from '../../../../redux/reducers/event-market';
 import MobileBetPanel from '../bet-slip-mobile';
 import useScreenWidth from '../../../../hooks/use-screen-width';
+import FancyRunAmount from '../run-amount/FancyRunAmount';
 
 const socketUrl = import.meta.env.VITE_SOCKET_URL;
 const marketUrl = `${socketUrl}/market`;
@@ -21,6 +24,7 @@ function Fancy({ market }) {
   const { isMobile, isTablet } = useScreenWidth();
   const [fancyRunners, setFancyRunners] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [isOpenRunAmount, setIsOpenRunAmount] = useState(false);
 
   const handleFancyData = (data) => {
     if (data.length) {
@@ -164,7 +168,16 @@ function Fancy({ market }) {
                   >
                     <div className="nation-name d-none-mobile small">
                       <div>
-                        <span>{runner?.RunnerName || ''}</span>
+                        {runner?.pl ? (
+                          <span
+                            className="cursor-pointer"
+                            onClick={() => setIsOpenRunAmount(true)}
+                          >
+                            {runner?.RunnerName || ''}
+                          </span>
+                        ) : (
+                          <span>{runner?.RunnerName || ''}</span>
+                        )}
                         <div
                           className={`pt-1 small ${
                             runner?.pl > 0
@@ -431,6 +444,14 @@ function Fancy({ market }) {
           <div className="text-primary text-center">No Data</div>
         )}
       </div>
+      {isOpenRunAmount ? (
+        <FancyRunAmount
+          isOpen={isOpenRunAmount}
+          toggle={() => setIsOpenRunAmount(false)}
+        />
+      ) : (
+        ''
+      )}
     </div>
   );
 }

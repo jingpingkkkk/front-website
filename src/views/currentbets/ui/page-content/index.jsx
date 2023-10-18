@@ -1,3 +1,4 @@
+/* eslint-disable react/no-unstable-nested-components */
 /* eslint-disable new-cap */
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable jsx-a11y/anchor-is-valid */
@@ -11,6 +12,7 @@ import LoadingOverlay from '../../../../components/common/loading-overlay';
 import { postRequest } from '../../../../api';
 import ExportToExcel from '../../../../helper/export-excel';
 import { setUserDetails } from '../../../../redux/reducers/user-details';
+import BetDetail from '../bet-detail/BetDetail';
 
 function CurrentBetPageContent() {
   const dispatch = useDispatch();
@@ -26,6 +28,12 @@ function CurrentBetPageContent() {
   const [betStatus, setBetStatus] = useState('');
   const [startDate, setStartDate] = useState('');
   const [endDate, setEndDate] = useState('');
+  const [openDetail, setOpenDetail] = useState(false);
+  const [selectedBet, setSelectedBet] = useState(null);
+  const onOpenBetDetail = (bet) => {
+    setSelectedBet(bet);
+    setOpenDetail(true);
+  };
 
   const rehydrateUser = async () => {
     const token = localStorage.getItem('userToken');
@@ -95,7 +103,22 @@ function CurrentBetPageContent() {
       name: 'Result',
       selector: (row) => row.betResultStatus,
     },
+    {
+      name: 'Action',
+      cell: (row) => (
+        <div>
+          <button
+            type="button"
+            onClick={() => onOpenBetDetail(row)}
+            className="btn custom-buttton btn-sm ms-2 py-2"
+          >
+            Detail
+          </button>
+        </div>
+      ),
+    },
   ];
+
   const casinoColumns = [
     {
       name: 'Event Name',
@@ -444,7 +467,7 @@ function CurrentBetPageContent() {
                     pagination
                     paginationServer
                     paginationTotalRows={totalPages}
-                    onChangePage={(page) => handlePageChange(page)}
+                    onChangePage={handlePageChange}
                     onChangeRowsPerPage={(value) =>
                       handleRowsPerPageChange(value)
                     }
@@ -554,6 +577,13 @@ function CurrentBetPageContent() {
           )}
         </div>
       </div>
+      {openDetail && (
+        <BetDetail
+          selectedBet={selectedBet}
+          isOpen={openDetail}
+          toggle={() => setOpenDetail(!openDetail)}
+        />
+      )}
     </div>
   );
 }

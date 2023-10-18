@@ -17,6 +17,7 @@ import {
   setMarkets,
 } from '../../../../redux/reducers/event-market';
 import Market from '../market';
+import CricketScore from '../score-board/CricketScore';
 import '../matches.css';
 
 function MatchPageContent() {
@@ -29,6 +30,7 @@ function MatchPageContent() {
   const eventMarket = useSelector((state) => state.eventMarket);
 
   const [loading, setLoading] = useState(false);
+  const [isLive, setIsLive] = useState(false);
   // const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
 
   const syncEventData = async () => {
@@ -47,6 +49,7 @@ function MatchPageContent() {
 
     if (result?.success) {
       const event = result.data.details;
+      setIsLive(event?.isLive);
       dispatch(
         setEvent({
           eventId:
@@ -56,6 +59,7 @@ function MatchPageContent() {
           competitionName: event?.competitionName,
           startsOn: event.matchDate,
           videoStreamId: event?.videoStreamId || null,
+          apiEventId: event?.apiEventId,
         }),
       );
     }
@@ -78,6 +82,7 @@ function MatchPageContent() {
 
     if (result?.success) {
       const event = result.data.details;
+      setIsLive(event?.isLive);
       dispatch(
         setEvent({
           eventId:
@@ -87,6 +92,7 @@ function MatchPageContent() {
           competitionName: event?.competitionName,
           startsOn: event.matchDate,
           videoStreamId: event?.videoStreamId || null,
+          apiEventId: event?.apiEventId,
         }),
       );
       const evntmarket =
@@ -157,13 +163,13 @@ function MatchPageContent() {
           )}
         </div>
       </div>
-
       {eventMarket.markets?.length ? (
         <UncontrolledAccordion
           className="mt-1"
           defaultOpen={eventMarket.markets.map((mkt) => mkt._id)}
           stayOpen
         >
+          {isLive ? <CricketScore eventMarket={eventMarket} /> : ''}
           {eventMarket.markets.map((market) => (
             <AccordionItem key={market?._id}>
               <AccordionHeader

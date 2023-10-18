@@ -1,0 +1,136 @@
+.scorecard {
+  background: 0 0 / cover no-repeat #1a1201;
+  color: #fff;
+  font-size: 16px;
+  line-height: 17px;
+  padding: 5px;
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+}
+.cricket-m-hide .team-1 {
+  line-height: 22px;
+}
+.score-team-name {
+  display: inline-block !important;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: 14px;
+}
+.wtest {
+  display: inline-block !important;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  width: 32%;
+}
+.team-name-color {
+  color: #fff;
+}
+.lastsixball {
+  float: left;
+}
+.lastball-runs {
+  background: #5d5d5d;
+  border-radius: 50%;
+  color: #fff;
+  display: inline-block;
+  font-size: 10px;
+  height: 20px;
+  line-height: 20px;
+  text-align: center;
+  width: 20px;
+}
+.ball-runs.four,
+.lastball-runs.four {
+  background: #ffc11c;
+  color: #000 !important;
+}
+.lastsixballs {
+  float: right;
+}
+.ball-runs {
+  background: #27a6c3;
+  border-radius: 50%;
+  color: #fff;
+  display: inline-block;
+  font-size: 10px;
+  height: 20px;
+  line-height: 20px;
+  text-align: center;
+  width: 20px;
+}
+.ballstatuscricket {
+  background-color: rgba(102, 85, 9, 0.404);
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  text-align: center;
+  top: 50%;
+  right: 50%;
+  left: 50%;
+  -webkit-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+  z-index: 3;
+}
+.zm span {
+  -webkit-animation: 3s ease-out infinite txt;
+  animation: 3s ease-out infinite txt;
+  color: #e4bc09;
+  font-size: 20px;
+  position: absolute;
+  margin: 0 auto;
+  right: 0;
+  left: 0;
+  top: 39%;
+  -webkit-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+  font-weight: 700;
+}
+@keyframes txt {
+  0%,
+  60%,
+  100% {
+    -webkit-transform: scale(0.6);
+    transform: scale(0.6);
+  }
+  25% {
+    -webkit-transform: scale(2);
+    transform: scale(2);
+  }
+}
+.text_nm span {
+  color: #e4bc09;
+  font-size: 20px;
+  position: absolute;
+  margin: 0 auto;
+  right: 20px;
+  left: 50%;
+  top: 50%;
+  -webkit-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+  font-weight: 900;
+  text-align: center;
+}
+.commentary {
+  color: #faa9ba;
+  font-size: 12px;
+}
+.ball-runs.six,
+.lastball-runs.six {
+  background: #087f23;
+}
+@media only screen and (min-width: 320px) and (max-width: 1279px) {
+  .score-team-name.sixty {
+    width: 40px !important;
+    font-size: 10px;
+  }
+  .score-team-name.wtest {
+    font-size: 10px;
+    width: 30%;
+  }
+  .text_nm span {
+    font-size: 12px;
+  }
+}
