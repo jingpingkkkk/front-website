@@ -5,9 +5,28 @@ import menuImages from '../../../../components/common/exchange-sidemenu/menu-ima
 import useScreenWidth from '../../../../hooks/use-screen-width';
 
 function SportsTabs({ availableSports, onClick }) {
-  const { isMobile, isTablet } = useScreenWidth();
+  const {
+    isMobile,
+    isTablet,
+    isDesktop,
+    isLargeDesktop,
+    isExtraLargeDesktop,
+    isExtra2LargeDesktop,
+  } = useScreenWidth();
 
-  const perView = isMobile ? 3 : isTablet ? 7 : 9;
+  const perView = isMobile
+    ? 3
+    : isTablet
+    ? 7
+    : isDesktop
+    ? 6
+    : isLargeDesktop
+    ? 6
+    : isExtraLargeDesktop
+    ? 9
+    : isExtra2LargeDesktop
+    ? 15
+    : 11;
 
   const [step, setStep] = useState(0);
   const [sports, setSports] = useState(availableSports);
@@ -18,10 +37,12 @@ function SportsTabs({ availableSports, onClick }) {
   // }, [availableSports, perView, width]);
 
   const onNext = () => {
-    const newStep =
-      availableSports.length - step + 1 === perView ? 0 : step + 1;
-    setStep(newStep);
-    setSports(availableSports.slice(newStep, newStep + perView));
+    if (availableSports?.length > perView) {
+      const nextIndex = (step + 1) % (availableSports.length - perView + 1);
+      const newItems = availableSports.slice(nextIndex, nextIndex + perView);
+      setStep(nextIndex);
+      setSports(newItems);
+    }
   };
 
   const onPrev = () => {
