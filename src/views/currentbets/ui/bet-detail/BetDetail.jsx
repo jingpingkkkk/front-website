@@ -82,6 +82,7 @@ const BetDetail = ({ isOpen, toggle, selectedBet }) => {
         </Table>
 
         <div className="row m-3 bet-net-total-row">
+          <div className="col-md-1" />
           <div className="col-md-2 p-1 ps-3 text-center">
             <div style={{ color: '#72bbef' }}>Back SubTotal</div>
             <div
@@ -105,13 +106,7 @@ const BetDetail = ({ isOpen, toggle, selectedBet }) => {
               {selectedBet?.isBack ? 0 : selectedBet?.betPl}
             </div>
           </div>
-          <div className="col-md-1 mt-2 text-center">
-            <span>-</span>
-          </div>
-          <div className="col-md-2 p-1 text-center">
-            <div>Commission</div>
-            <div className="text-center">0</div>
-          </div>
+
           <div className="col-md-1 mt-2 text-center">
             <span>=</span>
           </div>
