@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useRef, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import './score-board.css';
 import { io } from 'socket.io-client';
 
@@ -7,10 +7,11 @@ const marketUrl = `${socketUrl}/market`;
 
 function CricketScore({ event }) {
   const socket = useMemo(() => io(marketUrl, { autoConnect: false }), []);
-  const previousValue = useRef(0);
   const [score, setScore] = useState({});
   const [crr, setCrr] = useState(0);
   const [ballRun, setBallRun] = useState(0);
+  const [teamRun, setTeamRun] = useState(0);
+
   const countCurrentRunRate = (data) => {
     const betting = data?.score?.away?.highlight
       ? data?.score?.away
@@ -18,15 +19,12 @@ function CricketScore({ event }) {
     const runs = betting?.inning1?.runs;
     const currentRun = Number(runs) / Number(betting?.inning1?.overs);
     setCrr(currentRun.toFixed(2));
-    const ballingRun = Number(runs) - Number(previousValue.current);
-    setBallRun(ballingRun);
+    setBallRun(teamRun > 0 ? Number(runs) - teamRun : 0);
+    setTeamRun(runs);
   };
   const handleMarketData = (data) => {
     if (data) {
       setScore(data);
-      previousValue.current = data?.score?.away?.highlight
-        ? data?.score?.away?.inning1?.runs
-        : data?.score?.home?.inning1?.runs;
       countCurrentRunRate(data);
     }
   };
