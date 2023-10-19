@@ -16,7 +16,7 @@ function CricketScore({ event }) {
     const betting = data?.score?.away?.highlight
       ? data?.score?.away
       : data?.score?.home;
-    const runs = betting?.inning1?.runs;
+    const runs = betting?.inning1?.runs || 0;
     const currentRun = Number(runs) / Number(betting?.inning1?.overs);
     setCrr(currentRun.toFixed(2));
     setBallRun(teamRun > 0 ? Number(runs) - teamRun : 0);
@@ -78,7 +78,12 @@ function CricketScore({ event }) {
                 <span className="alg_rt">
                   CRR{' '}
                   <span className="ms-1 me-2">
-                    {score?.score?.away?.highlight ? crr : 0}
+                    {score?.score?.away?.highlight
+                      ? crr
+                      : (
+                          Number(score?.score?.away?.inning1?.runs || 0) /
+                          Number(score?.score?.away?.inning1?.overs)
+                        ).toFixed(2)}
                   </span>
                 </span>
               </span>
