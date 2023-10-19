@@ -1,9 +1,30 @@
 /* eslint-disable react/jsx-curly-brace-presence */
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Modal, ModalBody, Table } from 'reactstrap';
+import { useSelector } from 'react-redux';
+import { postRequest } from '../../../../api';
 
-const FancyRunAmount = ({ isOpen, toggle }) => {
-  const amount = 100;
+const FancyRunAmount = ({ isOpen, toggle, marketRunner }) => {
+  const userDetails = useSelector((state) => state.userDetails);
+  const [data, setData] = useState([]);
+  const [loading, setLoading] = useState(false);
+
+  const fetchRunAmount = async () => {
+    setLoading(true);
+    const body = {
+      loginUserId: userDetails?.user?._id,
+      marketRunnerId: marketRunner,
+    };
+    const result = await postRequest('bet/getRunAmount', body);
+    if (result?.success) {
+      setData(result?.data?.details || []);
+    }
+    setLoading(false);
+  };
+  useEffect(() => {
+    fetchRunAmount();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
   return (
     <Modal isOpen={isOpen} toggle={toggle} className="bet-table-popup">
       <div className="modal-header">
@@ -35,16 +56,22 @@ const FancyRunAmount = ({ isOpen, toggle }) => {
             </tr>
           </thead>
           <tbody>
-            <tr>
-              <td>287</td>
-              <td>
-                <span
-                  className={`${amount > 0 ? 'text-success' : 'text-danger'}`}
-                >
-                  {amount}
-                </span>
-              </td>
-            </tr>
+            {!loading && data?.length
+              ? data?.map((run) => (
+                  <tr key={run?.run}>
+                    <td>{run?.run}</td>
+                    <td>
+                      <span
+                        className={`${
+                          run?.amount > 0 ? 'text-success' : 'text-danger'
+                        }`}
+                      >
+                        {run?.amount}
+                      </span>
+                    </td>
+                  </tr>
+                ))
+              : ''}
           </tbody>
         </Table>
       </ModalBody>
