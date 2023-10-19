@@ -1,7 +1,6 @@
 import React, { useEffect, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { io } from 'socket.io-client';
-import { postRequest } from '../../../../api';
 import { setMarketRunnerPl } from '../../../../redux/reducers/event-market';
 import { addEventMarketBets } from '../../../../redux/reducers/user-bets';
 import BookMaker from './BookMaker';
@@ -35,6 +34,7 @@ function Market({ market, eventId }) {
 
   const handleBetPlData = ({ marketBets, marketPls }) => {
     dispatch(addEventMarketBets({ eventId, marketBets }));
+    console.log(marketPls);
     marketPls.forEach((pls) => {
       dispatch(setMarketRunnerPl(pls));
     });
@@ -51,25 +51,26 @@ function Market({ market, eventId }) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [eventId, market._id]);
 
-  useEffect(() => {
-    const fetchUserBetsAndPls = async () => {
-      const result = await postRequest('bet/getAllUserBetsAndPls', {
-        userId: user._id,
-        eventId,
-      });
-      if (result.success) {
-        handleBetPlData(result.data.details);
-      }
-    };
-    const interval = setInterval(async () => {
-      await fetchUserBetsAndPls();
-    }, 1000 * 10);
-    fetchUserBetsAndPls();
-    return () => {
-      clearInterval(interval);
-    };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  // NOTE: Don't remove this code
+  // useEffect(() => {
+  //   const fetchUserBetsAndPls = async () => {
+  //     const result = await postRequest('bet/getAllUserBetsAndPls', {
+  //       userId: user._id,
+  //       eventId,
+  //     });
+  //     if (result.success) {
+  //       handleBetPlData(result.data.details);
+  //     }
+  //   };
+  //   const interval = setInterval(async () => {
+  //     await fetchUserBetsAndPls();
+  //   }, 1000 * 10);
+  //   fetchUserBetsAndPls();
+  //   return () => {
+  //     clearInterval(interval);
+  //   };
+  //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  // }, []);
 
   return markets[market?.name] || null;
 }
