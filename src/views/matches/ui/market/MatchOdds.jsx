@@ -4,10 +4,10 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Spinner } from 'reactstrap';
 import { io } from 'socket.io-client';
 import shortNumber from '../../../../helper/number';
+import useScreenWidth from '../../../../hooks/use-screen-width';
 import { betTypes, setBetOdds } from '../../../../redux/reducers/event-bet';
 import { setMarketPlForecast } from '../../../../redux/reducers/event-market';
 import MobileBetPanel from '../bet-slip-mobile';
-import useScreenWidth from '../../../../hooks/use-screen-width';
 
 const singleOdd = {
   back: [
@@ -57,12 +57,17 @@ function MatchOdds({ market }) {
   const handleMarketData = (data) => {
     if (data) {
       const runners = data.matchOdds.reduce((acc, runner, index) => {
-        const runnerBack = runner.back.length
-          ? runner.back
-          : Array(3).fill(singleOdd);
-        const runnerLay = runner.lay.length
-          ? runner.lay
-          : Array(3).fill(singleOdd);
+        const runnerBack =
+          runner.back.length === 3
+            ? runner.back
+            : [
+                ...runner.back,
+                ...Array(3 - runner.back.length).fill(singleOdd),
+              ];
+        const runnerLay =
+          runner.lay.length === 3
+            ? runner.lay
+            : [...runner.lay, ...Array(3 - runner.lay.length).fill(singleOdd)];
 
         const { back: previousBack, lay: previousLay } =
           previousValue?.current?.[index] || {};

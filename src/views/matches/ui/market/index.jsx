@@ -1,6 +1,7 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { io } from 'socket.io-client';
+import { postRequest } from '../../../../api';
 import { setMarketRunnerPl } from '../../../../redux/reducers/event-market';
 import { addEventMarketBets } from '../../../../redux/reducers/user-bets';
 import BookMaker from './BookMaker';
@@ -10,17 +11,21 @@ import MatchOdds from './MatchOdds';
 
 const socketUrl = import.meta.env.VITE_SOCKET_URL;
 const marketUrl = `${socketUrl}/user-bet`;
-const socket = io(marketUrl, {
-  auth: { token: localStorage.getItem('userToken') },
-  autoConnect: false,
-});
 
 function Market({ market, eventId }) {
   const dispatch = useDispatch();
   const { user } = useSelector((state) => state.userDetails);
   const eventMarkets = useSelector((state) => state.eventMarket.markets);
 
+  const socket = useMemo(() => {
+    return io(marketUrl, {
+      auth: { token: localStorage.getItem('userToken') },
+      autoConnect: false,
+    });
+  }, []);
+
   const currentMarket = eventMarkets.find((m) => m._id === market._id);
+
   const markets = {
     'Match Odds': <MatchOdds market={currentMarket} />,
     Bookmaker: <BookMaker market={currentMarket} />,
@@ -28,16 +33,16 @@ function Market({ market, eventId }) {
     Fancy1: <Fancy1 market={currentMarket} />,
   };
 
+  const handleBetPlData = ({ marketBets, marketPls }) => {
+    dispatch(addEventMarketBets({ eventId, marketBets }));
+    marketPls.forEach((pls) => {
+      dispatch(setMarketRunnerPl(pls));
+    });
+  };
+
   useEffect(() => {
-    const handleBetPlData = ({ marketBets, marketPls }) => {
-      dispatch(addEventMarketBets({ eventId, marketBets }));
-      marketPls.forEach((pls) => {
-        dispatch(setMarketRunnerPl(pls));
-      });
-    };
     socket.emit('event:bet', { eventId }, handleBetPlData);
     socket.on(`event:bet:${user._id}`, handleBetPlData);
-
     socket.connect();
     return () => {
       socket.disconnect();
@@ -46,22 +51,25 @@ function Market({ market, eventId }) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [eventId, market._id]);
 
-  // useEffect(() => {
-  //   const fetchRunnerPls = async () => {
-  //     const result = await postRequest('bet/getRunnerPlsFancy', {
-  //       marketId: market._id,
-  //       eventId: event.eventId,
-  //     });
-  //     if (result.success) {
-  //       const runnerPls = result.data.details;
-  //       setRunnerPLS(runnerPls);
-  //       dispatch(setMarketRunnerPl(runnerPls));
-  //     }
-  //   };
-
-  //   fetchRunnerPls();
-  //   // eslint-disable-next-line react-hooks/exhaustive-deps
-  // }, [eventBetMarket]);
+  useEffect(() => {
+    const fetchUserBetsAndPls = async () => {
+      const result = await postRequest('bet/getAllUserBetsAndPls', {
+        userId: user._id,
+        eventId,
+      });
+      if (result.success) {
+        handleBetPlData(result.data.details);
+      }
+    };
+    const interval = setInterval(async () => {
+      await fetchUserBetsAndPls();
+    }, 1000 * 10);
+    fetchUserBetsAndPls();
+    return () => {
+      clearInterval(interval);
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return markets[market?.name] || null;
 }

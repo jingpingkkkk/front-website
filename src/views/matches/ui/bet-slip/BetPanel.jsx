@@ -195,21 +195,16 @@ function BetPanel() {
         throw new Error(result.message);
       }
 
-      // const newBet = { betDetails: result.data.details, eventBet };
       const forecast = { marketId: eventBet.market._id, plForecast: [0, 0] };
+      dispatch(setMarketPlForecast(forecast));
 
       setTimeout(() => {
-        // dispatch(addUserBet(newBet));
-        dispatch(setMarketPlForecast(forecast));
         dispatch(resetEventBet());
         ToastAlert.success('Bet placed successfully.');
         setBetLoading(false);
       }, eventBet.market.betDelay * 1000);
-      // }, 5 * 1000);
     } catch (e) {
       setBetLoading(false);
-      console.log(e);
-      // ToastAlert.error(e.message);
     }
   };
 
