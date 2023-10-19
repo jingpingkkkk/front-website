@@ -20,7 +20,7 @@ a {
   padding: 0;
 }
 .right-side {
-  width: 19%;
+  width: 23.8%;
   padding-left: 0;
   padding-right: 0;
 }
@@ -301,6 +301,7 @@ nav#sidebar li.all-sports {
 .main-content {
   padding-left: 0;
   padding-right: 5px;
+  width: 62%;
 }
 span.image-outer {
   width: 25px;
@@ -1859,6 +1860,9 @@ input[type='date']::-webkit-calendar-picker-indicator:hover {
     width: 100%;
     padding-left: 0;
     padding-right: 0;
+  }
+  .main-content {
+    width: 100%;
   }
 }
 
