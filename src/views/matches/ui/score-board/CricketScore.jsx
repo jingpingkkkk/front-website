@@ -5,7 +5,7 @@ import { io } from 'socket.io-client';
 const socketUrl = import.meta.env.VITE_SOCKET_URL;
 const marketUrl = `${socketUrl}/market`;
 
-function CricketScore({ eventMarket }) {
+function CricketScore({ event }) {
   const socket = useMemo(() => io(marketUrl, { autoConnect: false }), []);
   const previousValue = useRef(0);
   const [score, setScore] = useState({});
@@ -33,7 +33,7 @@ function CricketScore({ eventMarket }) {
   useEffect(() => {
     socket.emit(
       'join:market',
-      { id: eventMarket?.event?.apiEventId, type: 'live_score' },
+      { id: event?.apiEventId, type: 'live_score' },
       handleMarketData,
     );
     socket.connect();
@@ -41,7 +41,7 @@ function CricketScore({ eventMarket }) {
       socket.disconnect();
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [eventMarket]);
+  }, [event]);
   return (
     <div className="scorecard cricket-m-hide">
       <div className="row">
@@ -56,7 +56,7 @@ function CricketScore({ eventMarket }) {
                 {score?.score?.home?.inning1?.wickets || 0}(
                 {score?.score?.home?.inning1?.overs || 0})
               </span>
-              <span className="score-team-name sixty float-end d-inline teamname-widht">
+              <span className="score-team-name crr float-end d-inline teamname-widht">
                 <span className="alg_rt">
                   CRR{' '}
                   <span className="ms-1 me-2">
@@ -76,7 +76,7 @@ function CricketScore({ eventMarket }) {
                 {score?.score?.away?.inning1?.wickets || 0}(
                 {score?.score?.away?.inning1?.overs || 0})
               </span>
-              <span className="score-team-name sixty float-end d-inline teamname-widht">
+              <span className="score-team-name crr float-end d-inline teamname-widht">
                 <span className="alg_rt">
                   CRR{' '}
                   <span className="ms-1 me-2">
@@ -124,13 +124,13 @@ function CricketScore({ eventMarket }) {
       <div className="ballstatuscricket zm ng-star-inserted">
         <span>{ballRun}</span>
       </div>
-      {score?.stateOfBall?.bowlerName ? (
+      {/* {score?.stateOfBall?.bowlerName ? (
         <div className="text_nm ng-star-inserted">
           <span>{score?.stateOfBall?.bowlerName}</span>
         </div>
       ) : (
         ''
-      )}
+      )} */}
       <div className="row ng-star-inserted">
         <div className="col-md-12 ">
           <span className="commentary  custom-commentary">

@@ -121,16 +121,78 @@
 .lastball-runs.six {
   background: #087f23;
 }
+.tennis-score-card {
+  background-color: #303030;
+  padding: 5px 8px 4px;
+  font-size: 18px;
+  font-weight: 300;
+}
+.tennis-player {
+  height: 24px;
+}
+.player-name {
+  color: #fff;
+  white-space: nowrap;
+  overflow: hidden;
+  font-size: 18px;
+  line-height: 22px;
+}
+.set {
+  height: 24px;
+  line-height: 24px;
+  width: 31px;
+  font-size: 18px;
+  float: right;
+  text-align: center;
+  color: #fff;
+  background-color: #1e1e1e;
+}
+.serve {
+  margin-bottom: 5px;
+  display: inline-block;
+  border-radius: 6px;
+  width: 6px;
+  height: 6px;
+  background-color: #0c0;
+  margin-left: 8px;
+}
+.set-count {
+  font-size: 9px;
+  color: #e6e6e6;
+  height: 24px;
+}
+.current {
+  color: #0c0;
+}
+.set-title {
+  font-size: 12px;
+  text-align: left;
+  color: #0c0;
+}
+.tennis-point-title {
+  font-size: 8px;
+  text-align: center;
+  color: #fff;
+}
 @media only screen and (min-width: 320px) and (max-width: 1279px) {
   .score-team-name.sixty {
     width: 40px !important;
     font-size: 10px;
+  }
+  .score-team-name.crr {
+    font-size: 12px;
   }
   .score-team-name.wtest {
     font-size: 10px;
     width: 30%;
   }
   .text_nm span {
-    font-size: 12px;
+    font-size: 11px;
+    top: 38%;
+  }
+  .player-name {
+    width: 200px;
+    text-overflow: ellipsis;
+    display: inline-block !important;
   }
 }

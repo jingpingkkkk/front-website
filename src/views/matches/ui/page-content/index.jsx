@@ -17,8 +17,8 @@ import {
   setMarkets,
 } from '../../../../redux/reducers/event-market';
 import Market from '../market';
-import CricketScore from '../score-board/CricketScore';
 import '../matches.css';
+import ScoreBoard from '../score-board';
 
 function MatchPageContent() {
   const navigate = useNavigate();
@@ -60,6 +60,7 @@ function MatchPageContent() {
           startsOn: event.matchDate,
           videoStreamId: event?.videoStreamId || null,
           apiEventId: event?.apiEventId,
+          sportsName: event?.sportsName || null,
         }),
       );
     }
@@ -93,6 +94,7 @@ function MatchPageContent() {
           startsOn: event.matchDate,
           videoStreamId: event?.videoStreamId || null,
           apiEventId: event?.apiEventId,
+          sportsName: event?.sportsName || null,
         }),
       );
       const evntmarket =
@@ -169,7 +171,7 @@ function MatchPageContent() {
           defaultOpen={eventMarket.markets.map((mkt) => mkt._id)}
           stayOpen
         >
-          {isLive ? <CricketScore eventMarket={eventMarket} /> : ''}
+          {isLive ? <ScoreBoard event={eventMarket?.event} /> : ''}
           {eventMarket.markets.map((market) => (
             <AccordionItem key={market?._id}>
               <AccordionHeader
