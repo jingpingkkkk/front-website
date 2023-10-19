@@ -32,7 +32,13 @@ function AppLayout({ sidebarLeft, sidebarRight, pageContent }) {
             </Col>
           ) : null}
 
-          <Col md="12" lg={contentMdColWidth} className="main-content">
+          <Col
+            md="12"
+            lg={contentMdColWidth}
+            className={` ${
+              isSidebarRight && isSidebarLeft ? 'main-content' : ''
+            }`}
+          >
             {pageContent}
           </Col>
 

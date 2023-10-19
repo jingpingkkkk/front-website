@@ -25,7 +25,13 @@ function Footer({ sidebarLeft, sidebarRight }) {
       {sidebarLeft ? (
         <div className="col-md-2 col-sm-12 col-12 left-sidebar" />
       ) : null}
-      <Col md="8" lg={contentMdColWidth} className="main-content footer-area">
+      <Col
+        md="8"
+        lg={contentMdColWidth}
+        className={`footer-area ${
+          isSidebarRight && isSidebarLeft ? 'main-content' : ''
+        }`}
+      >
         <footer className="footer">
           <div className="row">
             <div className="col-md-4 col-sm-12 col-12">
