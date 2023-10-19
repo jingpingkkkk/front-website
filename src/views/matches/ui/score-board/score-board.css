@@ -1,5 +1,5 @@
 .scorecard {
-  background: 0 0 / cover no-repeat #1a1201;
+  background: 0 0 / 100% 100% no-repeat url('./images/score_bg.png');
   color: #fff;
   font-size: 16px;
   line-height: 18px;
@@ -7,6 +7,7 @@
   position: relative;
   width: 100%;
   overflow: hidden;
+  background-position: center center;
 }
 .cricket-m-hide .team-1 {
   line-height: 22px;
@@ -62,7 +63,7 @@
   width: 20px;
 }
 .ballstatuscricket {
-  background-color: rgba(102, 85, 9, 0.404);
+  /* background-color: rgba(102, 85, 9, 0.404); */
   width: 100%;
   height: 100%;
   position: absolute;

@@ -25,6 +25,7 @@ function Fancy({ market }) {
   const [fancyRunners, setFancyRunners] = useState([]);
   const [loading, setLoading] = useState(true);
   const [isOpenRunAmount, setIsOpenRunAmount] = useState(false);
+  const [selectedRunnerId, setSeletedRunnerId] = useState();
 
   const handleFancyData = (data) => {
     if (data.length) {
@@ -171,7 +172,10 @@ function Fancy({ market }) {
                         {runner?.pl ? (
                           <span
                             className="cursor-pointer"
-                            onClick={() => setIsOpenRunAmount(true)}
+                            onClick={() => {
+                              setIsOpenRunAmount(true);
+                              setSeletedRunnerId(runner?.runnerId);
+                            }}
                           >
                             {runner?.RunnerName || ''}
                           </span>
@@ -448,6 +452,7 @@ function Fancy({ market }) {
         <FancyRunAmount
           isOpen={isOpenRunAmount}
           toggle={() => setIsOpenRunAmount(false)}
+          marketRunner={selectedRunnerId}
         />
       ) : (
         ''
