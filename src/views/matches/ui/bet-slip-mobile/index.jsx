@@ -102,10 +102,12 @@ function MobileBetPanel() {
         throw new Error(result.message);
       }
 
-      const forecast = { marketId: eventBet.market._id, plForecast: [0, 0] };
+      dispatch(
+        setMarketRunnerPls({ marketId: eventBet.market._id, runnerPls: {} }),
+      );
+      dispatch(setAbsoluteBetProfit(0));
 
       setTimeout(() => {
-        dispatch(setMarketPlForecast(forecast));
         dispatch(resetEventBet());
         ToastAlert.success('Bet placed successfully.');
         setBetLoading(false);
