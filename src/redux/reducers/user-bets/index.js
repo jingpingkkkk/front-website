@@ -15,6 +15,9 @@ export const userBetsSlice = createSlice({
      *          stake: Number,
      *          isBack: Boolean,
      *          createdAt: DateTime,
+     *          runnerScore: Number,
+     *          potentialWin: Number,
+     *          potentialLoss: Number,
      *        },
      *      ],
      *    },
@@ -31,13 +34,9 @@ export const userBetsSlice = createSlice({
 
       marketBets.forEach(({ market, bets }) => {
         betsByMarket[market._id] = bets.map((bet) => ({
-          _id: bet._id,
+          ...bet,
           marketName: market.name,
           runnerName: bet.runner,
-          odds: bet.odds,
-          stake: bet.stake,
-          isBack: bet.isBack,
-          createdAt: bet.createdAt,
         }));
       });
 

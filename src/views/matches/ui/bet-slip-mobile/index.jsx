@@ -1,11 +1,11 @@
 /* eslint-disable no-nested-ternary */
-import React, { useRef, useState, useEffect } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import defaultStakeButtons from '../../../../helper/stake-buttons';
-import shortNumber from '../../../../helper/number';
-import './bet-slip.css';
 import { postRequest } from '../../../../api';
-import { setMarketPlForecast } from '../../../../redux/reducers/event-market';
+import LoadingRelative from '../../../../components/common/loading-relative';
+import { shortNumber } from '../../../../helper/number';
+import defaultStakeButtons from '../../../../helper/stake-buttons';
+import ToastAlert from '../../../../helper/toast-alert';
 import {
   betTypes,
   resetEventBet,
@@ -14,8 +14,8 @@ import {
   setBetSize,
   setBetStake,
 } from '../../../../redux/reducers/event-bet';
-import ToastAlert from '../../../../helper/toast-alert';
-import LoadingRelative from '../../../../components/common/loading-relative';
+import { setMarketPlForecast } from '../../../../redux/reducers/event-market';
+import './bet-slip.css';
 
 function MobileBetPanel() {
   const dispatch = useDispatch();
@@ -195,21 +195,16 @@ function MobileBetPanel() {
         throw new Error(result.message);
       }
 
-      // const newBet = { betDetails: result.data.details, eventBet };
       const forecast = { marketId: eventBet.market._id, plForecast: [0, 0] };
 
       setTimeout(() => {
-        // dispatch(addUserBet(newBet));
         dispatch(setMarketPlForecast(forecast));
         dispatch(resetEventBet());
         ToastAlert.success('Bet placed successfully.');
         setBetLoading(false);
       }, eventBet.market.betDelay * 1000);
-      // }, 5 * 1000);
     } catch (e) {
       setBetLoading(false);
-      console.log(e);
-      // ToastAlert.error(e.message);
     }
   };
 

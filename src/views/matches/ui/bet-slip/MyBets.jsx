@@ -1,4 +1,3 @@
-import moment from 'moment';
 import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import {
@@ -7,6 +6,8 @@ import {
   AccordionItem,
   UncontrolledAccordion,
 } from 'reactstrap';
+import { shortNumber } from '../../../../helper/number';
+import { MARKET_NAMES } from '../../helpers/constants';
 
 const indexArr = Array.from({ length: 100 }, (_, i) => i.toString());
 
@@ -49,15 +50,41 @@ function MyBets() {
               <table className="table table-dark table-borderless small">
                 <thead>
                   <tr>
-                    <th className="text-secondary small">RUNNER</th>
-                    <th className="text-end text-secondary small">ODDS</th>
-                    <th className="text-end text-secondary small">STAKE</th>
+                    <th
+                      className="text-secondary small"
+                      style={{ width: '43%' }}
+                    >
+                      Runner
+                    </th>
+
+                    <th
+                      className="text-end text-secondary small"
+                      style={{ width: '21%' }}
+                    >
+                      {bm.marketName === MARKET_NAMES.NORMAL ? 'Runs/' : ''}
+                      Odds
+                    </th>
+
+                    <th
+                      className="text-end text-secondary small"
+                      style={{ width: '18%' }}
+                    >
+                      Stake
+                    </th>
+
+                    <th
+                      className="text-end text-secondary small"
+                      style={{ width: '18%' }}
+                    >
+                      P/L
+                    </th>
                   </tr>
                 </thead>
+
                 <tbody>
                   {bm.bets.map((bet) => (
                     <tr key={bet._id}>
-                      <td className="py-1">
+                      <td>
                         <div
                           className="ps-2 py-2 text-start"
                           style={{
@@ -66,21 +93,32 @@ function MyBets() {
                             }`,
                           }}
                         >
-                          <div className="text-start">
-                            {bet.runnerName}{' '}
-                            {bm.marketName === 'Normal'
-                              ? `${bet?.size ? '/'.bet?.size : ''}`
-                              : ''}
-                          </div>
-                          <div className="text-secondary pt-1 small">
-                            {moment(bet.createdAt).format(
-                              'DD-MM-YYYY HH:mm:ss',
-                            )}
-                          </div>
+                          <div className="text-dark py-1">{bet.runnerName}</div>
                         </div>
                       </td>
-                      <td className="py-3 text-end">{bet.odds.toFixed(2)}</td>
-                      <td className="py-3 text-end">{bet.stake}</td>
+
+                      <td className="py-3 text-end text-secondary">
+                        {bm.marketName === MARKET_NAMES.NORMAL
+                          ? `${bet?.runnerScore}/`
+                          : ''}
+                        {shortNumber(bet.odds)}
+                      </td>
+
+                      <td className="py-3 text-end text-secondary">
+                        {bet.stake}
+                      </td>
+
+                      <td className="py-3 text-end text-secondary">
+                        {bet.isBack ? (
+                          <div className="text-success">
+                            +{shortNumber(bet.potentialWin)}
+                          </div>
+                        ) : (
+                          <div className="text-danger">
+                            {shortNumber(bet.potentialLoss)}
+                          </div>
+                        )}
+                      </td>
                     </tr>
                   ))}
                 </tbody>

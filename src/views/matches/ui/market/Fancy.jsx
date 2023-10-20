@@ -5,11 +5,11 @@ import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Spinner } from 'reactstrap';
 import { io } from 'socket.io-client';
-import shortNumber from '../../../../helper/number';
+import { shortNumber } from '../../../../helper/number';
+import useScreenWidth from '../../../../hooks/use-screen-width';
 import { betTypes, setBetOdds } from '../../../../redux/reducers/event-bet';
 import { setMarketPlForecast } from '../../../../redux/reducers/event-market';
 import MobileBetPanel from '../bet-slip-mobile';
-import useScreenWidth from '../../../../hooks/use-screen-width';
 import FancyRunAmount from '../run-amount/FancyRunAmount';
 
 const socketUrl = import.meta.env.VITE_SOCKET_URL;
