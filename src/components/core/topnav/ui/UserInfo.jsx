@@ -105,7 +105,9 @@ const UserInfo = ({ user }) => {
       <div className="text-center d-none-desktop bal-point">
         pts:
         <span>{user?.balance || 0}</span>{' '}
-        <span>| {userInfo?.exposure?.toFixed(2) || 0}</span>
+        <span onClick={() => setShowExposureDetail(true)}>
+          | {userInfo?.exposure?.toFixed(2) || 0}
+        </span>
       </div>
       <div className="d-flex">
         <UncontrolledDropdown className="d-none-mobile">

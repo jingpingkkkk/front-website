@@ -3,9 +3,13 @@ import React from 'react';
 import { Modal, ModalBody, Table } from 'reactstrap';
 
 const ExposureDetail = ({ isOpen, toggle }) => {
-  console.log(isOpen);
   return (
-    <Modal isOpen={isOpen} toggle={toggle} className="bet-table-popup">
+    <Modal
+      isOpen={isOpen}
+      toggle={toggle}
+      className="bet-table-popup"
+      size="lg"
+    >
       <div className="modal-header">
         <h5 className="modal-title">Exposure Details</h5>
         <button
@@ -31,6 +35,14 @@ const ExposureDetail = ({ isOpen, toggle }) => {
             </tr>
           </thead>
           <tbody>
+            <tr>
+              <td className="text-start p-2">
+                Hobart Hurricanes WBBL V Perth Scorchers WBBL
+              </td>
+              <td className="p-2">
+                <span className="text-danger">1100</span>
+              </td>
+            </tr>
             <tr>
               <td className="text-start p-2">Australia V Pakistan</td>
               <td className="p-2">
