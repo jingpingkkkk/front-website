@@ -3,10 +3,11 @@ import React, { useLayoutEffect, useMemo, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Spinner } from 'reactstrap';
 import { io } from 'socket.io-client';
-import { shortNumber } from '../../../../helper/number';
+import { roundNumber, shortNumber } from '../../../../helper/number';
 import useScreenWidth from '../../../../hooks/use-screen-width';
 import { betTypes, setBetOdds } from '../../../../redux/reducers/event-bet';
-import { setMarketPlForecast } from '../../../../redux/reducers/event-market';
+import { setMarketRunnerPls } from '../../../../redux/reducers/event-market';
+import useRunnerPl from '../../hooks/use-runner-pl';
 import MobileBetPanel from '../bet-slip-mobile';
 
 const singleOdd = {
@@ -49,6 +50,9 @@ function MatchOdds({ market }) {
   const eventBet = useSelector((state) => state.eventBet);
   const previousValue = useRef(emptyOdds);
   const { isMobile, isTablet } = useScreenWidth();
+
+  const { calculateRunnerPl } = useRunnerPl();
+
   const [loading, setLoading] = useState(true);
   const [runnerOdds, setRunnerOdds] = useState(emptyOdds);
   const [min, setMin] = useState(market.minStake);
@@ -128,6 +132,7 @@ function MatchOdds({ market }) {
     const selectedOdd = {
       market: {
         _id: market._id,
+        eventId: market.eventId,
         apiMarketId: market.apiMarketId,
         name: market.name,
         betDelay: market.betDelay,
@@ -148,7 +153,13 @@ function MatchOdds({ market }) {
 
     // dispatch(setBetStake(0)); // for resetting stake on odd click
     dispatch(setBetOdds(selectedOdd));
-    dispatch(setMarketPlForecast({ marketId: market._id, plForecast: [0, 0] }));
+    const runnerPls = calculateRunnerPl({
+      odds: odd.price,
+      market,
+      runner,
+      betType: type,
+    });
+    dispatch(setMarketRunnerPls({ marketId: market._id, runnerPls }));
   };
 
   return (
@@ -234,26 +245,26 @@ function MatchOdds({ market }) {
                       <span className="float-right" />
                       <div
                         className={`pt-1 small ${
-                          runner.pl > 0
+                          runner?.pl > 0
                             ? 'text-success'
-                            : runner.pl < 0
+                            : runner?.pl < 0
                             ? 'text-danger'
                             : 'text-light'
                         }`}
                       >
-                        {runner.pl ? runner.pl.toFixed(0) : ''}
+                        {runner?.pl ? runner?.pl.toFixed(0) : ''}
                       </div>
                     </div>
 
-                    {market?.plForecast[runner?.priority] !== 0 ? (
+                    {market?.runnerPls[runner._id]?.pl !== 0 ? (
                       <div
                         className={`small ${
-                          market?.plForecast[runner?.priority] > 0
+                          market.runnerPls[runner._id]?.pl > 0
                             ? 'text-success'
                             : 'text-danger'
                         }`}
                       >
-                        {market?.plForecast[runner?.priority]?.toFixed(0)}
+                        {roundNumber(market.runnerPls[runner._id]?.pl, 0)}
                       </div>
                     ) : null}
                   </div>

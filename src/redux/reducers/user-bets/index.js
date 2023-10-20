@@ -11,6 +11,7 @@ export const userBetsSlice = createSlice({
      *        {
      *          marketName: String,
      *          runnerName: String,
+     *          runnerId: String,
      *          odds: Number,
      *          stake: Number,
      *          isBack: Boolean,
