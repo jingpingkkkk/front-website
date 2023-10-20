@@ -12,12 +12,18 @@ function CricketScore({ event }) {
   const [ballRun, setBallRun] = useState(0);
   const [teamRun, setTeamRun] = useState(0);
 
+  const calculateRun = (run = 0, over = 0) => {
+    return run ? Number(run) / Number(over).toFixed(2) : 0;
+  };
+
   const countCurrentRunRate = (data) => {
     const betting = data?.score?.away?.highlight
       ? data?.score?.away
       : data?.score?.home;
     const runs = betting?.inning1?.runs || 0;
-    const currentRun = Number(runs) / Number(betting?.inning1?.overs);
+    const currentRun = runs
+      ? Number(runs) / Number(betting?.inning1?.overs)
+      : 0;
     setCrr(currentRun.toFixed(2));
     setBallRun(teamRun > 0 ? Number(runs) - teamRun : 0);
     setTeamRun(runs);
@@ -56,9 +62,14 @@ function CricketScore({ event }) {
               </span>
               <span className="score-team-name crr float-end d-inline teamname-widht">
                 <span className="alg_rt">
-                  CRR{' '}
+                  CRR
                   <span className="ms-1 me-2">
-                    {score?.score?.home?.highlight ? crr : 0}
+                    {score?.score?.home?.highlight
+                      ? crr
+                      : calculateRun(
+                          score?.score?.home?.inning1?.runs,
+                          score?.score?.home?.inning1?.overs,
+                        )}
                   </span>
                 </span>
               </span>
@@ -76,14 +87,14 @@ function CricketScore({ event }) {
               </span>
               <span className="score-team-name crr float-end d-inline teamname-widht">
                 <span className="alg_rt">
-                  CRR{' '}
+                  CRR
                   <span className="ms-1 me-2">
                     {score?.score?.away?.highlight
                       ? crr
-                      : (
-                          Number(score?.score?.away?.inning1?.runs || 0) /
-                          Number(score?.score?.away?.inning1?.overs)
-                        ).toFixed(2)}
+                      : calculateRun(
+                          score?.score?.away?.inning1?.runs,
+                          score?.score?.away?.inning1?.overs,
+                        )}
                   </span>
                 </span>
               </span>
@@ -137,7 +148,7 @@ function CricketScore({ event }) {
       <div className="row ng-star-inserted">
         <div className="col-md-12 ">
           <span className="commentary  custom-commentary">
-            {score?.matchStatus || ''}
+            {/* {score?.matchStatus || ''} */}
           </span>
         </div>
       </div>
