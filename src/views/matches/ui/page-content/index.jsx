@@ -102,6 +102,7 @@ function MatchPageContent() {
       const marketData = evntmarket.map((market) => {
         return {
           _id: market._id,
+          eventId: market.eventId,
           apiMarketId: market.marketId,
           apiEventId: market.apiEventId,
           name:
@@ -110,6 +111,7 @@ function MatchPageContent() {
               : market?.name, // change key from backend
           eventName: event.name,
           plForecast: [0, 0],
+          runnerPls: {},
           minStake: market.minStake,
           maxStake: market.maxStake,
           betDelay: market.betDelay,
