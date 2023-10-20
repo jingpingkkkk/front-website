@@ -1,8 +1,10 @@
 import React, { useEffect, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { io } from 'socket.io-client';
+import { postRequest } from '../../../../api';
 import { setMarketRunnerPl } from '../../../../redux/reducers/event-market';
 import { addEventMarketBets } from '../../../../redux/reducers/user-bets';
+import { MARKET_NAMES } from '../../helpers/constants';
 import BookMaker from './BookMaker';
 import Fancy from './Fancy';
 import Fancy1 from './Fancy1';
@@ -23,18 +25,8 @@ function Market({ market, eventId }) {
     });
   }, []);
 
-  const currentMarket = eventMarkets.find((m) => m._id === market._id);
-
-  const markets = {
-    'Match Odds': <MatchOdds market={currentMarket} />,
-    Bookmaker: <BookMaker market={currentMarket} />,
-    Normal: <Fancy market={currentMarket} />,
-    Fancy1: <Fancy1 market={currentMarket} />,
-  };
-
   const handleBetPlData = ({ marketBets, marketPls }) => {
     dispatch(addEventMarketBets({ eventId, marketBets }));
-    console.log(marketPls);
     marketPls.forEach((pls) => {
       dispatch(setMarketRunnerPl(pls));
     });
@@ -51,26 +43,32 @@ function Market({ market, eventId }) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [eventId, market._id]);
 
-  // NOTE: Don't remove this code
-  // useEffect(() => {
-  //   const fetchUserBetsAndPls = async () => {
-  //     const result = await postRequest('bet/getAllUserBetsAndPls', {
-  //       userId: user._id,
-  //       eventId,
-  //     });
-  //     if (result.success) {
-  //       handleBetPlData(result.data.details);
-  //     }
-  //   };
-  //   const interval = setInterval(async () => {
-  //     await fetchUserBetsAndPls();
-  //   }, 1000 * 10);
-  //   fetchUserBetsAndPls();
-  //   return () => {
-  //     clearInterval(interval);
-  //   };
-  //   // eslint-disable-next-line react-hooks/exhaustive-deps
-  // }, []);
+  // In case if socket fails to cath event:bet:{userId}
+  useEffect(() => {
+    const fetchUserBetsAndPls = async () => {
+      const body = { userId: user._id, eventId };
+      const result = await postRequest('bet/getAllUserBetsAndPls', body);
+      if (result.success) {
+        handleBetPlData(result.data.details);
+      }
+    };
+    const interval = setInterval(async () => {
+      await fetchUserBetsAndPls();
+    }, 1000 * 10);
+    return () => {
+      clearInterval(interval);
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  const currentMarket = eventMarkets.find((m) => m._id === market._id);
+
+  const markets = {
+    [MARKET_NAMES.MATCH_ODDS]: <MatchOdds market={currentMarket} />,
+    [MARKET_NAMES.BOOKMAKER]: <BookMaker market={currentMarket} />,
+    [MARKET_NAMES.NORMAL]: <Fancy market={currentMarket} />,
+    [MARKET_NAMES.FANCY1]: <Fancy1 market={currentMarket} />,
+  };
 
   return markets[market?.name] || null;
 }

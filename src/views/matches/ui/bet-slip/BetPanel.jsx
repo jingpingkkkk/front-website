@@ -3,7 +3,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { postRequest } from '../../../../api';
 import LoadingRelative from '../../../../components/common/loading-relative';
-import shortNumber from '../../../../helper/number';
+import { shortNumber } from '../../../../helper/number';
 import defaultStakeButtons from '../../../../helper/stake-buttons';
 import ToastAlert from '../../../../helper/toast-alert';
 import {
@@ -15,7 +15,6 @@ import {
   setBetStake,
 } from '../../../../redux/reducers/event-bet';
 import { setMarketPlForecast } from '../../../../redux/reducers/event-market';
-// import { addUserBet } from '../../../../redux/reducers/user-bets';
 
 function BetPanel() {
   const dispatch = useDispatch();
@@ -126,9 +125,10 @@ function BetPanel() {
       absoluteBetProfit = ap;
       plForecast = pf;
     } else if (eventBet?.market?.name === 'Bookmaker') {
+      const newRate = rate / 100 + 1;
       const { absoluteBetProfit: ap, plForecast: pf } = calculateBookMakerStake(
         betType,
-        rate,
+        newRate,
         quantity,
         oppRunner,
         priority,
