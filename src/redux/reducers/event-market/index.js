@@ -20,9 +20,11 @@ export const eventMarketSlice = createSlice({
      *    {
      *      _id: String,
      *      apiMarketId: String,
+     *      eventId: String,
      *      name: String,
      *      eventName: String,
-     *      plForecast: [Number, Number],
+     *      plForecast: [Number],
+     *      runnerPls: {},
      *      minStake: Number,
      *      maxStake: Number,
      *      betDelay: Number, // in seconds
@@ -64,6 +66,16 @@ export const eventMarketSlice = createSlice({
       });
     },
 
+    setMarketRunnerPls: (state, action) => {
+      const { marketId, runnerPls } = action.payload;
+      state.markets = state.markets.map((mkt) => {
+        if (mkt._id === marketId) {
+          return { ...mkt, runnerPls };
+        }
+        return mkt;
+      });
+    },
+
     setMarketRunnerPl: (state, action) => {
       const runnerPls = action.payload;
 
@@ -86,6 +98,17 @@ export const eventMarketSlice = createSlice({
       });
     },
 
+    clearOtherMarketForecasts: (state, action) => {
+      const marketId = action.payload;
+      const currentMarkets = current(state).markets;
+      state.markets = currentMarkets.map((mkt) => {
+        if (mkt._id !== marketId) {
+          return { ...mkt, runnerPls: {} };
+        }
+        return mkt;
+      });
+    },
+
     resetEventMarket: (state) => {
       state.event = {};
       state.markets = [];
@@ -97,6 +120,8 @@ export const {
   setEvent,
   setMarkets,
   setMarketPlForecast,
+  setMarketRunnerPls,
+  clearOtherMarketForecasts,
   resetEventMarket,
   setMarketRunnerPl,
 } = eventMarketSlice.actions;

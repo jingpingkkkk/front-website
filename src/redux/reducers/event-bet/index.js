@@ -24,6 +24,7 @@ export const eventBetSlice = createSlice({
     /**
      * {
      *    _id: String,
+     *    eventId: String,
      *    apiMarketId: String,
      *    name: String,
      *    betDelay: Number, // in seconds
@@ -83,6 +84,7 @@ export const eventBetSlice = createSlice({
       state.runner = {};
       state.price = 0;
       state.stake = 0;
+      state.size = 0;
       state.betType = '';
       state.absoluteBetProfit = 0;
       state.orderType = orderTypes.LIMIT;

@@ -3,10 +3,11 @@ import React, { useLayoutEffect, useMemo, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Spinner } from 'reactstrap';
 import { io } from 'socket.io-client';
-import { shortNumber } from '../../../../helper/number';
+import { roundNumber, shortNumber } from '../../../../helper/number';
 import useScreenWidth from '../../../../hooks/use-screen-width';
 import { betTypes, setBetOdds } from '../../../../redux/reducers/event-bet';
-import { setMarketPlForecast } from '../../../../redux/reducers/event-market';
+import { setMarketRunnerPls } from '../../../../redux/reducers/event-market';
+import useRunnerPl from '../../hooks/use-runner-pl';
 import MobileBetPanel from '../bet-slip-mobile';
 
 const singleOdd = {
@@ -32,11 +33,13 @@ const socketUrl = import.meta.env.VITE_SOCKET_URL;
 const marketUrl = `${socketUrl}/market`;
 
 function BookMaker({ market }) {
+  const socket = useMemo(() => io(marketUrl, { autoConnect: false }), []);
+
   const dispatch = useDispatch();
   const eventBet = useSelector((state) => state.eventBet);
   const previousValue = useRef(emptyOdds);
   const { isMobile, isTablet } = useScreenWidth();
-  const socket = useMemo(() => io(marketUrl, { autoConnect: false }), []);
+  const { calculateRunnerPl } = useRunnerPl();
 
   const [loading, setLoading] = useState(true);
   const [runnerOdds, setRunnerOdds] = useState(emptyOdds);
@@ -131,7 +134,14 @@ function BookMaker({ market }) {
       betType: type,
     };
     dispatch(setBetOdds(selectedOdd));
-    dispatch(setMarketPlForecast({ marketId: market._id, plForecast: [0, 0] }));
+    const runnerPls = calculateRunnerPl({
+      odds: odd.price,
+      market,
+      runner,
+      betType: type,
+    });
+    console.log(runnerPls);
+    dispatch(setMarketRunnerPls({ marketId: market._id, runnerPls }));
   };
 
   return (
@@ -186,26 +196,26 @@ function BookMaker({ market }) {
                         <span className="float-right" />
                         <div
                           className={`pt-1 small ${
-                            runner.pl > 0
+                            runner?.pl > 0
                               ? 'text-success'
-                              : runner.pl < 0
+                              : runner?.pl < 0
                               ? 'text-danger'
                               : 'text-light'
                           }`}
                         >
-                          {runner.pl ? runner.pl.toFixed(0) : ''}
+                          {runner?.pl ? runner.pl.toFixed(0) : ''}
                         </div>
                       </div>
 
-                      {market?.plForecast[runner?.priority] !== 0 ? (
+                      {market?.runnerPls[runner._id]?.pl !== 0 ? (
                         <div
                           className={`small ${
-                            market?.plForecast[runner?.priority] > 0
+                            market.runnerPls[runner._id]?.pl > 0
                               ? 'text-success'
                               : 'text-danger'
                           }`}
                         >
-                          {market?.plForecast[runner?.priority].toFixed(0)}
+                          {roundNumber(market.runnerPls[runner._id]?.pl, 0)}
                         </div>
                       ) : null}
                     </div>
