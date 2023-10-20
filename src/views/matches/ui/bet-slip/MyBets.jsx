@@ -6,7 +6,7 @@ import {
   AccordionItem,
   UncontrolledAccordion,
 } from 'reactstrap';
-import { shortNumber } from '../../../../helper/number';
+import { roundNumber, shortNumber } from '../../../../helper/number';
 import { MARKET_NAMES } from '../../helpers/constants';
 
 const indexArr = Array.from({ length: 100 }, (_, i) => i.toString());
@@ -101,21 +101,21 @@ function MyBets() {
                         {bm.marketName === MARKET_NAMES.NORMAL
                           ? `${bet?.runnerScore}/`
                           : ''}
-                        {shortNumber(bet.odds)}
+                        {roundNumber(bet.odds)}
                       </td>
 
                       <td className="py-3 text-end text-secondary">
-                        {bet.stake}
+                        {shortNumber(bet.stake)}
                       </td>
 
                       <td className="py-3 text-end text-secondary">
                         {bet.isBack ? (
                           <div className="text-success">
-                            +{shortNumber(bet.potentialWin)}
+                            +{shortNumber(bet.potentialWin, 2)}
                           </div>
                         ) : (
                           <div className="text-danger">
-                            {shortNumber(bet.potentialLoss)}
+                            {shortNumber(bet.potentialLoss, 2)}
                           </div>
                         )}
                       </td>
