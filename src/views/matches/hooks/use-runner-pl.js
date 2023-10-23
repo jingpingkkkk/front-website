@@ -171,11 +171,11 @@ export default function useRunnerPl() {
 
     if (market.name === MARKET_NAMES.NORMAL && odds && size) {
       if (isBack) {
-        pl = stake * size - stake;
+        pl = (stake * size) / 100;
         exposure = -stake;
       } else {
         pl = stake;
-        exposure = -(stake * size - stake);
+        exposure = -((stake * size) / 100);
       }
     }
 
