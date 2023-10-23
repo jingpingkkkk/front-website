@@ -1,5 +1,5 @@
 .scorecard {
-  background: 0 0 / 100% 100% no-repeat url('./images/score_bg.png');
+  background: 0 0 / 100% 100% no-repeat url('/images/score_bg.png');
   color: #fff;
   font-size: 16px;
   line-height: 18px;

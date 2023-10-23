@@ -173,6 +173,17 @@ function BookMaker({ market }) {
                 <div className="bet-table-mobile-row d-none-desktop">
                   <div className="bet-table-mobile-team-name">
                     <span>{runner?.name || ''}</span>
+                    <div
+                      className={`pt-1 small ${
+                        runner?.pl > 0
+                          ? 'text-success'
+                          : runner?.pl < 0
+                          ? 'text-danger'
+                          : 'text-light'
+                      }`}
+                    >
+                      {runner?.pl ? runner?.pl.toFixed(0) : ''}
+                    </div>
                   </div>
                 </div>
 

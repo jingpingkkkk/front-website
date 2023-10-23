@@ -207,7 +207,20 @@ function MatchOdds({ market }) {
                       <span className="ms-2">{runnername || ''}</span>
                     </div>
                   ) : (
-                    <span>{runner?.name || ''}</span>
+                    <>
+                      <span>{runner?.name || ''}</span>
+                      <div
+                        className={`pt-1 small ${
+                          runner?.pl > 0
+                            ? 'text-success'
+                            : runner?.pl < 0
+                            ? 'text-danger'
+                            : 'text-light'
+                        }`}
+                      >
+                        {runner?.pl ? runner?.pl.toFixed(0) : ''}
+                      </div>
+                    </>
                   )}
                 </div>
               </div>

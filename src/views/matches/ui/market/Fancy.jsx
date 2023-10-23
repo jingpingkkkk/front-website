@@ -159,6 +159,31 @@ function Fancy({ market }) {
                   <div className="bet-table-mobile-row d-none-desktop">
                     <div className="bet-table-mobile-team-name">
                       <span>{runner?.RunnerName || ''}</span>
+                      <div
+                        className={`pt-1 small ${
+                          runner?.pl > 0
+                            ? 'text-success'
+                            : runner?.pl < 0
+                            ? 'text-danger'
+                            : 'text-light'
+                        }`}
+                      >
+                        {runner?.pl ? runner?.pl.toFixed(0) : ''}
+                      </div>
+                      {runner?.pl ? (
+                        <button
+                          type="button"
+                          className="btn book-btn"
+                          onClick={() => {
+                            setIsOpenRunAmount(true);
+                            setSeletedRunnerId(runner?.runnerId);
+                          }}
+                        >
+                          Book
+                        </button>
+                      ) : (
+                        ''
+                      )}
                     </div>
                   </div>
                   <div
@@ -173,19 +198,7 @@ function Fancy({ market }) {
                   >
                     <div className="nation-name d-none-mobile small">
                       <div>
-                        {runner?.pl ? (
-                          <span
-                            className="cursor-pointer"
-                            onClick={() => {
-                              setIsOpenRunAmount(true);
-                              setSeletedRunnerId(runner?.runnerId);
-                            }}
-                          >
-                            {runner?.RunnerName || ''}
-                          </span>
-                        ) : (
-                          <span>{runner?.RunnerName || ''}</span>
-                        )}
+                        <span>{runner?.RunnerName || ''}</span>
                         <div
                           className={`pt-1 small ${
                             runner?.pl > 0
@@ -198,6 +211,20 @@ function Fancy({ market }) {
                           {runner?.pl ? runner?.pl?.toFixed(0) : ''}
                         </div>
                       </div>
+                      {runner?.pl ? (
+                        <button
+                          type="button"
+                          className="btn book-btn"
+                          onClick={() => {
+                            setIsOpenRunAmount(true);
+                            setSeletedRunnerId(runner?.runnerId);
+                          }}
+                        >
+                          Book
+                        </button>
+                      ) : (
+                        ''
+                      )}
                     </div>
                     <button
                       type="button"

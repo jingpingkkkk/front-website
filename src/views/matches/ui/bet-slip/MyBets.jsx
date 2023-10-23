@@ -44,7 +44,10 @@ function MyBets() {
               targetId={i.toString()}
               className="bet-table-header"
             >
-              {bm.marketName}
+              <span>
+                {bm.marketName}
+                <span className="ms-1">({bm?.bets?.length || 0})</span>
+              </span>
             </AccordionHeader>
 
             <AccordionBody accordionId={i.toString()}>
