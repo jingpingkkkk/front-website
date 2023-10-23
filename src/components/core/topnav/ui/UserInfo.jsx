@@ -148,7 +148,7 @@ const UserInfo = ({ user }) => {
             <img
               src="./images/icons-bell.png"
               alt="bell-icon"
-              className="w-50 h-50"
+              className="w-50 h-50 bell-icon"
             />
           </DropdownToggle>
 
