@@ -123,11 +123,11 @@ function MyBets() {
                       >
                         {bet.isBack ? (
                           <div className="text-success">
-                            +{shortNumber(bet.potentialWin, 2)}
+                            +{roundNumber(bet.potentialWin, 2)}
                           </div>
                         ) : (
                           <div className="text-danger">
-                            {shortNumber(bet.potentialLoss, 2)}
+                            {roundNumber(bet.potentialLoss, 2)}
                           </div>
                         )}
                       </td>
