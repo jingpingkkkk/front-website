@@ -1,7 +1,8 @@
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 import {
   DropdownItem,
   DropdownMenu,
@@ -9,7 +10,6 @@ import {
   UncontrolledDropdown,
 } from 'reactstrap';
 import { io } from 'socket.io-client';
-import { useNavigate } from 'react-router-dom';
 import countDays from '../../../../helper/day-count';
 import { userLogout } from '../../../../helper/user';
 import { resetUserDetails } from '../../../../redux/reducers/user-details';
@@ -18,15 +18,19 @@ import NotificationPopup from './NotificationPopup';
 import './userInfo.css';
 
 const socketUrl = import.meta.env.VITE_SOCKET_URL;
-const userSocket = io(`${socketUrl}/user`, {
-  auth: { token: localStorage.getItem('userToken') },
-  autoConnect: false,
-});
-const notificationSocket = io(`${socketUrl}/event-notification`, {
-  autoConnect: false,
-});
 
 const UserInfo = ({ user }) => {
+  const userSocket = useMemo(() => {
+    return io(`${socketUrl}/user`, {
+      auth: { token: localStorage.getItem('userToken') },
+      autoConnect: false,
+    });
+  }, []);
+
+  const notificationSocket = useMemo(() => {
+    return io(`${socketUrl}/event-notification`, { autoConnect: false });
+  }, []);
+
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [userInfo, setUserInfo] = useState(user);
@@ -45,7 +49,7 @@ const UserInfo = ({ user }) => {
       userSocket.disconnect();
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [user]);
 
   useEffect(() => {
     notificationSocket.emit('join:event:notification', setNotifications);
