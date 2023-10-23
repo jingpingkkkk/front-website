@@ -8,6 +8,7 @@ import {
 } from 'reactstrap';
 import { roundNumber, shortNumber } from '../../../../helper/number';
 import { MARKET_NAMES } from '../../helpers/constants';
+import './bet-panel.css';
 
 const indexArr = Array.from({ length: 100 }, (_, i) => i.toString());
 
@@ -52,14 +53,14 @@ function MyBets() {
                   <tr>
                     <th
                       className="text-secondary small"
-                      style={{ width: '43%' }}
+                      style={{ width: '40%' }}
                     >
                       Runner
                     </th>
 
                     <th
                       className="text-end text-secondary small"
-                      style={{ width: '21%' }}
+                      style={{ width: '20%' }}
                     >
                       {bm.marketName === MARKET_NAMES.NORMAL ? 'Runs/' : ''}
                       Odds
@@ -67,14 +68,14 @@ function MyBets() {
 
                     <th
                       className="text-end text-secondary small"
-                      style={{ width: '18%' }}
+                      style={{ width: '20%' }}
                     >
                       Stake
                     </th>
 
                     <th
                       className="text-end text-secondary small"
-                      style={{ width: '18%' }}
+                      style={{ width: '20%' }}
                     >
                       P/L
                     </th>
@@ -84,22 +85,22 @@ function MyBets() {
                 <tbody>
                   {bm.bets.map((bet) => (
                     <tr key={bet._id}>
-                      <td className={` ${bet.isBack ? 'back' : 'lay'}`}>
+                      <td className={bet.isBack ? 'back-bet' : 'lay-bet'}>
                         <div
-                          className="ps-2 py-2 text-start"
-                          style={{
-                            borderLeft: `5px solid ${
-                              bet.isBack ? '#72bbef' : '#f994ba'
-                            }`,
-                          }}
+                          className="ps-1 py-2 text-start"
+                          // style={{
+                          //   borderLeft: `4px solid ${
+                          //     bet.isBack ? '#72bbef' : '#f994ba'
+                          //   }`,
+                          // }}
                         >
                           <div className="text-dark py-1">{bet.runnerName}</div>
                         </div>
                       </td>
 
                       <td
-                        className={` py-3 text-end text-secondary ${
-                          bet.isBack ? 'back' : 'lay'
+                        className={`py-3 text-end text-dark ${
+                          bet.isBack ? 'back-bet' : 'lay-bet'
                         }`}
                       >
                         {bm.marketName === MARKET_NAMES.NORMAL
@@ -109,16 +110,16 @@ function MyBets() {
                       </td>
 
                       <td
-                        className={` py-3 text-end text-secondary ${
-                          bet.isBack ? 'back' : 'lay'
+                        className={`py-3 text-end text-dark ${
+                          bet.isBack ? 'back-bet' : 'lay-bet'
                         }`}
                       >
                         {shortNumber(bet.stake)}
                       </td>
 
                       <td
-                        className={` py-3 text-end text-secondary ${
-                          bet.isBack ? 'back' : 'lay'
+                        className={`py-3 pe-2 text-end text-secondary ${
+                          bet.isBack ? 'back-bet' : 'lay-bet'
                         }`}
                       >
                         {bet.isBack ? (

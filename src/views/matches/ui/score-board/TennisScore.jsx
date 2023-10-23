@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react';
-import './score-board.css';
 import { io } from 'socket.io-client';
+import './score-board.css';
 
 const socketUrl = import.meta.env.VITE_SOCKET_URL;
 const marketUrl = `${socketUrl}/market`;
@@ -10,7 +10,6 @@ function TennisScore({ event }) {
   const previousValue = useRef(0);
   const [score, setScore] = useState({});
   const handleMarketData = (data) => {
-    console.log(data);
     if (data) {
       setScore(data);
       previousValue.current = data?.score?.away?.highlight

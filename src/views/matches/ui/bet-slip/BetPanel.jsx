@@ -233,7 +233,8 @@ function BetPanel() {
                     ))}
                     <button
                       type="button"
-                      className="amounts text-warning"
+                      className="amounts fw-bold"
+                      style={{ color: '#d97706' }}
                       onClick={() => updateStake({ max: true })}
                     >
                       MAX

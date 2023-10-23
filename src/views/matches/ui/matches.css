@@ -76,6 +76,7 @@
   margin-right: 4px;
   cursor: default;
   font-size: 14px;
+  pointer-events: none !important;
 }
 .back-title {
   background-color: #72bbef80 !important;
@@ -137,10 +138,10 @@
   background-color: #72bbef !important;
 }
 .back:hover {
-  background-color: #52a5e0;
+  background-color: #52a5e0 !important;
 }
 .back:active {
-  background-color: #4c9bd3;
+  background-color: #4c9bd3 !important;
 }
 .back1 {
   background-color: #72bbefcc !important;
@@ -196,10 +197,10 @@
   background-color: #f994ba !important;
 }
 .lay:hover {
-  background-color: #ed7fa9;
+  background-color: #ed7fa9 !important;
 }
 .lay:active {
-  background-color: #e16f9a;
+  background-color: #e16f9a !important;
 }
 .lay1 {
   background-color: #f994bacc !important;

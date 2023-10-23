@@ -92,7 +92,13 @@ function Topnav() {
   };
 
   useEffect(() => {
-    Promise.all([getThemeSettings(), rehydrateUser(), getUserStakeButtons()]);
+    const interval = setInterval(async () => {
+      await rehydrateUser();
+    }, 1000 * 10);
+    Promise.all([getThemeSettings(), getUserStakeButtons()]);
+    return () => {
+      clearInterval(interval);
+    };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
