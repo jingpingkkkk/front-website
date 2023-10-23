@@ -16,6 +16,7 @@ import { resetUserDetails } from '../../../../redux/reducers/user-details';
 import StateButtons from '../../stake-button-popup';
 import NotificationPopup from './NotificationPopup';
 import './userInfo.css';
+import ExposureDetail from './ExposureDetail';
 
 const socketUrl = import.meta.env.VITE_SOCKET_URL;
 
@@ -39,6 +40,7 @@ const UserInfo = ({ user }) => {
   const [notifications, setNotifications] = useState([]);
   const [eventId, setEventId] = useState(null);
   const [eventName, setEventName] = useState(null);
+  const [showExposureDetail, setShowExposureDetail] = useState(false);
 
   useEffect(() => {
     userSocket.on(`user:${user._id}`, (data) => {
@@ -89,9 +91,15 @@ const UserInfo = ({ user }) => {
             <tr>
               <td className="balance-value">exp:</td>
               <td className="ps-1 small text-end">
-                {userInfo?.exposure
-                  ? -parseFloat(userInfo.exposure.toFixed(2))
-                  : 0}
+                <button
+                  type="button"
+                  className="text-decoration-underline bg-transparent"
+                  onClick={() => setShowExposureDetail(true)}
+                >
+                  {userInfo?.exposure
+                    ? -parseFloat(userInfo.exposure.toFixed(2))
+                    : 0}
+                </button>
               </td>
             </tr>
           </tbody>
@@ -101,7 +109,9 @@ const UserInfo = ({ user }) => {
       <div className="text-center d-none-desktop bal-point">
         pts:
         <span>{user?.balance || 0}</span>{' '}
-        <span>| {userInfo?.exposure?.toFixed(2) || 0}</span>
+        <span onClick={() => setShowExposureDetail(true)}>
+          | {userInfo?.exposure?.toFixed(2) || 0}
+        </span>
       </div>
       <div className="d-flex">
         <UncontrolledDropdown className="d-none-mobile">
@@ -211,6 +221,16 @@ const UserInfo = ({ user }) => {
           eventId={eventId}
           eventName={eventName}
         />
+      )}
+      {showExposureDetail ? (
+        <ExposureDetail
+          isOpen={showExposureDetail}
+          toggle={() => {
+            setShowExposureDetail(false);
+          }}
+        />
+      ) : (
+        ''
       )}
     </div>
   );

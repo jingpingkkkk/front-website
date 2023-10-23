@@ -8,7 +8,10 @@ import { io } from 'socket.io-client';
 import { shortNumber } from '../../../../helper/number';
 import useScreenWidth from '../../../../hooks/use-screen-width';
 import { betTypes, setBetOdds } from '../../../../redux/reducers/event-bet';
-import { setMarketPlForecast } from '../../../../redux/reducers/event-market';
+import {
+  clearOtherMarketForecasts,
+  setMarketPlForecast,
+} from '../../../../redux/reducers/event-market';
 import MobileBetPanel from '../bet-slip-mobile';
 import FancyRunAmount from '../run-amount/FancyRunAmount';
 
@@ -117,6 +120,7 @@ function Fancy({ market }) {
     // dispatch(setBetStake(0));
     dispatch(setBetOdds(selectedOdd));
     dispatch(setMarketPlForecast({ marketId: market._id, plForecast: [0, 0] }));
+    dispatch(clearOtherMarketForecasts(market._id));
   };
 
   return (

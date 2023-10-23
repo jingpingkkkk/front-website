@@ -134,7 +134,7 @@
   transition: color 0.5s;
 }
 .back {
-  background-color: #72bbef;
+  background-color: #72bbef !important;
 }
 .back:hover {
   background-color: #52a5e0;
@@ -193,7 +193,7 @@
   text-align: center;
 }
 .lay {
-  background-color: #f994ba;
+  background-color: #f994ba !important;
 }
 .lay:hover {
   background-color: #ed7fa9;

@@ -4,7 +4,7 @@ const MARKET_NAMES = {
   MATCH_ODDS: 'Match Odds',
   BOOKMAKER: 'Bookmaker',
   NORMAL: 'Normal',
-  FANCY1: 'Fancy 1',
+  FANCY1: 'Fancy1',
 };
 
 export { MARKET_NAMES };
