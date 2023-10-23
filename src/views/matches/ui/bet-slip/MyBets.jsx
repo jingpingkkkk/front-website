@@ -84,7 +84,7 @@ function MyBets() {
                 <tbody>
                   {bm.bets.map((bet) => (
                     <tr key={bet._id}>
-                      <td className={` ${bet.isBack ? 'back1' : 'lay1'}`}>
+                      <td className={bet.isBack ? 'back' : 'lay'}>
                         <div
                           className="ps-1 py-2 text-start"
                           // style={{
@@ -99,7 +99,7 @@ function MyBets() {
 
                       <td
                         className={`py-3 text-end text-dark ${
-                          bet.isBack ? 'back1' : 'lay1'
+                          bet.isBack ? 'back' : 'lay'
                         }`}
                       >
                         {bm.marketName === MARKET_NAMES.NORMAL
@@ -110,7 +110,7 @@ function MyBets() {
 
                       <td
                         className={`py-3 text-end text-dark ${
-                          bet.isBack ? 'back1' : 'lay1'
+                          bet.isBack ? 'back' : 'lay'
                         }`}
                       >
                         {shortNumber(bet.stake)}
@@ -118,7 +118,7 @@ function MyBets() {
 
                       <td
                         className={`py-3 pe-2 text-end text-secondary ${
-                          bet.isBack ? 'back1' : 'lay1'
+                          bet.isBack ? 'back' : 'lay'
                         }`}
                       >
                         {bet.isBack ? (
