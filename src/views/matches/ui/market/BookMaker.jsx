@@ -140,7 +140,6 @@ function BookMaker({ market }) {
       runner,
       betType: type,
     });
-    console.log(runnerPls);
     dispatch(setMarketRunnerPls({ marketId: market._id, runnerPls }));
   };
 
