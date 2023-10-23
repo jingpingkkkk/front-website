@@ -1,8 +1,32 @@
+/* eslint-disable no-nested-ternary */
 /* eslint-disable react/jsx-curly-brace-presence */
-import React from 'react';
-import { Modal, ModalBody, Table } from 'reactstrap';
+import React, { useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
+import { Modal, ModalBody, Spinner, Table } from 'reactstrap';
+import { postRequest } from '../../../../api';
+import { roundNumber } from '../../../../helper/number';
 
 const ExposureDetail = ({ isOpen, toggle }) => {
+  const userDetails = useSelector((state) => state.userDetails);
+  const [data, setData] = useState([]);
+  const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    const fetchUserExposureList = async () => {
+      setLoading(true);
+      const body = {
+        loginUserId: userDetails?.user?._id,
+      };
+      const result = await postRequest('bet/getUserExposureList', body);
+      if (result?.success) {
+        setData(result?.data?.details || []);
+      }
+      setLoading(false);
+    };
+
+    fetchUserExposureList();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
   return (
     <Modal
       isOpen={isOpen}
@@ -30,25 +54,35 @@ const ExposureDetail = ({ isOpen, toggle }) => {
         >
           <thead>
             <tr>
-              <th className="text-primary p-2">Events Name</th>
-              <th className="text-primary text-center p-2">Exposure</th>
+              <th className="text-primary p-2 w-75">Events Name</th>
+              <th className="text-primary text-start p-2 w-25">Exposure</th>
             </tr>
           </thead>
           <tbody>
-            <tr>
-              <td className="text-start p-2">
-                Hobart Hurricanes WBBL V Perth Scorchers WBBL
-              </td>
-              <td className="p-2">
-                <span className="text-danger">1100</span>
-              </td>
-            </tr>
-            <tr>
-              <td className="text-start p-2">Australia V Pakistan</td>
-              <td className="p-2">
-                <span className="text-danger">1100</span>
-              </td>
-            </tr>
+            {loading ? (
+              <tr>
+                <td colSpan={2}>
+                  <Spinner />
+                </td>
+              </tr>
+            ) : data?.length ? (
+              data?.map((exposure) => (
+                <tr key={`${exposure?.index}-${exposure?.eventId}`}>
+                  <td className="text-start p-2">
+                    {exposure?.eventName || ''}
+                  </td>
+                  <td className="p-2 text-start">
+                    <span className="text-danger">
+                      {roundNumber(exposure?.exposure) || 0}
+                    </span>
+                  </td>
+                </tr>
+              ))
+            ) : (
+              <tr>
+                <td colSpan={2}>No Data</td>
+              </tr>
+            )}
           </tbody>
         </Table>
       </ModalBody>
