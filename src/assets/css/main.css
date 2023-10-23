@@ -1668,6 +1668,25 @@ input[type='date']::-webkit-calendar-picker-indicator:hover {
 .bet-detail-tab {
   font-weight: 400;
 }
+.book-btn {
+  background: var(--third-color);
+  padding: 0px 5px !important;
+  font-size: 12px;
+  font-weight: 600;
+}
+.book-btn:hover {
+  background: var(--third-color);
+}
+.book-btn:active {
+  background: var(--third-color);
+}
+.exposure-event {
+  text-decoration: none;
+  color: #aaafb5;
+}
+.exposure-event:hover {
+  text-decoration: underline;
+}
 /* Responsive Css */
 
 @media only screen and (max-width: 1199px) and (min-width: 992px) {

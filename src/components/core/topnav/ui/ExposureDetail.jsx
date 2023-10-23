@@ -3,13 +3,21 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { Modal, ModalBody, Spinner, Table } from 'reactstrap';
+import { Link, useNavigate } from 'react-router-dom';
 import { postRequest } from '../../../../api';
 import { roundNumber } from '../../../../helper/number';
 
 const ExposureDetail = ({ isOpen, toggle }) => {
   const userDetails = useSelector((state) => state.userDetails);
+  const navigate = useNavigate();
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(false);
+
+  const handleEventClick = (e, path, id) => {
+    e.preventDefault();
+    toggle();
+    navigate(path, { state: { eventId: id } });
+  };
 
   useEffect(() => {
     const fetchUserExposureList = async () => {
@@ -69,7 +77,16 @@ const ExposureDetail = ({ isOpen, toggle }) => {
               data?.map((exposure) => (
                 <tr key={`${exposure?.index}-${exposure?.eventId}`}>
                   <td className="text-start p-2">
-                    {exposure?.eventName || ''}
+                    <Link
+                      to="/matches"
+                      state={{ eventId: exposure?.eventId }}
+                      className="exposure-event"
+                      onClick={(e) =>
+                        handleEventClick(e, '/matches', exposure?.eventId)
+                      }
+                    >
+                      {exposure?.eventName || ''}
+                    </Link>
                   </td>
                   <td className="p-2 text-start">
                     <span className="text-danger">

@@ -790,6 +790,13 @@
     width: 100%;
   }
 }
+.bet-amount-popup thead tr th {
+  background-color: var(--primary-color);
+  color: #fff !important;
+}
+.bet-table-popup {
+  margin-top: 5rem;
+}
 .bet-table-popup .modal-content {
   background-color: var(--background-color);
 }

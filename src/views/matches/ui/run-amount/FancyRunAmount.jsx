@@ -26,7 +26,11 @@ const FancyRunAmount = ({ isOpen, toggle, marketRunner }) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   return (
-    <Modal isOpen={isOpen} toggle={toggle} className="bet-table-popup">
+    <Modal
+      isOpen={isOpen}
+      toggle={toggle}
+      className="bet-table-popup bet-amount-popup"
+    >
       <div className="modal-header">
         <h5 className="modal-title">Run Amount</h5>
         <button
