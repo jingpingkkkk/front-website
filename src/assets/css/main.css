@@ -1665,6 +1665,9 @@ input[type='date']::-webkit-calendar-picker-indicator:hover {
   display: flex;
   align-items: end;
 }
+.bet-detail-tab {
+  font-weight: 400;
+}
 /* Responsive Css */
 
 @media only screen and (max-width: 1199px) and (min-width: 992px) {
