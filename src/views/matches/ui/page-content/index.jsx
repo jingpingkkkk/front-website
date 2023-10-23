@@ -24,6 +24,7 @@ function MatchPageContent() {
   const navigate = useNavigate();
   const location = useLocation();
   const { eventId = null } = location.state || {};
+  const { marketId = null } = location.state || {};
   const { sportName = null } = location.state || {};
 
   const dispatch = useDispatch();
@@ -42,8 +43,7 @@ function MatchPageContent() {
       eventId,
     };
     if (sportName === 'Greyhound Racing') {
-      delete body.eventId;
-      body.marketId = eventId;
+      body.marketId = marketId;
     }
     const result = await postRequest(`event/${urlEndPoint}`, body);
 
@@ -52,10 +52,8 @@ function MatchPageContent() {
       setIsLive(event?.isLive);
       dispatch(
         setEvent({
-          eventId:
-            sportName === 'Greyhound Racing' ? event?.event._id : event._id, // change key from backend
-          name:
-            sportName === 'Greyhound Racing' ? event?.event.name : event.name, // change key from backend
+          eventId: event._id,
+          name: event.name,
           competitionName: event?.competitionName,
           startsOn: event.matchDate,
           videoStreamId: event?.videoStreamId || null,
@@ -76,8 +74,7 @@ function MatchPageContent() {
       eventId,
     };
     if (sportName === 'Greyhound Racing') {
-      delete body.eventId;
-      body.marketId = eventId;
+      body.marketId = marketId;
     }
     const result = await postRequest(`event/${urlEndPoint}`, body);
 
@@ -86,10 +83,8 @@ function MatchPageContent() {
       setIsLive(event?.isLive);
       dispatch(
         setEvent({
-          eventId:
-            sportName === 'Greyhound Racing' ? event?.event?._id : event._id, // change key from backend
-          name:
-            sportName === 'Greyhound Racing' ? event?.event.name : event.name, // change key from backend
+          eventId: event._id,
+          name: event.name,
           competitionName: event?.competitionName,
           startsOn: event.matchDate,
           videoStreamId: event?.videoStreamId || null,
@@ -97,8 +92,7 @@ function MatchPageContent() {
           sportsName: event?.sportsName || null,
         }),
       );
-      const evntmarket =
-        sportName === 'Greyhound Racing' ? [event] : event.market;
+      const evntmarket = event.market;
       const marketData = evntmarket.map((market) => {
         return {
           _id: market._id,

@@ -1006,7 +1006,7 @@ button {
   transition: all 0.05s ease-in-out;
 }
 .amount-choose .amounts:hover {
-  background: var(--promo-tab-bg);
+  background: var(--light-text-color);
 }
 .amount-choose .amounts:active {
   background: var(--promo-tab-bg);

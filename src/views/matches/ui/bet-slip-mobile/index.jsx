@@ -57,7 +57,6 @@ function MobileBetPanel() {
       market,
       size: eventBet.size,
     });
-    console.log(exposure);
 
     dispatch(setMarketRunnerPls({ marketId: market._id, runnerPls }));
     if (betType === betTypes.BACK) {

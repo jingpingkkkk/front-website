@@ -37,7 +37,7 @@ function GreyhoundRacing({ events, sportName, activeTab, onTabChange }) {
     setEventData(event);
   };
 
-  const handleEventClick = (e, path, id) => {
+  const handleEventClick = (e, path, marketId, eventId) => {
     e.preventDefault();
     const notLoggedIn =
       !userDetails?.user?._id || !localStorage.getItem('userToken');
@@ -46,7 +46,7 @@ function GreyhoundRacing({ events, sportName, activeTab, onTabChange }) {
       return;
     }
 
-    navigate(path, { state: { eventId: id, sportName } });
+    navigate(path, { state: { eventId, marketId, sportName } });
   };
 
   return (
@@ -119,7 +119,12 @@ function GreyhoundRacing({ events, sportName, activeTab, onTabChange }) {
                               to="/matches"
                               state={{ eventId: mrkt?._id }}
                               onClick={(e) =>
-                                handleEventClick(e, '/matches', mrkt?._id)
+                                handleEventClick(
+                                  e,
+                                  '/matches',
+                                  mrkt?._id,
+                                  event?._id,
+                                )
                               }
                             >
                               <span>{mrkt?.time}</span>
