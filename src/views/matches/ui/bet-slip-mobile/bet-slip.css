@@ -23,8 +23,9 @@
   box-shadow: var(--bet-collapse-shadow);
 }
 .bs-top-content {
-  display: flow-root;
-  position: relative;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
   border-top-left-radius: 10px;
   border-top-right-radius: 10px;
 }
@@ -44,7 +45,7 @@
   width: 50%;
   position: relative;
   display: flex;
-  justify-content: center;
+  justify-content: flex-start;
 }
 .bs-top-content .input-group div {
   display: inline-block;
@@ -85,7 +86,6 @@ main .bet-collapse .bet-cont .bet-input-container .betslip-button {
 
 .bet-collapse .bet-cont .bet-input-container .form-control {
   position: relative;
-  top: 5px;
   background-color: transparent;
   font-weight: 700;
   font-size: 15px;
@@ -122,7 +122,7 @@ main .bet-collapse .bet-cont .bet-input-container .betslip-button {
   height: 30%;
 }
 .custom-btn input {
-  margin: 5px 10px 5px;
+  margin: 0px 10px 5px;
   height: 25px;
   line-height: 25px;
   display: inline-block;
@@ -139,6 +139,8 @@ main .bet-collapse .bet-cont .bet-input-container .betslip-button {
   height: 30px;
   line-height: 30px;
   background-color: transparent;
+  left: -25px;
+  position: relative;
 }
 .bet-collapse .bet-cont .bet-input-container .betslip-button {
   margin: 5px 0;
@@ -180,4 +182,38 @@ main .bet-collapse .bet-cont .bet-input-container .betslip-button {
 }
 .lay-top {
   background-color: #f994ba4f !important;
+}
+@media (max-width: 767px) {
+  .bs-top-content {
+    display: flow-root;
+    position: relative;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+  }
+  .custom-btn input {
+    left: 0;
+    position: relative;
+  }
+  .bet-collapse .bet-cont .bet-input-container .form-control {
+    top: 5px;
+  }
+  .bs-top-content .input-group {
+    justify-content: center;
+  }
+}
+.profit::before {
+  content: '';
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  position: relative;
+  left: 10px;
+  display: inline-block;
+  top: 2px;
+}
+.profit.back-text::before {
+  background: #72bbef;
+}
+.profit.lay-text::before {
+  background: #f994ba;
 }
