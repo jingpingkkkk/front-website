@@ -52,7 +52,7 @@ function ChangePasswordPageContent() {
           <div className="row justify-content-center">
             <div className="col-sm-6">
               <form id="passwordForm" onSubmit={handleSubmit(onSubmit)}>
-                <div className="form-group mb-3">
+                <div className="form-group mb-3 me-0">
                   <Label for="oldPassword">Old Password</Label>
                   <input
                     type="password"
@@ -71,7 +71,7 @@ function ChangePasswordPageContent() {
                     ''
                   )}
                 </div>
-                <div className="form-group mb-3">
+                <div className="form-group mb-3 me-0">
                   <Label for="inputPasswordNew">New Password</Label>
                   <input
                     type="password"
@@ -90,7 +90,7 @@ function ChangePasswordPageContent() {
                     ''
                   )}
                 </div>
-                <div className="form-group mb-3">
+                <div className="form-group mb-3 me-0">
                   <Label for="inputPasswordNewVerify">Confirm Password</Label>
                   <input
                     type="password"

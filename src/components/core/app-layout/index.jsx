@@ -36,7 +36,7 @@ function AppLayout({ sidebarLeft, sidebarRight, pageContent }) {
             md="12"
             lg={contentMdColWidth}
             className={` ${
-              isSidebarRight && isSidebarLeft ? 'main-content' : ''
+              isSidebarRight && isSidebarLeft ? 'main-content' : 'main-area'
             }`}
           >
             {pageContent}
