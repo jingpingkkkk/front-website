@@ -1,5 +1,6 @@
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
+import moment from 'moment';
 import React, { useEffect, useMemo, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
@@ -10,13 +11,14 @@ import {
   UncontrolledDropdown,
 } from 'reactstrap';
 import { io } from 'socket.io-client';
+import { postRequest } from '../../../../api';
 import countDays from '../../../../helper/day-count';
 import { userLogout } from '../../../../helper/user';
 import { resetUserDetails } from '../../../../redux/reducers/user-details';
 import StateButtons from '../../stake-button-popup';
+import ExposureDetail from './ExposureDetail';
 import NotificationPopup from './NotificationPopup';
 import './userInfo.css';
-import ExposureDetail from './ExposureDetail';
 
 const socketUrl = import.meta.env.VITE_SOCKET_URL;
 
@@ -66,13 +68,28 @@ const UserInfo = ({ user }) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  useEffect(() => {
+    const fetchNotifications = async () => {
+      const result = await postRequest('event/completedEventList', {
+        startData: moment().subtract(1, 'days').format('YYYY-MM-DD'),
+        endDate: moment().format('YYYY-MM-DD'),
+      });
+      if (result?.success) {
+        setNotifications(result?.data?.details || []);
+      }
+    };
+    const interval = setInterval(async () => {
+      await fetchNotifications();
+    }, 1000 * 10);
+    fetchNotifications();
+    return () => {
+      clearInterval(interval);
+    };
+  }, []);
+
   const logout = () => {
     dispatch(resetUserDetails());
     userLogout();
-  };
-
-  const onOpenPage = () => {
-    navigate('/currentbets');
   };
 
   return (
@@ -85,16 +102,17 @@ const UserInfo = ({ user }) => {
         <table>
           <tbody>
             <tr>
-              <td className="balance-value">pts:</td>
-              <td className="ps-1 small text-end">{userInfo?.balance || 0}</td>
+              <td className="balance-value text-muted">pts:</td>
+              <td className="px-1 small text-end">{userInfo?.balance || 0}</td>
             </tr>
             <tr>
-              <td className="balance-value">exp:</td>
-              <td className="ps-1 small text-end">
+              <td className="balance-value text-muted">exp:</td>
+              <td className="px-1 text-end">
                 <button
                   type="button"
-                  className="text-decoration-underline bg-transparent"
+                  className="text-decoration-underline bg-transparent pe-0 me-0"
                   onClick={() => setShowExposureDetail(true)}
+                  style={{ userSelect: 'none' }}
                 >
                   {userInfo?.exposure
                     ? -parseFloat(userInfo.exposure.toFixed(2))
@@ -123,25 +141,35 @@ const UserInfo = ({ user }) => {
           </DropdownToggle>
 
           <DropdownMenu dark>
-            <DropdownItem href="/accountstatement">
+            <DropdownItem onClick={() => navigate('/accountstatement')}>
               Account Statement
             </DropdownItem>
-            <DropdownItem onClick={onOpenPage}>Bet History</DropdownItem>
+
+            <DropdownItem onClick={() => navigate('/currentbets')}>
+              Bet History
+            </DropdownItem>
+
             <DropdownItem>Casino Results</DropdownItem>
+
             <DropdownItem onClick={() => setShowStakeButton(true)}>
               Set Button Value
             </DropdownItem>
+
             <DropdownItem href="/changepassword">Change Password</DropdownItem>
+
             <DropdownItem divider />
+
             <DropdownItem onClick={() => logout()}>Logout</DropdownItem>
           </DropdownMenu>
         </UncontrolledDropdown>
+
         {showStakButton && (
           <StateButtons
             isOpen={showStakButton}
             closeModal={() => setShowStakeButton(!showStakButton)}
           />
         )}
+
         {/* Notification */}
         <UncontrolledDropdown>
           <DropdownToggle caret className="notification-icon">
@@ -159,6 +187,7 @@ const UserInfo = ({ user }) => {
                   <span>Notifications</span>
                 </h5>
               </div>
+
               <div className="card-body p-0 notification-body">
                 <div className="fade show active">
                   <ul className="list-unstyled list mb-0">
@@ -203,6 +232,7 @@ const UserInfo = ({ user }) => {
                   </ul>
                 </div>
               </div>
+
               <a
                 className="card-footer text-center border-top-0 notification-footer"
                 href="/notifications"
@@ -222,6 +252,7 @@ const UserInfo = ({ user }) => {
           eventName={eventName}
         />
       )}
+
       {showExposureDetail ? (
         <ExposureDetail
           isOpen={showExposureDetail}
@@ -229,9 +260,7 @@ const UserInfo = ({ user }) => {
             setShowExposureDetail(false);
           }}
         />
-      ) : (
-        ''
-      )}
+      ) : null}
     </div>
   );
 };

@@ -2,8 +2,8 @@
 /* eslint-disable react/jsx-curly-brace-presence */
 import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
-import { Modal, ModalBody, Spinner, Table } from 'reactstrap';
 import { Link, useNavigate } from 'react-router-dom';
+import { Modal, ModalBody, Spinner, Table } from 'reactstrap';
 import { postRequest } from '../../../../api';
 import { roundNumber } from '../../../../helper/number';
 
@@ -35,6 +35,7 @@ const ExposureDetail = ({ isOpen, toggle }) => {
     fetchUserExposureList();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
   return (
     <Modal
       isOpen={isOpen}
@@ -43,7 +44,7 @@ const ExposureDetail = ({ isOpen, toggle }) => {
       size="lg"
     >
       <div className="modal-header">
-        <h5 className="modal-title">Exposure Details</h5>
+        <div className="modal-title">Exposure Details</div>
         <button
           type="button"
           aria-label="Close"
@@ -62,8 +63,8 @@ const ExposureDetail = ({ isOpen, toggle }) => {
         >
           <thead>
             <tr>
-              <th className="text-primary p-2 w-75">Events Name</th>
-              <th className="text-primary text-start p-2 w-25">Exposure</th>
+              <th className="text-muted p-2 w-75">Events Name</th>
+              <th className="text-muted text-start p-2 w-25">Exposure</th>
             </tr>
           </thead>
           <tbody>
@@ -80,7 +81,7 @@ const ExposureDetail = ({ isOpen, toggle }) => {
                     <Link
                       to="/matches"
                       state={{ eventId: exposure?.eventId }}
-                      className="exposure-event"
+                      className="exposure-event text-primary"
                       onClick={(e) =>
                         handleEventClick(e, '/matches', exposure?.eventId)
                       }

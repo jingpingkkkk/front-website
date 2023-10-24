@@ -95,7 +95,7 @@ function Topnav() {
     const interval = setInterval(async () => {
       await rehydrateUser();
     }, 1000 * 10);
-    Promise.all([getThemeSettings(), getUserStakeButtons()]);
+    Promise.all([rehydrateUser(), getThemeSettings(), getUserStakeButtons()]);
     return () => {
       clearInterval(interval);
     };
@@ -114,8 +114,8 @@ function Topnav() {
     if (localStorage.getItem('isWelcome') === 'true') {
       setIsWelcome(true);
     }
-    if (Object?.keys(userDetails?.user)?.length > 0) {
-      setUser(userDetails?.user);
+    if (userDetails?.user?._id) {
+      setUser(userDetails.user);
     }
     setIsLoginModalOpen(isLogingOpen);
   }, [isWelcome, isLoginModalOpen, isLogingOpen, userDetails?.user]);

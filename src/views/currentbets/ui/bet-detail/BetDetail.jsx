@@ -1,17 +1,19 @@
+/* eslint-disable no-nested-ternary */
 /* eslint-disable react/jsx-curly-brace-presence */
 import moment from 'moment';
 import React from 'react';
 import { Modal, ModalBody, Table } from 'reactstrap';
+import { roundNumber } from '../../../../helper/number';
 
 const BetDetail = ({ isOpen, toggle, selectedBet }) => {
-  const netBetTotal = selectedBet.betPl + 0;
+  const netBetTotal = roundNumber(selectedBet.betPl);
 
   return (
     <Modal
       isOpen={isOpen}
       toggle={toggle}
       className="bet-table-popup"
-      size="lg"
+      size="xl"
     >
       <div className="modal-header">
         <h5 className="modal-title">{selectedBet?.eventName || ''}</h5>
@@ -24,6 +26,7 @@ const BetDetail = ({ isOpen, toggle, selectedBet }) => {
           <img src="./images/close.svg" alt="close" className="w-50 h-50" />
         </button>
       </div>
+
       <ModalBody>
         <Table
           responsive
@@ -33,48 +36,52 @@ const BetDetail = ({ isOpen, toggle, selectedBet }) => {
         >
           <thead>
             <tr>
-              <th className="text-primary" style={{ width: '100px' }}>
-                Bet Id
-              </th>
-              <th className="text-primary" style={{ width: '100px' }}>
-                Selection
-              </th>
-              <th className="text-primary" style={{ width: '100px' }}>
-                Odds
-              </th>
-              <th className="text-primary" style={{ width: '100px' }}>
-                Stake
-              </th>
-              <th className="text-primary" style={{ width: '100px' }}>
-                Type
-              </th>
-              <th className="text-primary" style={{ width: '100px' }}>
+              <th className="text-secondary" style={{ width: '100px' }}>
                 Placed
               </th>
-              <th className="text-primary" style={{ width: '100px' }}>
+              <th className="text-secondary" style={{ width: '100px' }}>
+                Selection
+              </th>
+              <th className="text-secondary" style={{ width: '100px' }}>
+                Odds
+              </th>
+              <th className="text-secondary" style={{ width: '100px' }}>
+                Stake
+              </th>
+              <th className="text-secondary" style={{ width: '100px' }}>
+                Type
+              </th>
+              <th className="text-secondary" style={{ width: '100px' }}>
                 Profit/Loss
               </th>
             </tr>
           </thead>
           <tbody>
             <tr>
-              <td style={{ wordWrap: 'break-word' }}>{selectedBet?._id}</td>
-              <td>{selectedBet?.runnerName || ''}</td>
-              <td>{selectedBet?.odds}</td>
-              <td>{selectedBet?.stake}</td>
-              <td>{selectedBet?.isBack ? 'Back' : 'Lay'}</td>
-              <td>
+              <td className="text-primary py-2">
                 {selectedBet?.createdAt
-                  ? moment(selectedBet?.createdAt).format('DD/MM/YYYY H:mm:s')
+                  ? moment(selectedBet?.createdAt).format('DD-MM-YYYY HH:mm A')
                   : ''}
               </td>
-              <td>
+              <td className="text-primary py-2">
+                {selectedBet?.runnerName || ''}
+              </td>
+              <td className="text-primary py-2">{selectedBet?.odds}</td>
+              <td className="text-primary py-2">{selectedBet?.stake}</td>
+              <td className="text-primary py-2">
+                {selectedBet?.isBack ? 'Back' : 'Lay'}
+              </td>
+              <td className="text-primary py-2">
                 <span
                   className={`${
-                    selectedBet?.betPl > 0 ? 'text-success' : 'text-danger'
+                    selectedBet?.betPl > 0
+                      ? 'text-success'
+                      : selectedBet?.betPl < 0
+                      ? 'text-danger'
+                      : ''
                   }`}
                 >
-                  {selectedBet?.betPl}
+                  {roundNumber(selectedBet?.betPl)}
                 </span>
               </td>
             </tr>
@@ -90,7 +97,7 @@ const BetDetail = ({ isOpen, toggle, selectedBet }) => {
                 selectedBet?.betPl > 0 ? 'text-success' : 'text-danger'
               }`}
             >
-              {selectedBet?.isBack ? selectedBet?.betPl : 0}
+              {selectedBet?.isBack ? roundNumber(selectedBet?.betPl) : 0}
             </div>
           </div>
           <div className="col-md-1 mt-2 text-center p-1">
@@ -103,7 +110,7 @@ const BetDetail = ({ isOpen, toggle, selectedBet }) => {
                 selectedBet?.betPl > 0 ? 'text-success' : 'text-danger'
               }`}
             >
-              {selectedBet?.isBack ? 0 : selectedBet?.betPl}
+              {selectedBet?.isBack ? 0 : roundNumber(selectedBet?.betPl)}
             </div>
           </div>
 
