@@ -3,9 +3,10 @@
 import moment from 'moment';
 import React from 'react';
 import { Modal, ModalBody, Table } from 'reactstrap';
+import { roundNumber } from '../../../../helper/number';
 
 const BetDetail = ({ isOpen, toggle, selectedBet }) => {
-  const netBetTotal = selectedBet.betPl + 0;
+  const netBetTotal = roundNumber(selectedBet.betPl);
 
   return (
     <Modal
@@ -80,7 +81,7 @@ const BetDetail = ({ isOpen, toggle, selectedBet }) => {
                       : ''
                   }`}
                 >
-                  {selectedBet?.betPl}
+                  {roundNumber(selectedBet?.betPl)}
                 </span>
               </td>
             </tr>
@@ -96,7 +97,7 @@ const BetDetail = ({ isOpen, toggle, selectedBet }) => {
                 selectedBet?.betPl > 0 ? 'text-success' : 'text-danger'
               }`}
             >
-              {selectedBet?.isBack ? selectedBet?.betPl : 0}
+              {selectedBet?.isBack ? roundNumber(selectedBet?.betPl) : 0}
             </div>
           </div>
           <div className="col-md-1 mt-2 text-center p-1">
@@ -109,7 +110,7 @@ const BetDetail = ({ isOpen, toggle, selectedBet }) => {
                 selectedBet?.betPl > 0 ? 'text-success' : 'text-danger'
               }`}
             >
-              {selectedBet?.isBack ? 0 : selectedBet?.betPl}
+              {selectedBet?.isBack ? 0 : roundNumber(selectedBet?.betPl)}
             </div>
           </div>
 

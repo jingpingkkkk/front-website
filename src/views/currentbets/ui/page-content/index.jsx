@@ -129,7 +129,8 @@ function CurrentBetPageContent() {
           }`}
           style={{ letterSpacing: '.25px' }}
         >
-          {row.betPl}
+          {row.betPl > 0 ? '+' : row.betPl < 0 ? '-' : ''}
+          {roundNumber(row.betPl)}
         </div>
       ),
       right: true,

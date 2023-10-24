@@ -1,14 +1,14 @@
 /* eslint-disable new-cap */
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable jsx-a11y/anchor-is-valid */
-import React, { useState, useEffect } from 'react';
+import jsPDF from 'jspdf';
 import 'jspdf-autotable';
+import moment from 'moment';
+import React, { useEffect, useState } from 'react';
 import DataTable from 'react-data-table-component';
 import { Label } from 'reactstrap';
-import moment from 'moment';
-import jsPDF from 'jspdf';
-import LoadingOverlay from '../../../../components/common/loading-overlay';
 import { postRequest } from '../../../../api';
+import LoadingOverlay from '../../../../components/common/loading-overlay';
 import ExportToExcel from '../../../../helper/export-excel';
 
 function NotificationPageContent() {
@@ -70,6 +70,7 @@ function NotificationPageContent() {
     table: {
       style: {
         border: '1px solid #e6e6e6',
+        borderBottom: 'none',
         backgroundColor: '#2E3439',
         color: '#1A1A1A',
       },
@@ -84,19 +85,22 @@ function NotificationPageContent() {
     rows: {
       style: {
         cursor: 'pointer',
-        backgroundColor: '#eeeeee',
+        // backgroundColor: '#eeeeee',
+        backgroundColor: 'white',
         color: '#1A1A1A',
         fontSize: '14px',
       },
     },
     pagination: {
       style: {
-        backgroundColor: '#e6e6e6',
+        // backgroundColor: '#e6e6e6',
+        backgroundColor: 'whitesmoke',
         color: '#1A1A1A',
         fontSize: '14px',
       },
     },
   };
+
   const getNotificationDetail = async () => {
     setLoading(true);
     const body = {
@@ -189,6 +193,7 @@ function NotificationPageContent() {
                 data={data}
                 progressPending={loading}
                 customStyles={customStyles}
+                pagination
               />
             ) : (
               <table className="table">
