@@ -14,9 +14,9 @@ import countDays from '../../../../helper/day-count';
 import { userLogout } from '../../../../helper/user';
 import { resetUserDetails } from '../../../../redux/reducers/user-details';
 import StateButtons from '../../stake-button-popup';
+import ExposureDetail from './ExposureDetail';
 import NotificationPopup from './NotificationPopup';
 import './userInfo.css';
-import ExposureDetail from './ExposureDetail';
 
 const socketUrl = import.meta.env.VITE_SOCKET_URL;
 
@@ -71,10 +71,6 @@ const UserInfo = ({ user }) => {
     userLogout();
   };
 
-  const onOpenPage = () => {
-    navigate('/currentbets');
-  };
-
   return (
     <div className="header-right">
       <div className="balance d-none-mobile rounded">
@@ -85,16 +81,17 @@ const UserInfo = ({ user }) => {
         <table>
           <tbody>
             <tr>
-              <td className="balance-value">pts:</td>
-              <td className="ps-1 small text-end">{userInfo?.balance || 0}</td>
+              <td className="balance-value text-muted">pts:</td>
+              <td className="px-1 small text-end">{userInfo?.balance || 0}</td>
             </tr>
             <tr>
-              <td className="balance-value">exp:</td>
-              <td className="ps-1 small text-end">
+              <td className="balance-value text-muted">exp:</td>
+              <td className="px-1 text-end">
                 <button
                   type="button"
-                  className="text-decoration-underline bg-transparent"
+                  className="text-decoration-underline bg-transparent pe-0 me-0"
                   onClick={() => setShowExposureDetail(true)}
+                  style={{ userSelect: 'none' }}
                 >
                   {userInfo?.exposure
                     ? -parseFloat(userInfo.exposure.toFixed(2))
@@ -123,10 +120,12 @@ const UserInfo = ({ user }) => {
           </DropdownToggle>
 
           <DropdownMenu dark>
-            <DropdownItem href="/accountstatement">
+            <DropdownItem onClick={() => navigate('/accountstatement')}>
               Account Statement
             </DropdownItem>
-            <DropdownItem onClick={onOpenPage}>Bet History</DropdownItem>
+            <DropdownItem onClick={() => navigate('/currentbets')}>
+              Bet History
+            </DropdownItem>
             <DropdownItem>Casino Results</DropdownItem>
             <DropdownItem onClick={() => setShowStakeButton(true)}>
               Set Button Value

@@ -1,18 +1,14 @@
-/* eslint-disable prefer-template */
 /* eslint-disable react/no-unstable-nested-components */
-/* eslint-disable new-cap */
-/* eslint-disable react-hooks/exhaustive-deps */
-/* eslint-disable jsx-a11y/anchor-is-valid */
-import React, { useState, useEffect } from 'react';
+import JsPDF from 'jspdf';
 import 'jspdf-autotable';
+import moment from 'moment';
+import React, { useEffect, useState } from 'react';
 import DataTable from 'react-data-table-component';
 import { Label } from 'reactstrap';
-import moment from 'moment';
-import jsPDF from 'jspdf';
-import LoadingOverlay from '../../../../components/common/loading-overlay';
-import accountType from './data';
 import { postRequest } from '../../../../api';
+import LoadingOverlay from '../../../../components/common/loading-overlay';
 import ExportToExcel from '../../../../helper/export-excel';
+import accountType from './data';
 
 function AccountStatementPageContent() {
   const [loading, setLoading] = useState(false);
@@ -38,19 +34,23 @@ function AccountStatementPageContent() {
       name: 'Credit',
       selector: (row) => row.points,
       cell: (row) => (
-        <div style={{ color: 'green' }}>
-          {row.type === 'credit' ? row.points : ''}
+        <div className={row.points > 0 ? 'text-success' : ''}>
+          {row.type === 'credit' ? row.points : '-'}
         </div>
       ),
+      width: '200px',
+      right: true,
     },
     {
       name: 'Debit',
       selector: (row) => row.points,
       cell: (row) => (
-        <div style={{ color: 'red' }}>
-          {row.type === 'debit' ? '-' + row.points : ''}
+        <div className={row.points < 0 ? 'text-danger' : ''}>
+          {row.type === 'debit' ? `-${row.points}` : '-'}
         </div>
       ),
+      width: '200px',
+      right: true,
     },
     {
       name: 'Remark',
@@ -72,20 +72,20 @@ function AccountStatementPageContent() {
       Date: item.createdAt ? moment(item.createdAt).format('DD-MM-YYYY') : '',
       'Sr No': i + 1,
       Credit: item.type === 'credit' ? item.points : '',
-      Debit: item.type === 'debit' ? '-' + item.points : '',
+      Debit: item.type === 'debit' ? `-${item.points}` : '',
       Remark: item.remark,
     }));
     ExportToExcel(exportData, 'accountStatement');
   };
   const exportToPDF = () => {
-    const doc = new jsPDF();
+    const doc = new JsPDF();
     doc.autoTable({
       head: [['Date', 'Sr No', 'Credit', 'Debit', 'Remark']],
       body: data.map((item, index) => [
         item.createdAt ? moment(item.createdAt).format('DD-MM-YYYY') : '',
         index + 1,
         item.type === 'credit' ? item.points : '',
-        item.type === 'debit' ? '-' + item.points : '',
+        item.type === 'debit' ? `-${item.points}` : '',
         item.remark,
       ]),
     });
@@ -96,6 +96,7 @@ function AccountStatementPageContent() {
     table: {
       style: {
         border: '1px solid #e6e6e6',
+        borderBottom: 'none',
         backgroundColor: '#2E3439',
         color: '#1A1A1A',
       },
@@ -110,21 +111,23 @@ function AccountStatementPageContent() {
     rows: {
       style: {
         cursor: 'pointer',
-        backgroundColor: '#eeeeee',
+        // backgroundColor: '#eeeeee',
+        backgroundColor: 'white',
         color: '#1A1A1A',
         fontSize: '14px',
       },
     },
     pagination: {
       style: {
-        backgroundColor: '#e6e6e6',
+        // backgroundColor: '#e6e6e6',
+        backgroundColor: 'whitesmoke',
         color: '#1A1A1A',
         fontSize: '14px',
       },
     },
   };
 
-  const getNotificationDetail = async () => {
+  const fetchTransactions = async () => {
     setLoading(true);
     const body = {
       page: currentPage,
@@ -139,14 +142,14 @@ function AccountStatementPageContent() {
       body,
     );
     if (result?.success) {
-      setData(result?.data?.details || []);
+      setData(result?.data?.records || []);
       setTotalRows(result?.data?.totalRecords || 0);
     }
     setLoading(false);
   };
 
   useEffect(() => {
-    getNotificationDetail();
+    fetchTransactions();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [searchText, currentPage, perPage]);
 
@@ -216,7 +219,11 @@ function AccountStatementPageContent() {
             </select>
           </div>
           <div className="form-group">
-            <button type="button" className="btn custom-buttton py-1">
+            <button
+              type="button"
+              className="btn custom-buttton py-1"
+              onClick={fetchTransactions}
+            >
               Submit
             </button>
           </div>
