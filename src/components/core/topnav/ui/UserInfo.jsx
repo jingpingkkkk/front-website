@@ -123,24 +123,32 @@ const UserInfo = ({ user }) => {
             <DropdownItem onClick={() => navigate('/accountstatement')}>
               Account Statement
             </DropdownItem>
+
             <DropdownItem onClick={() => navigate('/currentbets')}>
               Bet History
             </DropdownItem>
+
             <DropdownItem>Casino Results</DropdownItem>
+
             <DropdownItem onClick={() => setShowStakeButton(true)}>
               Set Button Value
             </DropdownItem>
+
             <DropdownItem href="/changepassword">Change Password</DropdownItem>
+
             <DropdownItem divider />
+
             <DropdownItem onClick={() => logout()}>Logout</DropdownItem>
           </DropdownMenu>
         </UncontrolledDropdown>
+
         {showStakButton && (
           <StateButtons
             isOpen={showStakButton}
             closeModal={() => setShowStakeButton(!showStakButton)}
           />
         )}
+
         {/* Notification */}
         <UncontrolledDropdown>
           <DropdownToggle caret className="notification-icon">
@@ -158,6 +166,7 @@ const UserInfo = ({ user }) => {
                   <span>Notifications</span>
                 </h5>
               </div>
+
               <div className="card-body p-0 notification-body">
                 <div className="fade show active">
                   <ul className="list-unstyled list mb-0">
@@ -202,6 +211,7 @@ const UserInfo = ({ user }) => {
                   </ul>
                 </div>
               </div>
+
               <a
                 className="card-footer text-center border-top-0 notification-footer"
                 href="/notifications"
@@ -221,6 +231,7 @@ const UserInfo = ({ user }) => {
           eventName={eventName}
         />
       )}
+
       {showExposureDetail ? (
         <ExposureDetail
           isOpen={showExposureDetail}
@@ -228,9 +239,7 @@ const UserInfo = ({ user }) => {
             setShowExposureDetail(false);
           }}
         />
-      ) : (
-        ''
-      )}
+      ) : null}
     </div>
   );
 };
