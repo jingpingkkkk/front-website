@@ -19,6 +19,8 @@ import {
 import Market from '../market';
 import '../matches.css';
 import ScoreBoard from '../score-board';
+import { shortNumber } from '../../../../helper/number';
+import { MARKET_NAMES } from '../../helpers/constants';
 
 function MatchPageContent() {
   const navigate = useNavigate();
@@ -151,11 +153,11 @@ function MatchPageContent() {
     <LoadingOverlay />
   ) : (
     <div className="comman-bg">
-      <div className="d-flex justify-content-between align-items-center custom-buttton">
+      <div className="d-flex justify-content-between align-items-center custom-buttton event-header">
         <div>
           {eventMarket.event.competitionName} &gt; {eventMarket.event.name}
         </div>
-        <div>
+        <div className="event-date">
           {moment(eventMarket.event.startsOn).format(
             'DD/MM/YYYY HH:mm:ss (UTCZ)',
           )}
@@ -176,11 +178,22 @@ function MatchPageContent() {
               >
                 <div className="text-uppercase">{market.name}</div>
                 {/* <div className="btn btn-success btn-sm disabled">Cashout</div> */}
-                <span className="max-bet d-none-desktop">
-                  <span title="Max : 1">
-                    Max: <span>1</span>
+                {market?.name === MARKET_NAMES.MATCH_ODDS ||
+                market?.name === MARKET_NAMES.BOOKMAKER ? (
+                  <span className="max-bet d-none-desktop">
+                    <span title="Max : 1">
+                      Min:{' '}
+                      <span className="me-1">
+                        {shortNumber(market?.minStake)}
+                      </span>
+                    </span>
+                    <span title="Min : 1">
+                      Max: <span>{shortNumber(market?.maxStake)}</span>
+                    </span>
                   </span>
-                </span>
+                ) : (
+                  ''
+                )}
               </AccordionHeader>
 
               <AccordionBody accordionId={market?._id}>

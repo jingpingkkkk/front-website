@@ -330,7 +330,7 @@ function CurrentBetPageContent() {
           </ul>
         </div>
 
-        <div className="col-2 date-filter">
+        <div className="col-12 date-filter">
           <div className="form-group">
             <Label>From</Label>
             <input

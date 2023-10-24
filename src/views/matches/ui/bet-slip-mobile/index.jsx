@@ -165,6 +165,16 @@ function MobileBetPanel() {
                 value={eventBet?.price || 0}
                 onChange={(e) => updateStake({ price: Number(e.target.value) })}
               />
+            </div>
+            <div className="custom-btn">
+              <input
+                type="number"
+                className={`${eventBet?.betType}-border ${eventBet?.betType}-text`}
+                value={eventBet?.stake}
+                ref={inputRef}
+                onKeyDown={placeBetOnEnter}
+                onChange={(e) => updateStake({ stake: Number(e.target.value) })}
+              />
               <button
                 type="button"
                 onKeyDown={placeBetOnEnter}
@@ -181,16 +191,6 @@ function MobileBetPanel() {
               >
                 <img src="./images/close.svg" alt="close" />
               </button>
-            </div>
-            <div className="custom-btn">
-              <input
-                type="number"
-                className={`${eventBet?.betType}-border ${eventBet?.betType}-text`}
-                value={eventBet?.stake}
-                ref={inputRef}
-                onKeyDown={placeBetOnEnter}
-                onChange={(e) => updateStake({ stake: Number(e.target.value) })}
-              />
             </div>
           </div>
           <div className="bid-rate betslip-button">

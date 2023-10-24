@@ -1687,6 +1687,13 @@ input[type='date']::-webkit-calendar-picker-indicator:hover {
 .exposure-event:hover {
   text-decoration: underline;
 }
+.event-header .event-date {
+  text-align: right;
+}
+.main-area {
+  padding-left: 0px;
+  padding-right: 0px;
+}
 /* Responsive Css */
 
 @media only screen and (max-width: 1199px) and (min-width: 992px) {
@@ -2201,7 +2208,7 @@ input[type='date']::-webkit-calendar-picker-indicator:hover {
   .report-form .from-date,
   .report-form .to-date {
     width: 100%;
-    margin-right: 2%;
+    margin-right: 0;
     margin-bottom: 2%;
   }
 }
