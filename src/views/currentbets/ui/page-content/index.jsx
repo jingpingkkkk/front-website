@@ -1,16 +1,16 @@
-/* eslint-disable react/no-unstable-nested-components */
+/* eslint-disable no-nested-ternary */
 /* eslint-disable new-cap */
-/* eslint-disable react-hooks/exhaustive-deps */
-/* eslint-disable jsx-a11y/anchor-is-valid */
-import React, { useState, useEffect } from 'react';
-import { Label } from 'reactstrap';
+/* eslint-disable react/no-unstable-nested-components */
 import { jsPDF } from 'jspdf';
 import 'jspdf-autotable';
+import React, { useEffect, useState } from 'react';
 import DataTable from 'react-data-table-component';
 import { useDispatch, useSelector } from 'react-redux';
-import LoadingOverlay from '../../../../components/common/loading-overlay';
+import { Label } from 'reactstrap';
 import { postRequest } from '../../../../api';
+import LoadingOverlay from '../../../../components/common/loading-overlay';
 import ExportToExcel from '../../../../helper/export-excel';
+import { roundNumber } from '../../../../helper/number';
 import { setUserDetails } from '../../../../redux/reducers/user-details';
 import BetDetail from '../bet-detail/BetDetail';
 
@@ -78,44 +78,99 @@ function CurrentBetPageContent() {
     {
       name: 'Sports',
       selector: (row) => row.sportName,
+      width: '150px',
     },
     {
       name: 'Event Name',
       selector: (row) => row.eventName,
+      wrap: true,
     },
     {
       name: 'Market Name',
       selector: (row) => row.marketName,
+      width: '150px',
     },
     {
-      name: 'User Rate',
+      name: 'Bet Type',
+      selector: (row) => row.isBack,
+      cell: (row) => (
+        <div
+          className={`${
+            row.isBack ? 'back2' : 'lay2'
+          } rounded-1 px-2 py-1 fw-semibold`}
+        >
+          {row.isBack ? 'BACK' : 'LAY'}
+        </div>
+      ),
+      width: '100px',
+      center: true,
+    },
+    {
+      name: 'Price',
       selector: (row) => row.odds,
+      cell: (row) => <div className="fw-semibold">{row.odds}</div>,
+      right: true,
+      width: '150px',
     },
     {
-      name: 'Amount	Placed',
+      name: 'Quantity',
       selector: (row) => row.stake,
+      cell: (row) => <div className="fw-semibold">{row.stake}</div>,
+      right: true,
+      width: '150px',
     },
     {
-      name: 'Bet Pl',
-      selector: (row) => row.betPl.toFixed(2),
+      name: 'Bet P&L',
+      selector: (row) => roundNumber(row.betPl),
+      cell: (row) => (
+        <div
+          className={`fw-semibold ${
+            row.betPl > 0 ? 'text-success' : row.betPl < 0 ? 'text-danger' : ''
+          }`}
+          style={{ letterSpacing: '.25px' }}
+        >
+          {row.betPl}
+        </div>
+      ),
+      right: true,
+      width: '150px',
     },
     {
       name: 'Result',
       selector: (row) => row.betResultStatus,
+      cell: (row) => {
+        const resultStatus = {
+          running: 'bg-warning',
+          won: 'bg-success text-white',
+          lost: 'bg-danger text-white',
+        };
+        return (
+          <div
+            className={`${
+              resultStatus[row.betResultStatus]
+            } rounded-1 px-2 py-1 fw-semibold`}
+            style={{ opacity: 0.7, letterSpacing: '.25px' }}
+          >
+            {row.betResultStatus.toUpperCase()}
+          </div>
+        );
+      },
+      center: true,
+      width: '150px',
     },
     {
       name: 'Action',
       cell: (row) => (
-        <div>
-          <button
-            type="button"
-            onClick={() => onOpenBetDetail(row)}
-            className="btn custom-buttton btn-sm ms-2 py-2"
-          >
-            Detail
-          </button>
-        </div>
+        <button
+          type="button"
+          onClick={() => onOpenBetDetail(row)}
+          className="btn custom-buttton btn-sm ms-2 py-2"
+        >
+          Detail
+        </button>
       ),
+      width: '100px',
+      right: true,
     },
   ];
 
@@ -181,6 +236,7 @@ function CurrentBetPageContent() {
     });
     doc.save(`${activeTab}.pdf`);
   };
+
   const onChangeTab = (tab) => {
     setActiveTab(tab);
     setBetType('');
@@ -196,12 +252,14 @@ function CurrentBetPageContent() {
 
   useEffect(() => {
     fetchCurrentBetsData();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentPage, betType, rowsPerPage, betStatus]);
 
   const customStyles = {
     table: {
       style: {
         border: '1px solid #e6e6e6',
+        borderBottom: 'none',
         backgroundColor: '#2E3439',
         color: '#1A1A1A',
       },
@@ -216,14 +274,16 @@ function CurrentBetPageContent() {
     rows: {
       style: {
         cursor: 'pointer',
-        backgroundColor: '#eeeeee',
+        // backgroundColor: '#eeeeee',
+        backgroundColor: 'white',
         color: '#1A1A1A',
         fontSize: '14px',
       },
     },
     pagination: {
       style: {
-        backgroundColor: '#e6e6e6',
+        // backgroundColor: '#e6e6e6',
+        backgroundColor: 'whitesmoke',
         color: '#1A1A1A',
         fontSize: '14px',
       },
@@ -238,38 +298,37 @@ function CurrentBetPageContent() {
         <div className="report-title">
           <div className="report-name">Bet History</div>
         </div>
+
         <div className="casino-report-tabs">
           <ul className="nav nav-tabs" role="tablist">
             <li className="nav-item">
-              <a
+              <button
+                type="button"
                 className={
                   activeTab === 'sports' ? 'nav-link active' : 'nav-link'
                 }
-                href="#"
                 role="tab"
-                onClick={() => {
-                  onChangeTab('sports');
-                }}
+                onClick={() => onChangeTab('sports')}
               >
                 Sports
-              </a>
+              </button>
             </li>
+
             <li className="nav-item">
-              <a
+              <button
+                type="button"
                 className={
                   activeTab === 'casino' ? 'nav-link active' : 'nav-link'
                 }
-                href="#"
                 role="tab"
-                onClick={() => {
-                  onChangeTab('casino');
-                }}
+                onClick={() => onChangeTab('casino')}
               >
                 Casino
-              </a>
+              </button>
             </li>
           </ul>
         </div>
+
         <div className="col-2 date-filter">
           <div className="form-group">
             <Label>From</Label>
