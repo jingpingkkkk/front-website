@@ -5,6 +5,7 @@ import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { Modal, ModalBody, Spinner, Table } from 'reactstrap';
 import { postRequest } from '../../../../api';
+import { roundNumber } from '../../../../helper/number';
 
 function NotificationPopup({ isOpen, closeModal, eventId, eventName }) {
   const userDetails = useSelector((state) => state.userDetails);
@@ -28,10 +29,12 @@ function NotificationPopup({ isOpen, closeModal, eventId, eventName }) {
     getNotificationDetail();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
   const countWinLoss = () => {
     const pl = notificationDetails?.map((notification) => notification?.pl);
     return pl.reduce((acc, currentValue) => acc + currentValue, 0);
   };
+
   return (
     <div>
       <Modal
@@ -63,8 +66,8 @@ function NotificationPopup({ isOpen, closeModal, eventId, eventName }) {
                   <Table responsive bordered className="mb-0">
                     <thead>
                       <tr>
-                        <th className="text-primary">Market Name</th>
-                        <th className="text-primary">P/L</th>
+                        <th className="text-secondary">Market Name</th>
+                        <th className="text-secondary text-end">P/L</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -77,10 +80,13 @@ function NotificationPopup({ isOpen, closeModal, eventId, eventName }) {
                       ) : notificationDetails?.length ? (
                         notificationDetails?.map((detail) => (
                           <tr key={detail?._id}>
-                            <td className="notification-detail">
+                            <td className="notification-detail text-primary">
                               {detail?.marketName || ''}
                             </td>
-                            <td className="notification-detail">
+                            <td
+                              className="notification-detail"
+                              style={{ textAlign: 'right !important' }}
+                            >
                               <span
                                 className={` ${
                                   detail?.pl > 0
@@ -88,14 +94,12 @@ function NotificationPopup({ isOpen, closeModal, eventId, eventName }) {
                                     : 'text-danger'
                                 }`}
                               >
-                                {detail?.pl}
+                                {roundNumber(detail?.pl)}
                               </span>
                             </td>
                           </tr>
                         ))
-                      ) : (
-                        ''
-                      )}
+                      ) : null}
                     </tbody>
                     <tfoot>
                       <tr>
@@ -111,7 +115,7 @@ function NotificationPopup({ isOpen, closeModal, eventId, eventName }) {
                                   : 'text-danger'
                               }`}
                             >
-                              {countWinLoss()}
+                              {roundNumber(countWinLoss())}
                             </span>
                             <Link
                               to="/currentbets"

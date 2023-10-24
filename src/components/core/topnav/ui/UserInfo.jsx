@@ -1,5 +1,6 @@
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
+import moment from 'moment';
 import React, { useEffect, useMemo, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
@@ -10,6 +11,7 @@ import {
   UncontrolledDropdown,
 } from 'reactstrap';
 import { io } from 'socket.io-client';
+import { postRequest } from '../../../../api';
 import countDays from '../../../../helper/day-count';
 import { userLogout } from '../../../../helper/user';
 import { resetUserDetails } from '../../../../redux/reducers/user-details';
@@ -64,6 +66,25 @@ const UserInfo = ({ user }) => {
       notificationSocket.disconnect();
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  useEffect(() => {
+    const fetchNotifications = async () => {
+      const result = await postRequest('event/completedEventList', {
+        startData: moment().subtract(1, 'days').format('YYYY-MM-DD'),
+        endDate: moment().format('YYYY-MM-DD'),
+      });
+      if (result?.success) {
+        setNotifications(result?.data?.details || []);
+      }
+    };
+    const interval = setInterval(async () => {
+      await fetchNotifications();
+    }, 1000 * 10);
+    fetchNotifications();
+    return () => {
+      clearInterval(interval);
+    };
   }, []);
 
   const logout = () => {
