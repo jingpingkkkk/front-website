@@ -25,31 +25,35 @@ function AccountStatementPageContent() {
       name: 'Date',
       selector: (row) =>
         row.createdAt ? moment(row.createdAt).format('DD-MM-YYYY') : '',
+      width: '150px',
+      center: true,
     },
     {
-      name: 'Sr no',
+      name: 'Sr. No.',
       selector: (row, index) => (currentPage - 1) * perPage + (index + 1),
+      width: '100px',
+      center: true,
     },
     {
       name: 'Credit',
       selector: (row) => row.points,
       cell: (row) => (
-        <div className={row.points > 0 ? 'text-success' : ''}>
+        <div className={`${row.points > 0 ? 'text-success' : ''} fw-semibold`}>
           {row.type === 'credit' ? row.points : '-'}
         </div>
       ),
-      width: '200px',
+      width: '250px',
       right: true,
     },
     {
       name: 'Debit',
       selector: (row) => row.points,
       cell: (row) => (
-        <div className={row.points < 0 ? 'text-danger' : ''}>
+        <div className={`${row.points < 0 ? 'text-danger' : ''} fw-semibold`}>
           {row.type === 'debit' ? `-${row.points}` : '-'}
         </div>
       ),
-      width: '200px',
+      width: '250px',
       right: true,
     },
     {
