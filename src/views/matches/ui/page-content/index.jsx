@@ -1,3 +1,5 @@
+/* eslint-disable jsx-a11y/no-static-element-interactions */
+/* eslint-disable jsx-a11y/click-events-have-key-events */
 import moment from 'moment';
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -21,6 +23,7 @@ import '../matches.css';
 import ScoreBoard from '../score-board';
 import { shortNumber } from '../../../../helper/number';
 import { MARKET_NAMES } from '../../helpers/constants';
+import EventTv from '../bet-slip/EventTv';
 
 function MatchPageContent() {
   const navigate = useNavigate();
@@ -31,9 +34,14 @@ function MatchPageContent() {
 
   const dispatch = useDispatch();
   const eventMarket = useSelector((state) => state.eventMarket);
+  const { user } = useSelector((state) => state.userDetails);
+  const { videoStreamId = null } = useSelector(
+    (state) => state.eventMarket.event,
+  );
 
   const [loading, setLoading] = useState(false);
   const [isLive, setIsLive] = useState(false);
+  const [togglePlayback, setTogglePlayback] = useState(false);
   // const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
 
   const syncEventData = async () => {
@@ -153,6 +161,14 @@ function MatchPageContent() {
     <LoadingOverlay />
   ) : (
     <div className="comman-bg">
+      {togglePlayback ? (
+        <EventTv
+          togglePlayback={togglePlayback}
+          videoStreamId={videoStreamId}
+        />
+      ) : (
+        ''
+      )}
       <div className="d-flex justify-content-between align-items-center custom-buttton event-header">
         <div>
           {eventMarket.event.competitionName} &gt; {eventMarket.event.name}
@@ -162,6 +178,23 @@ function MatchPageContent() {
             'DD/MM/YYYY HH:mm:ss (UTCZ)',
           )}
         </div>
+      </div>
+      <div className="game-header d-none-desktop">
+        <span className="game-header-name">
+          {eventMarket.event.competitionName} &gt; {eventMarket.event.name}
+          <div>
+            <small>
+              {moment(eventMarket.event.startsOn).format(
+                'DD/MM/YYYY HH:mm:ss (UTCZ)',
+              )}
+            </small>
+          </div>
+        </span>
+        {user.balance >= 500 && videoStreamId ? (
+          <span onClick={() => setTogglePlayback(!togglePlayback)}>
+            <img src="/images/icons-tv-24.png" alt="TV" />
+          </span>
+        ) : null}
       </div>
       {eventMarket.markets?.length ? (
         <UncontrolledAccordion

@@ -126,9 +126,13 @@ const UserInfo = ({ user }) => {
 
       <div className="text-center d-n-desktop bal-point">
         pts:
-        <span>{user?.balance || 0}</span>{' '}
-        <span onClick={() => setShowExposureDetail(true)}>
-          | {userInfo?.exposure?.toFixed(2) || 0}
+        <span>{user?.balance || 0}</span>
+        <span> | </span>
+        <span
+          className="text-decoration-underline"
+          onClick={() => setShowExposureDetail(true)}
+        >
+          {userInfo?.exposure ? -parseFloat(userInfo.exposure.toFixed(2)) : 0}
         </span>
       </div>
       <div className="d-flex align-items-center">
