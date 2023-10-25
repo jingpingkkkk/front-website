@@ -62,12 +62,13 @@ function Market({ market, eventId }) {
   }, []);
 
   const currentMarket = eventMarkets.find((m) => m._id === market._id);
-
   const markets = {
     [MARKET_NAMES.MATCH_ODDS]: <MatchOdds market={currentMarket} />,
     [MARKET_NAMES.BOOKMAKER]: <BookMaker market={currentMarket} />,
     [MARKET_NAMES.NORMAL]: <Fancy market={currentMarket} />,
     [MARKET_NAMES.FANCY1]: <Fancy1 market={currentMarket} />,
+    [MARKET_NAMES.OVER_UNDER_15_GOALS]: <MatchOdds market={currentMarket} />,
+    [MARKET_NAMES.OVER_UNDER_25_GOALS]: <MatchOdds market={currentMarket} />,
   };
 
   return markets[market?.name] || null;

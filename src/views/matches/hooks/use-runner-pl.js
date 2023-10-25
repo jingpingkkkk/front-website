@@ -127,7 +127,12 @@ export default function useRunnerPl() {
 
     dispatch(clearOtherMarketForecasts(market._id));
     if (
-      [MARKET_NAMES.MATCH_ODDS, MARKET_NAMES.BOOKMAKER].includes(market.name)
+      [
+        MARKET_NAMES.MATCH_ODDS,
+        MARKET_NAMES.BOOKMAKER,
+        MARKET_NAMES.OVER_UNDER_15_GOALS,
+        MARKET_NAMES.OVER_UNDER_25_GOALS,
+      ].includes(market.name)
     ) {
       return calculateMatchOddsPl(payload);
     }
@@ -156,6 +161,8 @@ export default function useRunnerPl() {
         MARKET_NAMES.MATCH_ODDS,
         MARKET_NAMES.BOOKMAKER,
         MARKET_NAMES.FANCY1,
+        MARKET_NAMES.OVER_UNDER_15_GOALS,
+        MARKET_NAMES.OVER_UNDER_25_GOALS,
       ].includes(market.name) &&
       odds &&
       stake
