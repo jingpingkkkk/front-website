@@ -124,15 +124,19 @@ const UserInfo = ({ user }) => {
         </table>
       </div>
 
-      <div className="text-center d-none-desktop bal-point">
+      <div className="text-center d-n-desktop bal-point">
         pts:
-        <span>{user?.balance || 0}</span>{' '}
-        <span onClick={() => setShowExposureDetail(true)}>
-          | {userInfo?.exposure?.toFixed(2) || 0}
+        <span>{user?.balance || 0}</span>
+        <span> | </span>
+        <span
+          className="text-decoration-underline"
+          onClick={() => setShowExposureDetail(true)}
+        >
+          {userInfo?.exposure ? -parseFloat(userInfo.exposure.toFixed(2)) : 0}
         </span>
       </div>
-      <div className="d-flex">
-        <UncontrolledDropdown className="d-none-mobile">
+      <div className="d-flex align-items-center">
+        <UncontrolledDropdown>
           <DropdownToggle caret color="dark" className="username-info">
             <span className="user-icon">
               <img src="./images/userrr.png" alt="user" />
@@ -171,14 +175,8 @@ const UserInfo = ({ user }) => {
         )}
 
         {/* Notification */}
-        <UncontrolledDropdown>
-          <DropdownToggle caret className="notification-icon">
-            <img
-              src="./images/icons-bell.png"
-              alt="bell-icon"
-              className="w-50 h-50 bell-icon"
-            />
-          </DropdownToggle>
+        <UncontrolledDropdown className="notification-drop">
+          <DropdownToggle className="notification-icon" />
 
           <DropdownMenu className="notification-menu">
             <div className="card border-0 w300">

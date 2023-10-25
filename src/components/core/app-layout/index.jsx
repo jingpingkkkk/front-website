@@ -3,14 +3,10 @@ import React from 'react';
 import { Col, Container, Row } from 'reactstrap';
 import Footer from '../footer';
 import Topnav from '../topnav';
-import Bottomnav from '../bottomnav';
-import useScreenWidth from '../../../hooks/use-screen-width';
 
 function AppLayout({ sidebarLeft, sidebarRight, pageContent }) {
   const isSidebarLeft = sidebarLeft !== undefined;
   const isSidebarRight = sidebarRight !== undefined;
-
-  const { isMobile, isTablet } = useScreenWidth();
 
   const contentMdColWidth = isSidebarLeft
     ? isSidebarRight
@@ -50,7 +46,7 @@ function AppLayout({ sidebarLeft, sidebarRight, pageContent }) {
         </Row>
         <Footer sidebarLeft={sidebarLeft} sidebarRight={sidebarRight} />
       </Container>
-      {isMobile || isTablet ? <Bottomnav /> : ''}
+      {/* {isMobile || isTablet ? <Bottomnav /> : ''} */}
     </>
   );
 }

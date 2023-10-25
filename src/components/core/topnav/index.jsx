@@ -134,7 +134,7 @@ function Topnav() {
       <div className="d-lg-none">
         <MenuToggleButton />
 
-        <NavLink to="/" className="ms-5 ps-3">
+        <NavLink to="/" className="ms-5">
           <img
             src={
               themeSettings?.logoImage
