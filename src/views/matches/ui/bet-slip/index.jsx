@@ -28,6 +28,8 @@ function BatSlip() {
   const [betMarkets, setBetMarkets] = useState([]);
   const [totalBets, setTotalBets] = useState(0);
   const [isOpenMyBets, setIsOpenMyBets] = useState(false);
+  const [activeTab, setActiveTab] = useState('');
+
   useEffect(() => {
     if (eventBet.market?._id) {
       setOpenIds(['2', '3']);
@@ -119,6 +121,8 @@ function BatSlip() {
           isOpen={isOpenMyBets}
           toggle={() => setIsOpenMyBets(false)}
           betMarkets={betMarkets}
+          activeTab={activeTab}
+          onTabChange={setActiveTab}
         />
       ) : (
         ''

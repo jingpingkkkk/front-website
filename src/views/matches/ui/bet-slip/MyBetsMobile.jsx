@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import React, { useState, useEffect } from 'react';
 import './bet-panel.css';
@@ -5,21 +6,23 @@ import { Modal, ModalBody } from 'reactstrap';
 import { roundNumber, shortNumber } from '../../../../helper/number';
 import { MARKET_NAMES } from '../../helpers/constants';
 
-function MyBetsMobile({ isOpen, toggle, betMarkets }) {
-  const [activeTab, setActiveTab] = useState('');
+function MyBetsMobile({ isOpen, toggle, betMarkets, activeTab, onTabChange }) {
   const [myBets, setMyBets] = useState([]);
+
   const onClickMarket = (e, marketName) => {
     e.preventDefault();
-    setActiveTab(marketName);
+    onTabChange(marketName);
     const bets = betMarkets?.find((b) => b.marketName === marketName);
     setMyBets(bets?.bets || []);
   };
+
   useEffect(() => {
-    const marketName = betMarkets[0]?.marketName;
-    setActiveTab(marketName);
+    const marketName = activeTab || betMarkets[0]?.marketName;
+    onTabChange(marketName);
     const bets = betMarkets?.find((b) => b.marketName === marketName);
     setMyBets(bets?.bets || []);
   }, [betMarkets]);
+
   return (
     <Modal isOpen={isOpen} toggle={toggle} className="bet-table-popup">
       <div className="modal-header">
