@@ -25,6 +25,10 @@
   top: 0;
   width: 40%;
 }
+.home-icon {
+  width: 30px;
+  height: 30px;
+}
 @media screen and (max-width: 768px) {
   .mobile-sidebar-active {
     width: 50%;
