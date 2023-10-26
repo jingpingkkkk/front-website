@@ -65,7 +65,7 @@ function ProductPromotion() {
         </Carousel>
       </div> */}
 
-      <div className="tabing-sec">
+      <div className="tabing-sec right-bar">
         <ul className="nav nav-tabs" role="tablist">
           <li className="nav-item">
             <a

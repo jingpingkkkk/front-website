@@ -13,7 +13,7 @@ function CricketScore({ event }) {
   const [teamRun, setTeamRun] = useState(0);
 
   const calculateRun = (run = 0, over = 0) => {
-    return run ? Number(run) / Number(over).toFixed(2) : 0;
+    return run ? (Number(run) / Number(over)).toFixed(2) : 0;
   };
 
   const countCurrentRunRate = (data) => {
