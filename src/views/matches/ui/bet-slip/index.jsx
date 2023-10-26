@@ -62,7 +62,7 @@ function BatSlip() {
   }, [event, eventMarketBets]);
 
   return (
-    <div>
+    <div className="right-bet-bar">
       <div className="col-md-12 col-sm-12 col-12 last-sidebar comman-bg right-sidebar casino-right-sidebar d-none d-lg-block">
         <UncontrolledAccordion stayOpen defaultOpen={openIds}>
           {user.balance >= 500 && videoStreamId ? (
