@@ -72,4 +72,9 @@ body {
   --dropdown-bg: rgba(227, 219, 171, 100);
   --dropdown-text-color: #1a1a1a;
   --bet-collapse-shadow: 0px 4px 43px rgba(220, 217, 217, 0.26);
+  --bottom-tab-shadow: -4.58667px 4.58667px 9.17333px rgba(230, 230, 230, 0.2),
+    4.58667px -4.58667px 9.17333px rgba(230, 230, 230, 0.2),
+    -4.58667px -4.58667px 9.17333px rgba(255, 255, 255, 0.9),
+    4.58667px 4.58667px 11.9253px rgba(230, 230, 230, 0.9),
+    inset -0.917333px -0.917333px 1.83467px rgba(230, 230, 230, 0.5);
 }

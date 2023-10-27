@@ -161,6 +161,68 @@ ul:not(.browser-default) {
 .bottom-profile ul.dropdown-content li a.close-btn img {
   margin-right: 0 !important;
 }
+@media (max-width: 992px) {
+  .bottom-tabs ul li.big::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: -27px;
+    width: 60px;
+    height: 60px;
+    background-color: var(--bottom-tab-bg);
+    border-radius: 100%;
+    z-index: -1;
+    margin: auto;
+    box-shadow: var(--bottom-tab-shadow);
+  }
+  .bottom-tabs ul li a {
+    width: 37px;
+    height: 37px;
+    margin: auto;
+    background-color: var(--bottom-tab-icon-bg);
+    border-radius: 50%;
+    align-items: center;
+    top: 0;
+    transition: all 0.2s ease-in;
+    color: var(--primary-text-color);
+    cursor: pointer;
+    font-size: 11px;
+    justify-content: center;
+    text-align: center;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    font-weight: 400;
+    letter-spacing: 0.3px;
+    margin-top: 10px;
+  }
+  .bottom-tabs ul li.big a {
+    position: relative;
+    color: var(--primary-color);
+    top: -33px;
+    background-color: transparent;
+    width: auto;
+    height: auto;
+    margin-top: auto;
+  }
+  .bottom-tabs .bottom-image {
+    content: '';
+    background-image: radial-gradient(
+      circle at 50% 3px,
+      transparent 35px,
+      var(--bottom-tab-bg) 35px
+    );
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
+    width: 100%;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+  }
+}
 @keyframes fadeInUp {
   0% {
     opacity: 0;

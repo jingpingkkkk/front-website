@@ -44,6 +44,7 @@ const Bottomnav = () => {
     <div>
       {!isOpen && (
         <div className="bottom-tabs">
+          <span className="bottom-image" />
           <ul>
             <li className="truncate all-sports">
               <NavLink
@@ -52,19 +53,41 @@ const Bottomnav = () => {
                   onchangeMenu(e, '/sports');
                 }}
               >
-                <img src="./images/home-active.svg" alt="home" />
-                <div className="title-name">Home</div>
+                <img src="./images/basketball-ball-variant.svg" alt="home" />
+                <div className="title-name">Sports</div>
               </NavLink>
             </li>
             <li className="truncate all-sports">
               <NavLink
                 to="/offers"
                 onClick={(e) => {
-                  onchangeMenu(e, '/offers');
+                  onchangeMenu(e, '/casino');
                 }}
               >
-                <img src="./images/offers-active.svg" alt="offers" />
-                <div className="title-name">Offers</div>
+                <img src="./images/poker-1.svg" alt="offers" />
+                <div className="title-name">Casino</div>
+              </NavLink>
+            </li>
+            <li className="big bowler">
+              <NavLink
+                to="/sports"
+                onClick={(e) => {
+                  onchangeMenu(e, '/sports');
+                }}
+              >
+                <img src="./images/home-active.svg" alt="home" />
+                {/* <div className="title-name">Home</div> */}
+              </NavLink>
+            </li>
+            <li className="truncate all-sports">
+              <NavLink
+                to="/offers"
+                onClick={(e) => {
+                  onchangeMenu(e, '/promotion');
+                }}
+              >
+                <img src="./images/promotion.svg" alt="offers" />
+                <div className="title-name">Promotion</div>
               </NavLink>
             </li>
             <li className="truncate all-sports">
@@ -76,7 +99,7 @@ const Bottomnav = () => {
                 data-target="dropdown2"
                 className="dropdown-trigger1"
               >
-                <img src="./images/profile.svg" alt="offers" />
+                <img src="./images/refer.svg" alt="offers" />
                 <div className="title-name">
                   {userDetails?.user?.fullName || 'Login'}
                 </div>
