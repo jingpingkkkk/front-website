@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useMemo, useState } from 'react';
 import './score-board.css';
 import { io } from 'socket.io-client';
@@ -11,7 +12,8 @@ function CricketScore({ event }) {
   const [crr, setCrr] = useState(0);
   const [ballRun, setBallRun] = useState(0);
   const [teamRun, setTeamRun] = useState(0);
-
+  const [prevTeamRun, setPrevTeamRun] = useState(0);
+  const [currentBetting, setCurrentBetting] = useState(null);
   const calculateRun = (run = 0, over = 0) => {
     return run ? (Number(run) / Number(over)).toFixed(2) : 0;
   };
@@ -20,14 +22,21 @@ function CricketScore({ event }) {
     const betting = data?.score?.away?.highlight
       ? data?.score?.away
       : data?.score?.home;
+    setCurrentBetting(betting);
     const runs = betting?.inning1?.runs || 0;
     const currentRun = runs
       ? Number(runs) / Number(betting?.inning1?.overs)
       : 0;
     setCrr(currentRun.toFixed(2));
-    setBallRun(teamRun > 0 ? Number(runs) - teamRun : 0);
     setTeamRun(runs);
   };
+
+  useEffect(() => {
+    const difference = prevTeamRun > 0 ? teamRun - prevTeamRun : 0;
+    setBallRun(difference);
+    setPrevTeamRun(teamRun);
+  }, [currentBetting?.inning1?.overs]);
+
   const handleMarketData = (data) => {
     if (data) {
       setScore(data);
