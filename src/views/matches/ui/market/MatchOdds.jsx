@@ -1,14 +1,12 @@
 /* eslint-disable no-nested-ternary */
 import React, { useLayoutEffect, useMemo, useRef, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { Spinner } from 'reactstrap';
 import { io } from 'socket.io-client';
 import { roundNumber, shortNumber } from '../../../../helper/number';
-import useScreenWidth from '../../../../hooks/use-screen-width';
 import { betTypes, setBetOdds } from '../../../../redux/reducers/event-bet';
 import { setMarketRunnerPls } from '../../../../redux/reducers/event-market';
 import useRunnerPl from '../../hooks/use-runner-pl';
-import MobileBetPanel from '../bet-slip-mobile';
 
 const singleOdd = {
   back: [
@@ -47,9 +45,7 @@ function MatchOdds({ market }) {
   const socket = useMemo(() => io(marketUrl, { autoConnect: false }), []);
 
   const dispatch = useDispatch();
-  const eventBet = useSelector((state) => state.eventBet);
   const previousValue = useRef(emptyOdds);
-  const { isMobile, isTablet } = useScreenWidth();
 
   const { calculateRunnerPl } = useRunnerPl();
 
@@ -333,13 +329,6 @@ function MatchOdds({ market }) {
                   </button>
                 ))}
               </div>
-              {eventBet.market?._id &&
-              eventBet.runner?._id === runner?._id &&
-              (isMobile || isTablet) ? (
-                <MobileBetPanel />
-              ) : (
-                ''
-              )}
             </div>
           );
         })

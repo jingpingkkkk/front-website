@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
@@ -12,13 +13,15 @@ import BetPanel from './BetPanel';
 import EventTv from './EventTv';
 import MyBets from './MyBets';
 import MyBetsMobile from './MyBetsMobile';
+import BetSlipPopup from '../bet-slip-popup';
+import useScreenWidth from '../../../../hooks/use-screen-width';
 
 function BatSlip() {
   const eventBet = useSelector((state) => state.eventBet);
   const { user } = useSelector((state) => state.userDetails);
   const { event } = useSelector((state) => state.eventMarket);
   const { eventMarketBets } = useSelector((state) => state.userBets);
-
+  const { isMobile, isTablet } = useScreenWidth();
   const { videoStreamId = null } = useSelector(
     (state) => state.eventMarket.event,
   );
@@ -29,6 +32,7 @@ function BatSlip() {
   const [totalBets, setTotalBets] = useState(0);
   const [isOpenMyBets, setIsOpenMyBets] = useState(false);
   const [activeTab, setActiveTab] = useState('');
+  const [isBetModalOpen, setIsBetModalOpen] = useState(false);
 
   useEffect(() => {
     if (eventBet.market?._id) {
@@ -36,6 +40,7 @@ function BatSlip() {
     } else {
       setOpenIds(['3']);
     }
+    setIsBetModalOpen(eventBet.market?._id && (isMobile || isTablet));
   }, [eventBet.market]);
 
   useEffect(() => {
@@ -127,6 +132,12 @@ function BatSlip() {
       ) : (
         ''
       )}
+      {eventBet.market?._id ? (
+        <BetSlipPopup
+          isOpen={isBetModalOpen}
+          toggle={() => setIsBetModalOpen(false)}
+        />
+      ) : null}
     </div>
   );
 }

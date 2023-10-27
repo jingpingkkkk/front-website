@@ -1,13 +1,11 @@
 /* eslint-disable no-nested-ternary */
 import React, { useEffect, useMemo, useRef, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { Spinner } from 'reactstrap';
 import { io } from 'socket.io-client';
 import { shortNumber } from '../../../../helper/number';
-import useScreenWidth from '../../../../hooks/use-screen-width';
 import { betTypes, setBetOdds } from '../../../../redux/reducers/event-bet';
 import { setMarketPlForecast } from '../../../../redux/reducers/event-market';
-import MobileBetPanel from '../bet-slip-mobile';
 
 const socketUrl = import.meta.env.VITE_SOCKET_URL;
 const marketUrl = `${socketUrl}/market`;
@@ -16,9 +14,7 @@ function Fancy1({ market }) {
   const socket = useMemo(() => io(marketUrl, { autoConnect: false }), []);
 
   const dispatch = useDispatch();
-  const eventBet = useSelector((state) => state.eventBet);
   const previousValue = useRef([]);
-  const { isMobile, isTablet } = useScreenWidth();
   const [fancyRunners, setFancyRunners] = useState([]);
   const [loading, setLoading] = useState(true);
 
@@ -417,13 +413,6 @@ function Fancy1({ market }) {
                     ''
                   )}
                 </div>
-                {eventBet.market?._id &&
-                eventBet.runner?._id === runner?.runnerId &&
-                (isMobile || isTablet) ? (
-                  <MobileBetPanel />
-                ) : (
-                  ''
-                )}
               </div>
             );
           })
