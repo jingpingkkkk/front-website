@@ -23,7 +23,7 @@ ul:not(.browser-default) {
 }
 .bottom-tabs ul li {
   align-items: center;
-  height: 70px;
+  height: 55px;
   /* flex-basis: 20%; */
   text-align: center;
   display: flex;
@@ -34,8 +34,8 @@ ul:not(.browser-default) {
 .bottom-tabs ul li a img {
   display: inline-block;
   margin: auto;
-  width: 23px;
-  height: 23px;
+  width: 20px;
+  height: 20px;
 }
 .bottom-tabs ul li a {
   text-decoration: none;
@@ -168,8 +168,8 @@ ul:not(.browser-default) {
     left: 0;
     right: 0;
     top: -27px;
-    width: 60px;
-    height: 60px;
+    width: 55px;
+    height: 55px;
     background-color: var(--bottom-tab-bg);
     border-radius: 100%;
     z-index: -1;
@@ -200,7 +200,7 @@ ul:not(.browser-default) {
   .bottom-tabs ul li.big a {
     position: relative;
     color: var(--primary-color);
-    top: -33px;
+    top: -30px;
     background-color: transparent;
     width: auto;
     height: auto;
@@ -209,9 +209,9 @@ ul:not(.browser-default) {
   .bottom-tabs .bottom-image {
     content: '';
     background-image: radial-gradient(
-      circle at 50% 3px,
-      transparent 35px,
-      var(--bottom-tab-bg) 35px
+      circle at 50% 1px,
+      transparent 33px,
+      #fff 35px
     );
     border-top-left-radius: 20px;
     border-top-right-radius: 20px;

@@ -639,6 +639,10 @@
   right: 84px !important;
   height: calc(100% - 4px);
 }
+.f-bm-icon img {
+  height: 20px;
+  width: 20px;
+}
 @media only screen and (min-width: 1280px) {
   .d-none-desktop {
     display: none !important;
