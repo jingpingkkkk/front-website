@@ -8,6 +8,8 @@ const sportsListSlice = createSlice({
     sports: [], // will be used for filtering
     favouriteEvents: [],
     loading: false,
+    liveEventsCount: 0,
+    upComingEventsCount: 0,
   },
 
   reducers: {
@@ -27,6 +29,12 @@ const sportsListSlice = createSlice({
     setFavouriteEvents: (state, action) => {
       state.favouriteEvents = action.payload;
     },
+    setLiveEventsCount: (state, action) => {
+      state.liveEventsCount = action.payload;
+    },
+    setUpComingEventsCount: (state, action) => {
+      state.upComingEventsCount = action.payload;
+    },
   },
 });
 
@@ -35,6 +43,8 @@ export const {
   setSportsLoader,
   setFilteredSports,
   setFavouriteEvents,
+  setLiveEventsCount,
+  setUpComingEventsCount,
 } = sportsListSlice.actions;
 
 export default sportsListSlice.reducer;
