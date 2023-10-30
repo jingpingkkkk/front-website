@@ -38,119 +38,140 @@ function EventList({ events, sportName }) {
       </div>
       <div className="bet-table-body">
         {events?.length ? (
-          events?.map((event, i) => (
-            <div className="bet-table-box" key={i}>
-              <div className="bet-table-row p-2">
-                <div className="game-title d-none-mobil">
-                  <div className="date-height">
-                    <div
-                      className={`date-time ${event?.isLive ? 'in-play' : ''}`}
-                    >
-                      <div className={` ${event?.isLive ? 'animate' : ''}`}>
-                        <ul
-                          className={` ${
-                            event?.isLive ? 'flip-animation' : ''
-                          }`}
-                        >
-                          <li className="time_date">
-                            <span className="time">
-                              {event?.matchDate
-                                ? moment(event?.matchDate).isSame(
-                                    moment(),
-                                    'day',
-                                  )
-                                  ? 'Today'
-                                  : moment(event?.matchDate).isSame(
-                                      moment().clone().add(1, 'day'),
+          events?.map((event, i) => {
+            const teams = event?.eventName.split('v');
+            return (
+              <div className="bet-table-box" key={i}>
+                <div className="bet-table-row p-2">
+                  <div className="game-title d-none-mobil">
+                    <div className="date-height">
+                      <div
+                        className={`date-time ${
+                          event?.isLive ? 'in-play' : ''
+                        }`}
+                      >
+                        <div className={` ${event?.isLive ? 'animate' : ''}`}>
+                          <ul
+                            className={` ${
+                              event?.isLive ? 'flip-animation' : ''
+                            }`}
+                          >
+                            <li className="time_date">
+                              <span className="time">
+                                {event?.matchDate
+                                  ? moment(event?.matchDate).isSame(
+                                      moment(),
                                       'day',
                                     )
-                                  ? 'Tomorrow'
-                                  : moment(event?.matchDate).format('Do MMM')
-                                : ''}
-                            </span>
-                            <span className="date">
-                              {event?.matchDate
-                                ? moment(event?.matchDate).format('HH:mm')
-                                : ''}
-                            </span>
-                          </li>
-                          {event?.isLive ? (
-                            <li>
-                              <span className="in-play-light">
-                                {/* <div className="icon-holder-small">
-                                  <div className="sports-icon inplay-light-icon" />
-                                </div> */}
-                                In-Play
+                                    ? 'Today'
+                                    : moment(event?.matchDate).isSame(
+                                        moment().clone().add(1, 'day'),
+                                        'day',
+                                      )
+                                    ? 'Tomorrow'
+                                    : moment(event?.matchDate).format('Do MMM')
+                                  : ''}
+                              </span>
+                              <span className="date">
+                                {event?.matchDate
+                                  ? moment(event?.matchDate).format('HH:mm')
+                                  : ''}
                               </span>
                             </li>
-                          ) : (
-                            ''
-                          )}
-                        </ul>
+                            {event?.isLive ? (
+                              <li>
+                                <span className="in-play-light">
+                                  {/* <div className="icon-holder-small">
+                                  <div className="sports-icon inplay-light-icon" />
+                                </div> */}
+                                  In-Play
+                                </span>
+                              </li>
+                            ) : (
+                              ''
+                            )}
+                          </ul>
+                        </div>
+                      </div>
+                    </div>
+                    <div className="game-name d-inline-block">
+                      <Link
+                        className="text-decoration-none"
+                        to="/matches"
+                        state={{ eventId: event?._id }}
+                        onClick={(e) =>
+                          handleEventClick(e, '/matches', event?._id)
+                        }
+                      >
+                        <div className="d-flex align-items-center">
+                          <p className="team-name text-left">
+                            {teams[0] || ''}
+                          </p>
+                          <span>
+                            <img src="/images/vs.png" alt="vs" />
+                          </span>
+                        </div>
+                        <p className="team-name text-left">{teams[1] || ''}</p>
+                        <p className="team-name text-left team-event">
+                          ({event?.competitionName || ''})
+                        </p>
+                      </Link>
+                    </div>
+                    <div className="game-icons">
+                      {userDetails?.user?.balance >= 500 &&
+                      event?.videoStreamId ? (
+                        <div className="game-icon">
+                          <span className="f-bm-icon">
+                            <img src="/images/icon-tv.png" alt="tv" />
+                          </span>
+                        </div>
+                      ) : (
+                        ''
+                      )}
+                      <div className="game-icon">
+                        <span className="f-bm-icon">F1</span>
+                      </div>
+                      <div className="game-icon">
+                        <span className="f-bm-icon">F</span>
                       </div>
                     </div>
                   </div>
-                  <div className="game-name d-inline-block">
-                    <Link
-                      className="text-decoration-none"
-                      to="/matches"
-                      state={{ eventId: event?._id }}
-                      onClick={(e) =>
-                        handleEventClick(e, '/matches', event?._id)
-                      }
-                    >
-                      <p className="team-name text-left">
-                        {event?.eventName || ''}
-                      </p>
-                      <p className="team-name text-left team-event">
-                        ({event?.competitionName || ''})
-                      </p>
-                    </Link>
-                  </div>
-                  <div className="game-icons">
-                    <div className="game-icon">
-                      <span className="f-bm-icon">F1</span>
+                  <div className="point-title">
+                    <div className="back bl-box event-box">
+                      <span className="d-block odds">
+                        {event?.matchOdds[0]?.back[0]?.price || ''}
+                      </span>
                     </div>
-                    <div className="game-icon">
-                      <span className="f-bm-icon">F</span>
+                    <div className="lay bl-box event-box">
+                      <span className="d-block odds">
+                        {event?.matchOdds[0]?.lay[0]?.price || ''}
+                      </span>
                     </div>
                   </div>
-                </div>
-                <div className="point-title">
-                  <div className="back bl-box event-box">
-                    <span className="d-block odds">
-                      {event?.matchOdds[0]?.back[0]?.price || ''}
-                    </span>
+                  <div className="point-title">
+                    <div className="no-val bl-box event-box">
+                      <span className="d-block odds">—</span>
+                    </div>
+                    <div className="no-val bl-box event-box">
+                      <span className="d-block odds">—</span>
+                    </div>
                   </div>
-                  <div className="lay bl-box event-box">
-                    <span className="d-block odds">
-                      {event?.matchOdds[0]?.lay[0]?.price || ''}
-                    </span>
-                  </div>
-                </div>
-                <div className="point-title">
-                  <div className="no-val bl-box event-box">
-                    <span className="d-block odds">—</span>
-                  </div>
-                  <div className="no-val bl-box event-box">
-                    <span className="d-block odds">—</span>
-                  </div>
-                </div>
-                <div className="point-title">
-                  <div className="back bl-box event-box">
-                    <span className="d-block odds">
-                      {event?.matchOdds[1]?.back[0]?.price || ''}
-                    </span>
-                  </div>
-                  <div className="lay bl-box event-box">
-                    <span className="d-block odds">
-                      {event?.matchOdds[1]?.lay[0]?.price || ''}
-                    </span>
+                  <div className="point-title">
+                    <div className="back bl-box event-box">
+                      <span className="d-block odds">
+                        {event?.matchOdds[1]?.back[0]?.price || ''}
+                      </span>
+                    </div>
+                    <div className="lay bl-box event-box">
+                      <span className="d-block odds">
+                        {event?.matchOdds[1]?.lay[0]?.price || ''}
+                      </span>
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
-          ))
+            );
+          })
         ) : (
           <div className="p-3 text-center">NO DATA</div>
         )}

@@ -24,9 +24,13 @@ a {
   padding-left: 0;
   padding-right: 0;
 }
-nav#sidebar {
+.left-fixed {
   position: fixed;
   width: 13.75%;
+}
+nav#sidebar {
+  /* position: fixed; */
+  /* width: 13.75%; */
   max-height: calc(100% - 130px);
   overflow-y: scroll;
 }
@@ -41,6 +45,18 @@ header {
 .header-main {
   display: flex;
   justify-content: space-between;
+  z-index: 99999;
+  position: fixed;
+  top: 0px;
+  left: 0;
+  right: 0;
+  z-index: 999;
+  width: 100%;
+  background: #fff;
+  padding: 10px 21px;
+}
+.main-row {
+  padding-top: 2.5rem;
 }
 .header-col-right {
   display: flex;
@@ -281,7 +297,7 @@ nav#sidebar {
   border-radius: 15px;
   background: var(--main-tabs-color);
   padding: 6px;
-  margin-bottom: 15px;
+  /* margin-bottom: 15px; */
 }
 .event-title {
   color: var(--primary-color);
@@ -1724,6 +1740,10 @@ input[type='date']::-webkit-calendar-picker-indicator:hover {
   position: fixed;
   width: 23.8%;
 }
+.news-icon {
+  height: 24px;
+  width: 24px;
+}
 /* Responsive Css */
 @media only screen and (min-width: 320px) and (max-width: 768px) {
   .event-header {
@@ -1768,6 +1788,13 @@ input[type='date']::-webkit-calendar-picker-indicator:hover {
 }
 
 @media only screen and (max-width: 991px) {
+  .left-fixed {
+    width: unset;
+    background: var(--bg-color);
+    left: 0;
+    padding-left: 5px;
+    padding-right: 5px;
+  }
   .footer-area,
   .last-sidebar,
   .middele-content,
@@ -2025,7 +2052,7 @@ input[type='date']::-webkit-calendar-picker-indicator:hover {
     margin: 5px;
   }
   .marqueee-row {
-    display: block;
+    /* display: block; */
   }
 
   .marqueee-row .left-text {
@@ -2429,4 +2456,10 @@ input[type='date']::-webkit-calendar-picker-indicator:hover {
   background-color: var(--background-color);
   padding: 16px;
   min-height: calc(70vh - 60px);
+}
+body::-webkit-scrollbar-thumb {
+  background-color: #737070;
+}
+body::-webkit-scrollbar {
+  width: 8px;
 }

@@ -23,7 +23,7 @@ function AppLayout({ sidebarLeft, sidebarRight, pageContent }) {
     <>
       <Topnav />
 
-      <Container fluid className="px-3">
+      <Container fluid className="px-3 main-row">
         <Row>
           {sidebarLeft ? (
             <Col lg="2" className="left-sidebar">

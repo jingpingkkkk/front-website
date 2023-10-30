@@ -26,7 +26,7 @@ function MenuToggleButton() {
 
       <div className={menuOpen ? 'mobile-sidebar-container' : 'd-none'}>
         <div className="mobile-sidebar-active">
-          <ExchangeSideMenu className="d-block" />
+          <ExchangeSideMenu className="d-block mb-2" />
         </div>
       </div>
     </>
