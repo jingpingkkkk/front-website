@@ -67,7 +67,7 @@ function NotificationPopup({ isOpen, closeModal, eventId, eventName }) {
                     <thead>
                       <tr>
                         <th className="text-secondary">Market Name</th>
-                        <th className="text-secondary text-end">P/L</th>
+                        <th className="text-secondary">P/L</th>
                       </tr>
                     </thead>
                     <tbody>

@@ -108,7 +108,8 @@ function EventList({ events, sportName }) {
                             {teams[0] || ''}
                           </p>
                           <span>
-                            <img src="/images/vs.png" alt="vs" />
+                            v/s
+                            {/* <img src="/images/vs.png" alt="vs" /> */}
                           </span>
                         </div>
                         <p className="team-name text-left">{teams[1] || ''}</p>
