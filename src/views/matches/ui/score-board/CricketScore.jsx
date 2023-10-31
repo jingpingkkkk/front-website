@@ -28,6 +28,10 @@ function CricketScore({ event }) {
       ? Number(runs) / Number(betting?.inning1?.overs)
       : 0;
     setCrr(currentRun.toFixed(2));
+    if (!betting) {
+      setPrevTeamRun(0);
+      setTeamRun(0);
+    }
     setTeamRun(runs);
   };
 
@@ -35,7 +39,11 @@ function CricketScore({ event }) {
     const difference = prevTeamRun > 0 ? teamRun - prevTeamRun : 0;
     setBallRun(difference);
     setPrevTeamRun(teamRun);
-  }, [currentBetting?.inning1?.overs]);
+  }, [
+    currentBetting?.inning1?.overs,
+    currentBetting?.inning1?.runs,
+    currentBetting?.name,
+  ]);
 
   const handleMarketData = (data) => {
     if (data) {
