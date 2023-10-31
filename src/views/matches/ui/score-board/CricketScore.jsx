@@ -34,6 +34,11 @@ function CricketScore({ event }) {
     }
     setTeamRun(runs);
   };
+  useEffect(() => {
+    setTeamRun(0);
+    setBallRun(0);
+    setPrevTeamRun(0);
+  }, [currentBetting?.name]);
 
   useEffect(() => {
     const difference = prevTeamRun > 0 ? teamRun - prevTeamRun : 0;

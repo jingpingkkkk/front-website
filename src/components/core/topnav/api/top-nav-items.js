@@ -20,6 +20,11 @@ const topNavItems = [
     state: {},
   },
   {
+    label: 'Promotion',
+    path: '/promotion',
+    state: {},
+  },
+  {
     label: 'Aviator',
     path: '/',
     state: { gameId: 'aviator' },

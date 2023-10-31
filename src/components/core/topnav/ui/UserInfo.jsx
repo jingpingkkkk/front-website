@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 import moment from 'moment';
@@ -43,6 +44,7 @@ const UserInfo = ({ user }) => {
   const [eventId, setEventId] = useState(null);
   const [eventName, setEventName] = useState(null);
   const [showExposureDetail, setShowExposureDetail] = useState(false);
+  const [count, setCount] = useState(localStorage.getItem('notification'));
 
   useEffect(() => {
     userSocket.on(`user:${user._id}`, (data) => {
@@ -54,6 +56,17 @@ const UserInfo = ({ user }) => {
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user]);
+
+  useEffect(() => {
+    const localNotification = JSON.parse(localStorage.getItem('notification'));
+    const newObjectsArray = notifications.filter(
+      (newObj) =>
+        !localNotification.some((oldObj) => newObj._id === oldObj._id),
+    );
+    setCount(newObjectsArray?.length || 0);
+    localStorage.setItem('notification', JSON.stringify(newObjectsArray));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [notifications?.length]);
 
   useEffect(() => {
     notificationSocket.emit('join:event:notification', setNotifications);
@@ -176,8 +189,11 @@ const UserInfo = ({ user }) => {
 
         {/* Notification */}
         <UncontrolledDropdown className="notification-drop">
-          <DropdownToggle className="notification-icon" />
-
+          <DropdownToggle
+            className="notification-icon"
+            onClick={() => setCount(0)}
+          />
+          <span className="notification-count">{count}</span>
           <DropdownMenu className="notification-menu">
             <div className="card border-0 w300">
               <div className="card-header notification-header">

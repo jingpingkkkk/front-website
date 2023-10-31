@@ -21,6 +21,7 @@ import './topNav.css';
 import MenuToggleButton from './ui/MenuToggleButton';
 import StickyHeader from './ui/StickyHeader';
 import UserInfo from './ui/UserInfo';
+import { LIVE_MENU_ITEMS } from './helpers/constants';
 
 function Topnav() {
   const dispatch = useDispatch();
@@ -121,10 +122,10 @@ function Topnav() {
   }, [isWelcome, isLoginModalOpen, isLogingOpen, userDetails?.user]);
 
   const onchangeMenu = (e, path) => {
-    if (path !== '/sports') {
-      e?.preventDefault();
-    } else {
+    if (LIVE_MENU_ITEMS.includes(path)) {
       navigate(path);
+    } else {
+      e?.preventDefault();
     }
   };
 

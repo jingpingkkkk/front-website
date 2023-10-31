@@ -1,0 +1,291 @@
+.promo-details {
+  display: flex;
+  flex-wrap: wrap;
+  /* justify-content: center; */
+  margin: 0;
+}
+@media (min-width: 1920px) {
+  .promo-details .coupens {
+    width: 31.8%;
+    height: 240px !important;
+  }
+}
+.promo-details .coupens {
+  width: 46%;
+  height: 250px;
+  border: 2px solid #a0deff;
+  border-radius: 10px;
+  box-shadow: rgba(99, 99, 99, 0.1) 0px 2px 8px 0px;
+  background: linear-gradient(135.23deg, #ebf8ff 4.04%, #fbfcff 70.99%);
+  margin: 10px;
+  padding: 20px;
+  float: left;
+  position: relative;
+  overflow: hidden;
+  cursor: pointer;
+}
+.promo-details .coupens::before {
+  content: '';
+  background-image: url(/images/promo-bg.png);
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position-x: 80%;
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+}
+.promo-details .coupens .coupens-position {
+  position: inherit;
+  background-size: cover;
+  background-repeat: no-repeat;
+  height: 185px;
+  max-height: 185px;
+  border-radius: 12px;
+  background-position: center;
+  background-color: #21a1e5;
+}
+.promo-details .coupens .coupens-position .coupens-top-part {
+  display: flex;
+  padding: 20px 0 8px 20px;
+  border-radius: 10px;
+}
+.coupens-top-part .coupens-text {
+  width: 75%;
+}
+.promo-details .coupens .title2 {
+  font-size: 1.2vw;
+  font-weight: 600;
+  color: #4bc1ff;
+  z-index: 9;
+  line-height: 1.4;
+  margin-bottom: 10px;
+  text-transform: capitalize;
+}
+.coupens .cash {
+  font-size: 14px;
+  max-width: 191px;
+  font-weight: 500;
+  color: #fff;
+  line-height: 1.1;
+}
+.coupens-top-part .coupens-img {
+  width: 50%;
+}
+.coupens .coupens-bottom-text {
+  display: flex;
+  justify-content: space-between;
+  padding: 15px 0 10px;
+}
+.promo-details .coupens .coupens-bets {
+  color: #2a2a2a;
+  font-size: 13px;
+  line-height: 1.1;
+}
+.coupens .timer {
+  font-size: 16px;
+  font-weight: 500;
+  color: #5c6060;
+  display: flex;
+  margin-top: 15px;
+  max-width: 226px;
+  padding: 5px 0 9px 0;
+}
+.coupens .timer .time .days {
+  font-size: 13px;
+  font-weight: 600;
+  color: #4bc1ff;
+  line-height: 1.1;
+}
+.promo-details .coupens .read-more {
+  position: inherit;
+  padding: 0;
+  margin-left: 10px;
+  width: 34%;
+  text-align: right;
+}
+.promo-details .coupens .read-more button {
+  position: relative;
+  bottom: 40px;
+  right: 0;
+  background: linear-gradient(138.38deg, #2baff5 12.51%, #4bc1ff 154.03%);
+  width: 105px;
+  color: var(--white-text);
+  height: 40px;
+  line-height: 38px;
+  border-radius: 8px;
+  margin: 0 5px;
+  font-size: 14px;
+  font-weight: 500;
+  padding: 0 8px;
+  text-align: center;
+  transition: all 0.2s ease-in;
+  display: inline-block;
+  text-decoration: none;
+}
+.promo_box {
+  background-color: var(--background-color);
+  padding: 16px;
+  min-height: 59vh;
+}
+.pdetails .top-details {
+  display: flex;
+}
+.bonus-detail {
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+  background-color: #fff;
+  position: relative;
+}
+.bonus-detail .offer-details {
+  float: left;
+}
+.offer-details .title {
+  font-size: 26px;
+  font-weight: 500;
+  line-height: 1.2;
+  margin: 15px 5px 5px;
+  color: #015c8b;
+  width: -moz-fit-content;
+  width: fit-content;
+  position: relative;
+}
+.offer-details .team-title {
+  font-size: 14px;
+  font-weight: 500;
+  margin: 2px 5px;
+  color: #015c8b;
+  line-height: 1.5;
+  margin-bottom: 10px;
+}
+.right {
+  float: right !important;
+}
+.bonus-detail .back-button .btn {
+  background-color: #4bc1ff;
+  color: #fff;
+  border-radius: 5px;
+  font-weight: 600;
+  padding: 5px 15px;
+  width: 100%;
+  height: 40px;
+  line-height: 2.3;
+  cursor: pointer;
+  font-size: 12px;
+  text-transform: capitalize;
+  transition: all 0.2s;
+  position: relative;
+  margin: auto;
+  margin-top: 15px;
+  margin-bottom: 15px;
+  display: flex;
+  align-items: center;
+}
+.promotion-tabs {
+  padding: 10px 0;
+  /* background-color: var(--promo-tab-bg); */
+  margin-top: 16px;
+  display: flex;
+  display: -webkit-flex;
+  /* justify-content: center; */
+  align-items: center;
+  margin-bottom: 10px;
+}
+.promotion-tabs .nav-tabs {
+  border: 0;
+}
+.promotion-tabs .nav-tabs .nav-item .nav-link.active {
+  color: #4bc1ff;
+  font-weight: 600;
+  border-bottom: 2px solid #4bc1ff;
+  background-color: transparent;
+}
+.promotion-tabs .nav-tabs .nav-link {
+  color: #4bc1ff;
+  padding-top: 0;
+  padding-bottom: 4px;
+  padding-left: 12px;
+  padding-right: 12px;
+  border: 0;
+  cursor: pointer;
+}
+
+.play-now-btn .btn {
+  background-color: #4bc1ff;
+  color: var(--white-text);
+  border-radius: 5px;
+  font-weight: 600;
+  padding: 5px 25px;
+  width: 100%;
+  max-width: 180px;
+  height: 45px;
+  line-height: 2.3;
+  cursor: pointer;
+  font-size: 14px;
+  text-transform: uppercase;
+  transition: all 0.2s;
+  position: relative;
+  margin: auto;
+  display: block;
+  margin-top: 15px;
+  margin-bottom: 15px;
+}
+@media (max-width: 767px) {
+  .promo-details .coupens {
+    width: 100%;
+    height: 215px;
+    padding: 10px;
+    margin: 5px 0px;
+  }
+  .promo-details .coupens .title2 {
+    font-size: 18px;
+  }
+  .promo-details .coupens .coupens-position {
+    height: 170px;
+    max-height: 170px;
+  }
+  .promo-details .coupens .read-more button {
+    bottom: 38px;
+    width: 75px;
+    height: 35px;
+    line-height: 35px;
+    font-size: 12px;
+    font-weight: 500;
+  }
+  .bonus-detail .offer-details .title {
+    font-size: 16px;
+    margin: 10px 0 2px;
+  }
+  .bonus-detail .back-button .btn {
+    padding: 5px 10px;
+    height: 35px;
+    line-height: 2.3;
+    font-size: 11px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+  }
+}
+@media (min-width: 768px) and (max-width: 992px) {
+  .promo-details .coupens .title2 {
+    font-size: 2.3vw;
+  }
+  .promo-details .coupens .read-more {
+    width: 40%;
+  }
+}
+@media (min-width: 993px) and (max-width: 1199px) {
+  .promo-details .coupens .title2 {
+    font-size: 1.8vw;
+  }
+  .promo-details .coupens .read-more button {
+    bottom: 38px;
+    width: 80px;
+    height: 35px;
+    line-height: 35px;
+    font-size: 12px;
+    font-weight: 500;
+  }
+  .promo-details .coupens .read-more {
+    width: 39%;
+  }
+}
