@@ -4,7 +4,7 @@
 import 'jspdf-autotable';
 import React, { useEffect, useState } from 'react';
 import './promotion.css';
-import { getRequest } from '../../../../api';
+import { postRequest } from '../../../../api';
 import LoadingOverlay from '../../../../components/common/loading-overlay';
 
 function PromotionPageContent() {
@@ -20,8 +20,14 @@ function PromotionPageContent() {
   };
   const fetchPromotionData = async () => {
     try {
+      // const ipAddress = await ipDetails();
+      const body = {
+        // countryName: ipAddress?.country,
+        countryName: 'IN',
+        domainUrl: window?.location?.origin,
+      };
       setLoading(true);
-      const result = await getRequest('promotion/allPromotion', false);
+      const result = await postRequest('promotion/allPromotion', body, false);
       if (result?.success) {
         const sports = result?.data?.details?.filter(
           (data) => data?.promotionType === activeTab,
