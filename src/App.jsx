@@ -16,6 +16,7 @@ const Notification = React.lazy(() => import('./views/notification'));
 const AccountStatement = React.lazy(() => import('./views/accountstatement'));
 const ChangePassword = React.lazy(() => import('./views/changepassword'));
 const PromotionPage = React.lazy(() => import('./views/promotion'));
+const CasinoPage = React.lazy(() => import('./views/casino'));
 
 function App() {
   useEffect(() => {
@@ -53,6 +54,7 @@ function App() {
           <Route path="/accountstatement" element={<AccountStatement />} />
           <Route path="/changepassword" element={<ChangePassword />} />
           <Route path="/promotion" element={<PromotionPage />} />
+          <Route path="/casino" element={<CasinoPage />} />
         </Routes>
       </Suspense>
     </Router>
