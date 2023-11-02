@@ -23,6 +23,8 @@ function CricketScore({ event }) {
       ? data?.score?.away
       : data?.score?.home;
     setCurrentBetting(betting);
+    console.log('data', data);
+    console.log('prevTeamRun', prevTeamRun);
     const runs = betting?.inning1?.runs || 0;
     const currentRun = runs
       ? Number(runs) / Number(betting?.inning1?.overs)
@@ -31,8 +33,16 @@ function CricketScore({ event }) {
     if (!betting) {
       setPrevTeamRun(0);
       setTeamRun(0);
+    } else {
+      setTeamRun(runs);
     }
-    setTeamRun(runs);
+    if (
+      Number(betting?.inning1?.overs) === 50 ||
+      betting?.inning1?.wickets === 'ALL_OUT'
+    ) {
+      setPrevTeamRun(0);
+    }
+    console.log(Number(betting?.inning1?.overs));
   };
   useEffect(() => {
     setTeamRun(0);

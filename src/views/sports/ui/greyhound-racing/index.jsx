@@ -83,57 +83,62 @@ function GreyhoundRacing({ events, sportName, activeTab, onTabChange }) {
             <div className="bet-table-body">
               <div className="bet-table-box">
                 {eventData?.length ? (
-                  eventData?.map((event) => (
-                    <div key={event?._id}>
-                      <div className="bet-table-row-header-mobile d-none-desktop">
-                        <div className="game-title mb-0">
-                          <div className="game-name d-inline-block">
+                  eventData?.map((event) => {
+                    const eventMarket = Array.isArray(event?.market)
+                      ? event?.market
+                      : [event?.market];
+                    return (
+                      <div key={event?._id}>
+                        <div className="bet-table-row-header-mobile d-none-desktop">
+                          <div className="game-title mb-0">
+                            <div className="game-name d-inline-block">
+                              <div className="tv-icons">
+                                <div className="game-icon tv-icon">
+                                  <img src="./images/icon-tv.png" alt="tv" />
+                                </div>
+                                <p className="team-name text-left">
+                                  {event?.eventName || ''}
+                                </p>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <div className="bet-table-row">
+                          <div className="game-title d-none-mobile">
                             <div className="tv-icons">
                               <div className="game-icon tv-icon">
                                 <img src="./images/icon-tv.png" alt="tv" />
                               </div>
+                            </div>
+                            <div className="game-name d-inline-block ps-0">
                               <p className="team-name text-left">
                                 {event?.eventName || ''}
                               </p>
                             </div>
                           </div>
+                          <div className="horse-time-detail">
+                            {eventMarket?.map((mrkt) => (
+                              <Link
+                                key={mrkt?._id}
+                                to="/matches"
+                                state={{ eventId: mrkt?._id }}
+                                onClick={(e) =>
+                                  handleEventClick(
+                                    e,
+                                    '/matches',
+                                    mrkt?._id,
+                                    event?._id,
+                                  )
+                                }
+                              >
+                                <span>{mrkt?.time}</span>
+                              </Link>
+                            ))}
+                          </div>
                         </div>
                       </div>
-                      <div className="bet-table-row">
-                        <div className="game-title d-none-mobile">
-                          <div className="tv-icons">
-                            <div className="game-icon tv-icon">
-                              <img src="./images/icon-tv.png" alt="tv" />
-                            </div>
-                          </div>
-                          <div className="game-name d-inline-block ps-0">
-                            <p className="team-name text-left">
-                              {event?.eventName || ''}
-                            </p>
-                          </div>
-                        </div>
-                        <div className="horse-time-detail">
-                          {event?.market.map((mrkt) => (
-                            <Link
-                              key={mrkt?._id}
-                              to="/matches"
-                              state={{ eventId: mrkt?._id }}
-                              onClick={(e) =>
-                                handleEventClick(
-                                  e,
-                                  '/matches',
-                                  mrkt?._id,
-                                  event?._id,
-                                )
-                              }
-                            >
-                              <span>{mrkt?.time}</span>
-                            </Link>
-                          ))}
-                        </div>
-                      </div>
-                    </div>
-                  ))
+                    );
+                  })
                 ) : (
                   <div className="p-3 text-center">NO DATA</div>
                 )}
