@@ -55,7 +55,7 @@ function MatchPageContent() {
     if (sportName === 'Greyhound Racing') {
       body.marketId = marketId;
     }
-    const result = await postRequest(`event/${urlEndPoint}`, body);
+    const result = await postRequest(`event/${urlEndPoint}`, body, false);
 
     if (result?.success) {
       const event = result.data.details;
@@ -86,7 +86,7 @@ function MatchPageContent() {
     if (sportName === 'Greyhound Racing') {
       body.marketId = marketId;
     }
-    const result = await postRequest(`event/${urlEndPoint}`, body);
+    const result = await postRequest(`event/${urlEndPoint}`, body, false);
 
     if (result?.success) {
       const event = result.data.details;

@@ -1,12 +1,13 @@
 /* eslint-disable no-nested-ternary */
 import React, { useLayoutEffect, useMemo, useRef, useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { Spinner } from 'reactstrap';
 import { io } from 'socket.io-client';
 import { roundNumber, shortNumber } from '../../../../helper/number';
 import { betTypes, setBetOdds } from '../../../../redux/reducers/event-bet';
 import { setMarketRunnerPls } from '../../../../redux/reducers/event-market';
 import useRunnerPl from '../../hooks/use-runner-pl';
+import { setShouldLogin } from '../../../../redux/reducers/user-details';
 
 const singleOdd = {
   back: [
@@ -43,7 +44,7 @@ const colors = [
 
 function MatchOdds({ market }) {
   const socket = useMemo(() => io(marketUrl, { autoConnect: false }), []);
-
+  const userDetails = useSelector((state) => state.userDetails);
   const dispatch = useDispatch();
   const previousValue = useRef(emptyOdds);
 
@@ -123,6 +124,12 @@ function MatchOdds({ market }) {
   }, [market, emptyOdds]);
 
   const handleOddClick = (runner, odd, type) => {
+    const notLoggedIn =
+      !userDetails?.user?._id || !localStorage.getItem('userToken');
+    if (notLoggedIn) {
+      dispatch(setShouldLogin(true));
+      return;
+    }
     if (odd.price === 0) return;
 
     const selectedOdd = {
