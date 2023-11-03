@@ -15,7 +15,6 @@ function UpcommingMatchList() {
   const fetchSportDetails = async (skipLoading = false) => {
     try {
       if (!skipLoading) setEventLoading(true);
-      console.log('Event Loading', eventLoading);
       const result = await postRequest(
         'event/upcomingLiveEvents',
         { type: 'upcoming' },
@@ -37,7 +36,7 @@ function UpcommingMatchList() {
     const interval = setInterval(async () => {
       await fetchSportDetails(true);
     }, 5000);
-    fetchSportDetails(false);
+    fetchSportDetails();
     return () => {
       clearInterval(interval);
     };
@@ -52,20 +51,24 @@ function UpcommingMatchList() {
         </div>
       ) : sportEvents?.length ? (
         sportEvents?.map((sport) =>
-          sport?.name === 'Greyhound Racing' ? (
-            <GreyhoundRacing
-              events={sport?.event}
-              sportName={sport?.name}
-              key={sport?._id}
-              activeTab={activeTab}
-              onTabChange={setActiveTab}
-            />
+          sport?.event?.length ? (
+            sport?.name === 'Greyhound Racing' ? (
+              <GreyhoundRacing
+                events={sport?.event}
+                sportName={sport?.name}
+                key={sport?._id}
+                activeTab={activeTab}
+                onTabChange={setActiveTab}
+              />
+            ) : (
+              <EventList
+                events={sport?.event}
+                sportName={sport?.name}
+                key={sport?._id}
+              />
+            )
           ) : (
-            <EventList
-              events={sport?.event}
-              sportName={sport?.name}
-              key={sport?._id}
-            />
+            ''
           ),
         )
       ) : (

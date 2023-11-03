@@ -85,7 +85,12 @@ function PromotionPageContent() {
                     <div className="coupens-top-part">
                       <div className="coupens-text">
                         <div className="title2"> {promo?.title || ''} </div>
-                        <div className="cash"> {promo?.description || ''} </div>
+                        <div
+                          className="cash"
+                          dangerouslySetInnerHTML={{
+                            __html: promo?.description || '',
+                          }}
+                        />
                       </div>
                     </div>
                   </div>
@@ -165,11 +170,15 @@ function PromotionPageContent() {
               </div>
               <div className="tab-contents">
                 <div id="test1" className="active">
-                  <div className="col-md-12">
-                    {activeDetailTab === 'rules'
-                      ? selectedPromo?.rules || ''
-                      : selectedPromo?.termsConditions || ''}
-                  </div>
+                  <div
+                    className="col-md-12"
+                    dangerouslySetInnerHTML={{
+                      __html:
+                        activeDetailTab === 'rules'
+                          ? selectedPromo?.rules || ''
+                          : selectedPromo?.termsConditions || '',
+                    }}
+                  />
                 </div>
               </div>
               {/* <div className="play-now-btn">
