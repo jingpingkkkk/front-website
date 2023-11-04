@@ -1,8 +1,11 @@
 /* eslint-disable no-nested-ternary */
 /* eslint-disable react/no-array-index-key */
 import React, { useState } from 'react';
+import Slider from 'react-slick';
 import menuImages from '../../../../components/common/exchange-sidemenu/menu-images';
 import useScreenWidth from '../../../../hooks/use-screen-width';
+import 'slick-carousel/slick/slick.css';
+import 'slick-carousel/slick/slick-theme.css';
 
 function SportsTabs({ availableSports, onClick }) {
   const {
@@ -12,8 +15,8 @@ function SportsTabs({ availableSports, onClick }) {
     isLargeDesktop,
     isExtraLargeDesktop,
     isExtra2LargeDesktop,
+    width,
   } = useScreenWidth();
-
   const perView = isMobile
     ? 3
     : isTablet
@@ -28,29 +31,7 @@ function SportsTabs({ availableSports, onClick }) {
     ? 15
     : 11;
 
-  const [step, setStep] = useState(0);
-  const [sports, setSports] = useState(availableSports);
   const [sportId, setSportId] = useState(availableSports[0]?._id);
-
-  // useEffect(() => {
-  //   setSports(availableSports.slice(0, perView));
-  // }, [availableSports, perView, width]);
-
-  const onNext = () => {
-    if (availableSports?.length > perView) {
-      const nextIndex = (step + 1) % (availableSports.length - perView + 1);
-      const newItems = availableSports.slice(nextIndex, nextIndex + perView);
-      setStep(nextIndex);
-      setSports(newItems);
-    }
-  };
-
-  const onPrev = () => {
-    if (step === 0) return;
-    const newStep = step - 1;
-    setStep(newStep);
-    setSports(availableSports.slice(newStep, step + perView));
-  };
 
   const onClickSport = (id, name) => {
     setSportId(id);
@@ -58,14 +39,46 @@ function SportsTabs({ availableSports, onClick }) {
   };
 
   return (
-    <div className="sport-tabs">
-      {/* Prev */}
-      <button type="button" className="arrow-tabs arrow-left" onClick={onPrev}>
-        <img src="images/arrow-down.svg" alt="left-arrow" />
-      </button>
+    <ul>
+      <Slider
+        speed={500}
+        dots={false}
+        infinite={false}
+        draggable={false}
+        swipe
+        slidesToShow={perView}
+        slidesToScroll={perView}
+        autoplay={false}
+        cssEase="linear"
+        responsive={[
+          {
+            breakpoint: width,
+            slidesToShow: perView,
+            slidesToScroll: perView,
+            infinite: false,
+          },
+        ]}
+        className="sport-tabs multiSportSlider"
+      >
+        <li className="nav-item item">
+          <button
+            type="button"
+            style={{ all: 'unset', cursor: 'pointer' }}
+            onClick={() => onClickSport(1, 'In Play')}
+          >
+            <div className="tab-main active">
+              <img src={menuImages['In Play']} alt="In Play" />
 
-      <ul id="taj_home_sports_list" className="nav nav-tabs">
-        {sports?.map((sport, index) => {
+              <div className="title-area">In Play</div>
+
+              <div className="remark">
+                <span className="totel me-0">0</span>
+                <span className="out-of">0</span>
+              </div>
+            </div>
+          </button>
+        </li>
+        {availableSports?.map((sport, index) => {
           const imgPath = menuImages[sport?.name] || '';
           return (
             <li className="nav-item item" key={`${sport.name} ${index}`}>
@@ -96,13 +109,8 @@ function SportsTabs({ availableSports, onClick }) {
             </li>
           );
         })}
-      </ul>
-
-      {/* Next */}
-      <button type="button" className="arrow-tabs arrow-right" onClick={onNext}>
-        <img src="images/arrow-down.svg" alt="right-arrow" />
-      </button>
-    </div>
+      </Slider>
+    </ul>
   );
 }
 
