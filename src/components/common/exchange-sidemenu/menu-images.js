@@ -1,7 +1,6 @@
 const menuImages =
   // Cricket
   {
-    'In Play': 'images/in-play.png',
     Cricket: 'images/cricket.svg',
     Soccer: 'images/football.svg',
     Tennis: 'images/tennis.svg',
