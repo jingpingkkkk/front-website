@@ -15,7 +15,6 @@ function LiveMatchList() {
   const fetchSportDetails = async (skipLoading = false) => {
     try {
       if (!skipLoading) setEventLoading(true);
-      console.log('Event Loading', eventLoading);
       const result = await postRequest(
         'event/upcomingLiveEvents',
         { type: 'live' },
@@ -45,27 +44,31 @@ function LiveMatchList() {
   }, []);
 
   return (
-    <div>
+    <div style={{ minHeight: '550px' }}>
       {eventLoading ? (
         <div className="col-md-12 text-center mt-2">
           <Spinner className="text-primary" />
         </div>
       ) : sportEvents?.length ? (
         sportEvents?.map((sport) =>
-          sport?.name === 'Greyhound Racing' ? (
-            <GreyhoundRacing
-              events={sport?.event}
-              sportName={sport?.name}
-              key={sport?._id}
-              activeTab={activeTab}
-              onTabChange={setActiveTab}
-            />
+          sport?.event?.length ? (
+            sport?.name === 'Greyhound Racing' ? (
+              <GreyhoundRacing
+                events={sport?.event}
+                sportName={sport?.name}
+                key={sport?._id}
+                activeTab={activeTab}
+                onTabChange={setActiveTab}
+              />
+            ) : (
+              <EventList
+                events={sport?.event}
+                sportName={sport?.name}
+                key={sport?._id}
+              />
+            )
           ) : (
-            <EventList
-              events={sport?.event}
-              sportName={sport?.name}
-              key={sport?._id}
-            />
+            ''
           ),
         )
       ) : (

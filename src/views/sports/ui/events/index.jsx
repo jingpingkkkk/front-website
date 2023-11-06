@@ -136,12 +136,12 @@ function EventList({ events, sportName }) {
                   <div className="point-title">
                     <div className="back bl-box event-box">
                       <span className="d-block odds">
-                        {event?.matchOdds[0]?.back[0]?.price || ''}
+                        {event?.matchOdds?.[0]?.back[0]?.price || ''}
                       </span>
                     </div>
                     <div className="lay bl-box event-box">
                       <span className="d-block odds">
-                        {event?.matchOdds[0]?.lay[0]?.price || ''}
+                        {event?.matchOdds?.[0]?.lay[0]?.price || ''}
                       </span>
                     </div>
                   </div>
@@ -156,12 +156,12 @@ function EventList({ events, sportName }) {
                   <div className="point-title">
                     <div className="back bl-box event-box">
                       <span className="d-block odds">
-                        {event?.matchOdds[1]?.back[0]?.price || ''}
+                        {event?.matchOdds?.[1]?.back[0]?.price || ''}
                       </span>
                     </div>
                     <div className="lay bl-box event-box">
                       <span className="d-block odds">
-                        {event?.matchOdds[1]?.lay[0]?.price || ''}
+                        {event?.matchOdds?.[1]?.lay[0]?.price || ''}
                       </span>
                     </div>
                   </div>

@@ -44,7 +44,7 @@ function UpcommingMatchList() {
   }, []);
 
   return (
-    <div>
+    <div style={{ minHeight: '550px' }}>
       {eventLoading ? (
         <div className="col-md-12 text-center mt-2">
           <Spinner className="text-primary" />

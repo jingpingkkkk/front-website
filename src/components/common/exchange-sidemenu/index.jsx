@@ -4,7 +4,7 @@ import { faCaretDown, faCaretUp } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, NavLink, useNavigate } from 'react-router-dom';
 import {
   Accordion,
   AccordionBody,
@@ -130,12 +130,12 @@ function ExchangeSideMenu({ className = 'd-none d-lg-block' }) {
 
   const onChangeMenu = (e, path) => {
     e.preventDefault();
-    const notLoggedIn =
-      !userDetails?.user?._id || !localStorage.getItem('userToken');
-    if (notLoggedIn) {
-      dispatch(setShouldLogin(true));
-      return;
-    }
+    // const notLoggedIn =
+    //   !userDetails?.user?._id || !localStorage.getItem('userToken');
+    // if (notLoggedIn) {
+    //   dispatch(setShouldLogin(true));
+    //   return;
+    // }
 
     navigate(path);
   };
@@ -144,35 +144,44 @@ function ExchangeSideMenu({ className = 'd-none d-lg-block' }) {
     <div className="left-fixed">
       <div id="sidebar" className={`${className} left-top`}>
         <ul className="list-unstyled components">
-          <li
-            className="left-top-item cursor-pointer"
-            onClick={(e) => onChangeMenu(e, '/live')}
-          >
-            <span className="item-img">
-              <img src="/images/icon-live.png" alt="live" />
-            </span>
-            <div className="left-top-item-header">Live Events</div>
-            <div className="event-count">{liveEventsCount || 0}</div>
+          <li>
+            <NavLink
+              to="/live"
+              className="left-top-item "
+              onClick={(e) => onChangeMenu(e, '/live')}
+            >
+              <span className="item-img">
+                <img src="/images/icon-live.png" alt="live" />
+              </span>
+              <div className="left-top-item-header">Live Events</div>
+              <div className="event-count">{liveEventsCount || 0}</div>
+            </NavLink>
           </li>
-          <li
-            className="left-top-item cursor-pointer"
-            onClick={(e) => onChangeMenu(e, '/upcoming')}
-          >
-            <span className="item-img">
-              <img src="/images/icon-clock.png" alt="live" />
-            </span>
-            <div className="left-top-item-header">Upcoming</div>
-            <div className="event-count">{upComingEventsCount || 0}</div>
+          <li>
+            <NavLink
+              to="/upcoming"
+              className="left-top-item "
+              onClick={(e) => onChangeMenu(e, '/upcoming')}
+            >
+              <span className="item-img">
+                <img src="/images/icon-clock.png" alt="live" />
+              </span>
+              <div className="left-top-item-header">Upcoming</div>
+              <div className="event-count">{upComingEventsCount || 0}</div>
+            </NavLink>
           </li>
-          <li
-            className="left-top-item cursor-pointer"
-            onClick={(e) => onChangeMenu(e, '/favourites')}
-          >
-            <span className="item-img">
-              <img src="/images/icon-star.png" alt="live" />
-            </span>
-            <div className="left-top-item-header">Favourite</div>
-            <div className="event-count">{favouriteEvents?.length || 0}</div>
+          <li>
+            <NavLink
+              to="/favourites"
+              className="left-top-item "
+              onClick={(e) => onChangeMenu(e, '/favourites')}
+            >
+              <span className="item-img">
+                <img src="/images/icon-star.png" alt="live" />
+              </span>
+              <div className="left-top-item-header">Favourite</div>
+              <div className="event-count">{favouriteEvents?.length || 0}</div>
+            </NavLink>
           </li>
         </ul>
       </div>

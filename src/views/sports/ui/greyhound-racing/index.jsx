@@ -84,9 +84,7 @@ function GreyhoundRacing({ events, sportName, activeTab, onTabChange }) {
               <div className="bet-table-box">
                 {eventData?.length ? (
                   eventData?.map((event) => {
-                    const eventMarket = Array.isArray(event?.market)
-                      ? event?.market
-                      : [event?.market];
+                    const eventMarket = event?.market;
                     return (
                       <div key={event?._id}>
                         <div className="bet-table-row-header-mobile d-none-desktop">

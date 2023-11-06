@@ -202,7 +202,7 @@ function MatchPageContent() {
           defaultOpen={eventMarket.markets.map((mkt) => mkt._id)}
           stayOpen
         >
-          {isLive ? <ScoreBoard event={eventMarket?.event} /> : ''}
+          {isLive && user?._id ? <ScoreBoard event={eventMarket?.event} /> : ''}
           {eventMarket.markets.map((market) => (
             <AccordionItem key={market?._id}>
               <AccordionHeader
