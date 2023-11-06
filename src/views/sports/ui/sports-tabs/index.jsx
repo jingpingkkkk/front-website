@@ -1,16 +1,17 @@
 /* eslint-disable no-nested-ternary */
 /* eslint-disable react/no-array-index-key */
 import React, { useState } from 'react';
-import Slider from 'react-slick';
 import menuImages from '../../../../components/common/exchange-sidemenu/menu-images';
 import useScreenWidth from '../../../../hooks/use-screen-width';
-import 'slick-carousel/slick/slick.css';
-import 'slick-carousel/slick/slick-theme.css';
 
 function SportsTabs({ availableSports, onClick }) {
   const { width } = useScreenWidth();
 
   const [sportId, setSportId] = useState(availableSports[0]?._id);
+
+  // useEffect(() => {
+  //   setSports(availableSports.slice(0, perView));
+  // }, [availableSports, perView, width]);
 
   const onClickSport = (id, name) => {
     setSportId(id);
