@@ -116,12 +116,12 @@ function ExchangeSideMenu({ className = 'd-none d-lg-block' }) {
         if (result?.success) {
           const sportsList = result?.data || [];
           if (sportsList?.length) {
-            const favEvents = allSports?.flatMap((sport) =>
+            const favEvents = result?.data?.flatMap((sport) =>
               sport.competition.flatMap((com) =>
                 com.event.filter((evnt) => evnt.isFavourite),
               ),
             );
-            const liveEvent = allSports?.flatMap((sport) =>
+            const liveEvent = result?.data?.flatMap((sport) =>
               sport.competition.flatMap((com) =>
                 com.event.filter((evnt) => evnt.isLive),
               ),

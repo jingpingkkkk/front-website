@@ -8,6 +8,7 @@ import {
 } from '../../../redux/reducers/user-details';
 import { userLogout } from '../../../helper/user';
 import StateButtons from '../stake-button-popup';
+import { LIVE_MENU_ITEMS } from '../topnav/helpers/constants';
 
 const Bottomnav = () => {
   const navigate = useNavigate();
@@ -18,10 +19,10 @@ const Bottomnav = () => {
   const [showStakButton, setShowStakeButton] = useState(false);
 
   const onchangeMenu = (e, path) => {
-    if (path !== '/sports') {
-      e?.preventDefault();
-    } else {
+    if (LIVE_MENU_ITEMS.includes(path)) {
       navigate(path);
+    } else {
+      e?.preventDefault();
     }
   };
 
@@ -59,7 +60,7 @@ const Bottomnav = () => {
             </li>
             <li className="truncate all-sports">
               <NavLink
-                to="/offers"
+                to="/casino"
                 onClick={(e) => {
                   onchangeMenu(e, '/casino');
                 }}
@@ -81,7 +82,7 @@ const Bottomnav = () => {
             </li>
             <li className="truncate all-sports">
               <NavLink
-                to="/offers"
+                to="/promotion"
                 onClick={(e) => {
                   onchangeMenu(e, '/promotion');
                 }}

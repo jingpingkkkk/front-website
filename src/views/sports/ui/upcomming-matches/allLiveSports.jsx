@@ -4,10 +4,10 @@
 import React, { useEffect, useState } from 'react';
 import { Spinner } from 'reactstrap';
 import { postRequest } from '../../../../api';
-import EventList from '../../../sports/ui/events';
-import GreyhoundRacing from '../../../sports/ui/greyhound-racing';
+import EventList from '../events';
+import GreyhoundRacing from '../greyhound-racing';
 
-function LiveMatchList() {
+function AllLiveSports() {
   const [eventLoading, setEventLoading] = useState(false);
   const [sportEvents, setSportEvents] = useState([]);
   const [activeTab, setActiveTab] = useState('');
@@ -36,7 +36,7 @@ function LiveMatchList() {
     const interval = setInterval(async () => {
       await fetchSportDetails(true);
     }, 5000);
-    fetchSportDetails(false);
+    fetchSportDetails();
     return () => {
       clearInterval(interval);
     };
@@ -44,7 +44,7 @@ function LiveMatchList() {
   }, []);
 
   return (
-    <div style={{ minHeight: '550px' }}>
+    <div>
       {eventLoading ? (
         <div className="col-md-12 text-center mt-2">
           <Spinner className="text-primary" />
@@ -76,10 +76,10 @@ function LiveMatchList() {
           )
         )
       ) : (
-        'No Data'
+        <div className="text-primary text-center">No Data</div>
       )}
     </div>
   );
 }
 
-export default LiveMatchList;
+export default AllLiveSports;

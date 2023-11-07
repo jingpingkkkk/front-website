@@ -14,7 +14,7 @@ import 'slick-carousel/slick/slick-theme.css';
 function SportsTabs({ availableSports, onClick }) {
   const { width } = useScreenWidth();
   const navigate = useNavigate();
-  const [sportId, setSportId] = useState(availableSports[0]?._id);
+  const [sportId, setSportId] = useState(0);
 
   // useEffect(() => {
   //   setSports(availableSports.slice(0, perView));
@@ -104,9 +104,9 @@ function SportsTabs({ availableSports, onClick }) {
           <button
             type="button"
             style={{ all: 'unset', cursor: 'pointer' }}
-            onClick={() => onClickSport(1, 'In Play')}
+            onClick={() => onClickSport(0, 'In Play')}
           >
-            <div className="tab-main active">
+            <div className={`tab-main ${sportId === 0 ? 'active' : ''}`}>
               <img src={menuImages['In Play']} alt="In Play" />
 
               <div className="title-area">In Play</div>
