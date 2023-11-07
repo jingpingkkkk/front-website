@@ -4,7 +4,7 @@
 import 'jspdf-autotable';
 import React, { useEffect, useState } from 'react';
 import './promotion.css';
-import { getRequest } from '../../../../api';
+import { postRequest } from '../../../../api';
 import LoadingOverlay from '../../../../components/common/loading-overlay';
 
 function PromotionPageContent() {
@@ -20,8 +20,14 @@ function PromotionPageContent() {
   };
   const fetchPromotionData = async () => {
     try {
+      // const ipAddress = await ipDetails();
+      const body = {
+        // countryName: ipAddress?.country,
+        countryName: 'IN',
+        domainUrl: window?.location?.origin,
+      };
       setLoading(true);
-      const result = await getRequest('promotion/allPromotion', false);
+      const result = await postRequest('promotion/allPromotion', body, false);
       if (result?.success) {
         const sports = result?.data?.details?.filter(
           (data) => data?.promotionType === activeTab,
@@ -79,7 +85,12 @@ function PromotionPageContent() {
                     <div className="coupens-top-part">
                       <div className="coupens-text">
                         <div className="title2"> {promo?.title || ''} </div>
-                        <div className="cash"> {promo?.description || ''} </div>
+                        <div
+                          className="cash"
+                          dangerouslySetInnerHTML={{
+                            __html: promo?.description || '',
+                          }}
+                        />
                       </div>
                     </div>
                   </div>
@@ -159,11 +170,15 @@ function PromotionPageContent() {
               </div>
               <div className="tab-contents">
                 <div id="test1" className="active">
-                  <div className="col-md-12">
-                    {activeDetailTab === 'rules'
-                      ? selectedPromo?.rules || ''
-                      : selectedPromo?.termsConditions || ''}
-                  </div>
+                  <div
+                    className="col-md-12"
+                    dangerouslySetInnerHTML={{
+                      __html:
+                        activeDetailTab === 'rules'
+                          ? selectedPromo?.rules || ''
+                          : selectedPromo?.termsConditions || '',
+                    }}
+                  />
                 </div>
               </div>
               {/* <div className="play-now-btn">

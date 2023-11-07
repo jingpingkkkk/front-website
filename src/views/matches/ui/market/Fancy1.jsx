@@ -1,18 +1,19 @@
 /* eslint-disable no-nested-ternary */
 import React, { useEffect, useMemo, useRef, useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { Spinner } from 'reactstrap';
 import { io } from 'socket.io-client';
 import { shortNumber } from '../../../../helper/number';
 import { betTypes, setBetOdds } from '../../../../redux/reducers/event-bet';
 import { setMarketPlForecast } from '../../../../redux/reducers/event-market';
+import { setShouldLogin } from '../../../../redux/reducers/user-details';
 
 const socketUrl = import.meta.env.VITE_SOCKET_URL;
 const marketUrl = `${socketUrl}/market`;
 
 function Fancy1({ market }) {
   const socket = useMemo(() => io(marketUrl, { autoConnect: false }), []);
-
+  const userDetails = useSelector((state) => state.userDetails);
   const dispatch = useDispatch();
   const previousValue = useRef([]);
   const [fancyRunners, setFancyRunners] = useState([]);
@@ -83,6 +84,12 @@ function Fancy1({ market }) {
   }, [market]);
 
   const handleOddClick = (runner, price, size, type) => {
+    const notLoggedIn =
+      !userDetails?.user?._id || !localStorage.getItem('userToken');
+    if (notLoggedIn) {
+      dispatch(setShouldLogin(true));
+      return;
+    }
     if (price === 0) return;
     const selectedOdd = {
       market: {

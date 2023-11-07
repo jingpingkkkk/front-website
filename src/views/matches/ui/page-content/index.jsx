@@ -55,7 +55,7 @@ function MatchPageContent() {
     if (sportName === 'Greyhound Racing') {
       body.marketId = marketId;
     }
-    const result = await postRequest(`event/${urlEndPoint}`, body);
+    const result = await postRequest(`event/${urlEndPoint}`, body, false);
 
     if (result?.success) {
       const event = result.data.details;
@@ -86,7 +86,7 @@ function MatchPageContent() {
     if (sportName === 'Greyhound Racing') {
       body.marketId = marketId;
     }
-    const result = await postRequest(`event/${urlEndPoint}`, body);
+    const result = await postRequest(`event/${urlEndPoint}`, body, false);
 
     if (result?.success) {
       const event = result.data.details;
@@ -202,7 +202,7 @@ function MatchPageContent() {
           defaultOpen={eventMarket.markets.map((mkt) => mkt._id)}
           stayOpen
         >
-          {isLive ? <ScoreBoard event={eventMarket?.event} /> : ''}
+          {isLive && user?._id ? <ScoreBoard event={eventMarket?.event} /> : ''}
           {eventMarket.markets.map((market) => (
             <AccordionItem key={market?._id}>
               <AccordionHeader
