@@ -172,21 +172,22 @@ function Fancy({ market }) {
                         }`}
                       >
                         {runner?.pl ? runner?.pl.toFixed(0) : ''}
+
+                        {runner?.pl ? (
+                          <button
+                            type="button"
+                            className="btn book-btn"
+                            onClick={() => {
+                              setIsOpenRunAmount(true);
+                              setSeletedRunnerId(runner?.runnerId);
+                            }}
+                          >
+                            Book
+                          </button>
+                        ) : (
+                          ''
+                        )}
                       </div>
-                      {runner?.pl ? (
-                        <button
-                          type="button"
-                          className="btn book-btn"
-                          onClick={() => {
-                            setIsOpenRunAmount(true);
-                            setSeletedRunnerId(runner?.runnerId);
-                          }}
-                        >
-                          Book
-                        </button>
-                      ) : (
-                        ''
-                      )}
                     </div>
                   </div>
                   <div
