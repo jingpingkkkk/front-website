@@ -41,14 +41,14 @@
 }
 .notification-icon {
   background-image: url('/images/icons-bell.png') !important;
-  background-size: 100% !important;
+  background-size: 85% !important;
   background-repeat: no-repeat !important;
   background-position: center !important;
   border: 0;
   /* padding-left: 0; */
   /* padding-right: 0; */
   background-color: transparent;
-  height: 30px;
+  height: 20px;
 }
 .notification-icon:hover {
   background-color: transparent !important;
@@ -119,7 +119,7 @@
 @media only screen and (min-width: 320px) and (max-width: 1279px) {
   .notification-icon {
     /* right: -60px; */
-    position: relative;
+    position: absolute;
   }
   /* .bell-icon {
     height: 30% !important;

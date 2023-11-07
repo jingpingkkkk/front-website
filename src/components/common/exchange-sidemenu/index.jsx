@@ -184,7 +184,7 @@ function ExchangeSideMenu({ className = 'd-none d-lg-block' }) {
               <div className="event-count">{upComingEventsCount || 0}</div>
             </NavLink>
           </li>
-          <li>
+          {/* <li>
             <NavLink
               to="/favourites"
               className="left-top-item "
@@ -196,7 +196,7 @@ function ExchangeSideMenu({ className = 'd-none d-lg-block' }) {
               <div className="left-top-item-header">Favourite</div>
               <div className="event-count">{favouriteEvents?.length || 0}</div>
             </NavLink>
-          </li>
+          </li> */}
         </ul>
       </div>
       <nav id="sidebar" className={className}>

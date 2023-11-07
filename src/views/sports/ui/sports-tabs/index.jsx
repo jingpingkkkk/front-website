@@ -3,6 +3,7 @@
 import React, { useState } from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
 import Slider from 'react-slick';
+import { useSelector } from 'react-redux';
 import menuImages from '../../../../components/common/exchange-sidemenu/menu-images';
 import useScreenWidth from '../../../../hooks/use-screen-width';
 import './sports.css';
@@ -15,6 +16,7 @@ function SportsTabs({ availableSports, onClick }) {
   const { width } = useScreenWidth();
   const navigate = useNavigate();
   const [sportId, setSportId] = useState(0);
+  const { liveEventsCount } = useSelector((state) => state.sportsList);
 
   // useEffect(() => {
   //   setSports(availableSports.slice(0, perView));
@@ -112,8 +114,8 @@ function SportsTabs({ availableSports, onClick }) {
               <div className="title-area">In Play</div>
 
               <div className="remark">
-                <span className="totel me-0">0</span>
-                <span className="out-of">0</span>
+                <span className="totel me-0">{liveEventsCount}</span>
+                <span className="out-of">{liveEventsCount}</span>
               </div>
             </div>
           </button>
