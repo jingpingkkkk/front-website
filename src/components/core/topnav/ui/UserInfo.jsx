@@ -68,12 +68,13 @@ const UserInfo = ({ user }) => {
     );
     if (seenNotification?.length) {
       const newNotification = seenNotification?.filter((newObj) =>
-        localNotification.some((oldObj) => newObj._id === oldObj._id),
+        localNotification?.some((oldObj) => newObj._id === oldObj._id),
       );
       localStorage.setItem('seenNotification', JSON.stringify(newNotification));
     }
     const newObjectsArray = localNotification?.filter(
-      (newObj) => !seenNotification.some((oldObj) => newObj._id === oldObj._id),
+      (newObj) =>
+        !seenNotification?.some((oldObj) => newObj._id === oldObj._id),
     );
     setCount(newObjectsArray?.length || 0);
     // eslint-disable-next-line react-hooks/exhaustive-deps
