@@ -19,6 +19,7 @@ import {
   setLiveEventsCount,
   setSportsList,
   setSportsLoader,
+  setUpComingEventsCount,
 } from '../../../redux/reducers/sports-list';
 import { setShouldLogin } from '../../../redux/reducers/user-details';
 import FavouriteEvents from '../../core/topnav/ui/FavouriteEvents';
@@ -95,6 +96,18 @@ function ExchangeSideMenu({ className = 'd-none d-lg-block' }) {
     }
   };
 
+  const getUpcomingEvents = async () => {
+    try {
+      const result = await getRequest('event/upcomingEvent', false);
+      if (result?.success) {
+        // setEvents(result?.data?.details || []);
+        dispatch(setUpComingEventsCount(result?.data?.details?.length));
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   useEffect(() => {
     const getAllSports = async () => {
       try {
@@ -125,6 +138,7 @@ function ExchangeSideMenu({ className = 'd-none d-lg-block' }) {
     };
 
     getAllSports();
+    getUpcomingEvents();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 

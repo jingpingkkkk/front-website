@@ -50,29 +50,33 @@ function UpcommingMatchList() {
           <Spinner className="text-primary" />
         </div>
       ) : sportEvents?.length ? (
-        sportEvents?.map((sport) =>
-          sport?.event?.length ? (
-            sport?.name === 'Greyhound Racing' ? (
-              <GreyhoundRacing
-                events={sport?.event}
-                sportName={sport?.name}
-                key={sport?._id}
-                activeTab={activeTab}
-                onTabChange={setActiveTab}
-              />
+        sportEvents?.every((sport) => !sport?.event?.length) ? (
+          <div className="text-primary text-center">No Data</div>
+        ) : (
+          sportEvents?.map((sport) =>
+            sport?.event?.length ? (
+              sport?.name === 'Greyhound Racing' ? (
+                <GreyhoundRacing
+                  events={sport?.event}
+                  sportName={sport?.name}
+                  key={sport?._id}
+                  activeTab={activeTab}
+                  onTabChange={setActiveTab}
+                />
+              ) : (
+                <EventList
+                  events={sport?.event}
+                  sportName={sport?.name}
+                  key={sport?._id}
+                />
+              )
             ) : (
-              <EventList
-                events={sport?.event}
-                sportName={sport?.name}
-                key={sport?._id}
-              />
-            )
-          ) : (
-            ''
-          ),
+              ''
+            ),
+          )
         )
       ) : (
-        'No Data'
+        <div className="text-primary text-center">No Data</div>
       )}
     </div>
   );

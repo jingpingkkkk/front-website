@@ -8,7 +8,7 @@ import LiveMatchList from '../live-matches';
 function LiveMatchPageContent() {
   return (
     <div className="comman-bg">
-      <div className="table-section mt-3">
+      <div className="table-section">
         <div className="tab-content">
           <LiveMatchList />
         </div>
