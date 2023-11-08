@@ -23,7 +23,7 @@ ul:not(.browser-default) {
 }
 .bottom-tabs ul li {
   align-items: center;
-  height: 55px;
+  height: 50px;
   /* flex-basis: 20%; */
   text-align: center;
   display: flex;
@@ -167,9 +167,9 @@ ul:not(.browser-default) {
     position: absolute;
     left: 0;
     right: 0;
-    top: -27px;
-    width: 55px;
-    height: 55px;
+    top: -22px;
+    width: 53px;
+    height: 53px;
     background-color: var(--bottom-tab-bg);
     border-radius: 100%;
     z-index: -1;
@@ -200,7 +200,7 @@ ul:not(.browser-default) {
   .bottom-tabs ul li.big a {
     position: relative;
     color: var(--primary-color);
-    top: -30px;
+    top: -23px;
     background-color: transparent;
     width: auto;
     height: auto;
