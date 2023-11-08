@@ -24,12 +24,12 @@ const topNavItems = [
     path: '/promotion',
     state: {},
   },
-  {
-    label: 'Aviator',
-    path: '/',
-    state: { gameId: 'aviator' },
-    image: 'images/aviator-menu-image.png',
-  },
+  // {
+  //   label: 'Aviator',
+  //   path: '/',
+  //   state: { gameId: 'aviator' },
+  //   image: 'images/aviator-menu-image.png',
+  // },
 ];
 
 export default topNavItems;

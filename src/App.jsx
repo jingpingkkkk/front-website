@@ -17,6 +17,9 @@ const AccountStatement = React.lazy(() => import('./views/accountstatement'));
 const ChangePassword = React.lazy(() => import('./views/changepassword'));
 const PromotionPage = React.lazy(() => import('./views/promotion'));
 const CasinoPage = React.lazy(() => import('./views/casino'));
+const UpComingPage = React.lazy(() => import('./views/upcoming'));
+const LiveMatchPage = React.lazy(() => import('./views/live'));
+const FavouriteMatchPage = React.lazy(() => import('./views/favourites'));
 
 function App() {
   useEffect(() => {
@@ -55,6 +58,9 @@ function App() {
           <Route path="/changepassword" element={<ChangePassword />} />
           <Route path="/promotion" element={<PromotionPage />} />
           <Route path="/casino" element={<CasinoPage />} />
+          <Route path="/upcoming" element={<UpComingPage />} />
+          <Route path="/live" element={<LiveMatchPage />} />
+          <Route path="/favourites" element={<FavouriteMatchPage />} />
         </Routes>
       </Suspense>
     </Router>

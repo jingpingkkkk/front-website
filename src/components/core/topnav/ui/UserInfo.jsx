@@ -44,7 +44,7 @@ const UserInfo = ({ user }) => {
   const [eventId, setEventId] = useState(null);
   const [eventName, setEventName] = useState(null);
   const [showExposureDetail, setShowExposureDetail] = useState(false);
-  const [count, setCount] = useState(localStorage.getItem('notification'));
+  const [count, setCount] = useState(0);
 
   useEffect(() => {
     userSocket.on(`user:${user._id}`, (data) => {
@@ -57,14 +57,26 @@ const UserInfo = ({ user }) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user]);
 
+  const onUpdateCount = () => {
+    localStorage.setItem('seenNotification', JSON.stringify(notifications));
+    setCount(0);
+  };
   useEffect(() => {
     const localNotification = JSON.parse(localStorage.getItem('notification'));
-    const newObjectsArray = notifications.filter(
+    const seenNotification = JSON.parse(
+      localStorage.getItem('seenNotification'),
+    );
+    if (seenNotification?.length) {
+      const newNotification = seenNotification?.filter((newObj) =>
+        localNotification?.some((oldObj) => newObj._id === oldObj._id),
+      );
+      localStorage.setItem('seenNotification', JSON.stringify(newNotification));
+    }
+    const newObjectsArray = localNotification?.filter(
       (newObj) =>
-        !localNotification.some((oldObj) => newObj._id === oldObj._id),
+        !seenNotification?.some((oldObj) => newObj._id === oldObj._id),
     );
     setCount(newObjectsArray?.length || 0);
-    localStorage.setItem('notification', JSON.stringify(newObjectsArray));
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [notifications?.length]);
 
@@ -72,6 +84,7 @@ const UserInfo = ({ user }) => {
     notificationSocket.emit('join:event:notification', setNotifications);
     notificationSocket.on('event:complete', (data) => {
       setNotifications((prev) => [data, ...prev]);
+      localStorage.setItem('notification', JSON.stringify(notifications));
     });
     notificationSocket.connect();
     return () => {
@@ -89,6 +102,10 @@ const UserInfo = ({ user }) => {
       });
       if (result?.success) {
         setNotifications(result?.data?.details || []);
+        localStorage.setItem(
+          'notification',
+          JSON.stringify(result?.data?.details),
+        );
       }
     };
     const interval = setInterval(async () => {
@@ -191,7 +208,7 @@ const UserInfo = ({ user }) => {
         <UncontrolledDropdown className="notification-drop">
           <DropdownToggle
             className="notification-icon"
-            onClick={() => setCount(0)}
+            onClick={onUpdateCount}
           />
           <span className="notification-count">{count}</span>
           <DropdownMenu className="notification-menu">

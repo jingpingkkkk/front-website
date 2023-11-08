@@ -31,8 +31,15 @@ function CricketScore({ event }) {
     if (!betting) {
       setPrevTeamRun(0);
       setTeamRun(0);
+    } else {
+      setTeamRun(runs);
     }
-    setTeamRun(runs);
+    if (
+      Number(betting?.inning1?.overs) === 50 ||
+      betting?.inning1?.wickets === 'ALL_OUT'
+    ) {
+      setPrevTeamRun(0);
+    }
   };
   useEffect(() => {
     setTeamRun(0);

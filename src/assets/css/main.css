@@ -355,15 +355,21 @@ span.image-outer {
   background-color: var(--secondary-color);
   padding: 5px;
   border-radius: 12px;
-  width: 100px;
-  height: 75px;
+  width: 90px;
+  height: 70px;
   text-align: center;
   display: flex;
   align-items: center;
   justify-content: center;
   flex-flow: wrap;
   color: var(--primary-text-color);
-  box-shadow: var(--sports-shadow);
+  box-shadow:
+    -2px 2px 4px rgba(237, 237, 237, 0.2),
+    2px -2px 4px rgba(237, 237, 237, 0.2),
+    -2px -2px 4px rgba(255, 255, 255, 0.7),
+    2px 2px 8px rgba(237, 237, 237, 0.7),
+    inset 1px 1px 2px rgba(255, 255, 255, 0.2),
+    inset -1px -1px 2px rgba(237, 237, 237, 0.3);
   border: 2px solid transparent;
 }
 .table-section .sport-tabs .tab-main .title-area {
@@ -517,6 +523,8 @@ ul#taj_home_sports_list {
   scroll-behavior: smooth;
   border: 0;
   padding: 10px 0;
+  /* left: 33px;
+  position: relative; */
 }
 .table-section .sport-tabs {
   overflow: hidden;
@@ -1744,7 +1752,69 @@ input[type='date']::-webkit-calendar-picker-indicator:hover {
   height: 24px;
   width: 24px;
 }
+.slick-track {
+  margin-left: 0px !important;
+  margin-right: 0px !important;
+  margin-bottom: 10px;
+  padding-bottom: 10px;
+}
+.slick-slide {
+  margin-top: 10px;
+}
+.slick-prev {
+  left: 4px !important;
+}
+.slick-prev:before,
+.slick-next:before {
+  color: #075ba6 !important;
+  opacity: 0.55 !important;
+}
+.slick-next {
+  right: 6px !important;
+}
+.slick-prev,
+.slick-next {
+  z-index: 1 !important;
+}
+.slick-slide {
+  width: 94px !important;
+}
 /* Responsive Css */
+/* @media only screen and (min-device-width: 320px) {
+  .multiSportSlider .slick-track {
+    width: 600px !important;
+  }
+}
+
+@media only screen and (min-device-width: 768px) {
+  .multiSportSlider .slick-track {
+    width: 745px !important;
+  }
+}
+
+@media only screen and (min-device-width: 1024px) {
+  .multiSportSlider .slick-track {
+    width: 600px !important;
+  }
+}
+
+@media only screen and (min-device-width: 1440px) {
+  .multiSportSlider .slick-track {
+    width: 1785px !important;
+  }
+  .slick-slide {
+    width: 105px !important;
+  }
+}
+
+@media only screen and (min-device-width: 2560px) {
+  .multiSportSlider .slick-track {
+    width: 1545px !important;
+  }
+  .slick-slide {
+    width: 111px !important;
+  }
+} */
 @media only screen and (min-width: 320px) and (max-width: 768px) {
   .event-header {
     display: none !important;
@@ -1767,6 +1837,24 @@ input[type='date']::-webkit-calendar-picker-indicator:hover {
 }
 
 @media only screen and (max-width: 1200px) {
+  .slick-slide {
+    width: 83px !important;
+    height: 60px !important;
+  }
+  .sport-tabs .arrow-tabs {
+    height: 25px;
+    width: 25px;
+  }
+  .table-section .sport-tabs .tab-main {
+    width: 80px;
+    height: 60px;
+  }
+  .table-section .sport-tabs .tab-main img {
+    max-width: 25px;
+  }
+  .table-section .sport-tabs .tab-main .title-area {
+    font-size: 10px;
+  }
   .game-header .game-header-name {
     max-width: calc(100% - 65px);
     font-size: 12px;
@@ -2466,4 +2554,45 @@ body::-webkit-scrollbar-thumb {
 }
 body::-webkit-scrollbar {
   width: 8px;
+}
+@media (min-device-width: 320px) {
+  .slick-slide {
+    width: 100px !important;
+    height: 61px !important;
+  }
+  .table-section .sport-tabs .tab-main {
+    width: 94px !important;
+    height: 66px !important;
+  }
+}
+
+@media (min-width: 768px) {
+  .slick-slide {
+    width: 93px !important;
+    height: 61px !important;
+  }
+  .table-section .sport-tabs .tab-main {
+    width: 90px !important;
+    height: 70px !important;
+  }
+}
+@media (min-width: 1024px) and (max-width: 1280px) {
+  .slick-slide {
+    width: 102px !important;
+    height: 61px !important;
+  }
+  .table-section .sport-tabs .tab-main {
+    width: 97px !important;
+    height: 70px !important;
+  }
+}
+@media (min-width: 321px) and (max-width: 480px) {
+  .slick-slide {
+    width: 85px !important;
+    height: 61px !important;
+  }
+  .table-section .sport-tabs .tab-main {
+    width: 82px !important;
+    height: 70px !important;
+  }
 }

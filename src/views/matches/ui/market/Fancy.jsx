@@ -2,7 +2,7 @@
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 /* eslint-disable no-nested-ternary */
 import React, { useEffect, useMemo, useRef, useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { Spinner } from 'reactstrap';
 import { io } from 'socket.io-client';
 import { shortNumber } from '../../../../helper/number';
@@ -12,13 +12,14 @@ import {
   setMarketPlForecast,
 } from '../../../../redux/reducers/event-market';
 import FancyRunAmount from '../run-amount/FancyRunAmount';
+import { setShouldLogin } from '../../../../redux/reducers/user-details';
 
 const socketUrl = import.meta.env.VITE_SOCKET_URL;
 const marketUrl = `${socketUrl}/market`;
 
 function Fancy({ market }) {
   const socket = useMemo(() => io(marketUrl, { autoConnect: false }), []);
-
+  const userDetails = useSelector((state) => state.userDetails);
   const dispatch = useDispatch();
   const previousValue = useRef([]);
   const [fancyRunners, setFancyRunners] = useState([]);
@@ -91,6 +92,12 @@ function Fancy({ market }) {
   }, [market]);
 
   const handleOddClick = (runner, price, size, type) => {
+    const notLoggedIn =
+      !userDetails?.user?._id || !localStorage.getItem('userToken');
+    if (notLoggedIn) {
+      dispatch(setShouldLogin(true));
+      return;
+    }
     if (price === 0) return;
     const selectedOdd = {
       market: {
@@ -165,21 +172,22 @@ function Fancy({ market }) {
                         }`}
                       >
                         {runner?.pl ? runner?.pl.toFixed(0) : ''}
+
+                        {runner?.pl ? (
+                          <button
+                            type="button"
+                            className="btn book-btn"
+                            onClick={() => {
+                              setIsOpenRunAmount(true);
+                              setSeletedRunnerId(runner?.runnerId);
+                            }}
+                          >
+                            Book
+                          </button>
+                        ) : (
+                          ''
+                        )}
                       </div>
-                      {runner?.pl ? (
-                        <button
-                          type="button"
-                          className="btn book-btn"
-                          onClick={() => {
-                            setIsOpenRunAmount(true);
-                            setSeletedRunnerId(runner?.runnerId);
-                          }}
-                        >
-                          Book
-                        </button>
-                      ) : (
-                        ''
-                      )}
                     </div>
                   </div>
                   <div

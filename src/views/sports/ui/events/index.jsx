@@ -3,24 +3,24 @@
 import moment from 'moment';
 import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import menuImages from '../../../../components/common/exchange-sidemenu/menu-images';
 import '../../../matches/ui/matches.css';
-import { setShouldLogin } from '../../../../redux/reducers/user-details';
+// import { setShouldLogin } from '../../../../redux/reducers/user-details';
 
 function EventList({ events, sportName }) {
   const imgPath = menuImages[sportName] || '';
-  const dispatch = useDispatch();
+  // const dispatch = useDispatch();
   const navigate = useNavigate();
   const userDetails = useSelector((state) => state.userDetails);
   const handleEventClick = (e, path, id) => {
-    e.preventDefault();
-    const notLoggedIn =
-      !userDetails?.user?._id || !localStorage.getItem('userToken');
-    if (notLoggedIn) {
-      dispatch(setShouldLogin(true));
-      return;
-    }
+    // e.preventDefault();
+    // const notLoggedIn =
+    //   !userDetails?.user?._id || !localStorage.getItem('userToken');
+    // if (notLoggedIn) {
+    //   dispatch(setShouldLogin(true));
+    //   return;
+    // }
 
     navigate(path, { state: { eventId: id } });
   };
@@ -40,6 +40,7 @@ function EventList({ events, sportName }) {
         {events?.length ? (
           events?.map((event, i) => {
             const teams = event?.eventName.split('v');
+            const matchOdds = event?.matchOdds || event?.market[0]?.matchOdds;
             return (
               <div className="bet-table-box" key={i}>
                 <div className="bet-table-row p-2">
@@ -107,10 +108,6 @@ function EventList({ events, sportName }) {
                           <p className="team-name text-left">
                             {teams[0] || ''}
                           </p>
-                          <span>
-                            v/s
-                            {/* <img src="/images/vs.png" alt="vs" /> */}
-                          </span>
                         </div>
                         <p className="team-name text-left">{teams[1] || ''}</p>
                         <p className="team-name text-left team-event">
@@ -140,12 +137,12 @@ function EventList({ events, sportName }) {
                   <div className="point-title">
                     <div className="back bl-box event-box">
                       <span className="d-block odds">
-                        {event?.matchOdds[0]?.back[0]?.price || ''}
+                        {matchOdds?.[0]?.back[0]?.price || ''}
                       </span>
                     </div>
                     <div className="lay bl-box event-box">
                       <span className="d-block odds">
-                        {event?.matchOdds[0]?.lay[0]?.price || ''}
+                        {matchOdds?.[0]?.lay[0]?.price || ''}
                       </span>
                     </div>
                   </div>
@@ -160,12 +157,12 @@ function EventList({ events, sportName }) {
                   <div className="point-title">
                     <div className="back bl-box event-box">
                       <span className="d-block odds">
-                        {event?.matchOdds[1]?.back[0]?.price || ''}
+                        {matchOdds?.[1]?.back[0]?.price || ''}
                       </span>
                     </div>
                     <div className="lay bl-box event-box">
                       <span className="d-block odds">
-                        {event?.matchOdds[1]?.lay[0]?.price || ''}
+                        {matchOdds?.[1]?.lay[0]?.price || ''}
                       </span>
                     </div>
                   </div>

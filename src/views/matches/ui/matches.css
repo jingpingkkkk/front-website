@@ -633,6 +633,7 @@
   line-height: 16px;
   font-weight: bold;
   color: var(--light-text-2);
+  margin-left: auto;
 }
 .fancy-tripple .suspendedtext:after {
   width: 148px !important;
@@ -681,7 +682,7 @@
     overflow: hidden;
     -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
-    padding: 0 10px;
+    padding: 0 8px;
     display: flex;
     justify-content: space-between;
     align-items: center;
