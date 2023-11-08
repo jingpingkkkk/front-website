@@ -179,7 +179,7 @@ function MatchPageContent() {
           )}
         </div>
       </div>
-      <div className="game-header d-none-desktop">
+      <div className="game-header d-lg-none">
         <span className="game-header-name">
           {eventMarket.event.competitionName} &gt; {eventMarket.event.name}
           <div>
@@ -213,7 +213,7 @@ function MatchPageContent() {
                 {/* <div className="btn btn-success btn-sm disabled">Cashout</div> */}
                 {market?.name === MARKET_NAMES.MATCH_ODDS ||
                 market?.name === MARKET_NAMES.BOOKMAKER ? (
-                  <span className="max-bet d-none-desktop">
+                  <span className="max-bet d-none-lg">
                     <span title="Max : 1">
                       Min:{' '}
                       <span className="me-1">

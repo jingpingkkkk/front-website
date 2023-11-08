@@ -651,6 +651,9 @@
   .casino-right-sidebar.right-sidebar {
     display: block;
   }
+  .d-none-lg {
+    display: none !important;
+  }
 }
 
 @media only screen and (min-width: 320px) and (max-width: 1279px) {

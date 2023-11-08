@@ -16,7 +16,9 @@ function SportsTabs({ availableSports, onClick }) {
   const { width } = useScreenWidth();
   const navigate = useNavigate();
   const [sportId, setSportId] = useState(0);
-  const { liveEventsCount } = useSelector((state) => state.sportsList);
+  const { liveEventsCount, totalEventsCount } = useSelector(
+    (state) => state.sportsList,
+  );
 
   // useEffect(() => {
   //   setSports(availableSports.slice(0, perView));
@@ -51,8 +53,6 @@ function SportsTabs({ availableSports, onClick }) {
   } else if (width <= 2560) {
     slidesToShow = 16;
   }
-
-  console.log(width, slidesToShow);
 
   return (
     <>
@@ -116,7 +116,7 @@ function SportsTabs({ availableSports, onClick }) {
               <div className="title-area">In Play</div>
 
               <div className="remark">
-                <span className="totel me-0">{liveEventsCount}</span>
+                <span className="totel me-0">{totalEventsCount}</span>
                 <span className="out-of">{liveEventsCount}</span>
               </div>
             </div>

@@ -10,6 +10,7 @@ const sportsListSlice = createSlice({
     loading: false,
     liveEventsCount: 0,
     upComingEventsCount: 0,
+    totalEventsCount: 0,
   },
 
   reducers: {
@@ -35,6 +36,9 @@ const sportsListSlice = createSlice({
     setUpComingEventsCount: (state, action) => {
       state.upComingEventsCount = action.payload;
     },
+    setTotalEventsCount: (state, action) => {
+      state.totalEventsCount = action.payload;
+    },
   },
 });
 
@@ -45,6 +49,7 @@ export const {
   setFavouriteEvents,
   setLiveEventsCount,
   setUpComingEventsCount,
+  setTotalEventsCount,
 } = sportsListSlice.actions;
 
 export default sportsListSlice.reducer;

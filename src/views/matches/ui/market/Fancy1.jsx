@@ -150,7 +150,7 @@ function Fancy1({ market }) {
             return (
               <div key={runner?.RunnerName} className="col-12 col-md-6">
                 <div className="fancy-tripple">
-                  <div className="bet-table-mobile-row d-none-desktop">
+                  <div className="bet-table-mobile-row d-none-lg">
                     <div className="bet-table-mobile-team-name">
                       <span>{runner?.RunnerName || ''}</span>
                     </div>
