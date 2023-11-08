@@ -38,7 +38,7 @@ function SportsTabs({ availableSports, onClick }) {
   let slidesToShow = 10; // Default for larger screens
   if (width <= 320) {
     slidesToShow = 3;
-  } else if (width <= 425 && width > 320) {
+  } else if (width <= 480 && width > 320) {
     slidesToShow = 4;
   } else if (width < 1024) {
     slidesToShow = 8;

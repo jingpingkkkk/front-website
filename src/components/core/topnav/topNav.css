@@ -119,7 +119,7 @@
 @media only screen and (min-width: 320px) and (max-width: 1279px) {
   .notification-icon {
     /* right: -60px; */
-    position: absolute;
+    position: relative;
   }
   /* .bell-icon {
     height: 30% !important;
