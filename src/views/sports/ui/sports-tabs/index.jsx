@@ -113,7 +113,7 @@ function SportsTabs({ availableSports, onClick }) {
             <div className={`tab-main ${sportId === 0 ? 'active' : ''}`}>
               <img src={menuImages['In Play']} alt="In Play" />
 
-              <div className="title-area">In Live</div>
+              <div className="title-area">In Play</div>
 
               <div className="remark">
                 <span className="totel me-0">{liveEventsCount}</span>
