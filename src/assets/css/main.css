@@ -2586,24 +2586,13 @@ body::-webkit-scrollbar {
     height: 70px !important;
   }
 }
-
-@media (min-width: 321px) and (max-width: 425px) {
+@media (min-width: 321px) and (max-width: 480px) {
   .slick-slide {
-    width: 99px !important;
+    width: 85px !important;
     height: 61px !important;
   }
   .table-section .sport-tabs .tab-main {
-    width: 95px !important;
+    width: 82px !important;
     height: 70px !important;
-  }
-}
-@media (min-width: 321px) and (max-width: 375px) {
-  .slick-slide {
-    width: 88px !important;
-    height: 61px !important;
-  }
-  .table-section .sport-tabs .tab-main {
-    width: 84px !important;
-    height: 66px !important;
   }
 }
