@@ -11,7 +11,7 @@
   border-top-left-radius: 20px;
   border-top-right-radius: 20px;
 }
-ul:not(.browser-default) {
+.bottom-tabs ul:not(.browser-default) {
   padding-left: 0;
   list-style-type: none;
 }
