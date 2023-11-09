@@ -10,6 +10,9 @@
     height: 240px !important;
   }
 }
+.terms {
+  word-wrap: break-word;
+}
 .promo-details .coupens {
   width: 46%;
   height: 250px;
@@ -51,7 +54,7 @@
   border-radius: 10px;
 }
 .coupens-top-part .coupens-text {
-  width: 75%;
+  width: 100%;
 }
 .promo-details .coupens .title2 {
   font-size: 1.2vw;
@@ -61,13 +64,28 @@
   line-height: 1.4;
   margin-bottom: 10px;
   text-transform: capitalize;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 .coupens .cash {
   font-size: 14px;
-  max-width: 191px;
   font-weight: 500;
   color: #fff;
   line-height: 1.1;
+  height: 100px;
+  overflow: hidden;
+}
+.cash p {
+  font-size: 13px !important;
+  /* max-height: 3.2em; */
+  overflow: hidden;
+  max-width: 100%;
+  display: -webkit-box;
+  -webkit-line-clamp: 5;
+  -webkit-box-orient: vertical;
+  text-overflow: ellipsis;
+  margin-bottom: 6px;
 }
 .coupens-top-part .coupens-img {
   width: 50%;
@@ -149,6 +167,10 @@
   width: -moz-fit-content;
   width: fit-content;
   position: relative;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+  width: 55rem;
 }
 .offer-details .team-title {
   font-size: 14px;
@@ -255,6 +277,7 @@
   .bonus-detail .offer-details .title {
     font-size: 16px;
     margin: 10px 0 2px;
+    width: 18rem;
   }
   .bonus-detail .back-button .btn {
     padding: 5px 10px;
@@ -265,12 +288,24 @@
     margin-bottom: 10px;
   }
 }
+@media (min-width: 767px) and (max-width: 1024px) {
+  .bonus-detail .offer-details .title {
+    font-size: 16px;
+    margin: 10px 0 2px;
+    width: 40rem;
+  }
+}
 @media (min-width: 768px) and (max-width: 992px) {
   .promo-details .coupens .title2 {
     font-size: 2.3vw;
   }
   .promo-details .coupens .read-more {
     width: 40%;
+  }
+  .bonus-detail .offer-details .title {
+    font-size: 18px;
+    margin: 10px 0 2px;
+    width: 45rem;
   }
 }
 @media (min-width: 993px) and (max-width: 1199px) {
