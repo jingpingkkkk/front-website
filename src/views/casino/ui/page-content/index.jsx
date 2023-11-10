@@ -17,13 +17,13 @@ function CasinoPageContent() {
   if (width <= 320) {
     slidesToShow = 3;
   } else if (width <= 480 && width > 320) {
-    slidesToShow = 4;
+    slidesToShow = 3;
   } else if (width < 1024) {
-    slidesToShow = 8;
+    slidesToShow = 7;
   } else if (width < 1280) {
     slidesToShow = 6;
   } else if (width < 1920) {
-    slidesToShow = 9;
+    slidesToShow = 7;
   } else if (width >= 1920 && width < 2560) {
     slidesToShow = 12;
   } else if (width <= 2560) {
@@ -63,8 +63,9 @@ function CasinoPageContent() {
                 },
               ]}
               className="sport-tabs multiSportSlider"
+              arrows
             >
-              {[1, 2, 3, 4, 5].map((i) => (
+              {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((i) => (
                 <div className="item_main" key={i}>
                   <a href="/">
                     <img

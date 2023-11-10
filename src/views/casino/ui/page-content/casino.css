@@ -33,7 +33,7 @@
 }
 .popular-games .popular-games-bg {
   background: var(--white-text);
-  padding: 8px 10px 8px;
+  padding: 8px 3px 8px;
   border-radius: 10px;
   margin: 0 0 10px;
   display: block;
@@ -332,6 +332,7 @@ img.responsive-img {
   .top-title {
     padding: 2px;
     overflow-x: auto;
+    margin-bottom: 0px;
   }
   .top-title button {
     padding: 5px 5px;
@@ -348,6 +349,7 @@ img.responsive-img {
   }
   .game-providers .all_providers {
     width: 50%;
+    margin: 4px 2px;
   }
   .top-content {
     display: block;
@@ -378,4 +380,62 @@ img.responsive-img {
 .all-casinos ul:not(.browser-default) {
   padding-left: 0;
   list-style-type: none;
+}
+.populer-slider .slick-track {
+  margin-bottom: 0 !important;
+  padding-bottom: 4px !important;
+}
+.populer-slider .slick-slide {
+  margin-top: 0;
+}
+.populer-slider .slick-prev {
+  left: 0 !important;
+}
+.populer-slider .slick-list {
+  margin-left: 14px !important;
+  margin-right: 21px !important;
+}
+.populer-slider .slick-next {
+  right: 0 !important;
+}
+@media (min-device-width: 320px) {
+  .populer-slider .slick-slide {
+    width: 82px !important;
+    height: 61px !important;
+  }
+  .populer-slider .item_main {
+    margin: 5px;
+    width: 84px !important;
+  }
+}
+
+@media (min-width: 768px) {
+  .populer-slider .slick-slide {
+    width: 93px !important;
+    height: 61px !important;
+  }
+  .populer-slider .item_main {
+    width: 90px !important;
+    height: 70px !important;
+  }
+}
+@media (min-width: 1024px) and (max-width: 1280px) {
+  .populer-slider .slick-slide {
+    width: 102px !important;
+    height: 61px !important;
+  }
+  .populer-slider .item_main {
+    width: 97px !important;
+    height: 70px !important;
+  }
+}
+@media (min-width: 321px) and (max-width: 480px) {
+  .populer-slider .slick-slide {
+    width: 100px !important;
+    height: 61px !important;
+  }
+  .populer-slider .item_main {
+    width: 98px !important;
+    height: 70px !important;
+  }
 }

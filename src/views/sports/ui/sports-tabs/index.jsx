@@ -3,7 +3,7 @@
 import React, { useState } from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
 import Slider from 'react-slick';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import menuImages from '../../../../components/common/exchange-sidemenu/menu-images';
 import useScreenWidth from '../../../../hooks/use-screen-width';
 import './sports.css';
@@ -11,10 +11,13 @@ import topNavItems from '../../../../components/core/topnav/api/top-nav-items';
 import { LIVE_MENU_ITEMS } from '../../../../components/core/topnav/helpers/constants';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
+import { setShouldLogin } from '../../../../redux/reducers/user-details';
 
 function SportsTabs({ availableSports, onClick }) {
   const { width } = useScreenWidth();
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const userDetails = useSelector((state) => state.userDetails);
   const [sportId, setSportId] = useState(0);
   const { liveEventsCount, totalEventsCount } = useSelector(
     (state) => state.sportsList,
@@ -30,7 +33,14 @@ function SportsTabs({ availableSports, onClick }) {
   };
 
   const onchangeMenu = (e, path) => {
+    e.preventDefault();
     if (LIVE_MENU_ITEMS.includes(path)) {
+      const notLoggedIn =
+        !userDetails?.user?._id || !localStorage.getItem('userToken');
+      if (notLoggedIn && path === '/casino') {
+        dispatch(setShouldLogin(true));
+        return;
+      }
       navigate(path);
     } else {
       e?.preventDefault();

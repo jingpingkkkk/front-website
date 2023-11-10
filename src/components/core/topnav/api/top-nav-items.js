@@ -6,7 +6,7 @@ const topNavItems = [
   },
   {
     label: 'Live Casino',
-    path: '/',
+    path: '/casino',
     state: {},
   },
   {
