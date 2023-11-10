@@ -68,10 +68,7 @@ function CasinoPageContent() {
               {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((i) => (
                 <div className="item_main" key={i}>
                   <a href="/">
-                    <img
-                      src="https://cdn.cloudd.live/vking/lobby/20210341162794.webp?v=1"
-                      alt="Roulette"
-                    />
+                    <img src="/images/roulette.jpg" alt="Roulette" />
                   </a>
                   <div className="play-btn cursor-pointer">
                     <h4>
@@ -128,7 +125,7 @@ function CasinoPageContent() {
                       alt="All Games"
                       loading="lazy"
                       className="responsive-img"
-                      src="https://cdn.cloudd.live/content/CasinoGameType/all.webp"
+                      src="/images/poker20.jpg"
                     />
                     <span className="title providers"> game 1 </span>
                   </li>
@@ -146,7 +143,7 @@ function CasinoPageContent() {
                     <img
                       loading="lazy"
                       className="img-fluid"
-                      src="https://cdn.cloudd.live/content/casinoimg/newsupernowa/Teen-Patti.webp"
+                      src="/images/poker20.jpg"
                       alt="Teen Patti"
                     />
                   </div>
