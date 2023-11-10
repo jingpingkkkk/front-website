@@ -3,14 +3,14 @@
 import moment from 'moment';
 import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import menuImages from '../../../../components/common/exchange-sidemenu/menu-images';
 import '../../../matches/ui/matches.css';
-// import { setShouldLogin } from '../../../../redux/reducers/user-details';
+import { setShouldLogin } from '../../../../redux/reducers/user-details';
 
 function EventList({ events, sportName }) {
   const imgPath = menuImages[sportName] || '';
-  // const dispatch = useDispatch();
+  const dispatch = useDispatch();
   const navigate = useNavigate();
   const userDetails = useSelector((state) => state.userDetails);
   const handleEventClick = (e, path, id) => {
@@ -21,6 +21,18 @@ function EventList({ events, sportName }) {
     //   dispatch(setShouldLogin(true));
     //   return;
     // }
+
+    navigate(path, { state: { eventId: id } });
+  };
+
+  const handleOddsClick = (e, path, id) => {
+    e.preventDefault();
+    const notLoggedIn =
+      !userDetails?.user?._id || !localStorage.getItem('userToken');
+    if (notLoggedIn) {
+      dispatch(setShouldLogin(true));
+      return;
+    }
 
     navigate(path, { state: { eventId: id } });
   };
@@ -134,16 +146,28 @@ function EventList({ events, sportName }) {
                     </div>
                   </div>
                   <div className="point-title">
-                    <div className="back bl-box event-box">
+                    <button
+                      type="button"
+                      className="back bl-box event-box"
+                      onClick={(e) =>
+                        handleOddsClick(e, '/matches', event?._id)
+                      }
+                    >
                       <span className="d-block odds">
                         {event?.matchOdds?.[0]?.back[0]?.price || ''}
                       </span>
-                    </div>
-                    <div className="lay bl-box event-box">
+                    </button>
+                    <button
+                      type="button"
+                      className="lay bl-box event-box"
+                      onClick={(e) =>
+                        handleOddsClick(e, '/matches', event?._id)
+                      }
+                    >
                       <span className="d-block odds">
                         {event?.matchOdds?.[0]?.lay[0]?.price || ''}
                       </span>
-                    </div>
+                    </button>
                   </div>
                   <div className="point-title">
                     <div className="no-val bl-box event-box">
@@ -154,16 +178,28 @@ function EventList({ events, sportName }) {
                     </div>
                   </div>
                   <div className="point-title">
-                    <div className="back bl-box event-box">
+                    <button
+                      type="button"
+                      className="back bl-box event-box"
+                      onClick={(e) =>
+                        handleOddsClick(e, '/matches', event?._id)
+                      }
+                    >
                       <span className="d-block odds">
                         {event?.matchOdds?.[1]?.back[0]?.price || ''}
                       </span>
-                    </div>
-                    <div className="lay bl-box event-box">
+                    </button>
+                    <button
+                      type="button"
+                      className="lay bl-box event-box"
+                      onClick={(e) =>
+                        handleOddsClick(e, '/matches', event?._id)
+                      }
+                    >
                       <span className="d-block odds">
                         {event?.matchOdds?.[1]?.lay[0]?.price || ''}
                       </span>
-                    </div>
+                    </button>
                   </div>
                 </div>
               </div>
