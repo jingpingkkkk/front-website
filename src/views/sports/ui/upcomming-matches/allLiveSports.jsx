@@ -3,11 +3,18 @@
 /* eslint-disable no-nested-ternary */
 import React, { useEffect, useState } from 'react';
 import { Spinner } from 'reactstrap';
+import { useDispatch } from 'react-redux';
 import { postRequest } from '../../../../api';
 import EventList from '../events';
 import GreyhoundRacing from '../greyhound-racing';
+import {
+  setLiveEventsCount,
+  setTotalEventsCount,
+  setUpComingEventsCount,
+} from '../../../../redux/reducers/sports-list';
 
 function AllLiveSports() {
+  const dispatch = useDispatch();
   const [eventLoading, setEventLoading] = useState(false);
   const [sportEvents, setSportEvents] = useState([]);
   const [activeTab, setActiveTab] = useState('');
@@ -16,12 +23,15 @@ function AllLiveSports() {
     try {
       if (!skipLoading) setEventLoading(true);
       const result = await postRequest(
-        'event/upcomingLiveEvents',
+        'exchangeHome/sportWiseMatchList',
         { type: 'live' },
         false,
       );
       if (result?.success) {
-        setSportEvents(result?.data?.details || []);
+        setSportEvents(result?.data?.events || []);
+        dispatch(setTotalEventsCount(result?.data?.totalEvent || 0));
+        dispatch(setLiveEventsCount(result?.data?.totalLiveEvent || 0));
+        dispatch(setUpComingEventsCount(result?.data?.totalUpcomingEvent));
       } else {
         setSportEvents([]);
       }
@@ -50,23 +60,23 @@ function AllLiveSports() {
           <Spinner className="text-primary" />
         </div>
       ) : sportEvents?.length ? (
-        sportEvents?.every((sport) => !sport?.event?.length) ? (
+        sportEvents?.every((sport) => !sport?.events?.length) ? (
           <div className="text-primary text-center">No Data</div>
         ) : (
           sportEvents?.map((sport) =>
-            sport?.event?.length ? (
-              sport?.name === 'Greyhound Racing' ? (
+            sport?.events?.length ? (
+              sport?.sportName === 'Greyhound Racing' ? (
                 <GreyhoundRacing
-                  events={sport?.event}
-                  sportName={sport?.name}
+                  events={sport?.events}
+                  sportName={sport?.sportName}
                   key={sport?._id}
                   activeTab={activeTab}
                   onTabChange={setActiveTab}
                 />
               ) : (
                 <EventList
-                  events={sport?.event}
-                  sportName={sport?.name}
+                  events={sport?.events}
+                  sportName={sport?.sportName}
                   key={sport?._id}
                 />
               )

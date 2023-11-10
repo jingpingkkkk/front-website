@@ -194,7 +194,7 @@ function MatchOdds({ market }) {
           const runnername = runnernames[1];
           return (
             <div key={runner?.name}>
-              <div className="bet-table-mobile-row d-none-desktop">
+              <div className="bet-table-mobile-row d-none-lg">
                 <div className="bet-table-mobile-team-name">
                   {/* <span>{runner?.name || ''}</span> */}
                   {market?.sportsName === 'Greyhound Racing' ? (

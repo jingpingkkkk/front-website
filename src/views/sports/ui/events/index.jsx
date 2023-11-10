@@ -40,7 +40,6 @@ function EventList({ events, sportName }) {
         {events?.length ? (
           events?.map((event, i) => {
             const teams = event?.eventName.split('v');
-            const matchOdds = event?.matchOdds || event?.market[0]?.matchOdds;
             return (
               <div className="bet-table-box" key={i}>
                 <div className="bet-table-row p-2">
@@ -137,12 +136,12 @@ function EventList({ events, sportName }) {
                   <div className="point-title">
                     <div className="back bl-box event-box">
                       <span className="d-block odds">
-                        {matchOdds?.[0]?.back[0]?.price || ''}
+                        {event?.matchOdds?.[0]?.back[0]?.price || ''}
                       </span>
                     </div>
                     <div className="lay bl-box event-box">
                       <span className="d-block odds">
-                        {matchOdds?.[0]?.lay[0]?.price || ''}
+                        {event?.matchOdds?.[0]?.lay[0]?.price || ''}
                       </span>
                     </div>
                   </div>
@@ -157,12 +156,12 @@ function EventList({ events, sportName }) {
                   <div className="point-title">
                     <div className="back bl-box event-box">
                       <span className="d-block odds">
-                        {matchOdds?.[1]?.back[0]?.price || ''}
+                        {event?.matchOdds?.[1]?.back[0]?.price || ''}
                       </span>
                     </div>
                     <div className="lay bl-box event-box">
                       <span className="d-block odds">
-                        {matchOdds?.[1]?.lay[0]?.price || ''}
+                        {event?.matchOdds?.[1]?.lay[0]?.price || ''}
                       </span>
                     </div>
                   </div>

@@ -15,7 +15,6 @@ import {
 } from '../../../../redux/reducers/casino-detail';
 import { setLoginPopup } from '../../../../redux/reducers/login-popup';
 import UpcommingMatches from '../upcomming-matches';
-import { setUpComingEventsCount } from '../../../../redux/reducers/sports-list';
 
 function SportPageContent() {
   const dispatch = useDispatch();
@@ -30,7 +29,6 @@ function SportPageContent() {
       const result = await getRequest('event/upcomingEvent', false);
       if (result?.success) {
         // setEvents(result?.data?.details || []);
-        dispatch(setUpComingEventsCount(result?.data?.details?.length));
       }
     } catch (error) {
       console.log(error);

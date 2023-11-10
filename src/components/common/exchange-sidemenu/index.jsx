@@ -12,7 +12,7 @@ import {
   AccordionItem,
   Spinner,
 } from 'reactstrap';
-import { getRequest } from '../../../api';
+import { getRequest, postRequest } from '../../../api';
 import {
   setFavouriteEvents,
   setFilteredSports,
@@ -98,10 +98,15 @@ function ExchangeSideMenu({ className = 'd-none d-lg-block' }) {
 
   const getUpcomingEvents = async () => {
     try {
-      const result = await getRequest('event/upcomingEvent', false);
+      const result = await postRequest(
+        'exchangeHome/sportWiseMatchList',
+        { type: 'upcoming' },
+        false,
+      );
       if (result?.success) {
         // setEvents(result?.data?.details || []);
-        dispatch(setUpComingEventsCount(result?.data?.details?.length));
+        dispatch(setUpComingEventsCount(result?.data?.totalUpcomingEvent));
+        dispatch(setLiveEventsCount(result?.data?.totalLiveEvent));
       }
     } catch (error) {
       console.log(error);
@@ -121,13 +126,7 @@ function ExchangeSideMenu({ className = 'd-none d-lg-block' }) {
                 com.event.filter((evnt) => evnt.isFavourite),
               ),
             );
-            const liveEvent = result?.data?.flatMap((sport) =>
-              sport.competition.flatMap((com) =>
-                com.event.filter((evnt) => evnt.isLive),
-              ),
-            );
             dispatch(setFavouriteEvents(favEvents));
-            dispatch(setLiveEventsCount(liveEvent?.length));
           }
           dispatch(setSportsList(result?.data || []));
         }

@@ -171,7 +171,7 @@ function PromotionPageContent() {
               <div className="tab-contents">
                 <div id="test1" className="active">
                   <div
-                    className="col-md-12"
+                    className="col-md-12 terms"
                     dangerouslySetInnerHTML={{
                       __html:
                         activeDetailTab === 'rules'

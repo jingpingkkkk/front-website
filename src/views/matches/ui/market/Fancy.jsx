@@ -159,7 +159,7 @@ function Fancy({ market }) {
             return (
               <div key={runner?.RunnerName} className="col-12 col-md-6">
                 <div className="fancy-tripple">
-                  <div className="bet-table-mobile-row d-none-desktop">
+                  <div className="bet-table-mobile-row d-none-lg">
                     <div className="bet-table-mobile-team-name">
                       <span>{runner?.RunnerName || ''}</span>
                       <div
@@ -176,7 +176,7 @@ function Fancy({ market }) {
                         {runner?.pl ? (
                           <button
                             type="button"
-                            className="btn book-btn"
+                            className="btn book-btn ms-1"
                             onClick={() => {
                               setIsOpenRunAmount(true);
                               setSeletedRunnerId(runner?.runnerId);
