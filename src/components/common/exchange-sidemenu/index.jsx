@@ -21,7 +21,6 @@ import {
   setSportsLoader,
   setUpComingEventsCount,
 } from '../../../redux/reducers/sports-list';
-import { setShouldLogin } from '../../../redux/reducers/user-details';
 import FavouriteEvents from '../../core/topnav/ui/FavouriteEvents';
 import './exchangeMenu.css';
 import menuImages from './menu-images';
@@ -30,7 +29,6 @@ function ExchangeSideMenu({ className = 'd-none d-lg-block' }) {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const userDetails = useSelector((state) => state.userDetails);
   const {
     allSports,
     sports,
@@ -54,12 +52,12 @@ function ExchangeSideMenu({ className = 'd-none d-lg-block' }) {
   };
 
   const handleEventClick = (id, path) => {
-    const notLoggedIn =
-      !userDetails?.user?._id || !localStorage.getItem('userToken');
-    if (notLoggedIn) {
-      dispatch(setShouldLogin(true));
-      return;
-    }
+    // const notLoggedIn =
+    //   !userDetails?.user?._id || !localStorage.getItem('userToken');
+    // if (notLoggedIn) {
+    //   dispatch(setShouldLogin(true));
+    //   return;
+    // }
     navigate(path, { state: { eventId: id } });
   };
 

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { BounceLoader } from 'react-spinners';
 import './loadingRelative.css';
 
-function LoadingRelative({ loadingText = '', color = '#d5be77' }) {
+function LoadingRelative({ loadingText = '', color = '#075ba6' }) {
   const [visible, setVisible] = useState(true);
 
   useEffect(() => {
