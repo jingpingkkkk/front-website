@@ -16,7 +16,7 @@
 .promo-details .coupens {
   width: 46%;
   height: 250px;
-  border: 2px solid #a0deff;
+  border: 2px solid var(--primary-color);
   border-radius: 10px;
   box-shadow: rgba(99, 99, 99, 0.1) 0px 2px 8px 0px;
   background: linear-gradient(135.23deg, #ebf8ff 4.04%, #fbfcff 70.99%);
@@ -46,11 +46,11 @@
   max-height: 185px;
   border-radius: 12px;
   background-position: center;
-  background-color: #21a1e5;
+  background-color: var(--primary-color);
 }
 .promo-details .coupens .coupens-position .coupens-top-part {
   display: flex;
-  padding: 20px 0 8px 20px;
+  padding: 20px 20px 8px 20px;
   border-radius: 10px;
 }
 .coupens-top-part .coupens-text {
@@ -59,7 +59,7 @@
 .promo-details .coupens .title2 {
   font-size: 1.2vw;
   font-weight: 600;
-  color: #4bc1ff;
+  color: var(--white-text);
   z-index: 9;
   line-height: 1.4;
   margin-bottom: 10px;
@@ -86,6 +86,7 @@
   -webkit-box-orient: vertical;
   text-overflow: ellipsis;
   margin-bottom: 6px;
+  word-wrap: break-word;
 }
 .coupens-top-part .coupens-img {
   width: 50%;
@@ -112,7 +113,7 @@
 .coupens .timer .time .days {
   font-size: 13px;
   font-weight: 600;
-  color: #4bc1ff;
+  color: var(--primary-color);
   line-height: 1.1;
 }
 .promo-details .coupens .read-more {
@@ -126,7 +127,7 @@
   position: relative;
   bottom: 40px;
   right: 0;
-  background: linear-gradient(138.38deg, #2baff5 12.51%, #4bc1ff 154.03%);
+  background: var(--primary-color);
   width: 105px;
   color: var(--white-text);
   height: 40px;
@@ -140,11 +141,13 @@
   transition: all 0.2s ease-in;
   display: inline-block;
   text-decoration: none;
+  border: 1px solid var(--white-text);
 }
 .promo_box {
   background-color: var(--background-color);
   padding: 16px;
   min-height: 59vh;
+  border-radius: 15px;
 }
 .pdetails .top-details {
   display: flex;
@@ -184,7 +187,7 @@
   float: right !important;
 }
 .bonus-detail .back-button .btn {
-  background-color: #4bc1ff;
+  background-color: var(--primary-color);
   color: #fff;
   border-radius: 5px;
   font-weight: 600;
@@ -217,13 +220,13 @@
   border: 0;
 }
 .promotion-tabs .nav-tabs .nav-item .nav-link.active {
-  color: #4bc1ff;
+  color: var(--primary-color);
   font-weight: 600;
-  border-bottom: 2px solid #4bc1ff;
+  border-bottom: 2px solid var(--primary-color);
   background-color: transparent;
 }
 .promotion-tabs .nav-tabs .nav-link {
-  color: #4bc1ff;
+  color: var(--primary-color);
   padding-top: 0;
   padding-bottom: 4px;
   padding-left: 12px;
@@ -233,7 +236,7 @@
 }
 
 .play-now-btn .btn {
-  background-color: #4bc1ff;
+  background-color: var(--primary-color);
   color: var(--white-text);
   border-radius: 5px;
   font-weight: 600;
