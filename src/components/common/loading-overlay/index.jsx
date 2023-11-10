@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { BounceLoader } from 'react-spinners';
 import './loadingOverlay.css';
 
-function LoadingOverlay({ loadingText = '', color = '#d5be77' }) {
+function LoadingOverlay({ loadingText = '', color = '#075ba6' }) {
   const [visible, setVisible] = useState(true);
 
   useEffect(() => {
