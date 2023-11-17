@@ -149,7 +149,7 @@ function CasinoPageContent() {
                   </div>
                   <div className="port-btn content">
                     <h4>
-                      <a href="/">Teen Patti</a>
+                      <a href="/casinodetail">Teen Patti</a>
                       <div className="sub-title"> Supernowa </div>
                     </h4>
                   </div>
