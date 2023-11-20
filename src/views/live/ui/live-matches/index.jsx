@@ -3,17 +3,19 @@
 /* eslint-disable no-nested-ternary */
 import React, { useEffect, useState } from 'react';
 import { Spinner } from 'reactstrap';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { postRequest } from '../../../../api';
 import EventList from '../../../sports/ui/events';
 import GreyhoundRacing from '../../../sports/ui/greyhound-racing';
 import {
+  setFavouriteEventsCount,
   setLiveEventsCount,
   setUpComingEventsCount,
 } from '../../../../redux/reducers/sports-list';
 
 function LiveMatchList() {
   const dispatch = useDispatch();
+  const userDetails = useSelector((state) => state.userDetails);
   const [eventLoading, setEventLoading] = useState(false);
   const [sportEvents, setSportEvents] = useState([]);
   const [activeTab, setActiveTab] = useState('');
@@ -23,13 +25,14 @@ function LiveMatchList() {
       if (!skipLoading) setEventLoading(true);
       const result = await postRequest(
         'exchangeHome/sportWiseMatchList',
-        { type: 'live' },
+        { type: 'live', userId: userDetails?.user?._id },
         false,
       );
       if (result?.success) {
         setSportEvents(result?.data?.events || []);
         dispatch(setLiveEventsCount(result?.data?.totalLiveEvent || 0));
         dispatch(setUpComingEventsCount(result?.data?.totalUpcomingEvent));
+        dispatch(setFavouriteEventsCount(result?.data?.totalFavouriteEvent));
       } else {
         setSportEvents([]);
       }

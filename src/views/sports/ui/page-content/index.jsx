@@ -24,16 +24,16 @@ function SportPageContent() {
   const [allGames, setAllGames] = useState([]);
   const [gameLoading, setGameLoading] = useState(false);
   const [casinoLoading, setCasinoLoading] = useState(false);
-  const getUpcomingEvents = async () => {
-    try {
-      const result = await getRequest('event/upcomingEvent', false);
-      if (result?.success) {
-        // setEvents(result?.data?.details || []);
-      }
-    } catch (error) {
-      console.log(error);
-    }
-  };
+  // const getUpcomingEvents = async () => {
+  //   try {
+  //     const result = await getRequest('event/upcomingEvent', false);
+  //     if (result?.success) {
+  //       // setEvents(result?.data?.details || []);
+  //     }
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // };
 
   const getLiveCasino = async () => {
     try {
@@ -87,7 +87,7 @@ function SportPageContent() {
   };
 
   useEffect(() => {
-    getUpcomingEvents();
+    // getUpcomingEvents();
     Promise.all([getLiveCasino(), getFantasyGames()]);
     checkLogin();
     // eslint-disable-next-line react-hooks/exhaustive-deps

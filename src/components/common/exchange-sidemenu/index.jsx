@@ -15,6 +15,7 @@ import {
 import { getRequest, postRequest } from '../../../api';
 import {
   setFavouriteEvents,
+  setFavouriteEventsCount,
   setFilteredSports,
   setLiveEventsCount,
   setSportsList,
@@ -24,6 +25,7 @@ import {
 import FavouriteEvents from '../../core/topnav/ui/FavouriteEvents';
 import './exchangeMenu.css';
 import menuImages from './menu-images';
+import { setUserDetails } from '../../../redux/reducers/user-details';
 
 function ExchangeSideMenu({ className = 'd-none d-lg-block' }) {
   const navigate = useNavigate();
@@ -36,8 +38,9 @@ function ExchangeSideMenu({ className = 'd-none d-lg-block' }) {
     loading,
     liveEventsCount,
     upComingEventsCount,
+    favouriteEventsCount,
   } = useSelector((state) => state.sportsList);
-
+  const userDetails = useSelector((state) => state.userDetails);
   const [open, setOpen] = useState('');
   const [subOpen, setSubOpen] = useState('');
   const [searchValue, setSearchValue] = useState('');
@@ -94,17 +97,33 @@ function ExchangeSideMenu({ className = 'd-none d-lg-block' }) {
     }
   };
 
+  const rehydrateUser = async () => {
+    const token = localStorage.getItem('userToken');
+    if (!token) return null;
+    const result = await postRequest('users/rehydrateUser');
+    if (result.success) {
+      dispatch(setUserDetails(result.data.details));
+      return result.data.details;
+    }
+    return null;
+  };
+
   const getUpcomingEvents = async () => {
     try {
+      let user = userDetails?.user;
+      if (!userDetails?.user?._id) {
+        user = await rehydrateUser();
+      }
       const result = await postRequest(
         'exchangeHome/sportWiseMatchList',
-        { type: 'upcoming' },
+        { userId: user?._id },
         false,
       );
       if (result?.success) {
         // setEvents(result?.data?.details || []);
         dispatch(setUpComingEventsCount(result?.data?.totalUpcomingEvent));
         dispatch(setLiveEventsCount(result?.data?.totalLiveEvent));
+        dispatch(setFavouriteEventsCount(result?.data?.totalFavouriteEvent));
       }
     } catch (error) {
       console.log(error);
@@ -181,7 +200,7 @@ function ExchangeSideMenu({ className = 'd-none d-lg-block' }) {
               <div className="event-count">{upComingEventsCount || 0}</div>
             </NavLink>
           </li>
-          {/* <li>
+          <li>
             <NavLink
               to="/favourites"
               className="left-top-item "
@@ -191,9 +210,9 @@ function ExchangeSideMenu({ className = 'd-none d-lg-block' }) {
                 <img src="/images/icon-star.png" alt="live" />
               </span>
               <div className="left-top-item-header">Favourite</div>
-              <div className="event-count">{favouriteEvents?.length || 0}</div>
+              <div className="event-count">{favouriteEventsCount || 0}</div>
             </NavLink>
-          </li> */}
+          </li>
         </ul>
       </div>
       <nav id="sidebar" className={className}>
