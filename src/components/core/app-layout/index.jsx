@@ -5,6 +5,7 @@ import Footer from '../footer';
 import Topnav from '../topnav';
 import Bottomnav from '../bottomnav';
 import useScreenWidth from '../../../hooks/use-screen-width';
+import ScrollToTop from '../ScrollToTop';
 
 function AppLayout({ sidebarLeft, sidebarRight, pageContent }) {
   const isSidebarLeft = sidebarLeft !== undefined;
@@ -48,6 +49,7 @@ function AppLayout({ sidebarLeft, sidebarRight, pageContent }) {
           ) : null}
         </Row>
         <Footer sidebarLeft={sidebarLeft} sidebarRight={sidebarRight} />
+        <ScrollToTop />
       </Container>
       {isMobile || isTablet ? <Bottomnav /> : ''}
     </>
