@@ -25,7 +25,10 @@ import {
 import FavouriteEvents from '../../core/topnav/ui/FavouriteEvents';
 import './exchangeMenu.css';
 import menuImages from './menu-images';
-import { setUserDetails } from '../../../redux/reducers/user-details';
+import {
+  setShouldLogin,
+  setUserDetails,
+} from '../../../redux/reducers/user-details';
 
 function ExchangeSideMenu({ className = 'd-none d-lg-block' }) {
   const navigate = useNavigate();
@@ -170,6 +173,18 @@ function ExchangeSideMenu({ className = 'd-none d-lg-block' }) {
     navigate(path);
   };
 
+  const onOpenFavouriteList = (e, path) => {
+    e.preventDefault();
+    const notLoggedIn =
+      !userDetails?.user?._id || !localStorage.getItem('userToken');
+    if (notLoggedIn) {
+      dispatch(setShouldLogin(true));
+      return;
+    }
+
+    navigate(path);
+  };
+
   return (
     <div className="left-fixed">
       <div id="sidebar" className={`${className} left-top`}>
@@ -204,7 +219,7 @@ function ExchangeSideMenu({ className = 'd-none d-lg-block' }) {
             <NavLink
               to="/favourites"
               className="left-top-item "
-              onClick={(e) => onChangeMenu(e, '/favourites')}
+              onClick={(e) => onOpenFavouriteList(e, '/favourites')}
             >
               <span className="item-img">
                 <img src="/images/icon-star.png" alt="live" />
