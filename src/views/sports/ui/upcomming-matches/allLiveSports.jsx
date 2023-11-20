@@ -3,28 +3,46 @@
 /* eslint-disable no-nested-ternary */
 import React, { useEffect, useState } from 'react';
 import { Spinner } from 'reactstrap';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { postRequest } from '../../../../api';
 import EventList from '../events';
 import GreyhoundRacing from '../greyhound-racing';
 import {
+  setFavouriteEventsCount,
   setLiveEventsCount,
   setTotalEventsCount,
   setUpComingEventsCount,
 } from '../../../../redux/reducers/sports-list';
+import { setUserDetails } from '../../../../redux/reducers/user-details';
 
 function AllLiveSports() {
   const dispatch = useDispatch();
+  const userDetails = useSelector((state) => state.userDetails);
   const [eventLoading, setEventLoading] = useState(false);
   const [sportEvents, setSportEvents] = useState([]);
   const [activeTab, setActiveTab] = useState('');
 
+  const rehydrateUser = async () => {
+    const token = localStorage.getItem('userToken');
+    if (!token) return null;
+    const result = await postRequest('users/rehydrateUser');
+    if (result.success) {
+      dispatch(setUserDetails(result.data.details));
+      return result.data.details;
+    }
+    return null;
+  };
+
   const fetchSportDetails = async (skipLoading = false) => {
     try {
+      let user = userDetails?.user;
+      if (!userDetails?.user?._id) {
+        user = await rehydrateUser();
+      }
       if (!skipLoading) setEventLoading(true);
       const result = await postRequest(
         'exchangeHome/sportWiseMatchList',
-        { type: 'live' },
+        { type: 'live', userId: user?._id },
         false,
       );
       if (result?.success) {
@@ -32,6 +50,7 @@ function AllLiveSports() {
         dispatch(setTotalEventsCount(result?.data?.totalEvent || 0));
         dispatch(setLiveEventsCount(result?.data?.totalLiveEvent || 0));
         dispatch(setUpComingEventsCount(result?.data?.totalUpcomingEvent));
+        dispatch(setFavouriteEventsCount(result?.data?.totalFavouriteEvent));
       } else {
         setSportEvents([]);
       }

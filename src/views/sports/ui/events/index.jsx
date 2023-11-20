@@ -1,14 +1,16 @@
 /* eslint-disable no-nested-ternary */
 /* eslint-disable react/no-array-index-key */
 import moment from 'moment';
-import React from 'react';
+import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import menuImages from '../../../../components/common/exchange-sidemenu/menu-images';
 import '../../../matches/ui/matches.css';
 import { setShouldLogin } from '../../../../redux/reducers/user-details';
+import { postRequest } from '../../../../api';
 
 function EventList({ events, sportName }) {
+  const [loading, setLoading] = useState(false);
   const imgPath = menuImages[sportName] || '';
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -35,6 +37,25 @@ function EventList({ events, sportName }) {
     }
 
     navigate(path, { state: { eventId: id } });
+  };
+  const addFavouriteEvent = async (eventId) => {
+    setLoading(true);
+    const body = {
+      userId: userDetails?.user?._id,
+      eventId,
+    };
+    await postRequest('favourite/addRemoveFavourite', body);
+    setLoading(false);
+  };
+
+  const onAddFavEvent = (eventId) => {
+    const notLoggedIn =
+      !userDetails?.user?._id || !localStorage.getItem('userToken');
+    if (notLoggedIn) {
+      dispatch(setShouldLogin(true));
+      return;
+    }
+    addFavouriteEvent(eventId);
   };
 
   return (
@@ -177,7 +198,7 @@ function EventList({ events, sportName }) {
                       <span className="d-block odds">—</span>
                     </div>
                   </div>
-                  <div className="point-title">
+                  <div className="point-title last">
                     <button
                       type="button"
                       className="back bl-box event-box"
@@ -199,6 +220,26 @@ function EventList({ events, sportName }) {
                       <span className="d-block odds">
                         {event?.matchOdds?.[1]?.lay[0]?.price || ''}
                       </span>
+                    </button>
+                  </div>
+                  <div style={{ marginLeft: 'auto' }}>
+                    <button
+                      type="button"
+                      className="bg-transparent pe-0"
+                      disabled={loading}
+                      onClick={() => {
+                        onAddFavEvent(event?._id);
+                      }}
+                    >
+                      <img
+                        src={`/images/${
+                          event?.favourite
+                            ? 'icon-favorite-blue.png'
+                            : 'icon-favorite.png'
+                        }`}
+                        alt="fav"
+                        style={{ height: '20px', width: '20px' }}
+                      />
                     </button>
                   </div>
                 </div>
