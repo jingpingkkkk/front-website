@@ -68,10 +68,10 @@ const LoginPopup = ({ isOpen, toggle }) => {
   };
 
   return (
-    <Modal isOpen={isOpen} toggle={toggle} className="login-modal">
+    <Modal isOpen={isOpen} toggle={toggle} className="login-modal" centered>
       <div className="modal-header">
         <div className="close-login-modal">
-          <h5 className="modal-title">Login</h5>
+          <h5 className="modal-title">Sign In</h5>
           <button type="button" className="close-btn" onClick={toggle}>
             <img src="./images/close.svg" alt="close" />
           </button>
