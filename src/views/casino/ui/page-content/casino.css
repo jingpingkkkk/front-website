@@ -1,0 +1,442 @@
+.popular-games .popular-title {
+  width: auto;
+  min-width: 120px;
+  height: 30px;
+  text-align: center;
+  left: 0;
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 1.6;
+  color: var(--primary-text);
+  position: relative;
+  margin-bottom: 5px;
+}
+.popular-games .popular-title .live-event-title {
+  display: flex;
+  align-items: center;
+  position: relative;
+  padding: 0 12px 5px 0;
+  justify-content: flex-start;
+  text-align: left;
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 1.6;
+}
+.icon-holder-small .sports-icon {
+  overflow: hidden;
+  background-repeat: no-repeat;
+  background-image: url('/images/icons-trending.png');
+  width: 24px;
+  height: 20px;
+  background-position: center center;
+  background-size: 21px auto;
+}
+.popular-games .popular-games-bg {
+  background: var(--white-text);
+  padding: 8px 3px 8px;
+  border-radius: 10px;
+  margin: 0 0 10px;
+  display: block;
+  width: 100%;
+  height: 100%;
+  cursor: default;
+  cursor: default;
+}
+.popular-games .popular-scroll {
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scroll-padding: 0 2.25rem;
+  scrollbar-width: none;
+  width: 100%;
+  height: 100%;
+}
+.popular-games .popular-scroll .slider-scroll {
+  display: inline-block;
+  white-space: nowrap;
+  vertical-align: top;
+}
+.popular-games .slide-arrow .left-arrow {
+  position: absolute;
+  color: var(--primary-text);
+  transition: all 0.3s ease-in;
+  transform: translateY(-50%) rotate(90deg);
+}
+.populer-slider {
+  /* position: relative;
+  margin-top: 0;
+  display: flex;
+  flex-wrap: nowrap; */
+}
+.populer-slider .item_main {
+  margin: 5px;
+  width: 93px !important;
+  position: relative;
+  overflow: hidden;
+  padding: 0 2px;
+}
+.populer-slider .item_main a img {
+  max-width: 100%;
+  border-radius: 12px;
+  height: 55px;
+}
+.populer-slider .item_main .play-btn {
+  transition: 0.7s;
+  position: absolute;
+  top: 30%;
+  width: 100%;
+  text-align: center;
+  transform: translate(-50%, -50%);
+  z-index: 9;
+  height: 16px;
+  line-height: 1.1;
+  opacity: 0;
+  cursor: pointer;
+}
+.populer-slider .item_main .play-btn h4 .sub-title {
+  font-size: 9px;
+}
+.populer-slider .item_main:hover::before {
+  opacity: 0.8;
+  background-color: var(--secondary-color);
+  background-image: linear-gradient(#3f3f4f 10%, #000 100%);
+  position: absolute;
+  content: '';
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 93%;
+  z-index: 0;
+  transition: all 0.3s cubic-bezier(0.645, 0.045, 0.355, 1);
+  cursor: pointer;
+  border-radius: 12px;
+}
+.populer-slider .item_main:hover .play-btn {
+  transform: translateY(10px);
+  opacity: 1;
+}
+.populer-slider .item_main .play-btn h4 {
+  font-size: 11px;
+  font-weight: 400;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  height: auto;
+  line-height: 1.3;
+  color: #fff;
+  background-color: transparent;
+  border: none;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: block;
+  margin: 0 5px;
+}
+.all-casinos {
+  background-color: var(--white-text);
+  box-shadow: rgba(99, 99, 99, 0.1) 0px 2px 8px 0px;
+  border-radius: 12px;
+}
+.top-content {
+  display: flex;
+}
+.top-title {
+  border-radius: 12px;
+  padding: 5px 0px 0 0px;
+  margin: 0 0 5px;
+  display: flex;
+  float: left;
+}
+.top-title button {
+  padding: 2px 10px;
+  font-size: 14px;
+  line-height: 1;
+  text-transform: capitalize;
+  background: var(--white-text);
+  color: var(--primary-text);
+  font-weight: 600;
+  cursor: pointer;
+  position: relative;
+  text-align: center;
+  transition: all 0.5s;
+  box-shadow:
+    -3.3913px 3.3913px 6.78261px rgba(237, 237, 237, 0.2),
+    3.3913px -3.3913px 6.78261px rgba(237, 237, 237, 0.2),
+    -3.3913px -3.3913px 6.78261px rgba(255, 255, 255, 0.9),
+    3.3913px 3.3913px 8.47826px rgba(237, 237, 237, 0.9),
+    inset 0.847826px 0.847826px 1.69565px rgba(255, 255, 255, 0.3),
+    inset -0.847826px -0.847826px 1.69565px rgba(237, 237, 237, 0.5);
+  margin: 10px 5px;
+  border-radius: 8px;
+  min-width: 80px;
+  transition: all 0.3s ease-in;
+  border: 1px solid rgba(237, 237, 237, 0.2);
+}
+.top-title button.active,
+.top-title button:hover {
+  border: 1px solid var(--primary-color);
+}
+.top-title button .txt {
+  line-height: 2.5;
+  transition: all 0.5s;
+  display: block;
+}
+.game-providers {
+  padding-right: 10px;
+  margin-left: auto;
+  margin-bottom: 0;
+  padding-top: 5px;
+  justify-content: end;
+}
+.game-providers .all_providers {
+  width: auto;
+  min-width: 110px;
+  margin: 10px 5px;
+  position: relative;
+}
+.right {
+  float: right !important;
+}
+.game-providers .all_providers .game-dropdown {
+  color: #535353;
+  font-size: 12px;
+  font-weight: 500;
+  border-radius: 6px;
+  cursor: pointer;
+  padding: 10px 15px 10px 10px;
+  height: 40px;
+  transition: all 0.2s;
+  position: relative;
+  border: 1px solid #eee;
+  width: 100%;
+  display: block;
+  box-shadow: none !important;
+  background-color: transparent;
+}
+.game-providers .all_providers .game-dropdown .arrows {
+  display: inline-grid;
+  position: absolute;
+  right: 6px;
+  top: 45%;
+}
+.game-providers .all_providers .game-dropdown:hover {
+  background-color: transparent;
+}
+.game-providers .all_providers .game-dropdown:active {
+  background-color: transparent;
+}
+.collection-item {
+  padding: 0 10px;
+  font-weight: 400;
+  font-size: 14px;
+}
+img.responsive-img {
+  max-width: 100%;
+  height: auto;
+}
+.collection-item img {
+  width: 20px;
+  margin-right: 5px;
+}
+.portfolio {
+  padding: 5px 10px;
+  margin-bottom: 5px;
+  border-bottom-left-radius: 4px;
+  border-bottom-right-radius: 4px;
+  display: flex;
+  flex-wrap: wrap;
+}
+.portfolio .port-content {
+  padding: 5px;
+  width: 25%;
+  margin-left: auto;
+  left: auto;
+  right: auto;
+  float: left;
+  margin: 0 !important;
+  position: relative;
+}
+@media (min-width: 1500px) {
+  .portfolio .port-content {
+    width: 25%;
+    max-width: 100%;
+    padding: 5px;
+  }
+}
+.portfolio .port-content .port-inner {
+  width: 100%;
+  height: auto;
+  cursor: pointer;
+  position: relative;
+}
+.portfolio .port-content .port-inner .thumb {
+  display: flex;
+  overflow: hidden;
+  border-radius: 15px;
+}
+.portfolio .port-content .port-inner .thumb img {
+  width: 100%;
+  height: auto;
+  transition: ease-in-out 0.3s;
+  box-shadow:
+    rgba(0, 0, 0, 0.25) 0 0.0625em 0.0625em,
+    rgba(0, 0, 0, 0.25) 0 0.125em 0.5em,
+    rgba(255, 255, 255, 0.1) 0 0 0 1px inset;
+}
+.portfolio .port-content .port-inner .port-btn {
+  position: relative;
+  transition: 0.7s;
+}
+.portfolio .port-content .port-inner .content h4 {
+  line-height: 1;
+  margin: 5px 0;
+}
+.portfolio .port-content .port-inner .content h4 a {
+  font-size: 14px;
+  font-weight: 500;
+  text-transform: capitalize;
+  height: 22px;
+  line-height: 22px;
+  color: var(--black-text);
+  background-color: transparent;
+  border: none;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: block;
+  text-decoration: none;
+}
+.portfolio .port-content .port-inner .content h4 .sub-title {
+  font-size: 11px;
+  color: #a7a7a7;
+  margin: 5px 0;
+  line-height: 1;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.portfolio .port-content .port-inner .content h4 a:hover {
+  color: var(--primary-color);
+}
+.portfolio .port-content .port-inner:hover .thumb img {
+  transform: scale(1.1);
+}
+@media (max-width: 767px) {
+  .all-casinos {
+    padding: 3px;
+    margin-bottom: 10px;
+  }
+  .top-content {
+    display: flex;
+    flex-direction: column-reverse;
+  }
+  .top-title {
+    padding: 2px;
+    overflow-x: auto;
+    margin-bottom: 0px;
+  }
+  .top-title button {
+    padding: 5px 5px;
+    font-size: 10px;
+    min-width: 55px;
+    border-radius: 5px;
+    margin: 5px 5px;
+    line-height: 30px;
+    height: 30px;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .game-providers .all_providers {
+    width: 50%;
+    margin: 4px 2px;
+  }
+  .top-content {
+    display: block;
+  }
+  .portfolio .port-content {
+    width: 50%;
+  }
+}
+@media (min-width: 767px) and (max-width: 1199px) {
+  .top-title button {
+    font-size: 12px;
+    min-width: 70px;
+  }
+  .top-content {
+    display: block;
+  }
+  .game-providers {
+    justify-content: start;
+  }
+  .game-providers .all_providers {
+    margin-top: 0;
+    margin-bottom: 5px;
+  }
+  .portfolio .port-content {
+    width: 33.3%;
+  }
+}
+.all-casinos ul:not(.browser-default) {
+  padding-left: 0;
+  list-style-type: none;
+}
+.populer-slider .slick-track {
+  margin-bottom: 0 !important;
+  padding-bottom: 4px !important;
+}
+.populer-slider .slick-slide {
+  margin-top: 0;
+}
+.populer-slider .slick-prev {
+  left: 0 !important;
+}
+.populer-slider .slick-list {
+  margin-left: 14px !important;
+  margin-right: 21px !important;
+}
+.populer-slider .slick-next {
+  right: 0 !important;
+}
+@media (min-device-width: 320px) {
+  .populer-slider .slick-slide {
+    width: 82px !important;
+    height: 61px !important;
+  }
+  .populer-slider .item_main {
+    margin: 5px;
+    width: 84px !important;
+  }
+}
+
+@media (min-width: 768px) {
+  .populer-slider .slick-slide {
+    width: 93px !important;
+    height: 61px !important;
+  }
+  .populer-slider .item_main {
+    width: 90px !important;
+    height: 70px !important;
+  }
+}
+@media (min-width: 1024px) and (max-width: 1280px) {
+  .populer-slider .slick-slide {
+    width: 98px !important;
+    height: 61px !important;
+  }
+  .populer-slider .item_main {
+    width: 93px !important;
+    height: 70px !important;
+  }
+}
+@media (min-width: 321px) and (max-width: 480px) {
+  .populer-slider .slick-slide {
+    width: 100px !important;
+    height: 61px !important;
+  }
+  .populer-slider .item_main {
+    width: 98px !important;
+    height: 70px !important;
+  }
+}
