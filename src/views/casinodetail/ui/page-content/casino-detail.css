@@ -1,0 +1,328 @@
+.casino-container {
+  width: 100%;
+  min-height: calc(100vh - 100px);
+}
+.casino-table {
+  background-color: #2e3439;
+  border-radius: 0;
+  padding-bottom: 0;
+  color: #aaafb5;
+  position: relative;
+  transform: translateZ(0);
+  user-select: none;
+}
+.casino-video {
+  position: relative;
+  background-image: linear-gradient(
+    0deg,
+    #100b1e 0%,
+    #160d27 26.42%,
+    #11091d 48.45%,
+    #030309 100%
+  );
+}
+.casino-video-title {
+  position: absolute;
+  left: 5px;
+  top: 5px;
+  background-color: #f8f9fa35;
+  padding: 5px;
+  z-index: 10;
+  text-align: center;
+  min-width: 180px;
+  display: flex;
+  display: -webkit-flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+.casino-video-title .casino-name {
+  font-weight: bold;
+  text-transform: uppercase;
+  font-size: 14px;
+  line-height: 1;
+  color: #fdcf13;
+}
+.casino-video-rid {
+  font-weight: bold;
+  color: #ddd;
+  font-size: 12px;
+  line-height: 1;
+  margin-top: 3px;
+}
+.casino-video .video-box-container {
+  max-width: calc(100% - 190px);
+  margin-left: auto;
+}
+.casino-video .video-box {
+  position: relative;
+  max-width: 100%;
+  width: 100%;
+  padding-bottom: 56.25%;
+}
+.casino-timer {
+  position: absolute;
+  right: 5px;
+  bottom: 5px;
+  display: flex;
+  display: -webkit-flex;
+}
+.casino-video-right-icons {
+  position: absolute;
+  right: 5px;
+  top: 5px;
+  display: flex;
+  display: -webkit-flex;
+}
+.base-timer {
+  position: relative;
+  width: 100px;
+  height: 100px;
+  background-color: rgba(0, 0, 0, 0.8);
+  border-radius: 50%;
+}
+.base-timer__label > span {
+  min-width: 20px;
+  text-align: center;
+  line-height: 1;
+}
+.base-timer__label.red,
+.base-timer__path-remaining.red {
+  color: red;
+}
+.casino-video-lr-icon,
+.casino-video-home-icon,
+.casino-video-rules-icon {
+  background-color: rgba(0, 0, 0, 0.5);
+  border: 1px solid #999;
+  border-radius: 50%;
+  height: 40px;
+  width: 40px;
+  display: flex;
+  display: -webkit-flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 5px;
+  cursor: pointer;
+}
+.base-timer__circle {
+  fill: none;
+  stroke: none;
+}
+.base-timer__label {
+  position: absolute;
+  width: 100px;
+  height: 100px;
+  top: 0;
+  display: flex;
+  display: -webkit-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 50px;
+  color: var(--text-white);
+  font-family: timer;
+}
+.base-timer__path-elapsed {
+  stroke-width: 7px;
+  stroke: grey;
+}
+.base-timer__path-remaining {
+  stroke-width: 7px;
+  stroke-linecap: round;
+  transform: rotate(90deg);
+  transform-origin: center;
+  transition: 1s linear all;
+  fill-rule: nonzero;
+  stroke: currentColor;
+}
+.base-timer__label.red,
+.base-timer__path-remaining.red {
+  color: red;
+}
+.base-timer__label.green,
+.base-timer__path-remaining.green {
+  color: rgb(65, 184, 131);
+}
+
+.base-timer__label.orange,
+.base-timer__path-remaining.orange {
+  color: orange;
+}
+.casino-icon {
+  height: 25px;
+  width: 25px;
+}
+.casino-video .video-box > img,
+.casino-video .video-box > iframe {
+  height: 100%;
+  width: 100%;
+  position: absolute;
+  left: 0;
+  top: 0;
+  border: 0;
+}
+.casino-place-bet {
+  width: 100%;
+  border-radius: 0;
+  padding: 5px 10px 10px 10px;
+}
+.casino-place-bet-title {
+  padding: 8px;
+  text-transform: uppercase;
+  font-weight: bold;
+}
+.teen2sidebar .casino-video-last-results {
+  width: 100%;
+  height: auto;
+  position: unset;
+  top: unset;
+  right: unset;
+}
+.casino-video-last-results {
+  background-color: #72bbef;
+  display: flex;
+  display: -webkit-flex;
+  align-content: flex-start;
+  flex-wrap: wrap;
+  transition: 1s;
+  overflow: hidden;
+}
+.casino-video-last-results span.resulta {
+  color: var(--white-text);
+}
+.casino-video-last-results span,
+.casino-video-last-results a {
+  width: 30px;
+  margin-left: 5px;
+  margin-top: 5px;
+  border-radius: 0;
+  height: 30px;
+  text-align: center;
+  line-height: 30px;
+  background-color: #075ba6;
+  color: #fff;
+  cursor: pointer;
+  font-weight: bold;
+  /* flex: 1 1 0; */
+}
+.casino-video-last-results a.result-more {
+  line-height: 1.8;
+  margin-right: 5px;
+  margin-bottom: 5px;
+  color: var(--white-text);
+  text-decoration: none;
+}
+.disconnected-message {
+  padding: 10px;
+  font-size: 10px;
+  background-color: #222;
+  color: #eee;
+}
+.disconnected-box {
+  position: absolute;
+  left: 0;
+  top: 0;
+  background-color: rgba(0, 0, 0, 0.6);
+  height: 100%;
+  width: 100%;
+  z-index: 1060;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+.disconnected-message b {
+  font-size: 14px;
+}
+.disconnected-buttons {
+  display: flex;
+  justify-content: space-between;
+}
+.disconnected-buttons .btn {
+  width: 49%;
+  padding: 4px;
+  border-radius: 0;
+  font-size: 0.7rem;
+  color: #fff;
+}
+.disconnected-buttons .btn {
+  width: 49%;
+  padding: 4px;
+  border-radius: 0;
+  font-size: 0.7rem;
+  color: #fff;
+}
+.btn-outline-danger {
+  color: #dc3545;
+  border-color: #dc3545;
+}
+.btn-outline-primary {
+  border-color: #007bff;
+}
+.alert-img {
+  width: 20px;
+  height: 20px;
+  margin-right: 5px;
+}
+.disconnected-title {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+@media only screen and (min-width: 320px) and (max-width: 768px) {
+  .d-none-small {
+    display: none !important;
+  }
+  .casino-timer {
+    right: 5px;
+    bottom: 5px;
+  }
+  .casino-video-title {
+    background-color: rgba(0, 0, 0, 0.6);
+    padding: 5px;
+    left: 0;
+    top: 0;
+    min-width: unset;
+    margin-top: 5px;
+  }
+  .casino-video-title .casino-name {
+    font-size: 12px;
+    line-height: 12px;
+  }
+  .casino-video-rid {
+    font-size: 10px;
+    line-height: 12px;
+  }
+  .casino-video-right-icons {
+    right: 3px;
+    flex-direction: column;
+    margin-top: 5px;
+  }
+  .casino-video-lr-icon,
+  .casino-video-home-icon,
+  .casino-video-rules-icon {
+    height: 25px;
+    width: 25px;
+    margin-right: 0;
+    margin-bottom: 5px;
+  }
+  .footer-menu {
+    margin-top: 0;
+  }
+  .casino-icon {
+    height: 20px;
+    width: 20px;
+  }
+  .casino-video .video-box-container {
+    max-width: 100%;
+    margin-left: auto;
+  }
+  .right-casino-bar {
+    position: relative !important;
+    width: 100% !important;
+  }
+}
+.right-casino-bar {
+  position: fixed;
+  width: 23.5%;
+}
