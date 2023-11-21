@@ -12,12 +12,13 @@ import {
   setLiveEventsCount,
   setUpComingEventsCount,
 } from '../../../../redux/reducers/sports-list';
+import { setAllEvents } from '../../../../redux/reducers/event-market';
 
 function UpcommingMatchList() {
   const dispatch = useDispatch();
   const userDetails = useSelector((state) => state.userDetails);
+  const { allEvents } = useSelector((state) => state.eventMarket);
   const [eventLoading, setEventLoading] = useState(false);
-  const [sportEvents, setSportEvents] = useState([]);
   const [activeTab, setActiveTab] = useState('');
 
   const fetchSportDetails = async (skipLoading = false) => {
@@ -29,16 +30,16 @@ function UpcommingMatchList() {
         false,
       );
       if (result?.success) {
-        setSportEvents(result?.data?.events || []);
         dispatch(setLiveEventsCount(result?.data?.totalLiveEvent || 0));
         dispatch(setUpComingEventsCount(result?.data?.totalUpcomingEvent));
         dispatch(setFavouriteEventsCount(result?.data?.totalFavouriteEvent));
+        dispatch(setAllEvents(result?.data?.events || []));
       } else {
-        setSportEvents([]);
+        dispatch(setAllEvents([]));
       }
       setEventLoading(false);
     } catch (error) {
-      setSportEvents([]);
+      dispatch(setAllEvents([]));
       setEventLoading(false);
     }
   };
@@ -60,11 +61,11 @@ function UpcommingMatchList() {
         <div className="col-md-12 text-center mt-2">
           <Spinner className="text-primary" />
         </div>
-      ) : sportEvents?.length ? (
-        sportEvents?.every((sport) => !sport?.events?.length) ? (
+      ) : allEvents?.length ? (
+        allEvents?.every((sport) => !sport?.events?.length) ? (
           <div className="text-primary text-center">No Data</div>
         ) : (
-          sportEvents?.map((sport) =>
+          allEvents?.map((sport) =>
             sport?.events?.length ? (
               sport?.sportName === 'Greyhound Racing' ? (
                 <GreyhoundRacing
@@ -79,6 +80,7 @@ function UpcommingMatchList() {
                   events={sport?.events}
                   sportName={sport?.sportName}
                   key={sport?._id}
+                  sportsId={sport?._id}
                 />
               )
             ) : (

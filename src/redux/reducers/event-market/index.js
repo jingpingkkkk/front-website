@@ -45,6 +45,7 @@ export const eventMarketSlice = createSlice({
      * ]
      */
     markets: [],
+    allEvents: [],
   },
 
   reducers: {
@@ -108,6 +109,25 @@ export const eventMarketSlice = createSlice({
         return mkt;
       });
     },
+    setAllEvents: (state, action) => {
+      state.allEvents = action.payload;
+    },
+
+    setEventFavourite: (state, action) => {
+      const { sportsId, eventId } = action.payload;
+      state.allEvents = state.allEvents.map((sports) => {
+        if (sports._id === sportsId) {
+          const events = sports.events.map((evnt) => {
+            if (evnt._id === eventId) {
+              return { ...evnt, favourite: !evnt.favourite };
+            }
+            return evnt;
+          });
+          return { ...sports, events };
+        }
+        return sports;
+      });
+    },
 
     resetEventMarket: (state) => {
       state.event = {};
@@ -124,6 +144,8 @@ export const {
   clearOtherMarketForecasts,
   resetEventMarket,
   setMarketRunnerPl,
+  setAllEvents,
+  setEventFavourite,
 } = eventMarketSlice.actions;
 
 export default eventMarketSlice.reducer;
