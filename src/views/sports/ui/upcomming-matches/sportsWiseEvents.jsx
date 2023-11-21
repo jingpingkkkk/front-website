@@ -12,12 +12,13 @@ import {
   setLiveEventsCount,
   setUpComingEventsCount,
 } from '../../../../redux/reducers/sports-list';
+import { setAllEvents } from '../../../../redux/reducers/event-market';
 
 function SportsWiseEvents({ selectedSport }) {
   const dispatch = useDispatch();
   const userDetails = useSelector((state) => state.userDetails);
+  const { allEvents } = useSelector((state) => state.eventMarket);
   const [eventLoading, setEventLoading] = useState(false);
-  const [sportEvents, setSportEvents] = useState([]);
   const [sportName, setSportName] = useState(null);
   const [activeTab, setActiveTab] = useState('');
 
@@ -34,16 +35,20 @@ function SportsWiseEvents({ selectedSport }) {
         false,
       );
       if (result?.success) {
-        setSportEvents(result?.data?.events || []);
         dispatch(setUpComingEventsCount(result?.data?.totalUpcomingEvent));
         dispatch(setLiveEventsCount(result?.data?.totalLiveEvent || 0));
         dispatch(setFavouriteEventsCount(result?.data?.totalFavouriteEvent));
+        dispatch(
+          setAllEvents([
+            { _id: selectedSport?._id, events: result?.data?.events || [] },
+          ]),
+        );
       } else {
-        setSportEvents([]);
+        dispatch(setAllEvents([]));
       }
       setEventLoading(false);
     } catch (error) {
-      setSportEvents([]);
+      dispatch(setAllEvents([]));
       setEventLoading(false);
     }
   };
@@ -64,13 +69,17 @@ function SportsWiseEvents({ selectedSport }) {
       {!eventLoading ? (
         sportName === 'Greyhound Racing' ? (
           <GreyhoundRacing
-            events={sportEvents}
+            events={allEvents[0]?.events}
             sportName={sportName}
             activeTab={activeTab}
             onTabChange={setActiveTab}
           />
         ) : (
-          <EventList events={sportEvents} sportName={sportName} />
+          <EventList
+            events={allEvents[0]?.events}
+            sportName={sportName}
+            sportsId={selectedSport?._id}
+          />
         )
       ) : (
         <div className="col-md-12 text-center mt-2">

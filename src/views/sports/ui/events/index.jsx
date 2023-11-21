@@ -8,13 +8,16 @@ import menuImages from '../../../../components/common/exchange-sidemenu/menu-ima
 import '../../../matches/ui/matches.css';
 import { setShouldLogin } from '../../../../redux/reducers/user-details';
 import { postRequest } from '../../../../api';
+import { setFavouriteEventsCount } from '../../../../redux/reducers/sports-list';
+import { setEventFavourite } from '../../../../redux/reducers/event-market';
 
-function EventList({ events, sportName }) {
+function EventList({ events, sportName, sportsId }) {
   const [loading, setLoading] = useState(false);
   const imgPath = menuImages[sportName] || '';
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const userDetails = useSelector((state) => state.userDetails);
+  const { favouriteEventsCount } = useSelector((state) => state.sportsList);
   const handleEventClick = (e, path, id) => {
     // e.preventDefault();
     // const notLoggedIn =
@@ -38,24 +41,29 @@ function EventList({ events, sportName }) {
 
     navigate(path, { state: { eventId: id } });
   };
-  const addFavouriteEvent = async (eventId) => {
-    setLoading(true);
-    const body = {
-      userId: userDetails?.user?._id,
-      eventId,
-    };
-    await postRequest('favourite/addRemoveFavourite', body);
-    setLoading(false);
-  };
 
-  const onAddFavEvent = (eventId) => {
+  const onAddFavEvent = async (eventId, isFav) => {
     const notLoggedIn =
       !userDetails?.user?._id || !localStorage.getItem('userToken');
     if (notLoggedIn) {
       dispatch(setShouldLogin(true));
       return;
     }
-    addFavouriteEvent(eventId);
+    setLoading(true);
+    const body = {
+      userId: userDetails?.user?._id,
+      eventId,
+    };
+    const res = await postRequest('favourite/addRemoveFavourite', body);
+    if (res?.success) {
+      dispatch(
+        setFavouriteEventsCount(
+          isFav ? favouriteEventsCount + 1 : favouriteEventsCount - 1,
+        ),
+      );
+      dispatch(setEventFavourite({ sportsId, eventId }));
+    }
+    setLoading(false);
   };
 
   return (
@@ -228,7 +236,7 @@ function EventList({ events, sportName }) {
                       className="bg-transparent pe-0"
                       disabled={loading}
                       onClick={() => {
-                        onAddFavEvent(event?._id);
+                        onAddFavEvent(event?._id, !event?.favourite);
                       }}
                     >
                       <img
