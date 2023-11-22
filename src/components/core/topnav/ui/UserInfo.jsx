@@ -81,7 +81,11 @@ const UserInfo = ({ user }) => {
   }, [notifications?.length]);
 
   useEffect(() => {
-    notificationSocket.emit('join:event:notification', setNotifications);
+    notificationSocket.emit(
+      'join:event:notification',
+      { userId: user._id },
+      setNotifications,
+    );
     notificationSocket.on('event:complete', (data) => {
       setNotifications((prev) => [data, ...prev]);
       localStorage.setItem('notification', JSON.stringify(notifications));
@@ -133,7 +137,11 @@ const UserInfo = ({ user }) => {
           <tbody>
             <tr>
               <td className="balance-value text-muted">pts:</td>
-              <td className="px-1 small text-end">{userInfo?.balance || 0}</td>
+              <td className="px-1 small text-end">
+                {userInfo?.balance
+                  ? parseFloat(userInfo.balance.toFixed(2))
+                  : 0}
+              </td>
             </tr>
             <tr>
               <td className="balance-value text-muted">exp:</td>
