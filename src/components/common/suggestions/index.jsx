@@ -9,6 +9,8 @@ import 'react-responsive-carousel/lib/styles/carousel.min.css';
 import { setLoginPopup } from '../../../redux/reducers/login-popup';
 import { getRequest } from '../../../api';
 import {
+  setAllCasino,
+  setCasinoListLoading,
   setLiveCasino,
   setVirtualCasino,
 } from '../../../redux/reducers/casino-detail';
@@ -38,6 +40,7 @@ function ProductPromotion() {
   const getLiveCasino = async () => {
     try {
       setCasinoLoading(true);
+      dispatch(setCasinoListLoading(true));
       const result = await getRequest('casino/allCasino', false);
       if (result?.success) {
         const liveCasino = result?.data?.details?.filter(
@@ -46,11 +49,14 @@ function ProductPromotion() {
         const virtualCasino = result?.data?.details?.filter(
           (data) => data?.casinoType === 'virtual',
         );
+        dispatch(setAllCasino(result?.data?.details));
         dispatch(setLiveCasino(liveCasino));
         dispatch(setVirtualCasino(virtualCasino));
       }
       setCasinoLoading(false);
+      dispatch(setCasinoListLoading(false));
     } catch (error) {
+      dispatch(setCasinoListLoading(false));
       setCasinoLoading(false);
     }
   };

@@ -6,6 +6,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 // import { Carousel } from 'react-responsive-carousel';
 import { Spinner } from 'reactstrap';
+import { Link, useNavigate } from 'react-router-dom';
 import { getRequest } from '../../../../api';
 import News from '../../../../components/core/news';
 import BannerSlider from '../../../../components/core/slider';
@@ -18,6 +19,7 @@ import UpcommingMatches from '../upcomming-matches';
 
 function SportPageContent() {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const userDetails = useSelector((state) => state.userDetails);
   // const [events, setEvents] = useState([]);
   const [allCasino, setAllCasino] = useState([]);
@@ -78,11 +80,12 @@ function SportPageContent() {
     return true;
   };
 
-  const openPage = (link = '') => {
+  const openPage = (link = '', id = '') => {
     if (!checkLogin()) {
       dispatch(setLoginPopup(true));
     } else {
-      window.location.href = `${link}`;
+      navigate(link, { state: { casinoId: id } });
+      // window.location.href = `${link}`;
     }
   };
 
@@ -187,12 +190,15 @@ function SportPageContent() {
               <div
                 key={casino?._id}
                 className={`casino-banner-item ${classNameRef.current}`}
-                onClick={() => openPage('#')}
               >
-                {/* <a href="#"> */}
-                <img alt={casino?.name || ''} src={casino?.image} />
-                <div role="button">Login</div>
-                {/* </a> */}
+                <Link
+                  to="/casino"
+                  state={{ casinoId: casino?._id }}
+                  onClick={() => openPage('/casino', casino?._id)}
+                >
+                  <img alt={casino?.name || ''} src={casino?.image} />
+                  <div role="button">Login</div>
+                </Link>
               </div>
             ))
           ) : (

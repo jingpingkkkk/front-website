@@ -6,6 +6,8 @@ const casinoSlice = createSlice({
   initialState: {
     liveCasino: [],
     virtualCasino: [],
+    allCasino: [],
+    casinoListLoading: false,
   },
 
   reducers: {
@@ -15,9 +17,20 @@ const casinoSlice = createSlice({
     setVirtualCasino: (state, action) => {
       state.virtualCasino = action.payload;
     },
+    setAllCasino: (state, action) => {
+      state.allCasino = action.payload;
+    },
+    setCasinoListLoading: (state, action) => {
+      state.casinoListLoading = action.payload;
+    },
   },
 });
 
-export const { setLiveCasino, setVirtualCasino } = casinoSlice.actions;
+export const {
+  setLiveCasino,
+  setVirtualCasino,
+  setAllCasino,
+  setCasinoListLoading,
+} = casinoSlice.actions;
 
 export default casinoSlice.reducer;

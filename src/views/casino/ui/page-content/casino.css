@@ -1,3 +1,10 @@
+.popular-games {
+  /* overflow-x: hidden; */
+  /* overflow-y: auto; */
+  /* scroll-behavior: smooth; */
+  /* min-height: 400px; */
+  /* max-height: 300px; */
+}
 .popular-games .popular-title {
   width: auto;
   min-width: 120px;
@@ -134,6 +141,8 @@
   background-color: var(--white-text);
   box-shadow: rgba(99, 99, 99, 0.1) 0px 2px 8px 0px;
   border-radius: 12px;
+  /* height: 48vh; */
+  min-height: 475px;
 }
 .top-content {
   display: flex;
@@ -223,10 +232,18 @@
 .game-providers .all_providers .game-dropdown:active {
   background-color: transparent;
 }
+.all_providers .dropdown-item.active,
+.dropdown-item:active {
+  background-color: var(--primary-color);
+  color: var(--white-text);
+}
 .collection-item {
-  padding: 0 10px;
-  font-weight: 400;
-  font-size: 14px;
+  line-height: 1;
+  min-height: 30px;
+  padding: 10px 10px;
+  border-bottom: 1px solid var(--light-text-color);
+  color: var(--sidenav-text);
+  font-size: 13px;
 }
 img.responsive-img {
   max-width: 100%;
@@ -235,6 +252,8 @@ img.responsive-img {
 .collection-item img {
   width: 20px;
   margin-right: 5px;
+  height: 20px;
+  border-radius: 50%;
 }
 .portfolio {
   padding: 5px 10px;
@@ -244,7 +263,10 @@ img.responsive-img {
   display: flex;
   flex-wrap: wrap;
 }
-.portfolio .port-content {
+.portfolio
+  .infinite-scroll-component__outerdiv
+  .infinite-scroll-component
+  .port-content {
   padding: 5px;
   width: 25%;
   margin-left: auto;
@@ -255,24 +277,42 @@ img.responsive-img {
   position: relative;
 }
 @media (min-width: 1500px) {
-  .portfolio .port-content {
+  .portfolio
+    .infinite-scroll-component__outerdiv
+    .infinite-scroll-component
+    .port-content {
     width: 25%;
     max-width: 100%;
     padding: 5px;
   }
 }
-.portfolio .port-content .port-inner {
+.portfolio
+  .infinite-scroll-component__outerdiv
+  .infinite-scroll-component
+  .port-content
+  .port-inner {
   width: 100%;
   height: auto;
   cursor: pointer;
   position: relative;
 }
-.portfolio .port-content .port-inner .thumb {
+.portfolio
+  .infinite-scroll-component__outerdiv
+  .infinite-scroll-component
+  .port-content
+  .port-inner
+  .thumb {
   display: flex;
   overflow: hidden;
   border-radius: 15px;
 }
-.portfolio .port-content .port-inner .thumb img {
+.portfolio
+  .infinite-scroll-component__outerdiv
+  .infinite-scroll-component
+  .port-content
+  .port-inner
+  .thumb
+  img {
   width: 100%;
   height: auto;
   transition: ease-in-out 0.3s;
@@ -281,15 +321,36 @@ img.responsive-img {
     rgba(0, 0, 0, 0.25) 0 0.125em 0.5em,
     rgba(255, 255, 255, 0.1) 0 0 0 1px inset;
 }
-.portfolio .port-content .port-inner .port-btn {
+.portfolio
+  .infinite-scroll-component__outerdiv
+  .infinite-scroll-component
+  .port-content
+  .port-inner
+  .port-btn {
   position: relative;
   transition: 0.7s;
 }
-.portfolio .port-content .port-inner .content h4 {
+.portfolio
+  .infinite-scroll-component__outerdiv
+  .infinite-scroll-component
+  .port-content
+  .port-inner
+  .content
+  h4 {
   line-height: 1;
   margin: 5px 0;
 }
-.portfolio .port-content .port-inner .content h4 a {
+.port-inner a {
+  text-decoration: none;
+}
+.portfolio
+  .infinite-scroll-component__outerdiv
+  .infinite-scroll-component
+  .port-content
+  .port-inner
+  .content
+  h4
+  .sub-name {
   font-size: 14px;
   font-weight: 500;
   text-transform: capitalize;
@@ -304,7 +365,14 @@ img.responsive-img {
   display: block;
   text-decoration: none;
 }
-.portfolio .port-content .port-inner .content h4 .sub-title {
+.portfolio
+  .infinite-scroll-component__outerdiv
+  .infinite-scroll-component
+  .port-content
+  .port-inner
+  .content
+  h4
+  .sub-title {
   font-size: 11px;
   color: #a7a7a7;
   margin: 5px 0;
@@ -315,11 +383,28 @@ img.responsive-img {
   overflow: hidden;
   text-overflow: ellipsis;
 }
-.portfolio .port-content .port-inner .content h4 a:hover {
+.portfolio
+  .infinite-scroll-component__outerdiv
+  .infinite-scroll-component
+  .port-content
+  .port-inner
+  .content
+  h4
+  a:hover {
   color: var(--primary-color);
 }
-.portfolio .port-content .port-inner:hover .thumb img {
+.portfolio
+  .infinite-scroll-component__outerdiv
+  .infinite-scroll-component
+  .port-content
+  .port-inner:hover
+  .thumb
+  img {
   transform: scale(1.1);
+}
+#scrollableDiv {
+  height: 390px !important;
+  overflow-y: scroll;
 }
 @media (max-width: 767px) {
   .all-casinos {
@@ -355,8 +440,14 @@ img.responsive-img {
   .top-content {
     display: block;
   }
-  .portfolio .port-content {
+  .portfolio
+    .infinite-scroll-component__outerdiv
+    .infinite-scroll-component
+    .port-content {
     width: 50%;
+  }
+  #scrollableDiv {
+    height: 310px !important;
   }
 }
 @media (min-width: 767px) and (max-width: 1199px) {
@@ -374,7 +465,10 @@ img.responsive-img {
     margin-top: 0;
     margin-bottom: 5px;
   }
-  .portfolio .port-content {
+  .portfolio
+    .infinite-scroll-component__outerdiv
+    .infinite-scroll-component
+    .port-content {
     width: 33.3%;
   }
 }
@@ -439,4 +533,7 @@ img.responsive-img {
     width: 98px !important;
     height: 70px !important;
   }
+}
+.portfolio::-webkit-scrollbar {
+  width: 0px;
 }

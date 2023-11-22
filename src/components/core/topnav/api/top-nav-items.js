@@ -9,16 +9,16 @@ const topNavItems = [
     path: '/casino',
     state: {},
   },
-  {
-    label: 'Slot',
-    path: '/',
-    state: {},
-  },
-  {
-    label: 'Fantasy Games',
-    path: '/',
-    state: {},
-  },
+  // {
+  //   label: 'Slot',
+  //   path: '/',
+  //   state: {},
+  // },
+  // {
+  //   label: 'Fantasy Games',
+  //   path: '/',
+  //   state: {},
+  // },
   {
     label: 'Promotion',
     path: '/promotion',
