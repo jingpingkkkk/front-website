@@ -80,12 +80,12 @@ function SportPageContent() {
     return true;
   };
 
-  const openPage = (link = '', id = '') => {
+  const openPage = (e, link = '', id = '') => {
+    e.preventDefault();
     if (!checkLogin()) {
       dispatch(setLoginPopup(true));
     } else {
       navigate(link, { state: { casinoId: id } });
-      // window.location.href = `${link}`;
     }
   };
 
@@ -194,7 +194,7 @@ function SportPageContent() {
                 <Link
                   to="/casino"
                   state={{ casinoId: casino?._id }}
-                  onClick={() => openPage('/casino', casino?._id)}
+                  onClick={(e) => openPage(e, '/casino', casino?._id)}
                 >
                   <img alt={casino?.name || ''} src={casino?.image} />
                   <div role="button">Login</div>
