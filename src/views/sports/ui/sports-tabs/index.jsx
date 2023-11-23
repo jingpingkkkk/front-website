@@ -86,7 +86,21 @@ function SportsTabs({ availableSports, onClick }) {
                 {item.image ? (
                   <img src={item.image} alt={item.label} />
                 ) : (
-                  <span>{item.label}</span>
+                  // <span>{item.label}</span>
+                  <span>
+                    <span className="text-secondary">
+                      <img
+                        src={item?.icon}
+                        alt="promotion"
+                        style={{
+                          height: '22px',
+                          width: '22px',
+                          marginRight: '3px',
+                        }}
+                      />
+                    </span>
+                    <span className="primary-text">{item.label}</span>
+                  </span>
                 )}
               </NavLink>
             </li>

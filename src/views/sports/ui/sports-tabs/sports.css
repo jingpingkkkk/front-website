@@ -58,14 +58,14 @@
   }
   .top-sport-tabs.menu-tabs .nav-tabs .nav-item .nav-link {
     white-space: normal;
-    border-right: 1px solid #000 !important;
-    background-color: rgb(114 187 239) !important;
+    /* border-right: 1px solid #000 !important; */
+    background-color: transparent !important;
     color: #000 !important;
     font-size: 12px;
     font-weight: 500;
   }
   .top-sport-tabs .nav-tabs .nav-link {
-    padding: 0 7px !important;
+    /* padding: 0 7px !important; */
     height: 44px;
     line-height: unset;
     white-space: nowrap;
@@ -76,7 +76,7 @@
     align-content: center;
   }
   .top-sport-tabs.menu-tabs .nav-tabs .nav-item .nav-link.router-link-active {
-    background-color: #075ba6 !important;
-    color: #eee !important;
+    background-color: transparent !important;
+    color: var(--primary-text-color) !important;
   }
 }
