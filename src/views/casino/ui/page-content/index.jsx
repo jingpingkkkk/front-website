@@ -49,7 +49,7 @@ function CasinoPageContent() {
   } else if (width < 1280) {
     slidesToShow = 6;
   } else if (width < 1920) {
-    slidesToShow = 7;
+    slidesToShow = 9;
   } else if (width >= 1920 && width < 2560) {
     slidesToShow = 12;
   } else if (width <= 2560) {
@@ -80,15 +80,19 @@ function CasinoPageContent() {
   };
 
   const handleItemClick = (gameId) => {
-    setItems([]);
-    setPage(1);
-    setActiveItem(gameId);
+    if (activeItem !== gameId) {
+      setItems([]);
+      setPage(1);
+      setActiveItem(gameId);
+    }
   };
 
   const handleTabClick = (tab) => {
-    setPage(1);
-    setItems([]);
-    setActiveTab(tab);
+    if (activeTab !== tab) {
+      setPage(1);
+      setItems([]);
+      setActiveTab(tab);
+    }
   };
 
   useEffect(() => {
@@ -126,7 +130,7 @@ function CasinoPageContent() {
               draggable
               swipe
               slidesToShow={slidesToShow}
-              slidesToScroll={2}
+              slidesToScroll={1}
               autoplay={false}
               cssEase="linear"
               initialSlide={0}
@@ -162,9 +166,9 @@ function CasinoPageContent() {
           <div className="top-title col-xl-9 col-sm-12 col-12">
             <button
               type="button"
-              className={` ${activeTab === null ? 'active' : ''}`}
+              className={` ${activeTab === '' ? 'active' : ''}`}
               onClick={() => {
-                handleTabClick();
+                handleTabClick('');
               }}
             >
               <span className="txt">All</span>
