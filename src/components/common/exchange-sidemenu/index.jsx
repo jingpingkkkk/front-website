@@ -338,6 +338,7 @@ function ExchangeSideMenu({ className = 'd-none d-lg-block' }) {
                                           className="sidebar-link"
                                           // to="/matches"
                                           // state={{ eventId: evnt?._id }}
+                                          style={{ paddingLeft: '5px' }}
                                         >
                                           {evnt?.name || ''}
                                         </button>
@@ -345,7 +346,11 @@ function ExchangeSideMenu({ className = 'd-none d-lg-block' }) {
                                     </AccordionBody>
                                   </>
                                 ) : (
-                                  <Link className="sidebar-link" to={comp.link}>
+                                  <Link
+                                    className="sidebar-link"
+                                    to={comp.link}
+                                    style={{ paddingLeft: '5px' }}
+                                  >
                                     {comp?.name || ''}
                                   </Link>
                                 )}
