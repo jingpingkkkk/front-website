@@ -87,7 +87,7 @@ function SportsTabs({ availableSports, onClick }) {
                   <img src={item.image} alt={item.label} />
                 ) : (
                   // <span>{item.label}</span>
-                  <span>
+                  <span className="d-flex align-items-center">
                     <span className="text-secondary">
                       <img
                         src={item?.icon}

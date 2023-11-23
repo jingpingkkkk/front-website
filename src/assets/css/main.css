@@ -27,11 +27,12 @@ a {
 .left-fixed {
   position: fixed;
   width: 13.75%;
+  height: 100%;
 }
 nav#sidebar {
   /* position: fixed; */
   /* width: 13.75%; */
-  max-height: calc(100% - 130px);
+  max-height: calc(100% - 225px);
   overflow-y: scroll;
 }
 nav#sidebar::-webkit-scrollbar {

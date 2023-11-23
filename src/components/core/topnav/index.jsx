@@ -192,7 +192,7 @@ function Topnav() {
             {item.image ? (
               <img src={item.image} alt={item.label} />
             ) : (
-              <span>
+              <span className="d-flex align-items-center">
                 <span className="text-secondary">
                   <img
                     src={item?.icon}
