@@ -80,15 +80,19 @@ function CasinoPageContent() {
   };
 
   const handleItemClick = (gameId) => {
-    setItems([]);
-    setPage(1);
-    setActiveItem(gameId);
+    if (activeItem !== gameId) {
+      setItems([]);
+      setPage(1);
+      setActiveItem(gameId);
+    }
   };
 
   const handleTabClick = (tab) => {
-    setPage(1);
-    setItems([]);
-    setActiveTab(tab);
+    if (activeTab !== tab) {
+      setPage(1);
+      setItems([]);
+      setActiveTab(tab);
+    }
   };
 
   useEffect(() => {
@@ -162,9 +166,9 @@ function CasinoPageContent() {
           <div className="top-title col-xl-9 col-sm-12 col-12">
             <button
               type="button"
-              className={` ${activeTab === null ? 'active' : ''}`}
+              className={` ${activeTab === '' ? 'active' : ''}`}
               onClick={() => {
-                handleTabClick();
+                handleTabClick('');
               }}
             >
               <span className="txt">All</span>
