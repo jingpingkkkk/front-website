@@ -49,7 +49,7 @@ function CasinoPageContent() {
   } else if (width < 1280) {
     slidesToShow = 6;
   } else if (width < 1920) {
-    slidesToShow = 7;
+    slidesToShow = 9;
   } else if (width >= 1920 && width < 2560) {
     slidesToShow = 12;
   } else if (width <= 2560) {
@@ -130,7 +130,7 @@ function CasinoPageContent() {
               draggable
               swipe
               slidesToShow={slidesToShow}
-              slidesToScroll={2}
+              slidesToScroll={1}
               autoplay={false}
               cssEase="linear"
               initialSlide={0}
