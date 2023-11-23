@@ -189,24 +189,29 @@ function ExchangeSideMenu({ className = 'd-none d-lg-block' }) {
     <div className="left-fixed">
       <div id="sidebar" className={`${className} left-top`}>
         <ul className="list-unstyled components">
-          <li>
-            <NavLink
-              to="/live"
-              className="left-top-item "
-              onClick={(e) => onChangeMenu(e, '/live')}
-            >
-              <span className="item-img">
-                <img src="/images/icon-live.png" alt="live" />
-              </span>
-              <div className="left-top-item-header">Live Events</div>
-              <div className="event-count">{liveEventsCount || 0}</div>
-            </NavLink>
+          <li
+            className={`left-top-item ${
+              liveEventsCount <= 0 ? 'disabled' : ''
+            }`}
+            onClick={(e) =>
+              liveEventsCount > 0 ? onChangeMenu(e, '/live') : ''
+            }
+          >
+            <span className="item-img">
+              <img src="/images/icon-live.png" alt="live" />
+            </span>
+            <div className="left-top-item-header">Live Events</div>
+            <div className="event-count">{liveEventsCount || 0}</div>
           </li>
           <li>
             <NavLink
               to="/upcoming"
-              className="left-top-item "
-              onClick={(e) => onChangeMenu(e, '/upcoming')}
+              className={`left-top-item ${
+                upComingEventsCount <= 0 ? 'disabled' : ''
+              }`}
+              onClick={(e) =>
+                upComingEventsCount > 0 ? onChangeMenu(e, '/upcoming') : ''
+              }
             >
               <span className="item-img">
                 <img src="/images/icon-clock.png" alt="live" />
@@ -215,18 +220,22 @@ function ExchangeSideMenu({ className = 'd-none d-lg-block' }) {
               <div className="event-count">{upComingEventsCount || 0}</div>
             </NavLink>
           </li>
-          <li>
-            <NavLink
-              to="/favourites"
-              className="left-top-item "
-              onClick={(e) => onOpenFavouriteList(e, '/favourites')}
-            >
-              <span className="item-img">
-                <img src="/images/icon-star.png" alt="live" />
-              </span>
-              <div className="left-top-item-header">Favourite</div>
-              <div className="event-count">{favouriteEventsCount || 0}</div>
-            </NavLink>
+          <li
+            to="/favourites"
+            className={`left-top-item ${
+              favouriteEventsCount <= 0 ? 'disabled' : ''
+            }`}
+            onClick={(e) =>
+              favouriteEventsCount > 0
+                ? onOpenFavouriteList(e, '/favourites')
+                : ''
+            }
+          >
+            <span className="item-img">
+              <img src="/images/icon-star.png" alt="live" />
+            </span>
+            <div className="left-top-item-header">Favourite</div>
+            <div className="event-count">{favouriteEventsCount || 0}</div>
           </li>
         </ul>
       </div>
