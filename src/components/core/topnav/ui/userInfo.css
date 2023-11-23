@@ -151,3 +151,10 @@
     display: none !important;
   }
 }
+.exp-disabled {
+  cursor: not-allowed;
+}
+.exposure.exp-disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+}

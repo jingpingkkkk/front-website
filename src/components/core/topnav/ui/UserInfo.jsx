@@ -148,7 +148,10 @@ const UserInfo = ({ user }) => {
               <td className="px-1 text-end">
                 <button
                   type="button"
-                  className="text-decoration-underline bg-transparent pe-0 me-0"
+                  className={`text-decoration-underline bg-transparent pe-0 me-0 ${
+                    userInfo?.exposure <= 0 ? 'exp-disabled' : ''
+                  }`}
+                  disabled={userInfo?.exposure <= 0}
                   onClick={() => setShowExposureDetail(true)}
                   style={{ userSelect: 'none' }}
                 >
@@ -167,8 +170,12 @@ const UserInfo = ({ user }) => {
         <span>{user?.balance || 0}</span>
         <span> | </span>
         <span
-          className="text-decoration-underline"
-          onClick={() => setShowExposureDetail(true)}
+          className={`text-decoration-underline exposure ${
+            userInfo?.exposure <= 0 ? 'exp-disabled' : ''
+          }`}
+          onClick={() =>
+            userInfo?.exposure > 0 ? setShowExposureDetail(true) : ''
+          }
         >
           {userInfo?.exposure ? -parseFloat(userInfo.exposure.toFixed(2)) : 0}
         </span>

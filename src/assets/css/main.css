@@ -2599,3 +2599,6 @@ body::-webkit-scrollbar {
 input::placeholder {
   color: #606061 !important;
 }
+.text-secondary {
+  color: var(--primary-color) !important;
+}

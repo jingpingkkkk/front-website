@@ -182,11 +182,9 @@ function Topnav() {
       <div className="d-none d-lg-flex align-items-center">
         {topNavItems.map((item) => (
           <NavLink
-            key={item.label}
+            key={item?.label}
             to={item.path}
-            className={({ isActive }) =>
-              `me-4 nav-items ${isActive ? 'custom-buttton active' : ''}`
-            }
+            className={({ isActive }) => `me-4 nav-items ${isActive ? '' : ''}`}
             onClick={(e) => {
               onchangeMenu(e, item.path);
             }}
@@ -194,7 +192,20 @@ function Topnav() {
             {item.image ? (
               <img src={item.image} alt={item.label} />
             ) : (
-              <span>{item.label}</span>
+              <span>
+                <span className="text-secondary">
+                  <img
+                    src={item?.icon}
+                    alt="promotion"
+                    style={{
+                      height: '22px',
+                      width: '22px',
+                      marginRight: '3px',
+                    }}
+                  />
+                </span>
+                <span className="primary-text">{item.label}</span>
+              </span>
             )}
           </NavLink>
         ))}

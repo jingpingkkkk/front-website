@@ -3,11 +3,13 @@ const topNavItems = [
     label: 'Exchange',
     path: '/sports',
     state: {},
+    icon: '/images/icon-exchange.png',
   },
   {
     label: 'Live Casino',
     path: '/casino',
     state: {},
+    icon: '/images/icon-casino.png',
   },
   // {
   //   label: 'Slot',
@@ -23,6 +25,7 @@ const topNavItems = [
     label: 'Promotion',
     path: '/promotion',
     state: {},
+    icon: '/images/icon-promotion.png',
   },
   // {
   //   label: 'Aviator',
