@@ -124,12 +124,12 @@ function Topnav() {
   const onchangeMenu = (e, path) => {
     if (LIVE_MENU_ITEMS.includes(path)) {
       e.preventDefault();
-      const notLoggedIn =
-        !userDetails?.user?._id || !localStorage.getItem('userToken');
-      if (notLoggedIn && path === '/casino') {
-        dispatch(setShouldLogin(true));
-        return;
-      }
+      // const notLoggedIn =
+      //   !userDetails?.user?._id || !localStorage.getItem('userToken');
+      // if (notLoggedIn && path === '/casino') {
+      //   dispatch(setShouldLogin(true));
+      //   return;
+      // }
       navigate(path);
     } else {
       e?.preventDefault();

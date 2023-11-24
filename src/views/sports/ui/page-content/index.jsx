@@ -187,14 +187,13 @@ function SportPageContent() {
             </div>
           ) : allCasino?.length ? (
             allCasino.map((casino) => (
-              <div
-                key={casino?._id}
-                className={`casino-banner-item ${classNameRef.current}`}
-              >
+              <div key={casino?._id} className="casino-banner-item">
                 <Link
                   to="/casino"
                   state={{ casinoId: casino?._id }}
-                  onClick={(e) => openPage(e, '/casino', casino?._id)}
+                  onClick={() =>
+                    navigate('/casino', { state: { casinoId: casino?._id } })
+                  }
                 >
                   <img alt={casino?.name || ''} src={casino?.image} />
                   <div role="button">Login</div>

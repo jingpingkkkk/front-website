@@ -65,7 +65,7 @@ function CasinoPageContent() {
         casinoId: activeItem,
         gameType: activeTab,
       };
-      const result = await postRequest('casinoGame/getCasinoGame', body);
+      const result = await postRequest('casinoGame/getCasinoGame', body, false);
       if (result?.success) {
         const records = result.data.records || [];
         setTotalRecords(result?.data?.totalRecords);
@@ -94,12 +94,17 @@ function CasinoPageContent() {
       setActiveTab(tab);
     }
   };
+  useEffect(() => {
+    setItems([]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [casinoId]);
 
   useEffect(() => {
+    setActiveItem(casinoId);
     setPage(1);
     fetchData();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [activeItem, activeTab]);
+  }, [activeItem, activeTab, casinoId]);
 
   const getActiveItemName = () => {
     if (activeItem === null) {
