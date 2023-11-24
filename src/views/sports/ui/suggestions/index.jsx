@@ -2,13 +2,13 @@
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import React, { useEffect, useRef, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 // import { Carousel } from 'react-responsive-carousel';
+import { useNavigate } from 'react-router-dom';
 import 'react-responsive-carousel/lib/styles/carousel.min.css';
-import { setLoginPopup } from '../../../../redux/reducers/login-popup';
 
 function ProductPromotion() {
-  const dispatch = useDispatch();
+  const navigate = useNavigate();
   const userDetails = useSelector((state) => state.userDetails);
   const [activeTab, setActiveTab] = useState('live');
   const casino = useSelector((state) => state.casino);
@@ -20,13 +20,7 @@ function ProductPromotion() {
     }
     return true;
   };
-  const openPage = (link = '') => {
-    if (!checkLogin()) {
-      dispatch(setLoginPopup(true));
-    } else {
-      window.location.href = `${link}`;
-    }
-  };
+
   useEffect(() => {
     checkLogin();
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -100,9 +94,13 @@ function ProductPromotion() {
                   {casino?.liveCasino?.length
                     ? casino?.liveCasino?.map((liveCasino) => (
                         <div
-                          className={`casino-banner-item ${classNameRef.current}`}
+                          className="casino-banner-item"
                           key={liveCasino?._id}
-                          onClick={() => openPage('#')}
+                          onClick={() =>
+                            navigate('/casino', {
+                              state: { casinoId: liveCasino?._id },
+                            })
+                          }
                         >
                           {/* <a href="#"> */}
                           <img alt="casino" src={liveCasino?.image} />
@@ -124,9 +122,13 @@ function ProductPromotion() {
                 {casino?.virtualCasino?.length
                   ? casino?.virtualCasino?.map((virtualCasino) => (
                       <div
-                        className={`casino-banner-item ${classNameRef.current}`}
+                        className="casino-banner-item"
                         key={virtualCasino?._id}
-                        onClick={() => openPage('#')}
+                        onClick={() =>
+                          navigate('/casino', {
+                            state: { casinoId: virtualCasino?._id },
+                          })
+                        }
                       >
                         {/* <a href="#"> */}
                         <img alt="casino" src={virtualCasino?.image} />

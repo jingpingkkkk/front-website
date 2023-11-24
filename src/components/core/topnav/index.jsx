@@ -124,12 +124,12 @@ function Topnav() {
   const onchangeMenu = (e, path) => {
     if (LIVE_MENU_ITEMS.includes(path)) {
       e.preventDefault();
-      const notLoggedIn =
-        !userDetails?.user?._id || !localStorage.getItem('userToken');
-      if (notLoggedIn && path === '/casino') {
-        dispatch(setShouldLogin(true));
-        return;
-      }
+      // const notLoggedIn =
+      //   !userDetails?.user?._id || !localStorage.getItem('userToken');
+      // if (notLoggedIn && path === '/casino') {
+      //   dispatch(setShouldLogin(true));
+      //   return;
+      // }
       navigate(path);
     } else {
       e?.preventDefault();
@@ -192,7 +192,7 @@ function Topnav() {
             {item.image ? (
               <img src={item.image} alt={item.label} />
             ) : (
-              <span>
+              <span className="d-flex align-items-center">
                 <span className="text-secondary">
                   <img
                     src={item?.icon}
