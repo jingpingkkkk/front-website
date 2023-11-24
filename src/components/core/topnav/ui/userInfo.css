@@ -153,8 +153,9 @@
 }
 .exp-disabled {
   cursor: not-allowed;
+  color: var(--black-text);
 }
 .exposure.exp-disabled {
   cursor: not-allowed;
-  opacity: 0.5;
+  color: var(--black-text);
 }
