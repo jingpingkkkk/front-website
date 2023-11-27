@@ -150,7 +150,7 @@ input[type='text']:not(.browser-default) + label:after {
 #login-modal .error-msg {
   font-size: 12px;
   font-weight: 500;
-  margin: 0 0 5px 0;
+  /* margin: 0 0 5px 0; */
   color: #dd4b39 !important;
   text-align: start;
 }
@@ -279,7 +279,7 @@ input[type='text']:not(.browser-default) + label:after {
   left: 0;
   margin-top: -20px;
   position: relative;
-  z-index: 2;
+  z-index: 1;
   cursor: pointer;
   height: 20px;
   width: 20px;
@@ -419,4 +419,21 @@ input[type='text']:not(.browser-default) + label:after {
 }
 .input-field {
   position: relative;
+}
+.react-tel-input .custom-input {
+  background-color: transparent !important;
+  width: 100% !important;
+  left: 18% !important;
+  position: relative;
+}
+.react-tel-input .flag-dropdown {
+  top: 15px !important;
+  background-color: transparent !important;
+  border: 0 !important;
+}
+.react-tel-input .country-list.custom-country-list {
+  background-color: #fff !important;
+}
+.react-tel-input .country-list .country {
+  text-align: left !important;
 }

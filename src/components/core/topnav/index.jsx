@@ -41,13 +41,19 @@ function Topnav() {
   const [isRegisterModalOpen, setIsRegisterModalOpen] = useState(false);
   const [user, setUser] = useState('');
   const [isWelcome, setIsWelcome] = useState(false);
-
-  const toggleLoginModal = () => {
+  console.log('userDetails', userDetails?.user);
+  const toggleLoginModal = (e) => {
     setIsLoginModalOpen(!isLoginModalOpen);
     dispatch(setLoginPopup(!isLoginModalOpen));
+    if (e?.isReg) {
+      setIsRegisterModalOpen(!isRegisterModalOpen);
+    }
   };
-  const toggleRegisterModal = () => {
+  const toggleRegisterModal = (e) => {
     setIsRegisterModalOpen(!isRegisterModalOpen);
+    if (e?.isLogin) {
+      setIsLoginModalOpen(!isLoginModalOpen);
+    }
   };
 
   const getThemeSettings = async () => {
@@ -118,7 +124,7 @@ function Topnav() {
     if (userDetails?.user?._id) {
       setUser(userDetails.user);
     }
-    setIsLoginModalOpen(isLogingOpen);
+    // setIsLoginModalOpen(isLogingOpen);
   }, [isWelcome, isLoginModalOpen, isLogingOpen, userDetails?.user]);
 
   const onchangeMenu = (e, path) => {
@@ -226,13 +232,13 @@ function Topnav() {
             </NavLink>
 
             <LoginPopup isOpen={isLoginModalOpen} toggle={toggleLoginModal} />
-            {/* <NavLink
+            <NavLink
               to="#"
               className="ms-2 custom-buttton nav-items"
               onClick={toggleRegisterModal}
             >
               REGISTER
-            </NavLink> */}
+            </NavLink>
             <RegisterPopup
               isOpen={isRegisterModalOpen}
               toggle={toggleRegisterModal}
