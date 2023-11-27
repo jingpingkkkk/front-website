@@ -1,8 +1,10 @@
+/* eslint-disable react/jsx-curly-brace-presence */
+/* eslint-disable jsx-a11y/label-has-associated-control */
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router';
-import { Label, Modal, ModalBody } from 'reactstrap';
+import { Modal } from 'reactstrap';
 import { postRequest } from '../../../api';
 import {
   setShouldLogin,
@@ -22,8 +24,8 @@ const LoginPopup = ({ isOpen, toggle }) => {
 
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+  const [showPwd, setShowPwd] = useState(false);
   const navigate = useNavigate();
-
   const getUserStakeButtons = async () => {
     const result = await postRequest('stake/getUserStakes');
     if (result?.success) {
@@ -68,119 +70,191 @@ const LoginPopup = ({ isOpen, toggle }) => {
   };
 
   return (
-    <Modal isOpen={isOpen} toggle={toggle} className="login-modal" centered>
-      <div className="modal-header">
-        <div className="close-login-modal">
-          <h5 className="modal-title">Sign In</h5>
-          <button type="button" className="close-btn" onClick={toggle}>
-            <img src="./images/close.svg" alt="close" />
-          </button>
-        </div>
-      </div>
-      <ModalBody>
-        {error ? <div className="text-danger mb-1">{error}</div> : ''}
-        <form className="login-form" onSubmit={handleSubmit(onSubmit)}>
-          <div className="form-group">
-            <Label for="username" className="login-label">
-              Username
-            </Label>
-            <input
-              type="text"
-              name="username"
-              id="username"
-              placeholder="Enter Username"
-              className="form-control"
-              {...register('username', {
-                required: 'Username is required',
-              })}
-            />
-            {errors?.username ? (
-              <div className="text-danger">{errors?.username?.message}</div>
-            ) : (
-              ''
-            )}
-          </div>
-          <div className="form-group">
-            <Label for="password" className="login-label">
-              Password
-            </Label>
-            <input
-              type="password"
-              name="password"
-              id="password"
-              placeholder="Enter Password"
-              className="form-control"
-              {...register('password', {
-                required: 'Password is required',
-              })}
-            />
-            {errors?.password ? (
-              <div className="text-danger">{errors?.password?.message}</div>
-            ) : (
-              ''
-            )}
-            {/* <div className="forgot-password">
-              <a href="/">
-                <u>Forgot Password?</u>
-              </a>
-            </div> */}
-          </div>
-          {/* <div className="form-group">
-            <div className="custom-control custom-checkbox d-inline-block">
-              <input
-                type="checkbox"
-                id="customCheck"
-                name="agree"
-                className="custom-control-checkbox"
-                {...register('agree', {
-                  required: 'Please check',
-                })}
-              />
-              <Label for="customCheck" className="custom-control-label">
-                I am at least
-                <a href="/" className="text-danger" role="button">
-                  18 years
-                </a>
-                of age and I have read, accept and agree to the
-                <a href="/terms-and-conditions" className="" target="_blank">
-                  Terms and Conditions
-                </a>
-                ,
-                <a href="/responsible-gaming" className="" target="_blank">
-                  Responsible Gaming
-                </a>
-                ,
-                <a href="/aml-policy" className="" target="_blank">
-                  AML Policy
-                </a>
-                ,
-                <a href="/kyc-policy" className="" target="_blank">
-                  KYC Policy
-                </a>
-                ,<a href="/">GamCare</a>,<a href="/">Gambling Therapy</a>
-              </Label>
-              {errors?.agree ? (
-                <div className="text-danger mt-2">{errors?.agree?.message}</div>
+    <Modal
+      isOpen={isOpen}
+      toggle={toggle}
+      className="login-modal"
+      // centered
+      id="login-modal"
+    >
+      <button type="button" className="modal-close right" onClick={toggle}>
+        <img src="/images/close.svg" alt="close" />
+      </button>
+      <div className="login-modal lgn-modal-content">
+        <div className="login-card">
+          <div className="login-form">
+            <div className="top-contents">
+              <div className="login-logo">
+                <img loading="lazy" alt="" src="/images/logo.png" />
+              </div>
+              {error ? (
+                <div className="error-msg text-center pt-2">{error}</div>
               ) : (
                 ''
               )}
             </div>
-          </div> */}
-          <div className="form-group mb-1">
-            <button type="submit" className="btn login-btn" disabled={loading}>
-              {loading && (
-                <span className="spinner-border spinner-border-sm me-2" />
-              )}
-              Login
-            </button>
+            <div className="row mb-10 center-padding">
+              <div className="col col-sm-12 col-md-12">
+                <div className="right-side-col col col-sm-12 col-md-6">
+                  <div className="mobile_bg">
+                    <img
+                      alt="login-img"
+                      loading="lazy"
+                      src="/images/login-img-new.png"
+                    />
+                  </div>
+                  <div className="bottom-icon">
+                    <div className="withdraw">
+                      100% <strong>FAST</strong> Withdrawal
+                      <div>
+                        <img
+                          alt="payment"
+                          loading="lazy"
+                          src="/images/login-payment.png"
+                        />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div className="left-side-col col col-sm-12 col-md-6">
+                  <div className="login-detail">
+                    <form onSubmit={handleSubmit(onSubmit)}>
+                      <div className="row mb-15">
+                        <div className="input-field col col-sm-12 user_input">
+                          <input
+                            name="username"
+                            id="username"
+                            {...register('username', {
+                              required: 'Username is required',
+                            })}
+                          />
+                          <label htmlFor="user_name" className="active">
+                            Enter your Username
+                          </label>
+                        </div>
+                        {errors?.username ? (
+                          <div className="error-msg">
+                            {errors?.username?.message}
+                          </div>
+                        ) : (
+                          ''
+                        )}
+                      </div>
+                      <div className="row mb-5">
+                        <div className="input-field col col-sm-12 user_input mb-0">
+                          <input
+                            placeholder=""
+                            id="password"
+                            type={`${showPwd ? 'text' : 'password'}`}
+                            {...register('password', {
+                              required: 'Password is required',
+                            })}
+                          />
+                          <label htmlFor="password" className="active">
+                            Enter your Password
+                          </label>
+                          <button
+                            type="button"
+                            onClick={() => setShowPwd(!showPwd)}
+                            style={{ display: 'contents' }}
+                          >
+                            <img
+                              src={`/images/${
+                                showPwd ? 'icon-eye-close' : 'icon-eye'
+                              }.png`}
+                              alt="close"
+                              className="eye_icon"
+                            />
+                          </button>
+                        </div>
+                        {errors?.password ? (
+                          <div className="error-msg">
+                            {errors?.password?.message}
+                          </div>
+                        ) : (
+                          ''
+                        )}
+                      </div>
+                      <div className="row margin mb-0">
+                        <div className="input-field col col-sm-12 m-0 p-0 text-start">
+                          <p className="remember-field left">
+                            <label>
+                              <input type="checkbox" className="filled-in " />
+                              <span className="keep">Keep me signed in</span>
+                            </label>
+                          </p>
+                        </div>
+                      </div>
+                      <div className="row mb-0 mt-10">
+                        <button
+                          type="submit"
+                          className="btn loginButton"
+                          disabled={loading}
+                        >
+                          {loading && (
+                            <span className="spinner-border spinner-border-sm me-2" />
+                          )}
+                          Sign In
+                        </button>
+                      </div>
+                    </form>
+                  </div>
+                  <div className="row mb-10 mt-1">
+                    <div className="member">
+                      Don&apos;t have an account?
+                      <a href="/">&nbsp;Register</a>
+                    </div>
+                  </div>
+                  <div className="bottom-icon mt-10">
+                    <div className="social-media">
+                      <a target="_blank" href="/" rel="noreferrer">
+                        <img
+                          loading="lazy"
+                          alt=""
+                          className="responsive-img"
+                          src="images/icon-fb-blue.png"
+                        />
+                      </a>
+                      <a href="/">
+                        <img
+                          loading="lazy"
+                          alt=""
+                          className="responsive-img"
+                          src="images/icon-insta-blue.png"
+                        />
+                      </a>
+                      <a href="/">
+                        <img
+                          loading="lazy"
+                          alt=""
+                          className="responsive-img"
+                          src="images/icon-you-tube-blue.png"
+                        />
+                      </a>
+                      <a href="/">
+                        <img
+                          loading="lazy"
+                          alt=""
+                          className="responsive-img"
+                          src="images/icon-whats-app-blue.png"
+                        />
+                      </a>
+                      <a href="/">
+                        <img
+                          loading="lazy"
+                          alt=""
+                          className="responsive-img"
+                          src="images/icon-twitter-blue.png"
+                        />
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
-          {/* <small className="recaptchaTerms">
-            This site is protected by reCAPTCHA and the Google
-            <a href="/">Privacy Policy</a> and
-            <a href="/">Terms of Service</a> apply.
-          </small> */}
-        </form>
-      </ModalBody>
+        </div>
+      </div>
     </Modal>
   );
 };

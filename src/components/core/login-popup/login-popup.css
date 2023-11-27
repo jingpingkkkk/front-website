@@ -1,216 +1,422 @@
-@import url('../../../assets/css/variables.css');
-.login-modal {
-  font-weight: 400;
-  margin: 0 auto;
-}
-.login-modal .modal-content {
-  border-radius: 8px 8px 8px 8px;
-  background-color: var(--bg-color);
-  border-color: transparent;
-  border-width: 1px;
-}
-.login-modal .modal-header {
-  justify-content: flex-end;
-  padding: 10px 16px;
-  background: var(--header-color);
-  border-radius: 8px;
-  color: var(--primary-text-color);
-  border: 0;
-}
-.login-modal .close-login-modal {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  z-index: 100;
-  cursor: pointer;
+#login-modal {
+  background-image: url(/images/login-bg.png);
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: top;
+  border-radius: 20px;
   width: 100%;
+  max-height: 550px;
+  height: auto;
+  max-width: 700px;
+  top: 10% !important;
+  bottom: 0;
+  /* overflow-y: auto; */
+  margin: auto;
 }
-.login-modal .close-btn {
-  padding: 0;
-  background: transparent;
+.modal-content {
+  background-color: var(--white-text);
+  min-height: 570px;
+  border-radius: 20px;
+  background-image: url(/images/login-bg.png);
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: top;
 }
-.login-modal .close-btn img {
-  height: 30px;
-  width: 30px;
-  border-radius: 50%;
-  background: var(--icon-bg2);
-  padding: 5px;
-  /* border: 2px solid #f00; */
+.mb-10 {
+  margin-bottom: 10px !important;
 }
-.login-modal .modal-body {
-  padding: 16px;
-  max-height: 100vh;
+.mb-15 {
+  margin-bottom: 15px !important;
 }
-.login-modal .modal-body .login-form {
-  background: var(--background-color);
-  color: #fff;
-  padding: 16px;
-  border-radius: 8px;
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
+.mb-5 {
+  margin-bottom: 5px !important;
 }
-.login-form .form-group {
-  margin-right: 0;
-  margin-bottom: 20px;
-  width: 100%;
+#login-modal .row .col {
+  float: left;
+  box-sizing: border-box;
+  padding: 0 0.75rem;
+  min-height: 1px;
 }
-.login-modal .login-label {
-  color: var(--primary-text-color);
-  font-size: 16px;
+[type='checkbox'].filled-in:not(:checked) + span:not(.lever):before {
+  width: 0;
+  height: 0;
+  border: 3px solid transparent;
+  left: 6px;
+  top: 10px;
+  transform: rotate(37deg);
+  transform-origin: 100% 100%;
 }
-.login-modal .form-control {
-  border: 1px solid var(--third-color);
-  color: var(--primary-text-color) !important;
-  transition: 0.8s;
-  height: 56px;
-  background-color: var(--input-color);
-  border-radius: 4px;
-  font-weight: 500;
+[type='checkbox'].filled-in:checked + span:not(.lever):before {
+  top: 2px;
+  left: 1px;
+  width: 8px;
+  height: 13px;
+  border-color: transparent #fff #fff transparent;
+  border-style: solid;
+  border-width: 2px;
+  transform: rotate(37deg);
+  transform-origin: 100% 100%;
+  z-index: 99;
 }
-.login-modal .forgot-password {
-  text-align: right;
-  margin-top: 0.25rem !important;
-}
-.login-form .form-group .forgot-password a {
-  color: var(--light-text-2);
-  text-decoration: underline;
-  background: transparent;
-  font-size: 16px;
-}
-.login-modal .custom-control {
-  position: relative;
-  display: block;
-  min-height: 1.5rem;
-  padding-left: 1.5rem;
-}
-.custom-control-checkbox {
-  position: absolute;
+
+[type='checkbox'].filled-in + span:not(.lever):after,
+[type='checkbox'].filled-in + span:not(.lever):before {
+  content: '';
   left: 0;
-  z-index: -1;
-  width: 1rem;
-  height: 1.25rem;
-  opacity: 0;
+  position: absolute;
+  transition:
+    border 0.25s,
+    background-color 0.25s,
+    width 0.2s 0.1s,
+    height 0.2s 0.1s,
+    top 0.2s 0.1s,
+    left 0.2s 0.1s;
+  z-index: 1;
 }
-.login-modal .modal-body .custom-control label {
-  font-size: 13px;
-  color: #fff;
+#login-modal
+  .login-form
+  .login-detail
+  .remember-field
+  [type='checkbox'].filled-in:not(:checked)
+  + span:not(.lever):after {
+  height: 18px;
+  width: 18px;
+  top: 2px;
+  background-color: var(--bg-color);
+  border-radius: 4px;
 }
-.login-form .custom-control-label {
-  line-height: 19px;
+[type='checkbox'] + span:not(.lever) {
   position: relative;
-  margin-bottom: 0;
-  vertical-align: top;
+  display: inline-block;
+  height: 25px;
+  -moz-user-select: none;
+  user-select: none;
 }
-.custom-control-label::before {
+.modal .modal-close {
+  right: 2%;
   position: absolute;
-  top: 0.25rem;
-  left: -1.5rem;
+  top: 2%;
+  z-index: 9999;
+  background-color: var(--icon-bg2);
+  border-radius: 50%;
+  width: 35px;
+  height: 35px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0 3px;
+}
+.modal .modal-close img {
+  height: 20px;
+  width: 20px;
+}
+@media (min-width: 768px) and (max-width: 992px) {
+  #login-modal {
+    height: auto;
+    max-height: 570px;
+  }
+}
+.input-field > label:not(.label-icon).active {
+  transform: translateY(-14px) scale(0.8);
+  transform-origin: 0 0;
+}
+input[type='text']:not(.browser-default) + label:after {
   display: block;
-  width: 1rem;
-  height: 1rem;
+  content: '';
+  position: absolute;
+  top: 100%;
+  left: 0;
+  opacity: 0;
+  transition:
+    opacity 0.2s ease-out,
+    color 0.2s ease-out;
+}
+#login-modal .lgn-modal-content {
+  padding: 0;
+  border-radius: 20px;
+  overflow: initial;
+}
+.modal .lgn-modal-content form .input-field label {
+  text-align: left;
+  color: var(--light-text-color);
+}
+[type='checkbox']:checked,
+[type='checkbox']:not(:checked) {
+  position: absolute;
+  opacity: 0;
   pointer-events: none;
-  content: '';
-  background-color: #fff;
-  border: #adb5bd solid 1px;
 }
-.login-form .custom-control-label::before {
-  background-color: #23292e;
-  border: #aaafb5 solid 1px;
-  border-radius: 2px !important;
-  opacity: 0.6;
+
+#login-modal .error-msg {
+  font-size: 12px;
+  font-weight: 500;
+  margin: 0 0 5px 0;
+  color: #dd4b39 !important;
+  text-align: start;
 }
-.custom-control-input:checked ~ .custom-control-label::before {
-  border-color: #16191c;
-  background-color: #16191c;
-  background-image: fill;
+
+#login-modal .lgn-modal-content {
+  padding: 0;
+  border-radius: 20px;
+  overflow: initial;
 }
-.custom-control-label::after {
-  position: absolute;
-  top: 0.25rem;
-  left: -1.5rem;
+
+#login-modal .login-form {
+  text-align: center;
+  margin: 0;
   display: block;
-  width: 1rem;
-  height: 1rem;
-  content: '';
-}
-.custom-checkbox
-  .custom-control-checkbox:checked
-  ~ .custom-control-label::after {
-  content: '';
-  background-color: transparent;
-  left: -18px;
-  top: 6px;
-  width: 5px;
-  border-bottom: 2px solid #fff;
-  height: 8px;
-  border-right: 2px solid #fff;
-  transform: rotate(45deg);
-  -o-transform: rotate(45deg);
-  -ms-transform: rotate(45deg);
-  -webkit-transform: rotate(45deg);
-}
-.login-btn {
-  border-radius: 6px;
-  /* background: linear-gradient(180deg, #c39e32 0%, #e7dfb3 100%); */
-  background: var(--login-btn-color);
-  padding: 8px 5px;
-  color: var(--white-text) !important;
+  height: 100%;
   width: 100%;
-  font-size: 15px;
+}
+
+#login-modal .login-form .center-padding {
+  padding: 10px 20px;
+  margin-top: 30px;
+}
+
+#login-modal .login-form .bottom-icon {
+  align-items: center;
+}
+
+#login-modal .login-form .bottom-icon .withdraw {
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--primary-color);
+  margin: 10px 0 5px;
+  line-height: 1.2;
+  font-style: italic;
+}
+
+#login-modal .login-form .bottom-icon .withdraw img {
+  max-width: 330px;
+  width: 100%;
+  margin-top: 5px;
+  position: absolute;
+  left: 30px;
+}
+
+#login-modal .login-form .bottom-icon .withdraw strong {
+  font-weight: 900;
+}
+
+#login-modal .login-form .bottom-icon .social-media {
+  width: 100%;
+  margin: auto;
+  display: flex;
+  justify-content: center;
+}
+
+#login-modal .login-form .bottom-icon .social-media a {
+  width: 30px;
+  height: 30px;
+  margin: 2px;
+  background-color: var(--login-icon-bg);
+  border-radius: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#login-modal .login-form .bottom-icon .social-media a img {
+  height: 15px;
+}
+
+#login-modal .login-form .left-side-col {
+  z-index: 5002;
+  height: 100%;
+  position: relative;
+  overflow: hidden;
+}
+@media (max-width: 767px) {
+  #login-modal .login-form .right-side-col {
+    display: none;
+  }
+}
+@media only screen and (min-width: 320px) and (max-width: 767px) {
+  #login-modal .login-form .login-logo img {
+    height: 30px !important;
+    margin-right: 10px !important;
+  }
+}
+#login-modal .login-form .right-side-col .mobile_bg {
+  cursor: pointer;
+}
+
+#login-modal .login-form .right-side-col .mobile_bg img {
+  max-width: 92%;
+}
+
+#login-modal .login-form .login-logo img {
+  max-width: 100%;
+  height: 45px;
+  margin: 20px 0 0;
+}
+
+#login-modal .login-form .login-detail {
+  padding: 25px 30px 5px;
+}
+
+#login-modal .login-form .login-detail .user_input {
+  padding: 5px 8px;
+  margin: 0;
+  background-color: var(--input-color) !important;
+  border: 1px solid var(--input-border) !important;
+  border-radius: 15px;
+}
+
+#login-modal .login-form .login-detail .user_input label {
+  text-align: left;
+  top: 22px;
+  left: 12px;
+  color: var(--light-text-color);
+  font-weight: 500;
+  font-size: 14px;
+  letter-spacing: 0.5px;
+}
+
+#login-modal .login-form .login-detail .user_input .eye_icon {
+  float: right;
+  left: 0;
+  margin-top: -20px;
+  position: relative;
+  z-index: 2;
+  cursor: pointer;
+  height: 20px;
+  width: 20px;
+}
+
+#login-modal .login-form .login-detail input {
+  border: none;
+  padding: 20px 0 0 5px !important;
+  color: var(--primary-text-color);
+  display: block;
+  width: 98%;
+  height: 25px !important;
+  font-size: 14px !important;
+  font-weight: 500;
+  line-height: 1.5;
+  border-radius: 0;
+  margin-bottom: 0 !important;
+  transition:
+    border-color 0.15s ease-in-out,
+    box-shadow 0.15s ease-in-out;
+  border-bottom: 1px solid transparent !important;
+  margin: 0 0 8px;
+  background-color: initial;
+  box-sizing: initial;
+  outline: none;
+}
+
+#login-modal .login-form .login-detail input[type='password'] {
+  font-size: 20px !important;
   font-weight: 600;
-  text-transform: capitalize;
-  box-shadow: var(--login-shadow);
 }
-.login-btn:hover {
+
+#login-modal .login-form .login-detail input:focus + label {
+  color: var(--primary-color) !important;
+}
+
+#login-modal .login-form .login-detail input:focus {
+  color: var(--primary-text-color) !important;
+}
+
+#login-modal .login-form .login-detail .remember-field {
+  margin: 3px 0;
+}
+
+#login-modal .login-form .login-detail .remember-field label span.keep {
+  color: var(--light-text-2);
+  font-size: 11px;
+  font-weight: 500;
+  line-height: 1;
+  padding: 6px 5px 5px 25px;
+}
+
+#login-modal
+  .login-form
+  .login-detail
+  .remember-field
+  [type='checkbox'].filled-in:not(:checked)
+  + span:not(.lever):after {
+  height: 18px;
+  width: 18px;
+  top: 2px;
+  background-color: var(--bg-color);
+  border-radius: 4px;
+  border: 2px solid #5a5a5a;
+}
+
+#login-modal
+  .login-form
+  .login-detail
+  .remember-field
+  [type='checkbox'].filled-in:checked
+  + span:not(.lever):after {
+  top: 2px;
+  height: 18px;
+  width: 18px;
+  color: var(--secondary-text-color);
+  border-color: var(--primary-color);
+  background-color: var(--primary-color);
+  border-radius: 4px;
+}
+
+#login-modal
+  .login-form
+  .login-detail
+  .remember-field
+  [type='checkbox'].filled-in:checked
+  + span:not(.lever):before {
+  border-right-color: var(--secondary-text-color);
+  border-bottom-color: var(--secondary-text-color);
+}
+
+#login-modal .login-form .login-detail .loginButton {
   background: var(--login-btn-color);
+  box-shadow: var(--login-shadow);
+  padding: 5px;
+  width: 100%;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   color: var(--white-text);
+  line-height: 2.1;
+  font-size: 18px;
+  font-weight: 600;
+  border-radius: 15px;
+  text-transform: capitalize;
+  text-align: center;
+  overflow: inherit;
+  transition: all 0.2s;
+  position: relative;
 }
-.login-btn:active {
-  background-color: var(--login-btn-color) !important;
-  color: var(--white-text) !important;
+
+#login-modal .login-form .login-detail .input-field {
+  background-color: transparent;
+  border: 1px solid transparent;
 }
-.recaptchaTerms a {
-  color: #03b37f;
+
+#login-modal .social {
+  width: 30px;
+  height: 30px;
+  margin: 2px 5px;
+  display: inline-block;
 }
-.login-form .form-group a {
-  color: #03b37f;
-  text-decoration: underline;
+
+#login-modal .helper-text {
+  float: left;
+  font-size: 10px;
+  line-height: 1.5;
+  padding: 3px 0 0 10px;
 }
-@media only screen and (min-width: 320px) and (max-width: 767px) {
-  .login-modal .modal-content {
-    max-height: calc(100vh - 0px);
-  }
+.input-field > label {
+  cursor: text;
+  transition:
+    transform 0.2s ease-out,
+    color 0.2s ease-out;
+  position: absolute;
 }
-@media only screen and (min-width: 320px) and (max-width: 767px) {
-  .login-form {
-    min-height: unset;
-  }
-}
-@media only screen and (min-width: 320px) and (max-width: 767px) {
-  .login-modal .form-group {
-    margin-bottom: 15px;
-  }
-}
-@media only screen and (min-width: 320px) and (max-width: 767px) {
-  .login-modal .modal-body label {
-    font-size: 12px;
-    margin-bottom: 0;
-  }
-}
-@media only screen and (min-width: 320px) and (max-width: 767px) {
-  .login-modal .form-control {
-    height: 40px;
-    font-size: 12px;
-  }
-}
-@media only screen and (min-width: 320px) and (max-width: 1279px) {
-  .forgot-password a {
-    font-size: 12px !important;
-  }
-}
-@media only screen and (min-width: 320px) and (max-width: 767px) {
-  .recaptchaTerms {
-    font-size: 0.75em;
-  }
+.input-field {
+  position: relative;
 }
