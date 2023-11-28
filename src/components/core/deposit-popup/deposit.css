@@ -1,0 +1,511 @@
+#deposit-new {
+  width: 60%;
+  max-width: 600px;
+  height: 65%;
+  max-height: 65%;
+  background-color: var(--background-color);
+  background-image: url(../images/popup-bg.png);
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: bottom;
+  border-radius: 20px;
+  box-shadow: var(--box-shadow);
+  top: 10% !important;
+  bottom: 0;
+  margin: auto;
+}
+.deposit-modal h5 {
+  /* margin: auto; */
+  position: relative;
+}
+.deposit-modal h5 .card-title {
+  margin: auto;
+  position: relative;
+  top: 18px;
+  left: -11px;
+  right: 0;
+  min-width: 240px;
+  width: auto;
+  height: 60px;
+  padding: 0 25px 0 15px;
+  z-index: 9;
+  display: inline-flex;
+  text-align: center;
+  justify-content: center;
+  align-items: center;
+}
+
+.deposit-modal h5 .card-title {
+  display: inline-flex !important;
+}
+.deposit-modal h5 .card-title img {
+  width: 100%;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 65px;
+}
+.modal h5 .card-title .title {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--white-text);
+  z-index: 9;
+  text-transform: capitalize;
+}
+.deposit-modal .modal-content {
+  bottom: 5%;
+}
+#deposit-new .deposit-modal-content {
+  padding: 0 25px 15px 25px;
+  max-height: 100%;
+  overflow-y: auto;
+  height: calc(100% - 60px) !important;
+}
+#deposit-new .deposit-modal-content .modal-body {
+  padding: 15px 10px 10px 10px;
+}
+#deposit-new .deposit-modal-content .modal-body .payment-method {
+  padding: 10px 0;
+}
+#deposit-new form {
+  margin: 5px;
+}
+#deposit-new
+  .deposit-modal-content
+  .modal-body
+  .payment-method
+  .bank-transfer
+  .select-transfer {
+  display: grid;
+  justify-content: center;
+  grid-template-columns: repeat(5, minmax(auto, 1fr));
+}
+#deposit-new
+  .deposit-modal-content
+  .modal-body
+  .payment-method
+  .bank-transfer
+  .select-transfer
+  button {
+  text-transform: uppercase;
+  text-align: center;
+  font-size: 11px;
+  color: var(--primary-text-color);
+  padding: 15px;
+  margin: 8px 4px 8px;
+  position: relative;
+  width: 100px;
+  height: 35px;
+  box-shadow: var(--sports-shadow);
+  border-radius: 10px;
+  border: 1px solid var(--light-text-3);
+  display: flex;
+  align-items: center;
+  background: linear-gradient(134.47deg, #f4f4f4 2.84%, #ffffff 100%);
+  overflow: hidden;
+  justify-content: center;
+}
+#deposit-new
+  .deposit-modal-content
+  .modal-body
+  .payment-method
+  .bank-transfer
+  .select-transfer
+  button.active,
+#deposit-new
+  .deposit-modal-content
+  .modal-body
+  .payment-method
+  .bank-transfer
+  .select-transfer
+  button:hover {
+  border: 1px solid var(--primary-color);
+}
+.payment-btn img {
+  height: auto;
+  width: 100%;
+}
+#deposit-new
+  .deposit-modal-content
+  .modal-body
+  .payment-method
+  .bank-transfer
+  .pay-details {
+  display: block;
+  float: left;
+  width: 100%;
+}
+#deposit-new
+  .modal-content
+  .modal-body
+  .payment-method
+  .bank-transfer
+  .pay-details
+  .title {
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--light-text-color);
+  margin: 5px 0;
+  text-transform: capitalize;
+}
+#deposit-new
+  .modal-content
+  .modal-body
+  .payment-method
+  .bank-transfer
+  .phone-pay-details {
+  background-color: var(--input-color);
+  padding: 10px;
+  border-radius: 10px;
+  margin: 5px 0;
+}
+#deposit-new
+  .deposit-modal-content
+  .modal-body
+  .payment-method
+  .bank-transfer
+  .phone-pay-details
+  .payment-details {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+#deposit-new
+  .deposit-modal-content
+  .modal-body
+  .payment-method
+  .bank-transfer
+  .phone-pay-details
+  .payment-details
+  .title {
+  color: var(--light-text-color);
+  font-size: 12px;
+  font-weight: 500;
+  padding: 0 3px;
+  margin: 5px 0;
+  text-transform: capitalize;
+}
+#deposit-new
+  .deposit-modal-content
+  .modal-body
+  .payment-method
+  .bank-transfer
+  .phone-pay-details
+  .payment-details
+  .sub-title {
+  color: var(--primary-text-color);
+  font-size: 12px;
+  font-weight: 600;
+  padding: 0 3px;
+}
+#deposit-new
+  .deposit-modal-content
+  .modal-body
+  .payment-method
+  .bank-transfer
+  .phone-pay-details
+  .payment-details
+  .sub-title
+  .copy-img {
+  cursor: pointer;
+  padding: 0 0 0 5px;
+  text-align: center;
+}
+#deposit-new
+  .deposit-modal-content
+  .modal-body
+  .payment-method
+  .bank-transfer
+  .phone-pay-details
+  .payment-details
+  .qr-title {
+  text-transform: capitalize;
+  color: var(--light-text-color);
+  font-size: 13px;
+  font-weight: 500;
+}
+#deposit-new
+  .deposit-modal-content
+  .modal-body
+  .payment-method
+  .bank-transfer
+  .phone-pay-details
+  .payment-details
+  .qr-code {
+  max-width: 125px;
+  padding: 5px 3px 0;
+  height: auto;
+}
+.payment-method .bank-transfer .utr-amount-details {
+  width: 100%;
+  float: left;
+  position: relative;
+  display: block;
+  margin: 5px 0;
+}
+.utr-amount-details .left-content {
+  float: left;
+  display: block;
+  margin-right: 10px;
+  width: 55%;
+}
+.utr-amount-details .left-content .amount-bg {
+  background-color: var(--input-color);
+  padding: 10px;
+  border-radius: 10px;
+  margin-bottom: 10px;
+}
+.utr-amount-details .left-content .amount {
+  border-radius: 10px;
+  background-color: var(--background-color);
+}
+.payment-method .add-amount {
+  font-size: 10px;
+  font-weight: 500;
+  color: var(--light-text-color);
+  margin: 5px 0;
+  text-transform: capitalize;
+}
+.payment-method .add-amount strong {
+  color: var(--primary-color);
+}
+.utr-amount-details .left-content .amount input {
+  padding: 7px !important;
+  width: 95%;
+}
+.deposit-modal-content form .input-field {
+  margin: 0;
+  background-color: var(--input-color);
+  border: 1px solid var(--input-border);
+  padding: 2px 8px !important;
+}
+.deposit-modal-content form .input-field input {
+  margin-bottom: 0 !important;
+  height: 25px !important;
+  font-size: 14px !important;
+  box-sizing: initial;
+  border: none;
+  color: var(--primary-text-color);
+  display: block;
+  font-weight: 500;
+  line-height: 1.5;
+  border-radius: 0;
+  box-shadow: none;
+}
+.deposit-modal-content form .input-field input:focus,
+.deposit-modal-content form .input-field input:active,
+.deposit-modal-content form .input-field input:focus-visible {
+  border: none;
+  outline-width: 0;
+}
+.payment-method .bank-transfer .utr-amount-details .right-content {
+  float: right !important;
+  background-color: var(--input-color);
+  padding: 20px 10px;
+  border-radius: 10px;
+  width: 42% !important;
+}
+.payment-method .bank-transfer .pay-details .upload_ss {
+  width: 100%;
+  float: left;
+  background-color: var(--light-text-3);
+  border-radius: 10px;
+  /* padding: 20px 10px; */
+  margin: 10px 0;
+  text-transform: capitalize;
+}
+.payment-method .bank-transfer .pay-details .upload_ss .btn {
+  line-height: 40px;
+  color: var(--light-text-color);
+  font-size: 12px;
+  font-weight: 500;
+  border-radius: 10px;
+  background-color: transparent;
+  box-shadow: none;
+  text-transform: capitalize;
+  display: grid;
+  width: 100%;
+  height: 100%;
+}
+.bank-transfer .pay-details .upload_ss .btn .upload-title {
+  line-height: 1.3;
+  margin-top: 5px;
+}
+.file-field span {
+  cursor: pointer;
+}
+.file-field img {
+  width: 25px;
+}
+.file-field input[type='file'] {
+  position: absolute;
+  margin: 0;
+  padding: 0;
+  font-size: 20px;
+  cursor: pointer;
+  opacity: 0;
+  width: 45%;
+}
+.document-image {
+  width: auto;
+  margin: auto;
+  padding: 5px 8px;
+}
+.document-image img {
+  max-width: 100%;
+  height: 100px;
+  border-radius: 5px;
+  width: 100%;
+}
+.payment-method .bank-transfer .user-warning-note {
+  width: 100%;
+  float: left;
+  position: relative;
+  display: block;
+  margin: 5px 0;
+}
+.payment-method .bank-transfer .user-warning-note .title {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--stake-color);
+  margin: 2px 0;
+  text-transform: capitalize;
+}
+.payment-method .bank-transfer .user-warning-note .title img {
+  animation-name: blinker2;
+  animation-duration: 1s;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+  height: 20px;
+  width: 20px;
+}
+.user-warning-note .note-content {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--stake-color);
+  margin: 5px 0 5px;
+  line-height: 1.2;
+}
+.deposit-modal-content .modal-body .submit-btn {
+  margin: 30px auto 10px;
+  display: block;
+  float: left;
+  width: 100%;
+}
+.deposit-modal-content .modal-body .submit-btn .btn {
+  position: relative;
+  cursor: pointer;
+  padding: 5px;
+  width: 100%;
+  max-width: 150px;
+  height: 45px;
+  display: block;
+  float: right;
+  color: var(--white-text);
+  line-height: 36px;
+  font-size: 14px;
+  box-shadow: none;
+  font-weight: 600;
+  border-radius: 4px;
+  text-transform: uppercase;
+  text-align: center;
+  transition: all 0.2s;
+  margin: auto;
+  background-color: var(--primary-color);
+}
+.deposit-modal-content .modal-body .payment-footer {
+  text-align: center;
+  padding: 15px 10px;
+  position: relative;
+  width: 100%;
+  bottom: 0;
+  z-index: 1;
+  display: grid;
+}
+.modal-body .payment-footer p {
+  color: var(--light-text-color);
+  font-size: 11px;
+  line-height: 15px;
+  margin: 0 0 8px;
+  font-weight: 500;
+}
+.payment-footer img {
+  width: auto;
+  height: 20px;
+  margin: auto;
+  margin-bottom: 3px;
+  max-width: 100%;
+}
+@media (max-width: 767px) {
+  #deposit-new .deposit-modal-content {
+    padding: 0 15px 15px 15px;
+  }
+  #deposit-new .deposit-modal-content .modal-body {
+    padding: 10px 0;
+  }
+  #deposit-new {
+    width: 93% !important;
+    height: 97% !important;
+    max-height: 97% !important;
+  }
+  #deposit-new
+    .deposit-modal-content
+    .modal-body
+    .payment-method
+    .bank-transfer
+    .select-transfer
+    button {
+    padding: 7px;
+    height: 35px;
+    width: 80px;
+    margin: 3px 4px 6px;
+    font-size: 11px;
+  }
+  #deposit-new
+    .deposit-modal-content
+    .modal-body
+    .payment-method
+    .bank-transfer
+    .select-transfer {
+    display: grid;
+    justify-content: center;
+    grid-template-columns: repeat(3, minmax(auto, 1fr));
+  }
+  #deposit-new
+    .deposit-modal-content
+    .modal-body
+    .payment-method
+    .bank-transfer
+    .utr-amount-details
+    .left-content,
+  #deposit-new
+    .deposit-modal-content
+    .modal-body
+    .payment-method
+    .bank-transfer
+    .utr-amount-details
+    .right-content {
+    width: 100% !important;
+    margin-bottom: 5px;
+  }
+  .qr-code {
+    flex-direction: column !important;
+    align-items: start !important;
+  }
+  .file-field input[type='file'] {
+    width: 90%;
+  }
+}
+@media (min-width: 768px) and (max-width: 992px) {
+  #deposit-new {
+    width: 90%;
+    height: 72%;
+    max-height: 72%;
+  }
+}
+.error-msg {
+  color: var(--stake-color);
+  font-size: 12px;
+}
