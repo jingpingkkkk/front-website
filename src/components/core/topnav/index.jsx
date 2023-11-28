@@ -41,7 +41,7 @@ function Topnav() {
   const [isRegisterModalOpen, setIsRegisterModalOpen] = useState(false);
   const [user, setUser] = useState('');
   const [isWelcome, setIsWelcome] = useState(false);
-  console.log('userDetails', userDetails?.user);
+
   const toggleLoginModal = (e) => {
     setIsLoginModalOpen(!isLoginModalOpen);
     dispatch(setLoginPopup(!isLoginModalOpen));

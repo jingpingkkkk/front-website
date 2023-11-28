@@ -124,7 +124,7 @@ function DepositPopup({ isOpen, toggle }) {
                         </span>
                       </div>
                     </div>
-                    <div className="payment-details">
+                    <div className="payment-details qr-code">
                       <div className="qr-title">Scan Qr Code</div>
                       <div className="sub-title">
                         <img

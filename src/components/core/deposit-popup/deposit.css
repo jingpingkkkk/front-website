@@ -481,4 +481,8 @@
     width: 100% !important;
     margin-bottom: 5px;
   }
+  .qr-code {
+    flex-direction: column !important;
+    align-items: start !important;
+  }
 }
