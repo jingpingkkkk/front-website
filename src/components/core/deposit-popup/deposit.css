@@ -78,8 +78,9 @@
   .payment-method
   .bank-transfer
   .select-transfer {
-  display: flex;
+  display: grid;
   justify-content: center;
+  grid-template-columns: repeat(5, minmax(auto, 1fr));
 }
 #deposit-new
   .deposit-modal-content
@@ -90,20 +91,21 @@
   button {
   text-transform: uppercase;
   text-align: center;
-  font-size: 13px;
+  font-size: 11px;
   color: var(--primary-text-color);
   padding: 15px;
-  margin: 15px 7px 10px;
+  margin: 8px 4px 8px;
   position: relative;
-  width: 160px;
-  height: 75px;
+  width: 100px;
+  height: 35px;
   box-shadow: var(--sports-shadow);
   border-radius: 10px;
-  border: 1px solid var(--input-border);
+  border: 1px solid var(--light-text-3);
   display: flex;
   align-items: center;
-  background: var(--select-transfer-bg);
+  background: linear-gradient(134.47deg, #f4f4f4 2.84%, #ffffff 100%);
   overflow: hidden;
+  justify-content: center;
 }
 #deposit-new
   .deposit-modal-content
@@ -339,17 +341,12 @@
 }
 .file-field input[type='file'] {
   position: absolute;
-  top: 0;
-  right: 0;
-  left: 0;
-  bottom: 0;
-  width: 100%;
   margin: 0;
   padding: 0;
   font-size: 20px;
   cursor: pointer;
   opacity: 0;
-  filter: alpha(opacity=0);
+  width: 45%;
 }
 .document-image {
   width: auto;
@@ -461,8 +458,20 @@
     .select-transfer
     button {
     padding: 7px;
-    height: 65px;
-    margin: 15px 3px 10px;
+    height: 35px;
+    width: 80px;
+    margin: 3px 4px 6px;
+    font-size: 11px;
+  }
+  #deposit-new
+    .deposit-modal-content
+    .modal-body
+    .payment-method
+    .bank-transfer
+    .select-transfer {
+    display: grid;
+    justify-content: center;
+    grid-template-columns: repeat(3, minmax(auto, 1fr));
   }
   #deposit-new
     .deposit-modal-content
@@ -485,4 +494,18 @@
     flex-direction: column !important;
     align-items: start !important;
   }
+  .file-field input[type='file'] {
+    width: 90%;
+  }
+}
+@media (min-width: 768px) and (max-width: 992px) {
+  #deposit-new {
+    width: 90%;
+    height: 72%;
+    max-height: 72%;
+  }
+}
+.error-msg {
+  color: var(--stake-color);
+  font-size: 12px;
 }
