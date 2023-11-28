@@ -7,3 +7,17 @@
   float: left;
   padding-left: 0;
 }
+.add-btn {
+  border: 1px solid var(--primary-color);
+  color: var(--primary-color) !important;
+}
+.add-btn:focus,
+.add-btn:hover {
+  border: 1px solid var(--primary-color);
+  color: var(--primary-color) !important;
+}
+.add-btn img {
+  width: 20px;
+  height: 20px;
+  margin-right: 5px;
+}
