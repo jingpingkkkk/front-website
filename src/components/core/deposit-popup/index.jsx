@@ -5,7 +5,7 @@ import './deposit.css';
 import { useSelector } from 'react-redux';
 import { useForm } from 'react-hook-form';
 import ToastAlert from '../../../helper/toast-alert';
-import { postRequest } from '../../../api';
+import { handleFormData, postRequest } from '../../../api';
 
 const imageTypes = [
   'image/jpeg',
@@ -21,17 +21,21 @@ function DepositPopup({ isOpen, toggle }) {
     handleSubmit,
     setValue,
     register,
+    getValues,
     formState: { errors },
   } = useForm();
   const [imageError, setImageError] = useState(null);
+  const [imageReqError, setImageReqError] = useState(null);
   const [selectedImage, setSelectedImage] = useState(null);
   const [loading, setLoading] = useState(false);
+  const [addLoading, setAddLoading] = useState(false);
   const [transactionTypes, setTransactionTypes] = useState([]);
   const [selectedTransaction, setSelectedTransaction] = useState(null);
 
   const handleImageChange = (event) => {
     const file = event.target.files[0];
     if (file) {
+      setImageReqError('');
       setImageError('');
       if (!imageTypes.includes(file?.type)) {
         setImageError('Invalid file!');
@@ -47,36 +51,41 @@ function DepositPopup({ isOpen, toggle }) {
     ToastAlert.success('Text copied to the clipboard.');
   };
 
-  const onSubmit = async (data) => {
+  const onSubmit = async () => {
     if (!selectedImage) {
-      setImageError('Deposit screenshot is required');
+      setImageReqError('Deposit screenshot is required');
     }
-    data.userId = userDetails?.user?._id || '';
-    data.transferTypeId = selectedTransaction?._id || '';
-    data.parentUserId = '';
-    setLoading(true);
+    const formData = new FormData();
+    formData.append('depositScreenShot', getValues('depositScreenShot'));
+    formData.append('amount', getValues('amount'));
+    formData.append('utrTransactionId', getValues('utrTransactionId'));
+    formData.append('userId', userDetails?.user?._id);
+    formData.append('transferTypeId', selectedTransaction?._id);
+    formData.append('parentUserId', userDetails?.user?.superUserId);
+
+    setAddLoading(true);
     try {
-      const result = await postRequest(
+      const result = await handleFormData(
         'depositRequest/createDepositRequest',
-        data,
+        formData,
       );
       if (result?.success) {
+        ToastAlert.success('Deposit request created successfully');
         toggle();
       } else {
-        setLoading(false);
+        ToastAlert.error(result?.message || '');
+        setAddLoading(false);
       }
     } catch (err) {
-      setLoading(false);
+      setAddLoading(false);
     }
   };
 
   useEffect(() => {
     const fetchTransactionTypeList = async () => {
-      console.log(userDetails?.user);
       setLoading(true);
       const body = {
-        // parentUserId: userDetails?.user?._id,
-        parentUserId: '6540e4285512263f9c52565e',
+        parentUserId: userDetails?.user?.superUserId,
       };
       const result = await postRequest('exchangeHome/getTransferType', body);
       if (result?.success) {
@@ -102,10 +111,7 @@ function DepositPopup({ isOpen, toggle }) {
       </button>
       <h5>
         <span className="card-title">
-          <img
-            alt=""
-            src="https://cdn.cloudd.live/theme/aurapay_theme/aurapay/assets/images/ac-title-bg.png?v=1.1"
-          />
+          <img alt="ac-title-bg" src="/images/ac-title-bg.png" />
           <span className="title"> Make a Deposit </span>
         </span>
       </h5>
@@ -386,7 +392,7 @@ function DepositPopup({ isOpen, toggle }) {
                         <div className="sub-title">
                           <img
                             className="qr-code responsive-img"
-                            src="https://cdn.cloudd.live//Payment/20230649045927.jpeg"
+                            src={selectedTransaction?.transferTypeImage}
                             alt="QR"
                           />
                         </div>
@@ -490,10 +496,8 @@ function DepositPopup({ isOpen, toggle }) {
                         </div>
                       </div>
                     </div>
-                    {errors?.depositScreenShot ? (
-                      <div className="error-msg">
-                        {errors?.depositScreenShot?.message}
-                      </div>
+                    {imageReqError ? (
+                      <div className="error-msg">{imageReqError}</div>
                     ) : (
                       ''
                     )}
@@ -514,9 +518,14 @@ function DepositPopup({ isOpen, toggle }) {
                   <button
                     type="submit"
                     className="btn"
-                    disabled={!selectedTransaction?._id}
+                    disabled={!selectedTransaction?._id || addLoading}
                   >
-                    <span className="animate-btn"> Submit </span>
+                    <span className="animate-btn">
+                      {addLoading && (
+                        <span className="spinner-border spinner-border-sm me-2" />
+                      )}
+                      Submit
+                    </span>
                   </button>
                 </div>
               </div>
