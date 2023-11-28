@@ -47,12 +47,28 @@ const handleError = async (error) => {
 
 const handleFormData = async (url, formData) => {
   try {
-    const response = await api.post(url, formData, {
+    const source = axios.CancelToken.source();
+    const token = localStorage.getItem('userToken');
+
+    const config = {
+      method: 'post',
+      url,
+      data: formData,
       headers: {
         'Content-Type': 'multipart/form-data',
+        ...api.defaults.headers.common,
+        Authorization: token,
       },
-    });
-    return response.data;
+      cancelToken: source.token || undefined,
+    };
+
+    try {
+      const response = await api(config);
+      const decrypted = await decryptResponse(response.data);
+      return decrypted;
+    } catch (error) {
+      return await handleError(error);
+    }
   } catch (error) {
     await handleError(error);
     throw error;

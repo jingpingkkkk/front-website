@@ -20,6 +20,7 @@ import StateButtons from '../../stake-button-popup';
 import ExposureDetail from './ExposureDetail';
 import NotificationPopup from './NotificationPopup';
 import './userInfo.css';
+import DepositPopup from '../../deposit-popup';
 
 const socketUrl = import.meta.env.VITE_SOCKET_URL;
 
@@ -45,6 +46,7 @@ const UserInfo = ({ user }) => {
   const [eventName, setEventName] = useState(null);
   const [showExposureDetail, setShowExposureDetail] = useState(false);
   const [count, setCount] = useState(0);
+  const [showDepositPopup, setShowDepositPopup] = useState(false);
 
   useEffect(() => {
     userSocket.on(`user:${user._id}`, (data) => {
@@ -184,6 +186,7 @@ const UserInfo = ({ user }) => {
           {userInfo?.exposure ? -parseFloat(userInfo.exposure.toFixed(2)) : 0}
         </span>
       </div>
+
       <div className="d-flex align-items-center">
         <UncontrolledDropdown>
           <DropdownToggle caret color="dark" className="username-info">
@@ -222,7 +225,13 @@ const UserInfo = ({ user }) => {
             closeModal={() => setShowStakeButton(!showStakButton)}
           />
         )}
-
+        <button
+          type="button"
+          className="btn deposit"
+          onClick={() => setShowDepositPopup(!showDepositPopup)}
+        >
+          Deposit
+        </button>
         {/* Notification */}
         <UncontrolledDropdown className="notification-drop">
           <DropdownToggle
@@ -311,6 +320,17 @@ const UserInfo = ({ user }) => {
           }}
         />
       ) : null}
+
+      {showDepositPopup ? (
+        <DepositPopup
+          isOpen={showDepositPopup}
+          toggle={() => {
+            setShowDepositPopup(false);
+          }}
+        />
+      ) : (
+        ''
+      )}
     </div>
   );
 };
