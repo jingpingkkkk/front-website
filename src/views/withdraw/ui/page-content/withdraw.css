@@ -1,0 +1,9 @@
+.withdraw-amount {
+  font-size: 10px;
+  font-weight: 500;
+  color: var(--light-text-color);
+  margin: 5px 0;
+  text-transform: capitalize;
+  float: left;
+  padding-left: 0;
+}

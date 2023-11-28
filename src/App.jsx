@@ -21,6 +21,7 @@ const UpComingPage = React.lazy(() => import('./views/upcoming'));
 const LiveMatchPage = React.lazy(() => import('./views/live'));
 const FavouriteMatchPage = React.lazy(() => import('./views/favourites'));
 const CasinoDetailPage = React.lazy(() => import('./views/casinodetail'));
+const WithdrawPage = React.lazy(() => import('./views/withdraw'));
 
 function App() {
   useEffect(() => {
@@ -63,6 +64,7 @@ function App() {
           <Route path="/live" element={<LiveMatchPage />} />
           <Route path="/favourites" element={<FavouriteMatchPage />} />
           <Route path="/casinodetail" element={<CasinoDetailPage />} />
+          <Route path="/withdraw" element={<WithdrawPage />} />
         </Routes>
       </Suspense>
     </Router>
