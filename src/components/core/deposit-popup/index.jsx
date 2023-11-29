@@ -86,6 +86,7 @@ function DepositPopup({ isOpen, toggle }) {
       setLoading(true);
       const body = {
         parentUserId: userDetails?.user?.superUserId,
+        transferType: 'deposit',
       };
       const result = await postRequest('exchangeHome/getTransferType', body);
       if (result?.success) {

@@ -49,18 +49,26 @@ const handleFormData = async (url, formData) => {
   try {
     const source = axios.CancelToken.source();
     const token = localStorage.getItem('userToken');
-
-    const config = {
-      method: 'post',
-      url,
-      data: formData,
-      headers: {
-        'Content-Type': 'multipart/form-data',
-        ...api.defaults.headers.common,
-        Authorization: token,
-      },
-      cancelToken: source.token || undefined,
-    };
+    const encHeaders = await generateEncHeaders();
+    let config = {};
+    if (token) {
+      config = {
+        method: 'post',
+        url,
+        data: formData,
+        headers: {
+          'Content-Type': 'multipart/form-data',
+          ...api.defaults.headers.common,
+          Authorization: token,
+          ...encHeaders,
+        },
+        cancelToken: source.token || undefined,
+      };
+    } else {
+      delete api.defaults.headers.common.Authorization;
+      localStorage.clear();
+      throw new Error('No token found');
+    }
 
     try {
       const response = await api(config);

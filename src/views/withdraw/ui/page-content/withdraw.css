@@ -21,3 +21,7 @@
   height: 20px;
   margin-right: 5px;
 }
+.error-text {
+  color: var(--stake-color);
+  font-size: 12px;
+}
