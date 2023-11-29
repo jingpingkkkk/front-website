@@ -5,6 +5,7 @@ import React, { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux';
 import { Label } from 'reactstrap';
+import DataTable from 'react-data-table-component';
 import { handleFormData, postRequest } from '../../../../api';
 import ToastAlert from '../../../../helper/toast-alert';
 import './withdraw.css';
@@ -41,6 +42,10 @@ function WithdrawPageContent() {
     transferType: 'Transfer type is required',
   });
   const [isValid, setIsValid] = useState(false);
+  const [items, setItems] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(0);
+  const [rowsPerPage, setRowsPerPage] = useState(10);
 
   const selectedType = watch('type');
   const rehydrateUser = async () => {
@@ -70,6 +75,72 @@ function WithdrawPageContent() {
       setTransactionTypes(result?.data?.records || []);
     }
     setLoading(false);
+  };
+
+  const fetchWithdrawlRequestsList = async () => {
+    setLoading(true);
+    let user = userDetails?.user;
+    if (!userDetails?.user?._id) {
+      user = await rehydrateUser();
+    }
+    const body = {
+      page: currentPage,
+      perPage: rowsPerPage,
+      sortBy: 'createdAt',
+      requestUserId: user?._id,
+      direction: 'desc',
+    };
+    const result = await postRequest(
+      'transferRequest/getAllTransferRequest',
+      body,
+    );
+    if (result?.success) {
+      setItems(result?.data?.records || []);
+      setTotalPages(result?.data?.totalRecords);
+    }
+    setLoading(false);
+  };
+
+  const columns = [
+    {
+      name: 'SR.',
+      selector: (row, index) => (currentPage - 1) * rowsPerPage + (index + 1),
+      sortable: false,
+      width: '80px',
+    },
+    {
+      name: 'TRANSFER TYPE',
+      selector: (row) => [row.transferTypeName],
+      sortable: true,
+      sortField: 'transferTypeName',
+      width: '300px',
+    },
+    {
+      name: 'AMOUNT',
+      selector: (row) => [row.amount],
+      sortable: true,
+      sortField: 'amount',
+    },
+    {
+      name: 'STATUS',
+      selector: (row) => [row.status],
+      sortable: true,
+      sortField: 'status',
+    },
+    {
+      name: 'MESSAGE',
+      selector: (row) => [row.message || '-'],
+      sortable: true,
+      sortField: 'message',
+    },
+  ];
+
+  const handlePageChange = (page) => {
+    setCurrentPage(page);
+  };
+  const handleRowsPerPageChange = (newPerPage) => {
+    setRowsPerPage(newPerPage);
+    setCurrentPage(1);
   };
 
   const onSubmit = async (data) => {
@@ -169,7 +240,7 @@ function WithdrawPageContent() {
           ToastAlert.success('Withdrawal request send Successfully');
           setAmount(null);
           setTransferType('');
-          // fetchTransactionTypeList();
+          fetchWithdrawlRequestsList();
           setAddLoading(false);
         } else {
           setAddLoading(false);
@@ -183,6 +254,7 @@ function WithdrawPageContent() {
 
   useEffect(() => {
     fetchTransactionTypeList();
+    fetchWithdrawlRequestsList();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -588,7 +660,7 @@ function WithdrawPageContent() {
               <div className="col-md-5">
                 <div className="form-group mb-3 me-0">
                   <select
-                    className="form-select"
+                    className="form-select text-uppercase"
                     onChange={(e) => onChangeTransferType(e.target.value)}
                     name="transferType"
                     value={transferType}
@@ -598,7 +670,7 @@ function WithdrawPageContent() {
                       ? transactionTypes?.length
                         ? transactionTypes?.map((type) => (
                             <option key={type?._id} value={type?._id}>
-                              {type?.name}
+                              {type?.type}
                             </option>
                           ))
                         : ''
@@ -678,6 +750,60 @@ function WithdrawPageContent() {
               </div>
             </div>
           )}
+
+          <div className="report-table table-responsive">
+            {items.length > 0 ? (
+              <DataTable
+                columns={columns}
+                data={items}
+                progressPending={loading}
+                pagination
+                paginationServer
+                paginationTotalRows={totalPages}
+                onChangePage={handlePageChange}
+                onChangeRowsPerPage={(value) => handleRowsPerPageChange(value)}
+                paginationPerPage={rowsPerPage}
+                // customStyles={customStyles}
+              />
+            ) : (
+              <table className="table mt-2 border-0">
+                <thead>
+                  <tr>
+                    {columns.map((column) => (
+                      <th
+                        key={column.name}
+                        style={{
+                          color: '#1A1A1A',
+                          fontSize: '12px',
+                          height: '52px',
+                          verticalAlign: 'middle',
+                          backgroundColor: '#fff',
+                        }}
+                      >
+                        {column.name}
+                      </th>
+                    ))}
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td
+                      colSpan={columns.length}
+                      style={{
+                        backgroundColor: '#fff',
+                        color: '#1A1A1A',
+                        fontSize: '14px',
+                        height: '52px',
+                        verticalAlign: 'middle',
+                      }}
+                    >
+                      No records found
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            )}
+          </div>
         </div>
       </div>
     </div>
