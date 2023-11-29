@@ -1,0 +1,27 @@
+.withdraw-amount {
+  font-size: 10px;
+  font-weight: 500;
+  color: var(--light-text-color);
+  margin: 5px 0;
+  text-transform: capitalize;
+  float: left;
+  padding-left: 0;
+}
+.add-btn {
+  border: 1px solid var(--primary-color);
+  color: var(--primary-color) !important;
+}
+.add-btn:focus,
+.add-btn:hover {
+  border: 1px solid var(--primary-color);
+  color: var(--primary-color) !important;
+}
+.add-btn img {
+  width: 20px;
+  height: 20px;
+  margin-right: 5px;
+}
+.error-text {
+  color: var(--stake-color);
+  font-size: 12px;
+}
