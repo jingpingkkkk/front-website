@@ -61,7 +61,7 @@ function DepositPopup({ isOpen, toggle }) {
     formData.append('utrTransactionId', getValues('utrTransactionId'));
     formData.append('userId', userDetails?.user?._id);
     formData.append('transferTypeId', selectedTransaction?._id);
-    formData.append('parentUserId', userDetails?.user?.superUserId);
+    formData.append('parentUserId', userDetails?.user?.masterUserId);
 
     setAddLoading(true);
     try {
@@ -85,7 +85,7 @@ function DepositPopup({ isOpen, toggle }) {
     const fetchTransactionTypeList = async () => {
       setLoading(true);
       const body = {
-        parentUserId: userDetails?.user?.superUserId,
+        parentUserId: userDetails?.user?.masterUserId,
         transferType: 'deposit',
       };
       const result = await postRequest('exchangeHome/getTransferType', body);

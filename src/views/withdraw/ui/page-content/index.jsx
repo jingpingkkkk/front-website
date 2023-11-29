@@ -3,11 +3,12 @@
 /* eslint-disable no-restricted-syntax */
 import React, { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { Label } from 'reactstrap';
 import { handleFormData, postRequest } from '../../../../api';
 import ToastAlert from '../../../../helper/toast-alert';
 import './withdraw.css';
+import { setUserDetails } from '../../../../redux/reducers/user-details';
 
 const typeList = [
   { id: 'cash', lable: 'Cash' },
@@ -18,6 +19,7 @@ const typeList = [
 
 function WithdrawPageContent() {
   const userDetails = useSelector((state) => state.userDetails);
+  const dispatch = useDispatch();
   const [isAddNew, setIsAddNew] = useState(false);
 
   const {
@@ -25,7 +27,6 @@ function WithdrawPageContent() {
     handleSubmit,
     formState: { errors },
     watch,
-    getValues,
     reset,
     clearErrors,
   } = useForm();
@@ -33,22 +34,50 @@ function WithdrawPageContent() {
   const [loading, setLoading] = useState(false);
   const [addLoading, setAddLoading] = useState(false);
   const [transactionTypes, setTransactionTypes] = useState([]);
-  const [transferType, setTransferType] = useState(null);
-  const [amount, setAmount] = useState(0);
+  const [transferType, setTransferType] = useState('');
+  const [amount, setAmount] = useState('');
   const [withdrawError, setWithdrawError] = useState({
-    amount: '',
-    transferType: '',
+    amount: 'Amount is required',
+    transferType: 'Transfer type is required',
   });
+  const [isValid, setIsValid] = useState(false);
 
   const selectedType = watch('type');
+  const rehydrateUser = async () => {
+    const token = localStorage.getItem('userToken');
+    if (!token) return null;
+    const result = await postRequest('users/rehydrateUser');
+    if (result.success) {
+      dispatch(setUserDetails(result.data.details));
+      return result.data.details;
+    }
+    return null;
+  };
+
+  const fetchTransactionTypeList = async () => {
+    setLoading(true);
+    let user = userDetails?.user;
+    if (!userDetails?.user?._id) {
+      user = await rehydrateUser();
+    }
+    const body = {
+      parentUserId: user?.masterUserId,
+      transferType: 'withdrawal',
+      userId: user?._id,
+    };
+    const result = await postRequest('exchangeHome/getTransferType', body);
+    if (result?.success) {
+      setTransactionTypes(result?.data?.records || []);
+    }
+    setLoading(false);
+  };
 
   const onSubmit = async (data) => {
     setAddLoading(true);
     try {
       const formData = new FormData(); // Create a new FormData object
       formData.append('userId', userDetails?.user?._id);
-      formData.append('parentUserId', userDetails?.user?.superUserId);
-      formData.append('qrImage', getValues('qrImage'));
+      formData.append('parentUserId', userDetails?.user?.masterUserId);
       formData.append('transferType', 'withdrawal');
       delete data.qrImage;
       for (const key in data) {
@@ -60,6 +89,7 @@ function WithdrawPageContent() {
       );
       if (result?.success) {
         ToastAlert.success('Transfer type added Successfully');
+        fetchTransactionTypeList();
         setAddLoading(false);
         reset();
       } else {
@@ -71,7 +101,7 @@ function WithdrawPageContent() {
     }
   };
 
-  const onChangeAmount = (value) => {
+  const onChangeAmount = async (value) => {
     const amt = value;
     setAmount(value);
     const withdrawableAmt =
@@ -99,7 +129,7 @@ function WithdrawPageContent() {
     }
   };
 
-  const onChangeTransferType = (transType) => {
+  const onChangeTransferType = async (transType) => {
     setTransferType(transType);
     if (transType === '' || transType === null) {
       setWithdrawError((prevErrors) => ({
@@ -115,38 +145,54 @@ function WithdrawPageContent() {
   };
 
   const onCheckVaidation = async () => {
-    onChangeTransferType(transferType);
-    onChangeAmount(amount);
+    await onChangeTransferType(transferType);
+    await onChangeAmount(amount);
   };
 
   const onSendWithdrawlaRequest = async () => {
     await onCheckVaidation();
-    const isValid = Object.keys(withdrawError).length === 0;
+
     if (isValid) {
-      console.log('CALL API', Object.keys(withdrawError));
-    } else {
-      console.log('ERROR');
+      setAddLoading(true);
+      try {
+        const data = {
+          userId: userDetails?.user?._id,
+          transferTypeId: transferType,
+          amount,
+          parentUserId: userDetails?.user?.masterUserId,
+        };
+        const result = await handleFormData(
+          'transferRequest/createTransferRequest',
+          data,
+        );
+        if (result?.success) {
+          ToastAlert.success('Withdrawal request send Successfully');
+          setAmount(null);
+          setTransferType('');
+          // fetchTransactionTypeList();
+          setAddLoading(false);
+        } else {
+          setAddLoading(false);
+          ToastAlert.error(result?.message);
+        }
+      } catch (err) {
+        setAddLoading(false);
+      }
     }
   };
 
   useEffect(() => {
-    const fetchTransactionTypeList = async () => {
-      setLoading(true);
-      const body = {
-        parentUserId: userDetails?.user?.superUserId,
-        transferType: 'withdrawal',
-        userId: userDetails?.user?._id,
-      };
-      const result = await postRequest('exchangeHome/getTransferType', body);
-      if (result?.success) {
-        setTransactionTypes(result?.data?.records || []);
-      }
-      setLoading(false);
-    };
-
     fetchTransactionTypeList();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  useEffect(() => {
+    const isvalidate = !Object.values(withdrawError).some(
+      (item) => item !== null && item !== '',
+    );
+    setIsValid(isvalidate);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [withdrawError]);
 
   return (
     <div className="comman-bg">
@@ -218,58 +264,7 @@ function WithdrawPageContent() {
                     )}
                   </div>
                 </div>
-                <div className="col-md-4">
-                  <div className="form-group mb-3 me-0">
-                    <Label for="minAmount">
-                      Min Amount<span className="error-text">*</span>
-                    </Label>
-                    <input
-                      type="number"
-                      className="form-control "
-                      id="minAmount"
-                      name="minAmount"
-                      {...register('minAmount', {
-                        required: 'Min amount is required',
-                      })}
-                    />
 
-                    {errors?.minAmount ? (
-                      <div className="error-text mt-1">
-                        {errors?.minAmount?.message}
-                      </div>
-                    ) : (
-                      ''
-                    )}
-                  </div>
-                </div>
-                <div className="col-md-4">
-                  <div className="form-group mb-3 me-0">
-                    <Label for="maxAmount">
-                      Max Amount<span className="error-text">*</span>
-                    </Label>
-                    <input
-                      type="number"
-                      className="form-control "
-                      id="maxAmount"
-                      name="maxAmount"
-                      {...register('maxAmount', {
-                        required: 'Max amount is required',
-                        min: {
-                          value: watch('minAmount'),
-                          message: 'Max Amount must be greater than Min Amount',
-                        },
-                      })}
-                    />
-
-                    {errors?.maxAmount ? (
-                      <div className="error-text mt-1">
-                        {errors?.maxAmount?.message}
-                      </div>
-                    ) : (
-                      ''
-                    )}
-                  </div>
-                </div>
                 <div className="col-md-4">
                   <div className="form-group mb-3 me-0">
                     <Label for="description">
@@ -288,30 +283,6 @@ function WithdrawPageContent() {
                     {errors?.description ? (
                       <div className="error-text mt-1">
                         {errors?.description?.message}
-                      </div>
-                    ) : (
-                      ''
-                    )}
-                  </div>
-                </div>
-                <div className="col-md-4">
-                  <div className="form-group mb-3 me-0">
-                    <Label for="qrImage">
-                      QR Image<span className="error-text">*</span>
-                    </Label>
-                    <input
-                      type="file"
-                      className="form-control "
-                      id="qrImage"
-                      name="qrImage"
-                      {...register('qrImage', {
-                        required: 'QR image is required',
-                      })}
-                    />
-
-                    {errors?.qrImage ? (
-                      <div className="error-text mt-1">
-                        {errors?.qrImage?.message}
                       </div>
                     ) : (
                       ''
@@ -483,15 +454,19 @@ function WithdrawPageContent() {
                         <Label for="platformName">
                           Platform Name<span className="error-text">*</span>
                         </Label>
-                        <input
-                          type="text"
-                          className="form-control "
+                        <select
+                          className="form-select"
                           id="platformName"
                           name="platformName"
                           {...register('platformName', {
-                            required: 'Platform name is required',
+                            required: 'Account type is required',
                           })}
-                        />
+                        >
+                          <option value="upi">UPI </option>
+                          <option value="gpay">GPAY </option>
+                          <option value="phonepe">PHONEPE </option>
+                          <option value="paytm">PAYTM </option>
+                        </select>
 
                         {errors?.platformName ? (
                           <div className="error-text mt-1">
@@ -616,6 +591,7 @@ function WithdrawPageContent() {
                     className="form-select"
                     onChange={(e) => onChangeTransferType(e.target.value)}
                     name="transferType"
+                    value={transferType}
                   >
                     <option value="">Select Transfer Type</option>
                     {!loading
@@ -646,6 +622,7 @@ function WithdrawPageContent() {
                     className="form-control "
                     id="amount"
                     name="amount"
+                    value={amount}
                     onChange={(e) => onChangeAmount(e?.target?.value)}
                   />
 
@@ -687,10 +664,10 @@ function WithdrawPageContent() {
                 <button
                   type="button"
                   className="btn custom-buttton py-2"
-                  disabled={loading}
+                  disabled={addLoading}
                   onClick={onSendWithdrawlaRequest}
                 >
-                  {loading && (
+                  {addLoading && (
                     <span className="spinner-border spinner-border-sm me-2" />
                   )}
                   Withdraw Request{' '}
