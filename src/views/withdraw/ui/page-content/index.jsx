@@ -111,27 +111,28 @@ function WithdrawPageContent() {
     {
       name: 'TRANSFER TYPE',
       selector: (row) => [row.transferTypeName],
-      sortable: true,
+      sortable: false,
       sortField: 'transferTypeName',
+      width: '300px',
+    },
+    {
+      name: 'TRANSFER NAME',
+      selector: (row) => [row.transferType?.name],
+      sortable: false,
+      sortField: 'transferName',
       width: '300px',
     },
     {
       name: 'AMOUNT',
       selector: (row) => [row.amount],
-      sortable: true,
+      sortable: false,
       sortField: 'amount',
     },
     {
       name: 'STATUS',
       selector: (row) => [row.status],
-      sortable: true,
+      sortable: false,
       sortField: 'status',
-    },
-    {
-      name: 'MESSAGE',
-      selector: (row) => [row.message || '-'],
-      sortable: true,
-      sortField: 'message',
     },
   ];
 
@@ -253,8 +254,12 @@ function WithdrawPageContent() {
   };
 
   useEffect(() => {
-    fetchTransactionTypeList();
     fetchWithdrawlRequestsList();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [currentPage, currentPage]);
+
+  useEffect(() => {
+    fetchTransactionTypeList();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -660,17 +665,17 @@ function WithdrawPageContent() {
               <div className="col-md-5">
                 <div className="form-group mb-3 me-0">
                   <select
-                    className="form-select text-uppercase"
+                    className="form-select"
                     onChange={(e) => onChangeTransferType(e.target.value)}
                     name="transferType"
                     value={transferType}
                   >
-                    <option value="">Select Transfer Type</option>
+                    <option value="">Select Transfer Name</option>
                     {!loading
                       ? transactionTypes?.length
                         ? transactionTypes?.map((type) => (
                             <option key={type?._id} value={type?._id}>
-                              {type?.type}
+                              {type?.name}
                             </option>
                           ))
                         : ''
