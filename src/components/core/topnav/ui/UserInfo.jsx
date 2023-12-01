@@ -201,6 +201,10 @@ const UserInfo = ({ user }) => {
               Account Statement
             </DropdownItem>
 
+            <DropdownItem onClick={() => navigate('/withdraw')}>
+              Withdraw
+            </DropdownItem>
+
             <DropdownItem onClick={() => navigate('/currentbets')}>
               Bet History
             </DropdownItem>
