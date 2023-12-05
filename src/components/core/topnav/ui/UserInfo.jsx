@@ -3,7 +3,7 @@
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 import moment from 'moment';
 import React, { useEffect, useMemo, useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import {
   DropdownItem,
@@ -25,6 +25,7 @@ import DepositPopup from '../../deposit-popup';
 const socketUrl = import.meta.env.VITE_SOCKET_URL;
 
 const UserInfo = ({ user }) => {
+  const { themeSettings } = useSelector((state) => state.themeSettings);
   const userSocket = useMemo(() => {
     return io(`${socketUrl}/user`, {
       auth: { token: localStorage.getItem('userToken') },
@@ -229,13 +230,19 @@ const UserInfo = ({ user }) => {
             closeModal={() => setShowStakeButton(!showStakButton)}
           />
         )}
-        <button
-          type="button"
-          className="btn deposit"
-          onClick={() => setShowDepositPopup(!showDepositPopup)}
-        >
-          Deposit
-        </button>
+        {(themeSettings?.businessType &&
+          themeSettings?.businessType !== 'b2b') ||
+        user?.businessType !== 'b2b' ? (
+          <button
+            type="button"
+            className="btn deposit"
+            onClick={() => setShowDepositPopup(!showDepositPopup)}
+          >
+            Deposit
+          </button>
+        ) : (
+          ''
+        )}
         {/* Notification */}
         <UncontrolledDropdown className="notification-drop">
           <DropdownToggle

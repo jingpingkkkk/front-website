@@ -232,13 +232,18 @@ function Topnav() {
             </NavLink>
 
             <LoginPopup isOpen={isLoginModalOpen} toggle={toggleLoginModal} />
-            <NavLink
-              to="#"
-              className="ms-2 custom-buttton nav-items"
-              onClick={toggleRegisterModal}
-            >
-              REGISTER
-            </NavLink>
+            {themeSettings?.businessType &&
+            themeSettings?.businessType !== 'b2b' ? (
+              <NavLink
+                to="#"
+                className="ms-2 custom-buttton nav-items"
+                onClick={toggleRegisterModal}
+              >
+                REGISTER
+              </NavLink>
+            ) : (
+              ''
+            )}
             <RegisterPopup
               isOpen={isRegisterModalOpen}
               toggle={toggleRegisterModal}
