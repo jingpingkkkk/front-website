@@ -81,4 +81,38 @@ body {
   --input-border: rgba(33, 161, 229, 0.4);
   --login-icon-bg: #d8f1ff;
   --stake-color: #d9534f;
+
+  /* The above variables will be replaced in future with the below ones */
+
+  /* New Theme Variables */
+
+  /* Box shadows */
+  --theme-box-shadow-100: 4px 6px 16px 3px rgba(0, 0, 0, 0.1);
+  --theme-box-shadow-200: 4px 6px 16px 3px rgba(0, 0, 0, 0.2);
+
+  /* Border radius */
+  --theme-border-radius-hard: 0;
+  --theme-border-radius-soft1: 6px;
+  --theme-border-radius-soft2: 12px;
+  --theme-border-radius-round: 100px;
+
+  /* Font */
+  --theme-font-weight-heading: 600;
+  --theme-font-weight-text: 500;
+
+  /* Colors */
+  --theme-color-white: #fff;
+  --theme-color-black: #000;
+  --theme-color-primary: #075ba6;
+  --theme-color-secondary: var(--theme-color-white);
+  --theme-color-accent: #ecb023;
+  --theme-color-info: #5bc0de;
+  --theme-color-success: #00b181;
+  --theme-color-danger: #d9534f;
+
+  /* Spacing */
+  --theme-spacing-small: 0.5rem; /* ~8px */
+  --theme-spacing-medium1: 0.75rem; /* ~12px */
+  --theme-spacing-medium2: 1rem; /* ~16px */
+  --theme-spacing-large: 2rem; /* ~32px */
 }
