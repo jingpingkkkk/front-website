@@ -1,6 +1,6 @@
 .e-heading {
   font-weight: 600;
-  color: var(--theme-color-primary) !important;
+  color: var(--theme-color-primary);
   margin: 0 0 0 0;
   text-transform: none;
   line-height: 1.2;
@@ -31,10 +31,11 @@
 }
 
 .e-heading.e-heading--has-bottom-margin {
-  margin-bottom: var(--theme-spacing-medium);
+  margin-bottom: var(--theme-spacing-medium1);
 }
 
-@media screen and (min-width: 768px) {
+/* Mobile Screens */
+@media (max-width: 767px) {
   .e-heading.e-heading--has-bottom-margin {
     margin-bottom: var(--theme-spacing-small);
   }
