@@ -48,7 +48,7 @@ function EHeading({ className, variant, hasBottomMargin, children, ...props }) {
   );
 }
 
-EHeading.prototype = {
+EHeading.propTypes = {
   children: PropTypes.node.isRequired,
   className: PropTypes.string,
   heading: PropTypes.string,
