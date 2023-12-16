@@ -1,11 +1,15 @@
+/* Base heading styles */
 .e-heading {
   font-weight: 600;
   color: var(--theme-color-primary);
-  margin: 0 0 0 0;
+  margin: 0;
   text-transform: none;
   line-height: 1.2;
+  -webkit-font-smoothing: antialiased; /* Improve font rendering on Chrome and Safari */
+  -moz-osx-font-smoothing: grayscale; /* Improve font rendering on Firefox */
 }
 
+/* Heading level styles */
 .e-heading.e-heading--h1 {
   font-size: 2.25rem; /* 36px */
 }
@@ -30,11 +34,12 @@
   font-size: 0.75rem; /* 12px */
 }
 
+/* Bottom margin styles */
 .e-heading.e-heading--has-bottom-margin {
   margin-bottom: var(--theme-spacing-medium1);
 }
 
-/* Mobile Screens */
+/* Mobile screen styles */
 @media (max-width: 767px) {
   .e-heading.e-heading--has-bottom-margin {
     margin-bottom: var(--theme-spacing-small);

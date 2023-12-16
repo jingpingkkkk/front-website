@@ -1,37 +1,42 @@
+// Import dependencies
 import cns from 'classnames';
 import PropTypes from 'prop-types';
 import React from 'react';
 import './EHeading.css';
 
+// Define default heading element
 const HeadingDefaultElement = 'h2';
 
 /**
- * Heading Component
+ * EHeading Component
  *
- * Usage
+ * This component is used to render headings with consistent styling across the application.
+ * It supports all standard heading levels (h1-h6) and allows for custom classes and other props.
  *
- * Normal
- * ```jsx
+ * @prop {ReactNode} children
+ * @prop {string} className
+ * @prop {string} variant
+ * @prop {boolean} hasBottomMargin
+ *
+ * @example
+ * // Default usage (renders as a <h2> with bottom margin):
  * <EHeading>
  *    Heading content
  * </EHeading>
- * ```
  *
- * Without bottom margin
- * ```jsx
+ * @example
+ * // Without bottom margin:
  * <EHeading hasBottomMargin={false}>
  *    Heading content
  * </EHeading>
- * ```
  *
- * With variants
- * ```jsx
- * <EHeading variant="h2">
+ * @example
+ * // With different heading level:
+ * <EHeading variant="h3">
  *    Heading content
  * </EHeading>
- * ```
  */
-function EHeading({ className, variant, hasBottomMargin, children, ...props }) {
+function EHeading({ children, className, variant, hasBottomMargin, ...props }) {
   const baseClass = 'e-heading';
 
   const variantClasses = {
@@ -39,28 +44,40 @@ function EHeading({ className, variant, hasBottomMargin, children, ...props }) {
     [`${baseClass}--${variant}`]: true,
   };
 
+  // Determine heading element type
   const Element = variant || HeadingDefaultElement;
 
+  // Determine aria-level for accessibility
+  const ariaLevel = variant
+    ? variant.charAt(1)
+    : HeadingDefaultElement.charAt(1);
+
   return (
-    <Element className={cns(baseClass, variantClasses, className)} {...props}>
+    <Element
+      className={cns(baseClass, variantClasses, className)}
+      role="heading"
+      aria-level={ariaLevel}
+      {...props}
+    >
       {children}
     </Element>
   );
 }
 
+// Define prop types
 EHeading.propTypes = {
   children: PropTypes.node.isRequired,
   className: PropTypes.string,
-  heading: PropTypes.string,
   variant: PropTypes.oneOf(['h1', 'h2', 'h3', 'h4', 'h5', 'h6']),
   hasBottomMargin: PropTypes.bool,
 };
 
+// Define default props
 EHeading.defaultProps = {
   className: '',
-  heading: '',
   variant: 'h2',
   hasBottomMargin: true,
 };
 
+// Export component
 export default EHeading;

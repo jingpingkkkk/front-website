@@ -103,6 +103,7 @@ function ELink({
     ...props,
     className: cns(baseClass, className, variantClasses),
     onClick,
+    // accessibility
     'aria-disabled': disabled ? 'true' : 'false',
     tabIndex: disabled ? '-1' : '0',
   };
