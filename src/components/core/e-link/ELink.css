@@ -1,0 +1,20 @@
+.e-link {
+  color: var(--theme-color-dark-gray);
+  cursor: pointer;
+  text-decoration: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.e-link:hover,
+.e-link:active,
+.e-link:focus {
+  color: var(--theme-color-black);
+  outline: none;
+  text-decoration: underline;
+}
+
+.e-link.e-link--disabled {
+  color: var(--theme-color-soft-gray);
+  cursor: not-allowed;
+  pointer-events: none;
+}
