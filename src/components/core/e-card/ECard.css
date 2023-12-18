@@ -1,0 +1,18 @@
+/* Base card styles */
+.e-card {
+  padding: var(--theme-spacing-medium1);
+  border-radius: var(--theme-border-radius-soft2);
+  background-color: var(--theme-color-white);
+  -webkit-box-sizing: border-box; /* For Chrome, Safari, and Opera */
+  -moz-box-sizing: border-box; /* For Firefox */
+  box-sizing: border-box; /* For IE and modern browsers */
+}
+
+/* Card variant with shadow */
+.e-card.e-card--has-shadow {
+  box-shadow: var(--theme-box-shadow-100);
+  -webkit-box-shadow: var(
+    --theme-box-shadow-100
+  ); /* For Chrome, Safari, and Opera */
+  -moz-box-shadow: var(--theme-box-shadow-100); /* For Firefox */
+}

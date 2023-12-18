@@ -110,6 +110,13 @@ body {
   --theme-color-success: #00b181;
   --theme-color-danger: #d9534f;
 
+  /* Neutral Colors */
+  --theme-color-dark-gray: #333333;
+  --theme-color-medium-gray: #6b6866;
+  --theme-color-soft-gray: #95908e;
+  --theme-color-light-gray: #f2f1f1;
+  --theme-color-light-gray2: #e2e0de;
+
   /* Spacing */
   --theme-spacing-small: 0.5rem; /* ~8px */
   --theme-spacing-medium1: 0.75rem; /* ~12px */

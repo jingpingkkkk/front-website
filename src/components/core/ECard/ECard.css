@@ -1,9 +1,0 @@
-.e-card {
-  padding: var(--theme-spacing-medium1);
-  border-radius: var(--theme-border-radius-soft2);
-  background-color: var(--theme-color-white);
-}
-
-.e-card.e-card--has-shadow {
-  box-shadow: var(--theme-box-shadow-100);
-}
