@@ -65,6 +65,7 @@ EText.defaultProps = {
   className: '',
   variant: '',
   hasBottomMargin: true,
+  isBold: false,
 };
 
 // Export component
