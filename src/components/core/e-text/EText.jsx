@@ -13,13 +13,18 @@ import './EText.css';
  * @prop {string} className
  * @prop {string} variant
  * @prop {boolean} hasBottomMargin
+ * @prop {boolean} isBold 
  *
  * @example
  * // Default usage (renders as a <p> with dark variant):
  * <EText>
  *    P tag content
  * </EText>
- *
+ * @example
+ * // With isBold= 'true':
+ * <EHeading isBold={true}>
+ *    Heading content // Font weight:600
+ * </EHeading>
 
  */
 function EText({ children, className, variant, hasBottomMargin, ...props }) {
@@ -28,6 +33,7 @@ function EText({ children, className, variant, hasBottomMargin, ...props }) {
   const variantClasses = {
     [`${baseClass}--has-bottom-margin`]: hasBottomMargin,
     [`${baseClass}--${variant}`]: true,
+    [`${baseClass}--is-bold`]: isBold,
   };
 
   return (
@@ -51,6 +57,7 @@ EText.propTypes = {
     'muted',
   ]),
   hasBottomMargin: PropTypes.bool,
+  isBold: PropTypes.bool,
 };
 
 // Define default props

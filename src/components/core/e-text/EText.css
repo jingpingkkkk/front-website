@@ -1,6 +1,6 @@
 /* Base heading styles */
 .e-text {
-  font-weight: 600;
+  font-weight: 500;
   color: var(--theme-color-black);
   margin: 0;
   text-transform: none;
@@ -36,4 +36,8 @@
 
 .e-text.e-text--muted {
   color: var(--theme-color-medium-gray);
+}
+
+.e-text.e-text--is-bold {
+  font-weight: 600;
 }
