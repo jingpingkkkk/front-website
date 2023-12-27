@@ -4,8 +4,11 @@
 /* eslint-disable new-cap */
 /* eslint-disable react/no-unstable-nested-components */
 import 'jspdf-autotable';
-import React, { useState, useEffect } from 'react';
-import './casino.css';
+import React, { useEffect, useState } from 'react';
+import InfiniteScroll from 'react-infinite-scroll-component';
+import { useSelector } from 'react-redux';
+import { useLocation } from 'react-router-dom';
+import Slider from 'react-slick';
 import {
   Dropdown,
   DropdownItem,
@@ -13,14 +16,11 @@ import {
   DropdownToggle,
   Spinner,
 } from 'reactstrap';
-import Slider from 'react-slick';
-import { useSelector } from 'react-redux';
-import InfiniteScroll from 'react-infinite-scroll-component';
-import { useLocation } from 'react-router-dom';
-import useScreenWidth from '../../../../hooks/use-screen-width';
-import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
+import 'slick-carousel/slick/slick.css';
 import { postRequest } from '../../../../api';
+import useScreenWidth from '../../../../hooks/use-screen-width';
+import './casino.css';
 
 function CasinoPageContent() {
   const location = useLocation();
@@ -65,7 +65,7 @@ function CasinoPageContent() {
         casinoId: activeItem,
         gameType: activeTab,
       };
-      const result = await postRequest('casinoGame/getCasinoGame', body, false);
+      const result = await postRequest('casinoGame/getCasinoGame', body);
       if (result?.success) {
         const records = result.data.records || [];
         setTotalRecords(result?.data?.totalRecords);

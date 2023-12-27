@@ -2,14 +2,14 @@
 /* eslint-disable jsx-a11y/label-has-associated-control */
 import React, { useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
+import PhoneInput from 'react-phone-input-2';
+import 'react-phone-input-2/lib/style.css';
+import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router';
 import { Modal } from 'reactstrap';
-import PhoneInput from 'react-phone-input-2';
-import { useSelector } from 'react-redux';
 import { postRequest } from '../../../api';
-import '../login-popup/login-popup.css';
-import 'react-phone-input-2/lib/style.css';
 import ToastAlert from '../../../helper/toast-alert';
+import '../login-popup/login-popup.css';
 
 const RegisterPopup = ({ isOpen, toggle }) => {
   const { themeSettings } = useSelector((state) => state.themeSettings);
@@ -33,7 +33,7 @@ const RegisterPopup = ({ isOpen, toggle }) => {
     data.mobileNumber = mobileNo;
     setLoading(true);
     try {
-      const result = await postRequest('auth/register', data, false);
+      const result = await postRequest('auth/register', data);
       if (result?.success) {
         ToastAlert.success('User registered successfully.');
         navigate('/', true);

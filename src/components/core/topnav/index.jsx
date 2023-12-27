@@ -17,11 +17,11 @@ import LoginPopup from '../login-popup';
 import RegisterPopup from '../register-popup';
 import WelcomePopup from '../welcome-popup';
 import topNavItems from './api/top-nav-items';
+import { LIVE_MENU_ITEMS } from './helpers/constants';
 import './topNav.css';
 import MenuToggleButton from './ui/MenuToggleButton';
 import StickyHeader from './ui/StickyHeader';
 import UserInfo from './ui/UserInfo';
-import { LIVE_MENU_ITEMS } from './helpers/constants';
 
 function Topnav() {
   const dispatch = useDispatch();
@@ -67,7 +67,6 @@ function Topnav() {
     const result = await postRequest(
       'themeSetting/themeSettingByCurrencyAndDomain',
       body,
-      false,
     );
     if (result.success) {
       const data = result?.data?.details;
@@ -77,6 +76,8 @@ function Topnav() {
   };
 
   const getUserStakeButtons = async () => {
+    const token = localStorage.getItem('userToken');
+    if (!token) return;
     const result = await postRequest('stake/getUserStakes');
     if (result?.success) {
       const gameButtons = result.data.details.find(

@@ -1,14 +1,15 @@
 import React, { useState } from 'react';
-import './bottomnav.css';
-import { Link, NavLink, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
+import { Link, NavLink, useNavigate } from 'react-router-dom';
+import { postRequest } from '../../../api';
+import { userLogout } from '../../../helper/user';
 import {
   resetUserDetails,
   setShouldLogin,
 } from '../../../redux/reducers/user-details';
-import { userLogout } from '../../../helper/user';
 import StateButtons from '../stake-button-popup';
 import { LIVE_MENU_ITEMS } from '../topnav/helpers/constants';
+import './bottomnav.css';
 
 const Bottomnav = () => {
   const navigate = useNavigate();
@@ -43,9 +44,13 @@ const Bottomnav = () => {
     }
     setIsOpen(!isOpen);
   };
-  const logout = () => {
-    dispatch(resetUserDetails());
-    userLogout();
+
+  const logout = async () => {
+    const result = await postRequest('/user/logout');
+    if (result.success) {
+      dispatch(resetUserDetails());
+      userLogout();
+    }
   };
 
   return (

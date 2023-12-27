@@ -11,8 +11,8 @@ import {
   setStakeButtons,
   setUserDetails,
 } from '../../../redux/reducers/user-details';
-import './login-popup.css';
 import RegisterPopup from '../register-popup';
+import './login-popup.css';
 
 const LoginPopup = ({ isOpen, toggle }) => {
   const dispatch = useDispatch();
@@ -50,7 +50,7 @@ const LoginPopup = ({ isOpen, toggle }) => {
       // if (ipaddress?.ip) {
       //   data.ipAddress = ipaddress?.ip;
       // }
-      const result = await postRequest('auth/userLogin', data, false);
+      const result = await postRequest('auth/userLogin', data);
       if (result?.success) {
         // localStorage.setItem('user', JSON.stringify(result?.data?.user));
         localStorage.setItem('userToken', result?.data?.token);

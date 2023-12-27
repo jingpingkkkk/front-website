@@ -22,13 +22,13 @@ import {
   setSportsLoader,
   setUpComingEventsCount,
 } from '../../../redux/reducers/sports-list';
-import FavouriteEvents from '../../core/topnav/ui/FavouriteEvents';
-import './exchangeMenu.css';
-import menuImages from './menu-images';
 import {
   setShouldLogin,
   setUserDetails,
 } from '../../../redux/reducers/user-details';
+import FavouriteEvents from '../../core/topnav/ui/FavouriteEvents';
+import './exchangeMenu.css';
+import menuImages from './menu-images';
 
 function ExchangeSideMenu({ className = 'd-none d-lg-block' }) {
   const navigate = useNavigate();
@@ -117,11 +117,9 @@ function ExchangeSideMenu({ className = 'd-none d-lg-block' }) {
       if (!userDetails?.user?._id) {
         user = await rehydrateUser();
       }
-      const result = await postRequest(
-        'exchangeHome/sportWiseMatchList',
-        { userId: user?._id },
-        false,
-      );
+      const result = await postRequest('exchangeHome/sportWiseMatchList', {
+        userId: user?._id,
+      });
       if (result?.success) {
         // setEvents(result?.data?.details || []);
         dispatch(setUpComingEventsCount(result?.data?.totalUpcomingEvent));
@@ -137,17 +135,22 @@ function ExchangeSideMenu({ className = 'd-none d-lg-block' }) {
     const getAllSports = async () => {
       try {
         dispatch(setSportsLoader(true));
-        const result = await getRequest('exchangeHome/sportsList', false);
+
+        const result = await getRequest('exchangeHome/sportsList');
+
         if (result?.success) {
           const sportsList = result?.data || [];
+
           if (sportsList?.length) {
             const favEvents = result?.data?.flatMap((sport) =>
               sport.competition.flatMap((com) =>
                 com.event.filter((evnt) => evnt.isFavourite),
               ),
             );
+
             dispatch(setFavouriteEvents(favEvents));
           }
+
           dispatch(setSportsList(result?.data || []));
         }
         dispatch(setSportsLoader(false));

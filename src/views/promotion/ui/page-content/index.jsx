@@ -3,9 +3,9 @@
 /* eslint-disable react/no-unstable-nested-components */
 import 'jspdf-autotable';
 import React, { useEffect, useState } from 'react';
-import './promotion.css';
 import { postRequest } from '../../../../api';
 import LoadingOverlay from '../../../../components/common/loading-overlay';
+import './promotion.css';
 
 function PromotionPageContent() {
   const [activeTab, setActiveTab] = useState('sport');
@@ -27,7 +27,7 @@ function PromotionPageContent() {
         domainUrl: window?.location?.origin,
       };
       setLoading(true);
-      const result = await postRequest('promotion/allPromotion', body, false);
+      const result = await postRequest('promotion/allPromotion', body);
       if (result?.success) {
         const sports = result?.data?.details?.filter(
           (data) => data?.promotionType === activeTab,

@@ -16,11 +16,11 @@ import { postRequest } from '../../../../api';
 import countDays from '../../../../helper/day-count';
 import { userLogout } from '../../../../helper/user';
 import { resetUserDetails } from '../../../../redux/reducers/user-details';
+import DepositPopup from '../../deposit-popup';
 import StateButtons from '../../stake-button-popup';
 import ExposureDetail from './ExposureDetail';
 import NotificationPopup from './NotificationPopup';
 import './userInfo.css';
-import DepositPopup from '../../deposit-popup';
 
 const socketUrl = import.meta.env.VITE_SOCKET_URL;
 
@@ -124,9 +124,12 @@ const UserInfo = ({ user }) => {
     };
   }, []);
 
-  const logout = () => {
-    dispatch(resetUserDetails());
-    userLogout();
+  const logout = async () => {
+    const result = await postRequest('/user/logout');
+    if (result.success) {
+      dispatch(resetUserDetails());
+      userLogout();
+    }
   };
 
   return (

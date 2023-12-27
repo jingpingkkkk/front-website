@@ -12,18 +12,18 @@ import {
 } from 'reactstrap';
 import { postRequest } from '../../../../api';
 import LoadingOverlay from '../../../../components/common/loading-overlay';
+import { shortNumber } from '../../../../helper/number';
 import { resetEventBet } from '../../../../redux/reducers/event-bet';
 import {
   resetEventMarket,
   setEvent,
   setMarkets,
 } from '../../../../redux/reducers/event-market';
+import { MARKET_NAMES } from '../../helpers/constants';
+import EventTv from '../bet-slip/EventTv';
 import Market from '../market';
 import '../matches.css';
 import ScoreBoard from '../score-board';
-import { shortNumber } from '../../../../helper/number';
-import { MARKET_NAMES } from '../../helpers/constants';
-import EventTv from '../bet-slip/EventTv';
 
 function MatchPageContent() {
   const navigate = useNavigate();
@@ -55,7 +55,7 @@ function MatchPageContent() {
     if (sportName === 'Greyhound Racing') {
       body.marketId = marketId;
     }
-    const result = await postRequest(`event/${urlEndPoint}`, body, false);
+    const result = await postRequest(`event/${urlEndPoint}`, body);
 
     if (result?.success) {
       const event = result.data.details;
@@ -86,7 +86,7 @@ function MatchPageContent() {
     if (sportName === 'Greyhound Racing') {
       body.marketId = marketId;
     }
-    const result = await postRequest(`event/${urlEndPoint}`, body, false);
+    const result = await postRequest(`event/${urlEndPoint}`, body);
 
     if (result?.success) {
       const event = result.data.details;
