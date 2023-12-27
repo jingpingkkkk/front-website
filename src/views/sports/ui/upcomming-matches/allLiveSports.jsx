@@ -2,11 +2,10 @@
 /* eslint-disable jsx-a11y/alt-text */
 /* eslint-disable no-nested-ternary */
 import React, { useEffect, useState } from 'react';
-import { Spinner } from 'reactstrap';
 import { useDispatch, useSelector } from 'react-redux';
+import { Spinner } from 'reactstrap';
 import { postRequest } from '../../../../api';
-import EventList from '../events';
-import GreyhoundRacing from '../greyhound-racing';
+import { setAllEvents } from '../../../../redux/reducers/event-market';
 import {
   setFavouriteEventsCount,
   setLiveEventsCount,
@@ -14,7 +13,8 @@ import {
   setUpComingEventsCount,
 } from '../../../../redux/reducers/sports-list';
 import { setUserDetails } from '../../../../redux/reducers/user-details';
-import { setAllEvents } from '../../../../redux/reducers/event-market';
+import EventList from '../events';
+import GreyhoundRacing from '../greyhound-racing';
 
 function AllLiveSports() {
   const dispatch = useDispatch();
@@ -41,11 +41,10 @@ function AllLiveSports() {
         user = await rehydrateUser();
       }
       if (!skipLoading) setEventLoading(true);
-      const result = await postRequest(
-        'exchangeHome/sportWiseMatchList',
-        { type: 'live', userId: user?._id },
-        false,
-      );
+      const result = await postRequest('exchangeHome/sportWiseMatchList', {
+        type: 'live',
+        userId: user?._id,
+      });
       if (result?.success) {
         dispatch(setTotalEventsCount(result?.data?.totalEvent || 0));
         dispatch(setLiveEventsCount(result?.data?.totalLiveEvent || 0));

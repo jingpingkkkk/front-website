@@ -5,8 +5,8 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 // import { Carousel } from 'react-responsive-carousel';
-import { Spinner } from 'reactstrap';
 import { Link, useNavigate } from 'react-router-dom';
+import { Spinner } from 'reactstrap';
 import { getRequest } from '../../../../api';
 import News from '../../../../components/core/news';
 import BannerSlider from '../../../../components/core/slider';
@@ -40,7 +40,7 @@ function SportPageContent() {
   const getLiveCasino = async () => {
     try {
       setCasinoLoading(true);
-      const result = await getRequest('casino/allCasino', false);
+      const result = await getRequest('casino/allCasino');
       if (result?.success) {
         setAllCasino(result?.data?.details || []);
         const liveCasino = result?.data?.details?.filter(
@@ -61,7 +61,7 @@ function SportPageContent() {
   const getFantasyGames = async () => {
     try {
       setGameLoading(true);
-      const result = await getRequest('casinoGame/showFavouriteGame', false);
+      const result = await getRequest('casinoGame/showFavouriteGame');
       if (result?.success) {
         setAllGames(result?.data?.details || []);
       }

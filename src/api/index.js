@@ -8,6 +8,7 @@ import {
 
 const api = axios.create({
   baseURL: import.meta.env.VITE_API_URL,
+  withCredentials: true,
 });
 
 const isJSONString = (str) => {
@@ -48,27 +49,18 @@ const handleError = async (error) => {
 const handleFormData = async (url, formData) => {
   try {
     const source = axios.CancelToken.source();
-    const token = localStorage.getItem('userToken');
     const encHeaders = await generateEncHeaders();
-    let config = {};
-    if (token) {
-      config = {
-        method: 'post',
-        url,
-        data: formData,
-        headers: {
-          'Content-Type': 'multipart/form-data',
-          ...api.defaults.headers.common,
-          Authorization: token,
-          ...encHeaders,
-        },
-        cancelToken: source.token || undefined,
-      };
-    } else {
-      delete api.defaults.headers.common.Authorization;
-      localStorage.clear();
-      throw new Error('No token found');
-    }
+    const config = {
+      method: 'post',
+      url,
+      data: formData,
+      headers: {
+        'Content-Type': 'multipart/form-data',
+        ...api.defaults.headers.common,
+        ...encHeaders,
+      },
+      cancelToken: source.token || undefined,
+    };
 
     try {
       const response = await api(config);
@@ -83,25 +75,10 @@ const handleFormData = async (url, formData) => {
   }
 };
 
-const createHeaders = async (useAuthToken = true) => {
-  let headers = {
+const createHeaders = async () => {
+  const headers = {
     'Content-Type': 'application/json',
   };
-
-  if (useAuthToken) {
-    const token = localStorage.getItem('userToken');
-    if (token) {
-      headers = {
-        ...headers,
-        ...api.defaults.headers.common,
-        Authorization: token,
-      };
-    } else {
-      delete api.defaults.headers.common.Authorization;
-      localStorage.clear();
-      throw new Error('No token found');
-    }
-  }
 
   const encHeaders = await generateEncHeaders();
 
@@ -114,7 +91,6 @@ const makeRequest = async ({
   method,
   url,
   data = null,
-  useAuthToken = true,
   useAbortController = true,
 }) => {
   const source = axios.CancelToken.source();
@@ -129,7 +105,7 @@ const makeRequest = async ({
     method,
     url,
     data: await encryptRequest(data),
-    headers: await createHeaders(useAuthToken),
+    headers: await createHeaders(),
     cancelToken: source.token || undefined,
   };
 
@@ -144,30 +120,19 @@ const makeRequest = async ({
   }
 };
 
-const postRequest = async (
-  url,
-  data = {},
-  useAuthToken = true,
-  useAbortController = true,
-) => {
+const postRequest = async (url, data = {}, useAbortController = true) => {
   return makeRequest({
     method: 'POST',
     url,
     data,
-    useAuthToken,
     useAbortController,
   });
 };
 
-const getRequest = async (
-  url,
-  useAuthToken = true,
-  useAbortController = true,
-) => {
+const getRequest = async (url, useAbortController = true) => {
   return makeRequest({
     method: 'GET',
     url,
-    useAuthToken,
     useAbortController,
   });
 };

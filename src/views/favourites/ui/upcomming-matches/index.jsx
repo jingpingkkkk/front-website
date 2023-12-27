@@ -2,18 +2,18 @@
 /* eslint-disable jsx-a11y/alt-text */
 /* eslint-disable no-nested-ternary */
 import React, { useEffect, useState } from 'react';
-import { Spinner } from 'reactstrap';
 import { useDispatch, useSelector } from 'react-redux';
+import { Spinner } from 'reactstrap';
 import { postRequest } from '../../../../api';
-import EventList from '../../../sports/ui/events';
-import GreyhoundRacing from '../../../sports/ui/greyhound-racing';
+import { setAllEvents } from '../../../../redux/reducers/event-market';
 import {
   setFavouriteEventsCount,
   setLiveEventsCount,
   setUpComingEventsCount,
 } from '../../../../redux/reducers/sports-list';
 import { setUserDetails } from '../../../../redux/reducers/user-details';
-import { setAllEvents } from '../../../../redux/reducers/event-market';
+import EventList from '../../../sports/ui/events';
+import GreyhoundRacing from '../../../sports/ui/greyhound-racing';
 
 function UpcommingMatchList() {
   const dispatch = useDispatch();
@@ -40,11 +40,10 @@ function UpcommingMatchList() {
     }
     try {
       if (!skipLoading) setEventLoading(true);
-      const result = await postRequest(
-        'exchangeHome/sportWiseMatchList',
-        { type: 'favourite', userId: user?._id },
-        false,
-      );
+      const result = await postRequest('exchangeHome/sportWiseMatchList', {
+        type: 'favourite',
+        userId: user?._id,
+      });
       if (result?.success) {
         dispatch(setLiveEventsCount(result?.data?.totalLiveEvent || 0));
         dispatch(setUpComingEventsCount(result?.data?.totalUpcomingEvent));

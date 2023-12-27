@@ -5,8 +5,8 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 // import { Carousel } from 'react-responsive-carousel';
-import { useNavigate } from 'react-router-dom';
 import 'react-responsive-carousel/lib/styles/carousel.min.css';
+import { useNavigate } from 'react-router-dom';
 import { getRequest } from '../../../api';
 import {
   setAllCasino,
@@ -18,12 +18,19 @@ import LoadingOverlay from '../loading-overlay';
 
 function ProductPromotion() {
   const dispatch = useDispatch();
+
   const navigate = useNavigate();
+
   const userDetails = useSelector((state) => state.userDetails);
+
   const [activeTab, setActiveTab] = useState('live');
+
   const [casinoLoading, setCasinoLoading] = useState(false);
+
   const casino = useSelector((state) => state.casino);
+
   const classNameRef = useRef('');
+
   const checkLogin = () => {
     if (Object.keys(userDetails?.user)?.length <= 0) {
       classNameRef.current = 'login-hover';
@@ -35,31 +42,41 @@ function ProductPromotion() {
   const getLiveCasino = async () => {
     try {
       setCasinoLoading(true);
+
       dispatch(setCasinoListLoading(true));
-      const result = await getRequest('casino/allCasino', false);
+
+      const result = await getRequest('casino/allCasino');
+
       if (result?.success) {
         const liveCasino = result?.data?.details?.filter(
           (data) => data?.casinoType === 'live',
         );
+
         const virtualCasino = result?.data?.details?.filter(
           (data) => data?.casinoType === 'virtual',
         );
+
         dispatch(setAllCasino(result?.data?.details));
         dispatch(setLiveCasino(liveCasino));
         dispatch(setVirtualCasino(virtualCasino));
       }
+
       setCasinoLoading(false);
+
       dispatch(setCasinoListLoading(false));
     } catch (error) {
       dispatch(setCasinoListLoading(false));
+
       setCasinoLoading(false);
     }
   };
+
   useEffect(() => {
     checkLogin();
     getLiveCasino();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
   return (
     <>
       {/* <div className="pramotion-sec">
