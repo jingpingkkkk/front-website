@@ -125,7 +125,7 @@ const UserInfo = ({ user }) => {
   }, []);
 
   const logout = async () => {
-    const result = await postRequest('/user/logout');
+    const result = await postRequest('/auth/logout');
     if (result.success) {
       dispatch(resetUserDetails());
       userLogout();
