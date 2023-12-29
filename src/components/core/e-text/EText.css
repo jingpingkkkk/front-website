@@ -1,0 +1,43 @@
+/* Base heading styles */
+.e-text {
+  font-weight: 500;
+  color: var(--theme-color-black);
+  margin: 0;
+  text-transform: none;
+  line-height: 1.2;
+  -webkit-font-smoothing: antialiased; /* Improve font rendering on Chrome and Safari */
+  -moz-osx-font-smoothing: grayscale; /* Improve font rendering on Firefox */
+}
+
+/* Paragrah color styles */
+.e-text.e-text--primary {
+  color: var(--theme-color-primary);
+}
+
+.e-text.e-text--secondary {
+  color: var(--theme-color-secondary);
+}
+
+.e-text.e-text--success {
+  color: var(--theme-color-success);
+}
+
+.e-text.e-text--danger {
+  color: var(--theme-color-danger);
+}
+
+.e-text.e-text--warning {
+  color: var(--theme-color-accent);
+}
+
+.e-text.e-text--info {
+  color: var(--theme-color-info);
+}
+
+.e-text.e-text--muted {
+  color: var(--theme-color-medium-gray);
+}
+
+.e-text.e-text--is-bold {
+  font-weight: 600;
+}
