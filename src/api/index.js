@@ -7,7 +7,7 @@ import {
 } from './encryption';
 
 const api = axios.create({
-  baseURL: import.meta.env.VITE_API_URL,
+  baseURL: import.meta.env.VITE_API_BASE_URL,
   withCredentials: true,
 });
 
@@ -92,6 +92,7 @@ const makeRequest = async ({
   url,
   data = null,
   useAbortController = true,
+  urlPrefix = '',
 }) => {
   const source = axios.CancelToken.source();
   const requestKey = `${method}:${url}`;
@@ -103,7 +104,7 @@ const makeRequest = async ({
 
   const config = {
     method,
-    url,
+    url: `${urlPrefix}/${url}`,
     data: await encryptRequest(data),
     headers: await createHeaders(),
     cancelToken: source.token || undefined,
@@ -120,20 +121,31 @@ const makeRequest = async ({
   }
 };
 
-const postRequest = async (url, data = {}, useAbortController = true) => {
+const postRequest = async (
+  url,
+  data = {},
+  useAbortController = true,
+  urlPrefix = '/api/v1',
+) => {
   return makeRequest({
     method: 'POST',
     url,
     data,
     useAbortController,
+    urlPrefix,
   });
 };
 
-const getRequest = async (url, useAbortController = true) => {
+const getRequest = async (
+  url,
+  useAbortController = true,
+  urlPrefix = '/api/v1',
+) => {
   return makeRequest({
     method: 'GET',
     url,
     useAbortController,
+    urlPrefix,
   });
 };
 

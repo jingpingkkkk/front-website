@@ -2,13 +2,34 @@
 /* eslint-disable new-cap */
 /* eslint-disable react/no-unstable-nested-components */
 import 'jspdf-autotable';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import 'slick-carousel/slick/slick-theme.css';
+import 'slick-carousel/slick/slick.css';
+import { postRequest } from '../../../../api';
 import './casino-detail.css';
 
-import 'slick-carousel/slick/slick.css';
-import 'slick-carousel/slick/slick-theme.css';
-
 function CasinoDetailPageContent() {
+  const [urls, setUrls] = useState({
+    mobileUrl: 'https://www.youtube.com/embed/tgbNymZ7vqY',
+    desktopUrl: 'https://www.youtube.com/embed/tgbNymZ7vqY',
+  });
+
+  useEffect(() => {
+    const fetchAuraLaunchUrl = async () => {
+      const response = await postRequest(
+        'poker/getLaunchUrl',
+        {},
+        true,
+        '/api',
+      );
+      if (response.success) {
+        setUrls(response.data);
+      }
+    };
+
+    fetchAuraLaunchUrl();
+  }, []);
+
   return (
     <div className="casino-container">
       <div className="casino-table">
@@ -46,10 +67,7 @@ function CasinoDetailPageContent() {
           </div>
           <div className="video-box-container">
             <div className="video-box">
-              <iframe
-                src="https://www.youtube.com/embed/tgbNymZ7vqY"
-                title="casiono"
-              />
+              <iframe src={urls.desktopUrl} title="aura" />
             </div>
           </div>
           <div className="casino-timer d-none-small">
