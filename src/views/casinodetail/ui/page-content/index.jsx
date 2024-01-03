@@ -3,31 +3,42 @@
 /* eslint-disable react/no-unstable-nested-components */
 import 'jspdf-autotable';
 import React, { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import 'slick-carousel/slick/slick-theme.css';
 import 'slick-carousel/slick/slick.css';
 import { postRequest } from '../../../../api';
+import { setShouldLogin } from '../../../../redux/reducers/user-details';
 import './casino-detail.css';
 
 function CasinoDetailPageContent() {
+  const dispatch = useDispatch();
+  const userDetails = useSelector((state) => state.userDetails);
+
+  console.log('userDetails', userDetails);
+
   const [urls, setUrls] = useState({
     mobileUrl: 'https://www.youtube.com/embed/tgbNymZ7vqY',
     desktopUrl: 'https://www.youtube.com/embed/tgbNymZ7vqY',
   });
 
-  useEffect(() => {
-    const fetchAuraLaunchUrl = async () => {
-      const response = await postRequest(
-        'poker/getLaunchUrl',
-        {},
-        true,
-        '/api',
-      );
-      if (response.success) {
-        setUrls(response.data);
-      }
-    };
+  const fetchAuraLaunchUrl = async () => {
+    const notLoggedIn =
+      !userDetails?.user?._id || !localStorage.getItem('userToken');
 
+    if (notLoggedIn) {
+      dispatch(setShouldLogin(true));
+      return;
+    }
+
+    const response = await postRequest('poker/getLaunchUrl', {}, true, '/api');
+    if (response.success) {
+      setUrls(response.data);
+    }
+  };
+
+  useEffect(() => {
     fetchAuraLaunchUrl();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
