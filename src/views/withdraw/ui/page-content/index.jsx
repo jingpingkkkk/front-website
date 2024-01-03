@@ -268,7 +268,6 @@ function WithdrawPageContent() {
       (item) => item !== null && item !== '',
     );
     setIsValid(isvalidate);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [withdrawError]);
 
   return (

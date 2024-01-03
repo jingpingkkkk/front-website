@@ -1,5 +1,5 @@
 /* eslint-disable no-nested-ternary */
-/* eslint-disable react/jsx-curly-brace-presence */
+
 import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';

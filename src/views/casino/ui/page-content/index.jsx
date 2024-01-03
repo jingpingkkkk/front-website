@@ -1,8 +1,5 @@
-/* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
-/* eslint-disable jsx-a11y/click-events-have-key-events */
 /* eslint-disable no-nested-ternary */
-/* eslint-disable new-cap */
-/* eslint-disable react/no-unstable-nested-components */
+
 import 'jspdf-autotable';
 import React, { useEffect, useState } from 'react';
 import InfiniteScroll from 'react-infinite-scroll-component';
@@ -96,7 +93,6 @@ function CasinoPageContent() {
   };
   useEffect(() => {
     setItems([]);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [casinoId]);
 
   useEffect(() => {

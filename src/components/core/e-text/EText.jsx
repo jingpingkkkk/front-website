@@ -27,7 +27,14 @@ import './EText.css';
  * </EHeading>
 
  */
-function EText({ children, className, variant, hasBottomMargin, ...props }) {
+function EText({
+  children,
+  className,
+  variant,
+  hasBottomMargin,
+  isBold,
+  ...props
+}) {
   const baseClass = 'e-text';
 
   const variantClasses = {

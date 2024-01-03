@@ -1,6 +1,3 @@
-/* eslint-disable no-nested-ternary */
-/* eslint-disable new-cap */
-/* eslint-disable react/no-unstable-nested-components */
 import 'jspdf-autotable';
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
