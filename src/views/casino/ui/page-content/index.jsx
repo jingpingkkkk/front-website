@@ -7,7 +7,7 @@ import 'jspdf-autotable';
 import React, { useEffect, useState } from 'react';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import { useSelector } from 'react-redux';
-import { useLocation } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import Slider from 'react-slick';
 import {
   Dropdown,
@@ -291,7 +291,7 @@ function CasinoPageContent() {
               {items.map((item) => (
                 <div className="port-content" key={item?._id}>
                   <div className="port-inner">
-                    <a href="/casinodetail">
+                    <Link to="/casinodetail">
                       <div className="port-inner">
                         <div className="thumb">
                           <img
@@ -307,7 +307,7 @@ function CasinoPageContent() {
                           </h4>
                         </div>
                       </div>
-                    </a>
+                    </Link>
                   </div>
                 </div>
               ))}
