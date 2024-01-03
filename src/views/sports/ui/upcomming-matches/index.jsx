@@ -1,5 +1,3 @@
-/* eslint-disable react/no-array-index-key */
-/* eslint-disable jsx-a11y/alt-text */
 /* eslint-disable no-nested-ternary */
 import React, { useState } from 'react';
 import { useSelector } from 'react-redux';

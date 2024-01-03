@@ -57,7 +57,6 @@ const UserInfo = ({ user }) => {
     return () => {
       userSocket.disconnect();
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user]);
 
   const onUpdateCount = () => {
@@ -80,7 +79,6 @@ const UserInfo = ({ user }) => {
         !seenNotification?.some((oldObj) => newObj._id === oldObj._id),
     );
     setCount(newObjectsArray?.length || 0);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [notifications?.length]);
 
   useEffect(() => {
@@ -98,7 +96,6 @@ const UserInfo = ({ user }) => {
       notificationSocket.off('event:complete');
       notificationSocket.disconnect();
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {

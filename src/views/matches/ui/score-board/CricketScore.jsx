@@ -73,7 +73,6 @@ function CricketScore({ event }) {
     return () => {
       socket.disconnect();
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [event]);
   return (
     <div className="scorecard cricket-m-hide">

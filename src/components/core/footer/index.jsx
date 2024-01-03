@@ -1,7 +1,7 @@
 /* eslint-disable no-nested-ternary */
 /* eslint-disable jsx-a11y/alt-text */
 /* eslint-disable jsx-a11y/anchor-is-valid */
-/* eslint-disable max-len */
+
 import React from 'react';
 import './footer.css';
 import { useSelector } from 'react-redux';

@@ -1,6 +1,5 @@
 /* eslint-disable no-nested-ternary */
-/* eslint-disable new-cap */
-/* eslint-disable react/no-unstable-nested-components */
+
 import 'jspdf-autotable';
 import React, { useEffect, useState } from 'react';
 import { postRequest } from '../../../../api';
@@ -87,6 +86,7 @@ function PromotionPageContent() {
                         <div className="title2"> {promo?.title || ''} </div>
                         <div
                           className="cash"
+                          // eslint-disable-next-line react/no-danger
                           dangerouslySetInnerHTML={{
                             __html: promo?.description || '',
                           }}
@@ -172,6 +172,7 @@ function PromotionPageContent() {
                 <div id="test1" className="active">
                   <div
                     className="col-md-12 terms"
+                    // eslint-disable-next-line react/no-danger
                     dangerouslySetInnerHTML={{
                       __html:
                         activeDetailTab === 'rules'

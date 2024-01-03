@@ -1,6 +1,3 @@
-/* eslint-disable no-nested-ternary */
-/* eslint-disable new-cap */
-/* eslint-disable react/no-unstable-nested-components */
 import 'jspdf-autotable';
 import React from 'react';
 import LiveMatchList from '../live-matches';

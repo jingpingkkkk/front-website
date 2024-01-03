@@ -1,6 +1,6 @@
 /* eslint-disable new-cap */
 /* eslint-disable react-hooks/exhaustive-deps */
-/* eslint-disable jsx-a11y/anchor-is-valid */
+
 import jsPDF from 'jspdf';
 import 'jspdf-autotable';
 import moment from 'moment';
@@ -116,7 +116,6 @@ function NotificationPageContent() {
 
   useEffect(() => {
     getNotificationDetail();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return loading ? (
