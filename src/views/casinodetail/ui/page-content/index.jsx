@@ -11,8 +11,6 @@ function CasinoDetailPageContent() {
   const dispatch = useDispatch();
   const userDetails = useSelector((state) => state.userDetails);
 
-  console.log('userDetails', userDetails);
-
   const [urls, setUrls] = useState({
     mobileUrl: 'https://www.youtube.com/embed/tgbNymZ7vqY',
     desktopUrl: 'https://www.youtube.com/embed/tgbNymZ7vqY',
